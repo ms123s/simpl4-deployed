@@ -24,7 +24,7 @@
 ####alternate, the  manually way(only few steps)
 
 #####Requirement
-1. java 1.7.0  
+1. java 1.8.x  
 2. git( without "git", you can download a ziparchive on the right site of this page. )
 
 ----
