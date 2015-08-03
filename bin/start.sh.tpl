@@ -22,7 +22,7 @@ else
 fi
 
 
-export JETTY_PORT=80
+export JETTY_PORT=_JETTYPORT_
 export CONTROL_PORT=8070
 export START_CONSOLE=false
 

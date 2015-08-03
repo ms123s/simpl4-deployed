@@ -42,6 +42,7 @@ sed    "s!_BASEDIR_!$SIMPL4DIR2!g" etc/config/org/ops4j/pax/logging.config.tpl >
 sed    "s!_BASEDIR_!$SIMPL4DIR!g" server/run.bat.tpl > server/run.bat
 sed -i "s!_JAVAEXEC_!$JAVAEXEC!g" server/run.bat
 sed -i "s!_JETTYPORT_!$JETTYPORT!g" server/run.bat
+sed    "s!_JETTYPORT_!$JETTYPORT!g" bin/start.sh.tpl >bin/start.sh
 #sed    "s!_BASEDIR_!$SIMPL4DIR!g" bin/installservice.bat.tpl > bin/installservice.bat
 #sed -i "s!_JETTYPORT_!$JETTYPORT!g" bin/installservice.bat
 #sed    "s!_BASEDIR_!$SIMPL4DIR!g" bin/uninstallservice.bat.tpl > bin/uninstallservice.bat
