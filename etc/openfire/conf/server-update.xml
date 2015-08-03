@@ -1,2 +1,4 @@
 
-<version/>
+<version>
+  <openfire latest="3.10.2" changelog="http://www.igniterealtime.org/builds/openfire/docs/latest/changelog.html" url="http://www.igniterealtime.org/downloads/index.jsp"/>
+</version>
