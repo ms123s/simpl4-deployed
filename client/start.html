@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>simpl4</title>
+		<style type="text/css">
+    .dropHoverClass {
+        background-color:yellow !important;
+    }
+		.endpointEnabled {
+        z-index:30 !important;
+    }
+
+ 		._jsPlumb_endpoint_connected { z-index:28 !important; }
+		._jsPlumb_connector { z-index:18; }
+		._jsPlumb_endpoint { z-index:9; }
+		._jsPlumb_overlay { z-index:20; }
+		._jsPlumb_connector._jsPlumb_hover {
+				z-index:21 !important;
+		}
+		._jsPlumb_endpoint._jsPlumb_hover {
+				z-index:22 !important;
+		}
+		._jsPlumb_overlay._jsPlumb_hover {
+				z-index:23 !important;
+		}
+		.hotspot {
+       border-radius:3px;
+			cursor: pointer;
+		}
+		.navigator {
+			background: white !important;
+		}
+		.hotspot:hover {
+			border:1px solid black;
+			background: yellow;
+			opacity:.45 !important;
+		}
+		.hotspot.selected {
+			border:1px solid black;
+			background: red;
+			opacity:.45 !important;
+		}
+
+		.pdf-page {
+			direction: ltr;
+			width: 816px;
+			height: 1056px;
+			margin: 1px auto -8px auto;
+			position: relative;
+			overflow: visible;
+			border: 9px solid transparent;
+			background-clip: content-box;
+			border-image: url(images/shadow.png) 9 9 repeat;
+			background-color: white;
+		}
+		.pdf-canvasWrapper {
+			overflow: hidden;
+		}
+
+		.pdf-canvas {
+			margin: 0;
+			display: block;
+		}
+
+    table.visTooltip{
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin:5px;
+    }
+    table.visTooltip th,td {
+      border: 1px solid #5C5C5C;
+      text-align:left;
+      padding-top:2px;
+      padding-bottom:2px;
+      padding-left:6px;
+      padding-right:6px;
+    }
+ 		.CodeMirror{
+      font-size:1.1em;
+    } 
+
+
+    </style>
+    <script>if(typeof console === "undefined") { console = { log: function() { } }; }</script>
+  </head>
+  <body id="bodyid" ondragstart="return false;" ondrop="return false;">
+    <link rel='stylesheet' href='legacy/css/xaddr.css' type='text/css' media='screen' />
+    <!--codemirror-->
+    <link rel="stylesheet" href="legacy/css/codemirror.css" />
+    <link rel="stylesheet" href="legacy/css/simple-hint.css" />
+    <script type='text/javascript' src="legacy/js/codemirror.js.gz"></script>
+    <script type='text/javascript' src="legacy/js/codemirror-mode.js.gz"></script>
+    <script type='text/javascript' src="legacy/js/ckeditor.js.gz"></script>
+    <script type='text/javascript' src="legacy/js/simple-hint.js"></script>
+    <script type='text/javascript' src="legacy/js/javascript-hint.js"></script>
+    <script type='text/javascript' src="legacy/js/clike.js"></script>
+    <script type='text/javascript' src='legacy/js/jquery-2.0.3.js.gz'></script>
+    <script type='text/javascript' src='legacy/js/etc.js.gz'></script>
+    <script type='text/javascript' src='legacy/js/jsPlumb-ms.js.gz'></script>
+    <script type='text/javascript' src='legacy/js/vis.min.js.gz'></script>
+    <script type="text/javascript" src="common/build/script/ms123.js.gz"></script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.6.0.xsd">
+  <!-- Configure the database connection here -->
+  <jdbc>
+    <driver>org.h2.Driver</driver>
+    <url>jdbc:h2:file:./h2/dbh2</url>
+    <user>sa</user>
+    <password></password>
+  </jdbc>
+
+  <generator>
+    <!-- The default code generator. You can override this one, to generate your own code style
+         Defaults to org.jooq.util.DefaultGenerator -->
+    <name>org.jooq.util.DefaultGenerator</name>
+
+    <database>
+      <!-- The database type. The format here is:
+           org.util.[database].[database]Database -->
+      <name>org.jooq.util.jdbc.JDBCDatabase</name>
+
+      <!-- The database schema (or in the absence of schema support, in your RDBMS this
+           can be the owner, user, database name) to be generated -->
+      <inputSchema>PUBLIC</inputSchema>
+
+			<renderNameStyle>AS_IS</renderNameStyle>
+			<renderKeywordStyle>UPPER</renderKeywordStyle>
+      <!-- All elements that are generated from your schema
+           (A Java regular expression. Use the pipe to separate several expressions)
+           Watch out for case-sensitivity. Depending on your database, this might be important! -->
+      <includes>.*</includes>
+
+      <!-- All elements that are excluded from your schema
+           (A Java regular expression. Use the pipe to separate several expressions).
+           Excludes match before includes -->
+      <excludes></excludes>
+    </database>
+
+    <target>
+      <!-- The destination package of your generated classes (within the destination directory) -->
+      <packageName>databasename.namespace</packageName>
+
+      <!-- The destination directory of your generated classes -->
+      <directory>workspace/jooq/gen</directory>
+    </target>
+  </generator>
+</configuration>

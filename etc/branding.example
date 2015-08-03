@@ -1,0 +1,16 @@
+{
+  "__githost": "192.168.2.3",
+  "__apikey": "a8da2e32207dd99577a8c678ad5e3039c5cf733f",
+  "loginImage": "login_jro.png",
+  "__mainNamespace": "default",
+  "sessionRestore": true,
+  "sessionTimeout": -1,
+  "editMode":"vim",
+	"documentDD": true,
+ 	"globalSearch": false,
+ 	"teamEditorSearch": true,
+ 	"datamapperImport": true,
+ 	"stateSelect": false,
+	"processesAndTasks":true,
+  "usage": "development"
+}

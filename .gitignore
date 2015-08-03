@@ -1,0 +1,8 @@
+server/bundles/downloaded_bundles.properties
+server/derby.log
+server/felix/cache
+server/save
+server/btm1.tlog
+server/btm2.tlog
+gitrepos
+workspace/activiti

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+    http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
+  <description>
+    Apache ActiveMQ Web Console
+  </description>
+  <display-name>ActiveMQ Console</display-name>
+
+<!--
+Automatically created by Apache Tomcat JspC.
+Place this fragment in the web.xml before all icon, display-name,
+description, distributable, and context-param elements.
+-->
+
+    <servlet>
+        <servlet-name>org.apache.jsp.connections_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.connections_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.queueProducers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.queueProducers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.queues_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.queues_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.topics_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.topics_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.index_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.index_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.connection_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.connection_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.message_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.message_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.subscribers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.subscribers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.queueGraph_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.queueGraph_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.topicSubscribers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.topicSubscribers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.queueConsumers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.queueConsumers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.browse_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.browse_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.scheduled_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.scheduled_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.send_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.send_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.graph_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.graph_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.network_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.network_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.topicProducers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.topicProducers_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.slave_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.slave_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.decorators.footer_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.decorators.footer_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.decorators.header_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.decorators.header_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.decorators.head_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.decorators.head_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.test.index_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.test.index_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.test.dummy_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.test.dummy_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.test.systemProperties_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.test.systemProperties_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.xml.queues_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.xml.queues_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.xml.topics_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.xml.topics_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.xml.subscribers_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.xml.subscribers_jsp</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.connections_jsp</servlet-name>
+        <url-pattern>/connections.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.queueProducers_jsp</servlet-name>
+        <url-pattern>/queueProducers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.queues_jsp</servlet-name>
+        <url-pattern>/queues.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.topics_jsp</servlet-name>
+        <url-pattern>/topics.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.index_jsp</servlet-name>
+        <url-pattern>/index.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.connection_jsp</servlet-name>
+        <url-pattern>/connection.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.message_jsp</servlet-name>
+        <url-pattern>/message.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.subscribers_jsp</servlet-name>
+        <url-pattern>/subscribers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.queueGraph_jsp</servlet-name>
+        <url-pattern>/queueGraph.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.topicSubscribers_jsp</servlet-name>
+        <url-pattern>/topicSubscribers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.queueConsumers_jsp</servlet-name>
+        <url-pattern>/queueConsumers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.browse_jsp</servlet-name>
+        <url-pattern>/browse.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.scheduled_jsp</servlet-name>
+        <url-pattern>/scheduled.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.send_jsp</servlet-name>
+        <url-pattern>/send.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.graph_jsp</servlet-name>
+        <url-pattern>/graph.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.network_jsp</servlet-name>
+        <url-pattern>/network.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.topicProducers_jsp</servlet-name>
+        <url-pattern>/topicProducers.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.slave_jsp</servlet-name>
+        <url-pattern>/slave.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.decorators.footer_jsp</servlet-name>
+        <url-pattern>/decorators/footer.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.decorators.header_jsp</servlet-name>
+        <url-pattern>/decorators/header.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.decorators.head_jsp</servlet-name>
+        <url-pattern>/decorators/head.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.test.index_jsp</servlet-name>
+        <url-pattern>/test/index.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.test.dummy_jsp</servlet-name>
+        <url-pattern>/test/dummy.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.test.systemProperties_jsp</servlet-name>
+        <url-pattern>/test/systemProperties.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.xml.queues_jsp</servlet-name>
+        <url-pattern>/xml/queues.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.xml.topics_jsp</servlet-name>
+        <url-pattern>/xml/topics.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.xml.subscribers_jsp</servlet-name>
+        <url-pattern>/xml/subscribers.jsp</url-pattern>
+    </servlet-mapping>
+
+<!--
+All session-config, mime-mapping, welcome-file-list, error-page, taglib,
+resource-ref, security-constraint, login-config, security-role,
+env-entry, and ejb-ref elements should follow this fragment.
+-->
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--              Expose Spring POJOs to JSP                   .                                                             -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <filter>
+    <filter-name>spring</filter-name>
+    <filter-class>org.apache.activemq.web.filter.ApplicationContextFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>spring</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- the queue browse servlet -->
+  <servlet>
+    <servlet-name>QueueBrowseServlet</servlet-name>
+    <servlet-class>org.apache.activemq.web.QueueBrowseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QueueBrowseServlet</servlet-name>
+    <url-pattern>/queueBrowse/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- track the session usage for web JMS clients -->
+  <filter>
+    <filter-name>session</filter-name>
+    <filter-class>org.apache.activemq.web.SessionFilter</filter-class>
+  </filter>
+
+  <filter>
+    <filter-name>spring-rq</filter-name>
+    <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>session</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>spring-rq</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- enable audit logging -->
+  <filter>
+    <filter-name>audit</filter-name>
+    <filter-class>org.apache.activemq.web.AuditFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>audit</filter-name>
+    <url-pattern>*.action</url-pattern>
+  </filter-mapping>
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--              Spring listener.                 						 -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <listener>
+    <listener-class>org.apache.activemq.web.WebConsoleStarter</listener-class>
+  </listener>
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--         Configuration of the Spring MVC dispatcher    		         -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>*.action</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+
+  <!-- JNDI Stuff
+<resource-ref>
+ <res-ref-name>jms/connectionFactory</res-ref-name>
+ <res-type>javax.jms.ConnectionFactory</res-type>
+ <res-auth>Container</res-auth>
+ </resource-ref>
+ <resource-ref>
+   <res-ref-name>jmx/url</res-ref-name>
+   <res-type>java.lang.String</res-type>
+ </resource-ref>
+  -->
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--         Factor out common headers in JSP pages            -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <include-prelude>/WEB-INF/jspf/headertags.jspf</include-prelude>
+    </jsp-property-group>
+  </jsp-config>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!--         Error pages       -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- 403 doesn't work for some reason -->
+  <error-page>
+     <error-code>403</error-code>
+     <location>/403.html</location>
+  </error-page>
+
+  <error-page>
+     <error-code>404</error-code>
+     <location>/404.html</location>
+  </error-page>
+  
+  <error-page>
+     <exception-type>java.lang.Exception</exception-type>
+     <location>/500.html</location>
+  </error-page>
+  
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
+  
+</web-app>

@@ -1,0 +1,7 @@
+ld = { log:display $args } ;
+lde = { log:display-exception $args } ;
+ps = { osgi:list -t 0 $args } ;
+quit = { logout } ;
+exit = { logout } ;
+read = { stop $args; update $args; refresh $args; start $args };
+
