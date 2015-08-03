@@ -1,15 +1,42 @@
 #!/bin/bash
-echo "In setup.sh:$1"
-if [ -n "$1" ] ; then
-    SIMPL4DIR="$1"
-else
-    SIMPL4DIR=`pwd`
-fi 
-if [ -n "$2" ] ; then
-    JETTYPORT="$2"
-else
-    JETTYPORT=8080
-fi 
+
+#########################################################
+# init
+#########################################################
+SIMPL4DIR=`pwd`
+JETTYPORT=8080
+#########################################################
+# usage
+#########################################################
+usage() {
+    echo "usage: $0 -p port"
+}
+#########################################################
+# parameter
+#########################################################
+shortoptions='p:'
+longoptions='port:'
+getopt=$(getopt -o $shortoptions --longoptions  $longoptions -- "$@")
+if [ $? != 0 ]; then
+   usage
+   exit 1;
+fi
+
+eval set -- "$getopt"
+while true; do
+   case "$1" in
+      -p|--port)
+         shift
+         JETTYPORT=$1
+         shift
+      ;;
+      *)
+				break
+      ;;
+   esac
+done
+
+
 echo "Setup in $SIMPL4DIR/Port=$JETTYPORT"
 
 if [ ! -e "${SIMPL4DIR}/server/felix/config.ini" ] ; then
