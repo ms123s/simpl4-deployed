@@ -47,6 +47,7 @@ sed    "s!_JETTYPORT_!$JETTYPORT!g" bin/start.sh.tpl >bin/start.sh
 #sed -i "s!_JETTYPORT_!$JETTYPORT!g" bin/installservice.bat
 #sed    "s!_BASEDIR_!$SIMPL4DIR!g" bin/uninstallservice.bat.tpl > bin/uninstallservice.bat
 
+chmod +x bin/start.sh
 cp etc/branding.example etc/branding
 
 
