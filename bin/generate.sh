@@ -7,8 +7,8 @@ curl  -H "${H}" -k -XPOST -d'{"service":"compile","method":"compileGroovyAll","p
 
 echo
 echo
-echo -n  "-> createRoutesFromShape .. "
-curl  -H "${H}" -k -XPOST -d'{"service":"camel","method":"createRoutesFromShape","params":{}}' "http://admin:admin@localhost/rpc/xyz"
+echo -n  "-> createRoutesFromJson .. "
+curl  -H "${H}" -k -XPOST -d'{"service":"camel","method":"createRoutesFromJson","params":{}}' "http://admin:admin@localhost/rpc/xyz"
 echo
 echo
 
