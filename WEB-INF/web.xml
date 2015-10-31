@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-
 <web-app>
   <servlet>
     <servlet-name>simpl4</servlet-name>
     <servlet-class>org.ms123.launcher.LauncherProxyServlet</servlet-class>
-
-
     <load-on-startup>1</load-on-startup>
   </servlet>
-  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>simpl4</servlet-name>
     <url-pattern>/simpl4/*</url-pattern>
   </servlet-mapping>
