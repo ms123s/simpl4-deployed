@@ -4,10 +4,10 @@
   </listener>
   <servlet>
     <servlet-name>simpl4</servlet-name>
-    <servlet-class>org.ms123.launcher.LauncherProxyServlet</servlet-class>
+    <servlet-class>org.ms123.launcher.BridgeServlet</servlet-class>
     <init-param>
       <param-name>maxThreads</param-name>
-      <param-value>20</param-value>
+      <param-value>50</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
     <async-supported>true</async-supported>
