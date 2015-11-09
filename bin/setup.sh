@@ -9,13 +9,13 @@ JETTYPORT=8080
 # usage
 #########################################################
 usage() {
-    echo "usage: $0 -p port"
+    echo "usage: $0 [-d dir] -p port"
 }
 #########################################################
 # parameter
 #########################################################
-shortoptions='p:'
-longoptions='port:'
+shortoptions='p:d:'
+longoptions='port:dir:'
 getopt=$(getopt -o $shortoptions --longoptions  $longoptions -- "$@")
 if [ $? != 0 ]; then
    usage
@@ -30,12 +30,16 @@ while true; do
          JETTYPORT=$1
          shift
       ;;
+      -d|--dir)
+         shift
+         SIMPL4DIR=$1
+         shift
+      ;;
       *)
 				break
       ;;
    esac
 done
-
 
 echo "Setup in $SIMPL4DIR/Port=$JETTYPORT"
 
