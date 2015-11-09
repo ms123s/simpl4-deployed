@@ -31,6 +31,7 @@ set J=%J%#-Dkaraf.shell.init.script=%SIMPL4DIR%/etc/shell.init.script
 set J=%J%#-Dkaraf.local.roles=admin,manager
 set J=%J%#-DopenfireHome=%SIMPL4DIR%/etc/openfire
 set J=%J%#-Dkaraf.etc=%SIMPL4DIR%/etc/activemq/etc
+set J=%J%#-Detc.dir=%SIMPL4DIR%/etc
 set J=%J%#-Dcassandra.boot_without_jna=true
 set J=%J%#-Dcassandra.storagedir=%SIMPL4DIR%/gitrepos/global_data/store/cassandra
 set J=%J%#-Dwebconsole.type=properties
