@@ -11,7 +11,7 @@
 
 * **Download the [Windows-Installer (Version:1.5)] (http://simpl4.org/download/simpl4-installer-1.5.exe) und execute it.** <br/>
 	[now goto finish](#user-content-loginId)<br/>
-<!-- * **or the best for testing:**
+<!--- * **or the best for testing:**
   Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and this [Appliance(Version:1.1)] (http://simpl4.org/download/simpl4-1.1.ova) and install it. <br/>
 	After the start, Wait 1-2 Minutes.<br/>
   Then you can login on [http://localhost:8080/sw/start.html](http://localhost:8080/sw/start.html) with admin/admin <br/>
