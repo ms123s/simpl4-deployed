@@ -9,7 +9,7 @@
 
 
 
-* **Download the [Windows-Installer (Version:2.0)] (http://simpl4.org/download/simpl4-installer.exe) und execute it.** <br/>
+* **Download the [Windows-Installer (Version:2.0)] (http://web.simpl4.org/download/simpl4-installer.exe) und execute it.** <br/>
 	[now goto finish](#user-content-loginId)<br/>
 
 ####alternate, the  manually way(only few steps)
