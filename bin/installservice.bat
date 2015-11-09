@@ -28,6 +28,19 @@ set J=%J%#-Dfelix.fileinstall.dir=%SIMPL4DIR%/gitrepos/.bundles
 set J=%J%#-Dorg.ops4j.pax.logging.DefaultServiceLog.level=ERROR
 set J=%J%#-Ddrools.dialect.java.compiler=JANINO
 set J=%J%#-Dkaraf.shell.init.script=%SIMPL4DIR%/etc/shell.init.script
+set J=%J%#-Dkaraf.local.roles=admin,manager
+set J=%J%#-DopenfireHome=%SIMPL4DIR%/etc/openfire
+set J=%J%#-Dkaraf.etc=%SIMPL4DIR%/etc/activemq/etc
+set J=%J%#-Dcassandra.boot_without_jna=true
+set J=%J%#-Dcassandra.storagedir=%SIMPL4DIR%/gitrepos/global_data/store/cassandra
+set J=%J%#-Dwebconsole.type=properties
+set J=%J%#-Dwebconsole.jms.url=tcp://localhost:61616
+set J=%J%#-Dwebconsole.jmx.url=service:jmx:rmi:///jndi/rmi://localhost:1098/jmxrmi
+set J=%J%#-Dwebconsole.jmx.user=admin
+set J=%J%#-Dwebconsole.jmx.password=admin
+set J=%J%#-Dwebconsole.jms.user=admin
+set J=%J%#-Dwebconsole.jms.password=admin
+set J=%J%#-Dactivemq.data=%SIMPL4DIR%/etc/activemq/data
 set J=%J%#-Dfelix.config.properties=file:felix/config.ini
 
 
