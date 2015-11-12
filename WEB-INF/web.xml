@@ -3,7 +3,7 @@
     <listener-class>org.ms123.launcher.OsgiStarter</listener-class>
   </listener>
   <servlet>
-    <servlet-name>simpl4</servlet-name>
+    <servlet-name>bridge</servlet-name>
     <servlet-class>org.ms123.launcher.BridgeServlet</servlet-class>
     <init-param>
       <param-name>maxThreads</param-name>
@@ -13,7 +13,7 @@
     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
-    <servlet-name>simpl4</servlet-name>
-    <url-pattern>/simpl4/*</url-pattern>
+    <servlet-name>bridge</servlet-name>
+    <url-pattern>/bridge/*</url-pattern>
   </servlet-mapping>
 </web-app>
