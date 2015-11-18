@@ -13,7 +13,7 @@
 	[now goto finish](#user-content-loginId)<br/>
 * **or the best for testing:**
   Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and this [Appliance(Version:2.0)] (http://web.simpl4.org/download/simpl4.ova) and install it.
-			 The root password of the appliance is "simpl4". 
+			 The root password of the appliance is "simpl4".   
 			 Network:nat with portforwarding  
 	     127.0.0.1:2222 to 22  
        127.0.0.1:8080 to 80  
