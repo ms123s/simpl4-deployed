@@ -9,7 +9,7 @@
 
 
 
-* **Download the [Windows-Installer (Version:2.0)] (http://web.simpl4.org/download/simpl4-installer.exe) und execute it.** <br/>
+* **Download the [Windows-Installer (11/15/15)] (http://web.simpl4.org/download/simpl4-installer.exe) und execute it.** <br/>
 	[now goto finish](#user-content-loginId)<br/>
 * **or the best for testing:**
   Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and this [Appliance(from 11/18/15)] (http://web.simpl4.org/download/simpl4.ova) and install it.  
