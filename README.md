@@ -72,7 +72,7 @@ c:\simpl4> bin\start
 
 ----
 
-#####<a name="createId"></a>Then create your first application
+#####<a name="createId"></a>Then create your first application or import a example from [here](https://github.com/simpl4-apps) 
 ![alt text](https://raw.githubusercontent.com/ms123s/simpl4-deployed/master/etc/images/appcreate.png "firstapp")  
 
 * **Hint: after creating the App, you must push the Browser Reloadbutton!**
@@ -80,5 +80,3 @@ c:\simpl4> bin\start
 ----
 
 #####Congratulations,you  have Simpl4 succesfully installed, more on  [*simpl4*](http://simpl4.org) or [*a database application in 5 minutes*](http://ms123s.github.io/simpl4-pages/)
-
-#### [Here](https://github.com/simpl4-apps) are some examples.
