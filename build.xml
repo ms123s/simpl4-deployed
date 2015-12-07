@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project default="makeear">
+  <target name="makewar" >
+		<delete file="simpl4.ear" />
+		<delete file="simpl4.war" />
+    <war destfile="simpl4.war" webxml="WEB-INF/web.xml">
+      <fileset dir="." defaultexcludes="no">
+        <exclude name="build.xml" />
+        <exclude name="simpl4.war" />
+        <exclude name="simpl4.ear" />
+        <exclude name="META-INF/**" />
+        <exclude name=".git/**" />
+      </fileset>
+    </war>
+  </target>
+  <target name="makeear" depends="makewar">
+    <jar jarfile="simpl4.ear" update="false" duplicate="fail">
+      <fileset dir="." includes="META-INF/**" />
+      <fileset dir="." includes="simpl4.war" />
+    </jar>
+  </target>
+</project>
