@@ -9,6 +9,7 @@
         <exclude name="simpl4.war" />
         <exclude name="simpl4.ear" />
         <exclude name="META-INF/**" />
+        <exclude name="etc/activemq/**" />
         <exclude name=".git/**" />
       </fileset>
     </war>
