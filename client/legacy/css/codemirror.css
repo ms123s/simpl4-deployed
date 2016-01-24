@@ -397,7 +397,7 @@ li.CodeMirror-hint-active {
   color: white;
 }
 
-//Code folding @@@MS
+/*Code folding @@@MS*/
 .CodeMirror-foldmarker {
   color: blue;
   text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
