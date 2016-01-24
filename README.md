@@ -4,7 +4,7 @@
 
 <a name="beginId"></a>
 
-[![alt text](https://raw.githubusercontent.com/ms123s/simpl4-deployed/master/etc/images/simpl4_logo.svg "simpl4 logo")] (http://www.simpl4.org) Installation
+[![alt text](https://raw.githubusercontent.com/ms123s/simpl4-deployed/master/etc/images/simpl4_logo.png "simpl4 logo")] (http://www.simpl4.org) Installation
 =================
 
 
