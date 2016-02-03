@@ -35,8 +35,8 @@ usage() {
 #########################################################
 # parameter
 #########################################################
-shortoptions='n:c:bw'
-longoptions='namespace:configfile:build:workspace'
+shortoptions='n:c:bgw'
+longoptions='namespace:configfile:build:workspace:gen'
 getopt=$(getopt -o $shortoptions --longoptions  $longoptions -- "$@")
 if [ $? != 0 ]; then
    usage
