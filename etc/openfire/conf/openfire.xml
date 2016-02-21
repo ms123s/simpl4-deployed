@@ -26,7 +26,7 @@
   <provider> 
     <!-- this settings are in XMPPService-->  
     <auth> 
-      <className>org.ms123.comon.xmpp.Simpl4AuthenticationProvider</className> 
+      <className>org.ms123.common.xmpp.Simpl4AuthenticationProvider</className> 
     </auth> 
   </provider>  
   <connectionProvider> 
