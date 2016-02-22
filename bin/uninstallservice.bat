@@ -11,7 +11,7 @@ IF %ERRORLEVEL% == 0 (
 SC QUERY %SERVICE_NAME% | find "STOPPED" >nul
 IF %ERRORLEVEL% == 0 (
 	ECHO STOPPED
-	%SIMPL4DIR%\bin\%SERVICE_NAME%.exe //DS//%SERVICE_NAME%  
+	%SIMPL4DIR%\bin\%SERVICE_NAME%.exe //DS//%SERVICE_NAME%  --StopTimeout=300
 )
 
 REM This is not the right place, but now it`s enough for me @@@MS
