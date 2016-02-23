@@ -80,12 +80,23 @@ if [ -z "$NAMESPACE" ] ; then
 fi
 
 if [ -n "$WORKSPACE" ] ; then
-	BUILDIR=$SIMPL4DIR/workspace/jooq/build
-	GENDIR=$SIMPL4DIR/workspace/jooq/gen
+   BUILDIR=$SIMPL4DIR/workspace/jooq/build
+   GENDIR=$SIMPL4DIR/workspace/jooq/gen
 else
-	BUILDIR=$SIMPL4DIR/gitrepos/$NAMESPACE/.etc/jooq/build
-	GENDIR=$SIMPL4DIR/gitrepos/$NAMESPACE/.etc/jooq/gen
+   BUILDIR=$SIMPL4DIR/gitrepos/$NAMESPACE/.etc/jooq/build
+   GENDIR=$SIMPL4DIR/gitrepos/$NAMESPACE/.etc/jooq/gen
 fi
+
+if [ -n "$GENDIR" -a -n "$BUILDIR" ] ; then
+   rm -rf $GENDIR
+   rm -rf $BUILDIR
+else
+   usage;
+   exit 1
+fi
+
+TMPDIR=/tmp/jooq
+rm -rf $TMPDIR
 
 CONFIGFILE=$SIMPL4DIR/gitrepos/$NAMESPACE/.etc/jooq/$CONFIGFILE
 
@@ -98,6 +109,9 @@ if [ -n "$GEN" ] ; then
    echo "generate ->"
    echo "================="
    java -classpath $CLASSPATH org.jooq.util.GenerationTool $CONFIGFILE
+   
+   echo "mv $TMPDIR -> $TMPGEN"
+   mv $TMPDIR $GENDIR
 fi
 
 if [ -n "$BUILD" ] ; then

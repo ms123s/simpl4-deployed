@@ -40,7 +40,7 @@
       <packageName>databasename.namespace</packageName>
 
       <!-- The destination directory of your generated classes -->
-      <directory>workspace/jooq/gen</directory>
+      <directory>/tmp/jooq</directory> <!-- must be always this @@@MS-->
     </target>
   </generator>
 </configuration>
