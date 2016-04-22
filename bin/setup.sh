@@ -53,6 +53,11 @@ tar xf gitrepos.tgz
 mkdir -p gitrepos/global_data/settings
 
 
+SIMPL4DIR1=$(echo $SIMPL4DIR | grep -o "ROOTFS.*" | cut -c7-)
+if [ -n "$SIMPL4DIR1" ] ; then
+  SIMPL4DIR=$SIMPL4DIR1
+fi
+
 JAVAEXEC=java
 if [ -d "$SIMPL4DIR/jre" ] ; then
     JAVAEXEC="%SIMPL4DIR%\\\\jre\\\\bin\\\\java"
