@@ -8,18 +8,7 @@
 =================
 
 
-
-* **Download the [Windows-Installer (2016-02-21)] (http://web.simpl4.org/download/simpl4-installer.exe) und execute it.** <br/>
-	[now goto finish](#user-content-loginId)<br/>
-* **or the best for testing:**
-  Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and this [Appliance(from 2016-02-21)] (http://web.simpl4.org/download/simpl4.ova) and install it.  
-			 The root password of the appliance is "simpl4".   
-			 Network:nat with portforwarding  
-	     127.0.0.1:2222 to 22  
-       127.0.0.1:8080 to 80  
-       After the start, Wait 1-2 Minutes.<br/>
-  Then you can login on [http://localhost:8080/sw/start.html](http://localhost:8080/sw/start.html) with admin/admin <br/>
-       [now goto finish](#user-content-createId)<br/>
+[*Downloads here*](http://simpl4.org#links) 
 
 ####alternate, the  manually way(only few steps)
 
