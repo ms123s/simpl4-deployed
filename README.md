@@ -68,4 +68,4 @@ c:\simpl4> bin\start
 
 ----
 
-#####Congratulations,you  have Simpl4 succesfully installed, more on  [*simpl4*](http://simpl4.org) or [*a database application in 5 minutes*](http://ms123s.github.io/simpl4-pages/)
+#####Congratulations,you  have simpl4 succesfully installed, more on  [*simpl4*](http://simpl4.org) or [*a database application in 5 minutes*](http://ms123s.github.io/simpl4-pages/)
