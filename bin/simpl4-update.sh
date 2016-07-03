@@ -8,5 +8,8 @@ cd simpl4_tmp
 tar cf - client server  | ( cd ../simpl4; tar xf -)
 cd /opt
 rm -rf simpl4_tmp
+
+cd /opt/simpl4/gitrepos/global
+git pull
 simpl4/bin/start.sh start
 
