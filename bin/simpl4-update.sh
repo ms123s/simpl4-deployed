@@ -11,5 +11,6 @@ rm -rf simpl4_tmp
 
 cd /opt/simpl4/gitrepos/global
 git pull
+cd /opt
 simpl4/bin/start.sh start
 
