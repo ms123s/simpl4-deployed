@@ -1,0 +1,16 @@
+[sw]
+  type = sw.structure
+--
+[
+  {
+    "menu_file": "web/menu.json"
+  },
+  {
+    "title": "Home",
+    "description": "",
+    "uri": "main.html",
+    "icon": "home",
+    "adoc_include": false,
+    "enabled": true
+  }
+]
