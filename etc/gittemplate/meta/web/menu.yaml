@@ -1,4 +1,0 @@
-- name: menu.contacts
-  icon: account-box
-  url: contacts.html
-  hash: contacts

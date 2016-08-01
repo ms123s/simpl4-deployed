@@ -8,7 +8,7 @@
   {
     "title": "Home",
     "description": "",
-    "uri": "main.html",
+    "uri": "main.adoc",
     "icon": "home",
     "adoc_include": false,
     "enabled": true
