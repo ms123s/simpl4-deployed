@@ -1,0 +1,21 @@
+[sw]
+  type = sw.datasource
+--
+{
+  "name": "h2",
+  "url": "jdbc:h2:tcp://localhost/%ns_data/store/data/dbh2",
+  "username": "sa",
+  "password": "sa",
+  "datasourcename": "h2",
+  "packagename": "data",
+  "create_jooq_metadata": true,
+  "jooq_inputschema": "PUBLIC",
+  "jooq_includes": ".*",
+  "jooq_excludes": "",
+  "create_datanucleus_metadata": false,
+  "datanucleus_inputschema": null,
+  "datanucleus_includes": null,
+  "datanucleus_excludes": null,
+  "datasource_is_schema_readonly": false,
+  "datasource_is_schema_validate": true
+}
