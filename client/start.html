@@ -210,7 +210,7 @@ div[data-schemaid] table.visTooltip th, td {
 
 div[data-schemaid] .selectize-input {
     border: 0px solid #d0d0d0 !important;
-		min-width:80px !important;
+		min-width:100px !important;
     padding: 2px 2px !important;
 }
 
@@ -218,6 +218,12 @@ div[data-schemaid] .selectize-dropdown .active {
   background-color: #607d8b !important;
   color: white !important;
 }
+div[data-schemaid] .form-control> input,
+div[data-schemaid] label ~ input,
+div[data-schemaid] label ~ textarea {
+  min-width:250px;
+}
+
 	</style>
 	<script>
 		if ( typeof console === "undefined" ) {
