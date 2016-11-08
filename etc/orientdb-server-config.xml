@@ -130,6 +130,8 @@
     </users>
     <properties>
         <!-- DATABASE POOL: size min/max -->
+				<entry value="900000000" name="network.token.expireTimeout"/>
+        <entry value="900000000" name="network.http.sessionExpireTimeout"/>
         <entry name="db.pool.min" value="1"/>
         <entry name="db.pool.max" value="50"/>
         <entry name="orientdb.www.path" value="etc/orientdb/www"/>
