@@ -17,6 +17,7 @@
    ~  *
    ~  * For more information: http://www.orientechnologies.com
    ~  */
+dashboard: http://simpl4.org:2480/index.html#/dashboard/general
    -->
 
 <orient-server>
@@ -130,8 +131,8 @@
     </users>
     <properties>
         <!-- DATABASE POOL: size min/max -->
-				<entry value="900000000" name="network.token.expireTimeout"/>
-        <entry value="900000000" name="network.http.sessionExpireTimeout"/>
+ 				<entry value="900000" name="network.token.expireTimeout"/>
+        <entry value="9000000" name="network.http.sessionExpireTimeout"/>
         <entry name="db.pool.min" value="1"/>
         <entry name="db.pool.max" value="50"/>
         <entry name="orientdb.www.path" value="etc/orientdb/www"/>
