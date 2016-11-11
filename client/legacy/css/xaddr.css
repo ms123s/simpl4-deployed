@@ -1333,8 +1333,8 @@ button.toast-close-button {
   width: 100%;
 }
 .toast-top-left {
-  top: 50%;
-  left: 45%;
+  top: 12px;
+  left: 12px;
 }
 .toast-top-right {
   top: 12px;
@@ -1375,7 +1375,7 @@ button.toast-close-button {
   -webkit-box-shadow: 0 0 12px #999999;
   box-shadow: 0 0 12px #999999;
   color: #FFFFFF;
-  opacity: 0.8;
+  opacity: 1.0;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
@@ -1427,7 +1427,7 @@ button.toast-close-button {
   background-color: #BD362F;
 }
 .toast-info {
-  background-color: #2F96B4;
+  background-color: #ff5252;
 }
 .toast-warning {
   background-color: #F89406;
