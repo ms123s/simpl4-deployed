@@ -69090,8 +69090,9 @@ simpl4.util.BaseManager.extend("simpl4.util.FormManager", {
         }
         var attributes = this.constructAttributes(filter.type, filter.label, c, filter.dataValues != null);
         if (filter.dataValues) rule.find(".rule-value-container").append("<select-field " + attributes + " name='" + rule.selector.substring(1) + "_value_0' json-items='" + JSON.stringify(filter.dataValues) + "'></select-field>");
-        else rule.find(".rule-value-container").append("<input-field " +
-            attributes + " " + regulaConstraints + ' name="' + rule.selector.substring(1) + '_value_0" ></input-field>')
+        else if (filter.datatype == "boolean") rule.find(".rule-value-container").append("<checkbox-field " +
+            attributes + " " + regulaConstraints + ' name="' + rule.selector.substring(1) + '_value_0" ></checkbox-field>');
+        else rule.find(".rule-value-container").append("<input-field " + attributes + " " + regulaConstraints + ' name="' + rule.selector.substring(1) + '_value_0" ></input-field>')
     },
     getSelectables: function(selectables) {
         var elements = "";
@@ -69102,15 +69103,15 @@ simpl4.util.BaseManager.extend("simpl4.util.FormManager", {
         return elements
     },
     constructRegulaConstraints: function(c) {
-        var ret = "";
+        var ret =
+            "";
         var b = "";
         c.forEach(function(x) {
             var params = this._constraintParams[x.annotation];
             ret += b + "@" + x.annotation;
             ret += '(message="' + this.getMessage(x) + '"';
             if (params) {
-                if (params.length >
-                    0) {
+                if (params.length > 0) {
                     var key = params[0];
                     var val = key == "format" ? '"YMD"' : x.parameter1;
                     if (key == "regex") val = "/" + val + "/";
@@ -69150,7 +69151,8 @@ simpl4.util.BaseManager.extend("simpl4.util.FormManager", {
             map.preventInvalidInput = true
         }
         if (map.type == "double") {
-            map.preventInvalidInput = true;
+            map.preventInvalidInput =
+                true;
             map.step = "any"
         }
         c.forEach(function(x) {
