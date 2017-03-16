@@ -3198,6 +3198,449 @@ if (!String.prototype.endsWith) String.prototype.endsWith = function(searchStrin
         }
     }
 })();
+(function(d, window) {
+    var nativeSupport = false,
+        cmKey = nativeSupport ? "contextMenu" : "_contextMenu",
+        menuNodeName = "CMENU",
+        lastX, lastY, mousedown_timeout, overlay, menustack, preview, timeout, t, preview_show_timer, holding = false,
+        doneEvents = [],
+        toAppend = [],
+        old_contextmenu = window.contextmenu;
+
+    function nextTick(callback) {
+        setTimeout(callback, 0)
+    }
+
+    function offset(obj) {
+        var curleft = 0,
+            curtop = 0;
+        if (obj.getClientRects) return obj.getClientRects()[0];
+        do {
+            curleft += obj.offsetLeft;
+            curtop += obj.offsetTop;
+            obj = obj.offsetParent
+        } while (obj);
+        return {
+            left: curleft,
+            top: curtop
+        }
+    }
+
+    function html(n) {
+        if (n.get) return n.get(0);
+        return n
+    }
+
+    function hideMenu(menu, fade) {
+        if (fade) throw "no need to fade";
+        menu.style.display = "none";
+        var launcher = menu.launcher;
+        if (launcher) launcher.removeAttribute("open")
+    }
+
+    function popmenu() {
+        var top = menustack.pop();
+        hideMenu(top);
+        return top
+    }
+
+    function mouseend() {
+        overlay.style.opacity = "0.0";
+        mousedown_timeout = setTimeout(function() {
+                while (menustack.length) popmenu(false);
+                overlay.style.display = "none";
+                overlay.style.opacity = "1.0";
+                triggerDoneEvents()
+            },
+            timeout)
+    }
+
+    function showMenu(menu) {
+        menu.style.display = "inline-block"
+    }
+
+    function menuoncontextmenu(e) {
+        e.stopPropagation();
+        e.preventDefault()
+    }
+
+    function ancestor(name, node) {
+        if (node.nodeName === name) return node;
+        return ancestor(name, node.parentNode || {
+            nodeName: name
+        })
+    }
+
+    function onmouseover(e) {
+        var menu = ancestor(menuNodeName, e.target),
+            msl, a, i;
+        if (preview) {
+            if (preview === menu) {
+                menustack.push(menu);
+                preview = undefined;
+                return
+            }
+            console.error("SHOULD NOT BE A PREVIEW")
+        }
+        msl = menustack.length;
+        a = menustack.indexOf(menu);
+        for (i = msl -
+            1; i > a; i--) popmenu()
+    }
+
+    function onmousedown(e) {
+        if (e.target.nodeName === menuNodeName)
+            if (e.offsetX === 0) return;
+        e.stopPropagation();
+        e.preventDefault();
+        return false
+    }
+
+    function onsubcontextmenuout(e) {
+        preview_show_timer = clearTimeout(preview_show_timer);
+        var menu = ancestor(menuNodeName, e.toElement);
+        if (menu === preview) return false;
+        if (preview) {
+            hideMenu(preview);
+            preview = undefined
+        }
+    }
+
+    function onsubcontextmenu(e) {
+        preview_show_timer = clearTimeout(preview_show_timer);
+        preview_show_timer = setTimeout(function() {
+            var menuitem = e.target,
+                menu = menuitem[cmKey],
+                pos;
+            menu.launcher = menuitem;
+            menuitem.setAttribute("open", true);
+            if (preview && preview !== menu) hideMenu(preview);
+            preview = menu;
+            pos = offset(menuitem);
+            menu.style.top = Math.max(pos.top - 5, 0) + "px";
+            menu.style.left = pos.left + pos.width - 1 + "px";
+            showMenu(menu)
+        }, 200)
+    }
+
+    function appendToOverlay(menu) {
+        if (overlay) overlay.appendChild(menu);
+        else toAppend.push(menu)
+    }
+
+    function prepareMenu(menu) {
+        var p = menu.parentNode,
+            clone;
+        menu.addEventListener("mouseover", onmouseover, false);
+        menu.addEventListener("mousedown",
+            onmousedown);
+        menu.addEventListener("contextmenu", menuoncontextmenu);
+        if (p.nodeName === menuNodeName) {
+            clone = d.createElement("menuitem");
+            menu.classList.add("submenu");
+            clone.className = menu.className;
+            clone.setAttribute("label", menu.getAttribute("label"));
+            clone[cmKey] = menu;
+            clone.addEventListener("mouseover", onsubcontextmenu);
+            clone.addEventListener("mouseout", onsubcontextmenuout);
+            p.replaceChild(clone, menu);
+            appendToOverlay(menu)
+        } else {
+            p.removeChild(menu);
+            appendToOverlay(menu)
+        }
+    }
+
+    function initContextMenu(menu,
+        x, y) {
+        t = new Date;
+        menustack.push(menu);
+        menu.style.top = Math.max(y - 5, 0) + "px";
+        menu.style.left = x + "px";
+        showMenu(menu);
+        overlay.style.display = "block";
+        holding = false;
+        var right = x + menu.offsetWidth;
+        var bottom = y + menu.offsetHeight;
+        var bodyHeight = document.body.offsetHeight;
+        var bodyWidth = document.body.offsetWidth;
+        if (bottom > bodyHeight) menu.style.top = y - (bottom - bodyHeight) + "px";
+        if (right > bodyWidth) menu.style.left = x - (right - bodyWidth) + "px"
+    }
+
+    function oncontextsheet(e, menu, button) {
+        var pos;
+        if (button === undefined) button = e.target;
+        pos = offset(button);
+        if (menu === undefined) menu = contextMenufor(button);
+        initContextMenu(menu, pos.left, pos.top + pos.height + 8);
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation()
+        }
+        holding = true;
+        return false
+    }
+
+    function oncontextsheetbtnup(e) {
+        oncontextsheet(e);
+        holding = false
+    }
+
+    function contextMenufor(node) {
+        if (!node || !node.hasAttribute) return;
+        if (node[cmKey]) return node[cmKey];
+        if (node.hasAttribute("contextmenu")) {
+            var node = d.getElementById(node.getAttribute("contextmenu"));
+            node[cmKey] = node;
+            return node
+        }
+        return contextMenufor(node.parentNode)
+    }
+
+    function simulateClickEvent(elm, e) {
+        var evt;
+        if (document.createEvent) evt = document.createEvent("MouseEvents");
+        if (elm && elm.dispatchEvent && evt && evt.initMouseEvent) {
+            evt.initMouseEvent("click", true, true, document.defaultView, 1, e.screenX, e.screenY, e.clientX, e.clientY, false, false, false, false, 0, null);
+            elm.dispatchEvent(evt)
+        }
+    }
+
+    function oncontextmenu(e) {
+        var menu = contextMenufor(e.target),
+            x = e.clientX,
+            y = e.clientY;
+        initContextMenu(menu, e.clientX, e.clientY);
+        holding = true;
+        lastX = x;
+        lastY = y;
+        e.preventDefault();
+        e.stopPropagation();
+        return false
+    }
+
+    function triggerDoneEvents() {
+        doneEvents.forEach(function(f) {
+            try {
+                f()
+            } catch (ex) {
+                setTimeout(function() {
+                    throw ex;
+                }, 0)
+            }
+        });
+        doneEvents = []
+    }
+
+    function inititalize() {
+        menustack = [];
+        overlay = d.createElement("div");
+        var os_code = "osx10_7",
+            mouseup_wait_for_me = 0;
+        if (/Mac/.test(navigator.userAgent)) os_code = "osx10_7";
+        else if (/Win/.test(navigator.userAgent)) os_code = "win7";
+        d.body.classList.add(os_code);
+        overlay.className = "_contextmenu_screen_";
+        timeout = 150;
+        t = 0;
+        d.body.appendChild(overlay);
+        overlay.addEventListener("mousedown",
+            function(e) {
+                mouseend(e)
+            });
+        overlay.addEventListener("mouseup", function(e) {
+            if (mouseup_wait_for_me) return;
+            var menuitem = e.target;
+            if (menuitem.nodeName === "MENUITEM") {
+                if (menuitem[cmKey]) return false;
+                if (holding) simulateClickEvent(menuitem, e)
+            }
+            if (new Date - t < 300) {
+                holding = false;
+                return
+            }
+            if (menuitem.nodeName === "MENUITEM") setTimeout(function() {
+                menuitem.style.background = "white";
+                setTimeout(function() {
+                    menuitem.style.background = "";
+                    setTimeout(function() {
+                        mouseend(e)
+                    }, 30)
+                }, 80)
+            }, 10)
+        });
+        overlay.addEventListener("mousewheel",
+            function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false
+            }, true);
+        overlay.addEventListener("contextmenu", function(e) {
+            overlay.style.display = "none";
+            var node = d.elementFromPoint(e.clientX, e.clientY),
+                menu = contextMenufor(node),
+                x, y, dx, dy;
+            if (menu) {
+                overlay.style.display = "block";
+                clearTimeout(mousedown_timeout);
+                e.preventDefault();
+                if (menustack[0] === menu) {
+                    x = e.clientX;
+                    y = e.clientY;
+                    dx = x - lastX;
+                    dy = y - lastY;
+                    lastX = x;
+                    lastY = y;
+                    if (dx * dx + dy * dy < 50) {
+                        overlay.style.opacity = "1.0";
+                        overlay.style.display = "block";
+                        clearTimeout(mousedown_timeout);
+                        nextTick(mouseend);
+                        return
+                    }
+                }
+                mouseup_wait_for_me++;
+                setTimeout(function() {
+                    while (menustack.length) {
+                        var m = menustack.pop();
+                        hideMenu(m)
+                    }
+                    overlay.style.display = "none";
+                    overlay.style.opacity = "1.0";
+                    overlay.style.display = "block";
+                    nextTick(function() {
+                        mouseup_wait_for_me--;
+                        initContextMenu(menu, e.clientX, e.clientY)
+                    })
+                }, timeout);
+                return false
+            }
+            overlay.style.opacity = "1.0";
+            overlay.style.display = "block";
+            clearTimeout(mousedown_timeout);
+            nextTick(mouseend)
+        });
+        overlay.addEventListener("mouseover", function(e) {
+            if (e.target !== overlay) return;
+            preview_show_timer = clearTimeout(preview_show_timer);
+            if (preview) {
+                hideMenu(preview);
+                preview = undefined
+            }
+        })
+    }
+
+    function attachEventsToAllMenus() {
+        var menus_dom = d.getElementsByTagName(menuNodeName),
+            i, l, menus = [];
+        for (i = 0, l = menus_dom.length; i < l; i++) menus[i] = menus_dom[i];
+        for (i = 0, l = menus.length; i < l; i++) prepareMenu(menus[i])
+    }
+
+    function hookUpContextMenus() {
+        var linkers = d.querySelectorAll("[contextmenu]"),
+            element, i, l;
+        for (i = 0, l = linkers.length; i < l; i++) {
+            element = linkers[i];
+            element[cmKey] = d.getElementById(element.getAttribute("contextmenu"));
+            if (element.nodeName === "INPUT") {
+                element.addEventListener("mouseup", oncontextsheetbtnup);
+                element.addEventListener("contextmenu", oncontextsheet)
+            } else element.addEventListener("contextmenu", oncontextmenu)
+        }
+    }
+
+    function buildMenu(x) {
+        var menu = d.createElement(menuNodeName),
+            i, l, xi, submenu, menuitem;
+        menu.setAttribute("type", "context");
+        for (i = 0, l = x.length; i < l; i++) {
+            xi = x[i];
+            if (xi.children) {
+                submenu = buildMenu(xi.children);
+                submenu.setAttribute("label", xi.label);
+                menu.appendChild(submenu)
+            } else {
+                if (xi.hr) menuitem = d.createElement("hr");
+                else {
+                    menuitem = d.createElement("menuitem");
+                    menuitem.setAttribute("label", xi.label);
+                    if (xi.onclick) menuitem.onclick = xi.onclick;
+                    if (xi.icon) menuitem.icon = xi.icon;
+                    if (xi.checked) menuitem.setAttribute("checked", xi.checked ? "checked" : "");
+                    var key;
+                    for (key in xi)
+                        if (xi.hasOwnProperty(key))
+                            if (["label", "icon", "hr", "onclick", "checked"].indexOf(key) === -1) menuitem.dataset[key] = xi[key]
+                }
+                menu.appendChild(menuitem)
+            }
+        }
+        return menu
+    }
+
+    function contextmenu(x) {
+        var menu = buildMenu(x),
+            submenus, menus, i, l;
+        d.body.appendChild(menu);
+        if (nativeSupport) return menu;
+        submenus = menu.getElementsByTagName(menuNodeName);
+        menus = [menu];
+        for (i = 0, l = submenus.length; i < l; i++) menus.push(submenus[i]);
+        for (i = 0, l = menus.length; i < l; i++) prepareMenu(menus[i]);
+        return menu
+    }
+    contextmenu.show = function(menu, x, y) {
+        if (nativeSupport) throw "Not supported!";
+        if (typeof menu === "string") menu = d.getElementById(menu);
+        else menu = html(menu);
+        if (typeof x === "number") initContextMenu(menu, x, y);
+        else {
+            oncontextsheet(null, menu, html(x));
+            holding = false
+        }
+        return this
+    };
+    contextmenu.then = function(f) {
+        if (nativeSupport) {
+            f();
+            return
+        }
+        doneEvents.push(f)
+    };
+    contextmenu.attach = function(element, menu) {
+        element = html(element);
+        menu = html(menu);
+        if (nativeSupport) {
+            menu.id = menu.id || (0 | 1E4 * Math.random()).toString(30);
+            element.setAttribute("contextmenu", menu.id);
+            return
+        }
+        element[cmKey] = menu;
+        if (element.nodeName === "INPUT" || element.nodeName === "BUTTON") {
+            element.addEventListener("mouseup", oncontextsheetbtnup);
+            element.addEventListener("contextmenu", oncontextsheet)
+        } else element.addEventListener("contextmenu", oncontextmenu)
+    };
+    contextmenu.noConflict =
+        function() {
+            window.contextmenu = old_contextmenu;
+            return contextmenu
+        };
+    if (!nativeSupport) window.addEventListener("load", function(e) {
+        inititalize();
+        attachEventsToAllMenus();
+        hookUpContextMenus();
+        var i;
+        for (i = 0; i < toAppend.length; i++) overlay.appendChild(toAppend[i])
+    });
+    if (typeof define === "function" && define.amd) define("contextMenu", [], function() {
+        return contextmenu
+    });
+    else if (typeof module !== "undefined") module.exports = contextmenu;
+    else window.contextmenu = contextmenu
+})(document, window);
 if (!Date.now) Date.now = function() {
     return (new Date).valueOf()
 };
