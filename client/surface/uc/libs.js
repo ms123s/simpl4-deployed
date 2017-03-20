@@ -20572,7 +20572,7 @@ try {
         return withoutSuffix ? format[key][0] : format[key][1]
     }
     return moment.defineLocale("de", {
-        months: "Januar_Februar_M??rz_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
+        months: "Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
         monthsShort: "Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),
         weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),
         weekdaysShort: "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
@@ -46830,20 +46830,20 @@ var module;
         return Object.prototype.toString.call(object) === "[object Array]"
     };
     var DIACRITICS = {
-        "a": "[a????????????????????????????????]",
-        "c": "[c????????????]",
-        "d": "[d??????????]",
-        "e": "[e????????????????????????????]",
-        "i": "[i????????????????????]",
-        "l": "[l????]",
-        "n": "[n????????????]",
-        "o": "[o??????????????????????????????]",
-        "r": "[r????]",
-        "s": "[s????????]",
-        "t": "[t????]",
-        "u": "[u????????????????????????]",
-        "y": "[y????????]",
-        "z": "[z????????????]"
+        "a": "[aÀÁÂÃÄÅàáâãäåĀāąĄ]",
+        "c": "[cÇçćĆčČ]",
+        "d": "[dđĐďĎð]",
+        "e": "[eÈÉÊËèéêëěĚĒēęĘ]",
+        "i": "[iÌÍÎÏìíîïĪī]",
+        "l": "[lłŁ]",
+        "n": "[nÑñňŇńŃ]",
+        "o": "[oÒÓÔÕÕÖØòóôõöøŌō]",
+        "r": "[rřŘ]",
+        "s": "[sŠšśŚ]",
+        "t": "[tťŤ]",
+        "u": "[uÙÚÛÜùúûüůŮŪū]",
+        "y": "[yŸÿýÝ]",
+        "z": "[zŽžżŻźŹ]"
     };
     var asciifold = function() {
         var i, n, k, chunk;
@@ -46853,14 +46853,14 @@ var module;
             if (DIACRITICS.hasOwnProperty(k)) {
                 chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
                 foreignletters += chunk;
-                for (i = 0, n = chunk.length; i < n; i++) lookup[chunk.charAt(i)] =
-                    k
+                for (i = 0, n = chunk.length; i < n; i++) lookup[chunk.charAt(i)] = k
             }
         var regexp = new RegExp("[" + foreignletters + "]", "g");
         return function(str) {
-            return str.replace(regexp, function(foreignletter) {
-                return lookup[foreignletter]
-            }).toLowerCase()
+            return str.replace(regexp,
+                function(foreignletter) {
+                    return lookup[foreignletter]
+                }).toLowerCase()
         }
     }();
     return Sifter
@@ -50023,7 +50023,7 @@ var module;
     var FullWidthZeroCode = 65296;
     var FullWidthNineCode = 65305;
     var HalfWidthPeriod = ".";
-    var FullWidthPeriod = "???";
+    var FullWidthPeriod = "．";
     var HalfWidthComma = ",";
     var FullWidthDigits = "";
     var NumberNormalizeMap = {};
@@ -50783,11 +50783,10 @@ var module;
     }
 
     function buildAlphanumericSort() {
-        var order = "A??????????BC??????D????E????????????FG??H??I??????????JKL??MN??????O??????PQR??S??????T??U??????????VWXY??Z??????????????????????";
-        var equiv = "A??????????,C??,E????????,I??????????,O??????????,S??,U????????";
+        var order = "AÁÀÂÃĄBCĆČÇDĎÐEÉÈĚÊËĘFGĞHıIÍÌİÎÏJKLŁMNŃŇÑOÓÒÔPQRŘSŚŠŞTŤUÚÙŮÛÜVWXYÝZŹŻŽÞÆŒØÕÅÄÖ";
+        var equiv = "AÁÀÂÃÄ,CÇ,EÉÈÊË,IÍÌİÎÏ,OÓÒÔÕÖ,Sß,UÚÙÛÜ";
         sugarArray[AlphanumericSortOrder] = order.split("").map(function(str) {
-            return str +
-                str.toLowerCase()
+            return str + str.toLowerCase()
         }).join("");
         var equivalents = {};
         arrayEach(equiv.split(","), function(set) {
@@ -50805,8 +50804,7 @@ var module;
         "create": function() {
             var result = [];
             multiArgs(arguments, function(a) {
-                if (isArgumentsObject(a) || isArrayLike(a)) a =
-                    multiArgs(a);
+                if (isArgumentsObject(a) || isArrayLike(a)) a = multiArgs(a);
                 result = result.concat(a)
             });
             return result
@@ -50830,9 +50828,9 @@ var module;
             return arrayFind(this, f, index, loop)
         },
         "findIndexFrom": function(f, index, loop) {
-            var index = arrayFind(this, f,
-                index, loop, true);
-            return isUndefined(index) ? -1 : index
+            var index = arrayFind(this, f, index, loop, true);
+            return isUndefined(index) ?
+                -1 : index
         },
         "findAll": function(f, index, loop) {
             return arrayFindAll(this, f, index, loop)
@@ -51043,7 +51041,7 @@ var module;
     var HoursReg = "\\d{1,2}" + DecimalReg;
     var SixtyReg = "[0-5]\\d" + DecimalReg;
     var RequiredTime = "({t})?\\s*(" + HoursReg + ")(?:{h}(" + SixtyReg + ")?{m}(?::?(" + SixtyReg + "){s})?\\s*(?:({t})|(Z)|(?:([+-])(\\d{2,2})(?::?(\\d{2,2}))?)?)?|\\s*({t}))";
-    var KanjiDigits = "??????????????????????????????????????????";
+    var KanjiDigits = "〇一二三四五六七八九十百千万";
     var AsianDigitMap = {};
     var AsianDigitReg;
     var DateArgumentUnits;
@@ -51078,8 +51076,7 @@ var module;
         name: "year",
         method: "FullYear",
         ambiguous: true,
-        multiplier: 365.25 * 24 *
-            60 * 60 * 1E3
+        multiplier: 365.25 * 24 * 60 * 60 * 1E3
     }, {
         name: "month",
         method: "Month",
@@ -51115,8 +51112,7 @@ var module;
 
     function Localization(l) {
         simpleMerge(this, l);
-        this.compiledFormats =
-            CoreDateFormats.concat()
+        this.compiledFormats = CoreDateFormats.concat()
     }
     Localization.prototype = {
         get: function(prop) {
@@ -51141,12 +51137,12 @@ var module;
             var self = this;
             return n.replace(regexp(this.num, "g"), function(d) {
                 var num = self.getNumber(d, true);
-                return num ||
-                    ""
+                return num || ""
             })
         },
         getUnitIndex: function(n) {
-            return this.units.indexOf(n) % 8
+            return this.units.indexOf(n) %
+                8
         },
         getRelativeFormat: function(adu) {
             return this.convertAdjustedToFormat(adu, adu[2] > 0 ? "future" : "past")
@@ -51164,8 +51160,7 @@ var module;
         matchPM: function(str) {
             return str && str === this.get("ampm")[1]
         },
-        convertAdjustedToFormat: function(adu,
-            mode) {
+        convertAdjustedToFormat: function(adu, mode) {
             var sign, unit, mult, num = adu[0],
                 u = adu[1],
                 ms = adu[2],
@@ -51228,7 +51223,8 @@ var module;
                 time = prepareTime(RequiredTime, loc, iso);
                 timeMarkers = ["t", "[\\s\\u3000]"].concat(loc.get("timeMarker"));
                 lastIsNumeral = src.match(/\\d\{\d,\d\}\)+\??$/);
-                addDateInputFormat(loc, "(?:" + time + ")[,\\s\\u3000]+?" + src, TimeFormat.concat(to), variant);
+                addDateInputFormat(loc, "(?:" + time + ")[,\\s\\u3000]+?" +
+                    src, TimeFormat.concat(to), variant);
                 addDateInputFormat(loc, src + "(?:[,\\s]*(?:" + timeMarkers.join("|") + (lastIsNumeral ? "+" : "*") + ")" + time + ")?", to.concat(TimeFormat), variant)
             } else addDateInputFormat(loc, src, to, variant)
         }
@@ -51239,11 +51235,11 @@ var module;
         if (!isString(localeCode)) localeCode = "";
         loc = Localizations[localeCode] || Localizations[localeCode.slice(0, 2)];
         if (fallback === false && !loc) throw new TypeError("Invalid locale.");
-        return loc ||
-            CurrentLocalization
+        return loc || CurrentLocalization
     }
 
-    function setLocalization(localeCode, set) {
+    function setLocalization(localeCode,
+        set) {
         var loc;
 
         function initializeField(name) {
@@ -51266,7 +51262,8 @@ var module;
         function setArray(name, abbreviationSize, multiple) {
             var arr = [];
             loc[name].forEach(function(full, i) {
-                if (abbreviationSize) full += "+" + full.slice(0, abbreviationSize);
+                if (abbreviationSize) full +=
+                    "+" + full.slice(0, abbreviationSize);
                 eachAlternate(full, function(alt, j) {
                     arr[j * multiple + i] = alt.toLowerCase()
                 })
@@ -52276,7 +52273,7 @@ var module;
             AsianDigitMap[digit] = value
         });
         simpleMerge(AsianDigitMap, NumberNormalizeMap);
-        AsianDigitReg = regexp("([?????????])?([" + KanjiDigits + FullWidthDigits + "]+)(?!???)", "g")
+        AsianDigitReg = regexp("([期週周])?([" + KanjiDigits + FullWidthDigits + "]+)(?!昨)", "g")
     }
 
     function buildRelativeAliases() {
@@ -52990,7 +52987,7 @@ var module;
             return abbreviateNumber(this, precision, "kmbt", 0, 4)
         },
         "metric": function(precision, limit) {
-            return abbreviateNumber(this, precision, "n??m kMGTPE", 4, isUndefined(limit) ? 1 : limit)
+            return abbreviateNumber(this, precision, "nμm kMGTPE", 4, isUndefined(limit) ? 1 : limit)
         },
         "bytes": function(precision, limit, si) {
             return abbreviateNumber(this, precision, "kMGTPE", 0, isUndefined(limit) ? 4 : limit, si !== true) + "B"
@@ -53831,8 +53828,8 @@ var module;
             return reverseString(this)
         },
         "compact": function() {
-            return this.trim().replace(/([\r\n\s???])+/g, function(match, whitespace) {
-                return whitespace === "???" ? whitespace : " "
+            return this.trim().replace(/([\r\n\s　])+/g, function(match, whitespace) {
+                return whitespace === "　" ? whitespace : " "
             })
         },
         "at": function() {
