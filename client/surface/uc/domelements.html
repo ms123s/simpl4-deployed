@@ -22033,7 +22033,7 @@ Simpl4.Cache = (function () {
 					}
 					node = node.parentNode;
 				}
-				return false;
+				return true;
 			}
 
 			this._scrollbar = window.Scrollbar.init( mc, {
@@ -29677,7 +29677,7 @@ ul.jqtree-tree {
     cursor: pointer;
     position: relative; }
   ul.jqtree-tree .jqtree-title {
-    color: #1C4257;
+    color: #333333;
     vertical-align: middle;
     margin-left: 1.5em; }
     ul.jqtree-tree .jqtree-title.jqtree-title-folder {
@@ -52696,7 +52696,7 @@ console.log("height:",height);
 					} );
 				}
 			}
-			var elements = this._filterToArray( this.$.formdiv.querySelectorAll( "gridinput-field,tableselect-field,upload-field,select-field" ), true );
+			var elements = this._filterToArray( this.$.formdiv.querySelectorAll( "gridinput-field,tableselect-field,upload-field,tree-field,select-field" ), true );
 			for ( var i = 0; i < elements.length; i++ ) {
 				var saveInvalid = elements[ i ].isInvalid;
 				elements[ i ].checkConstraints();
@@ -53210,6 +53210,7 @@ console.log("height:",height);
 				shape.stencil.id.toLowerCase() == 'gridinput' ||
 				shape.stencil.id.toLowerCase() == 'checkbox' ||
 				shape.stencil.id.toLowerCase() == 'custom' ||
+				shape.stencil.id.toLowerCase() == 'page' ||
 				shape.stencil.id.toLowerCase() == 'group'
 			) {
 				var labelChild = this._getLabelShape( shape.childShapes );
@@ -53281,8 +53282,19 @@ console.log("height:",height);
 					var bounds = shape.bounds;
 					props.height = bounds.lowerRight.y - bounds.upperLeft.y;
 				}
-				if ( shape.stencil.id.toLowerCase() == "enumselect" || shape.stencil.id.toLowerCase() == "tableselect" ) {
+
+				if ( shape.stencil.id.toLowerCase() == 'page' ) {
+					var label = shape.properties.xf_label;
+					if ( label && label.match( /^[@%]/ ) ) {
+						shape.properties.label  = tr( label.substring( 1 ) );
+					}
+				}
+				if ( shape.stencil.id.toLowerCase() == "enumselect" 
+						|| shape.stencil.id.toLowerCase() == "tableselect" 
+						|| shape.stencil.id.toLowerCase() == "treeselect" 
+					) {
 					var isTableSelect = shape.stencil.id.toLowerCase() == "tableselect";
+					var isTreeSelect = shape.stencil.id.toLowerCase() == "treeselect";
 					var props = shape.properties;
 					var enumembed = props.xf_enumembed;
 					var _enum = props.xf_enum;
@@ -53294,7 +53306,9 @@ console.log("height:",height);
 					var varname = props.xf_varname;
 					if ( !this._isEmpty( varname ) ) {
 						props.items = this.variables[ varname ];
-						props.items = this._doResultMapping( props.items, resultmapping );
+						if( !isTreeSelect){
+							props.items = this._doResultMapping( props.items, resultmapping );
+						}
 					} else if ( !this._isEmpty( jsonpath ) ) {
 						var a = JSONPath( {
 							json: this._selectionLists,
@@ -53307,13 +53321,13 @@ console.log("height:",height);
 							props.items = a[ 0 ];
 						}
 						props.items = this._doResultMapping( props.items, resultmapping );
-					} else if ( !isTableSelect && enumembed && enumembed.totalCount > 0 ) {
+					} else if ( !isTreeSelect && !isTableSelect && enumembed && enumembed.totalCount > 0 ) {
 						var si = simpl4FormManager.createSelectableItems( this.namespace, this.formName, props.xf_id, enumembed );
 						props.items = si.getItems();
-					} else if ( !isTableSelect && _enum && _enum.totalCount > 0 ) {
+					} else if ( !isTreeSelect && !isTableSelect && _enum && _enum.totalCount > 0 ) {
 						var si = simpl4FormManager.createSelectableItems( this.namespace, this.formName, props.xf_id, JSON.stringify( props.xf_enum ) );
 						props.items = si.getItems();
-					} else if ( !this._isEmpty( filter ) ) {
+					} else if ( !isTreeSelect && !this._isEmpty( filter ) ) {
 						var filterDesc = {
 							"totalCount": 1,
 							"enumDescription": "sw.filter:" + filter,
@@ -71591,12 +71605,27 @@ html.mm-opening .mm-menu.mm-front, html.mm-opening .mm-menu.mm-next {
 				 * the data
 				 */
 				data: {
+					observer: "dataChanged",
 					type: Object
 				},
 				/**
 				 * the selectedItem
 				 */
 				selectedItem: {
+					notify: true,
+					type: Object
+				},
+				/**
+				 * the jqtree
+				 */
+				jqtree: {
+					notify: true,
+					type: Object
+				},
+				/**
+				 * the cmnode
+				 */
+				cmnode: {
 					notify: true,
 					type: Object
 				},
@@ -71617,33 +71646,36 @@ html.mm-opening .mm-menu.mm-front, html.mm-opening .mm-menu.mm-next {
 			behaviors: [
 				StyleScopeBehavior
 			],
-			ready: function() {
-			},
-			attached: function() {
+			ready: function() {},
+			_createTree: function() {
 				var o = clone( this._parseOptions( this.options ) );
 				o.data = this.data;
-				console.log("contextmenu:",this.contextmenu);
 				if ( this.contextmenu ) {
 					o.useContextMenu = true;
 				}
-				
-				console.log("o:",o);
-				this._tree = $( this.$.jqtree ).tree( o )
+
+				this.jqtree = $( this.$.jqtree ).tree( o )
 				if ( this.multiselect ) {
-					this._tree.bind( 'tree.click', this._multiSelection.bind( this ) );
+					this.jqtree.bind( 'tree.click', this._multiSelection.bind( this ) );
 				}
-				this._tree.bind( 'tree.select', this._itemSelected.bind( this ) );
+				this.jqtree.bind( 'tree.select', this._itemSelected.bind( this ) );
 				if ( this.contextmenu ) {
-					this._tree.bind( 'tree.contextmenu', this._contextMenu.bind( this ) );
-					var cm = contextmenu(this.contextmenu);
+					this.jqtree.bind( 'tree.contextmenu', this._contextMenu.bind( this ) );
+					var cm = contextmenu( this.contextmenu );
 					this._contextMenu = cm;
-					contextmenu.attach($(this.$.contextmenuId),cm);
+					contextmenu.attach( $( this.$.contextmenuId ), cm );
+				}
+			},
+			dataChanged:function(){
+				if( this.jqtree ){
+					this.jqtree.tree('loadData', this.data);
+				}else{
+					this._createTree();
 				}
 			},
 			_contextMenu: function( e ) {
-        var node = e.node;
-				console.log("contextmenu:",e.node);
-				contextmenu.show(this._contextMenu, e.node.element);
+				this.cmnode = e.node;
+				contextmenu.show( this._contextMenu, e.node.element );
 			},
 			_multiSelection: function( e ) {
 				// Disable single selection
@@ -71655,29 +71687,29 @@ html.mm-opening .mm-menu.mm-front, html.mm-opening .mm-menu.mm-next {
 					console.log( 'The multiple selection functions require that nodes have an id' );
 				}
 
-				if ( this._tree.tree( 'isNodeSelected', selected_node ) ) {
-					this._tree.tree( 'removeFromSelection', selected_node );
+				if ( this.jqtree.tree( 'isNodeSelected', selected_node ) ) {
+					this.jqtree.tree( 'removeFromSelection', selected_node );
 				} else {
-					this._tree.tree( 'addToSelection', selected_node );
+					this.jqtree.tree( 'addToSelection', selected_node );
 				}
 			},
 
 			_itemSelected: function( event ) {
 				if ( event.node ) {
 					var node = event.node;
-					console.log("node:",node);
 					this.selectedItem = {
-						label : node.name,
-						id : node.id
+						label: node.name,
+						id: node.id
 					}
-					this.fire( "iron-select", {item:this.selectedItem});
+					this.fire( "iron-select", {
+						item: this.selectedItem
+					} );
 					this.prevSelectedItem = this.selectedItem;
 				} else {
-					// event.node is null
-					// a node was deselected
-					// e.previous_node contains the deselected node
 					this.selectedItem = null;
-					this.fire( "iron-deselect", {item:this.prevSelectedItem});
+					this.fire( "iron-deselect", {
+						item: this.prevSelectedItem
+					} );
 				}
 			},
 
@@ -75872,7 +75904,7 @@ dd.rules-group-body{
 				</template>
 			</section>
 			<section style="padding:0px;position:relative;overflow-x:hidden;" num="1" unresolved="">
-				<simpl-panel heading="{{panelHeaderCrudForm}}">
+				
 					<div class="layout horizontal" style="margin-top:20px;margin-bottom:4px;text-align:left;">
 						<paper-button class="h flex button button_primary" disabled$="{{saveDisabled}}" raised="" on-tap="saveAction">
 							<iron-icon icon="save"></iron-icon>{{tr('data.form.save')}}</paper-button>
@@ -75886,7 +75918,7 @@ dd.rules-group-body{
 						</paper-button>
 					</div>
 					<simpl-form id="formid" mode="{{mode}}" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
-				</simpl-panel>
+				
 				<paper-dialog id="error" class="scrolling">
 					
 					<div style="padding:15px;">
@@ -79477,7 +79509,8 @@ dd.rules-group-body{
 			margin: 0px;
 		}
 		:host #decorator {
-			line-height: 1;
+			line-height: 1.3;
+			font-size: 14px;
 		}
 		:host /deep/ .floated-label-placeholder.compact {
 			display: none;
@@ -79495,22 +79528,33 @@ dd.rules-group-body{
 
 		:host /deep/ #dropdown {
 			width: 100%;
-			margin-top: 52px !important;
-			position: absolute !important;
+			display:inline-block;
+			position: relative !important;
 			top: 0px !important;
 		}
+
+
+		:host /deep/ #contentWrapper {
+			position: absolute;
+			width: 100%;
+		}
+
 		:host /deep/ .dropdown-content {
-			max-height: 400px !important;
+			max-height: 300px !important;
 		}
 		:host /deep/ paper-input-container {
 			padding: 0px !important;
 		}
+
 	</style>
 	<template>
-		<paper-dropdown-menu id="decorator" label="[[label]]" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" readonly="" disabled$="[[disabled]]" invalid="[[isInvalid]]">
-			<simpl-jqtree style="width:100%;" class="dropdown-content" contextmenu="[[contextmenu]]" selected-item="{{selectedItem}}" multi-select="[[multiSelect]]" options="[[options]]" data="[[data]]">
+		<paper-dropdown-menu style="display:inline !important;" id="decorator" label="[[label]]" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" readonly="" disabled$="[[disabled]]" invalid="[[isInvalid]]">
+			<simpl-jqtree style="width:100%;" jqtree="{{jqtree}}" class="dropdown-content" contextmenu="[[contextmenu]]" selected-item="{{selectedItem}}" multi-select="[[multiSelect]]" options="[[options]]" data="[[items]]">
 			</simpl-jqtree>
 		</paper-dropdown-menu>
+      <template is="dom-if" if="[[errorMessage]]">
+        <paper-input-error invalid$="[[isInvalid]]">[[errorMessage]]</paper-input-error>
+      </template>
 	</template>
 	<script>
 		Polymer( {
@@ -79523,6 +79567,11 @@ dd.rules-group-body{
 				FieldBehavior
 			],
 			properties: {
+				selectedItem: {
+					observer: "selectedItemChanged",
+					notify: true,
+					type: Object
+				},
 				multiple: {
 					value: false
 				},
@@ -79540,24 +79589,9 @@ dd.rules-group-body{
 					value: "false",
 					type: String
 				},
-				delimiter: {
-						type: String,
-						value: ','
-				},
 				closeAfterSelect: {
 						type: Boolean,
 						value: false
-				},
-				mutationObserver: {
-					value: ( function() {
-						var observer = new MutationObserver( this.mutated.bind(this) );
-						observer.observe( this, {
-							attributes: true,
-							attributeOldValue: true,
-							attributeFilter: [ 'disabled' ]
-						} );
-						return observer;
-					} ),
 				}
 			},
 			observers: [
@@ -79565,33 +79599,9 @@ dd.rules-group-body{
 				'compactChanged(compact)',
 				'jsonItemsChanged(jsonItems)'
 			],
-			mutated: function( mutations ) {
-				var self = this;
-				mutations.forEach( function( mutation ) {
-					var entry = {
-						name: mutation.target.getAttribute( "name" ),
-						value: mutation.target.getAttribute( "disabled" ),
-						oldValue: mutation.oldValue
-					};
-					if ( entry.oldValue == entry.value ) {
-						return;
-					}
-					var fl = self.querySelector( ".focused-line" );
-					var inp = self.querySelector("input[type=\"text\"]");
-
-					if( fl == null) return;
-					if ( entry.value == "r" ) {
-						fl.style.display = "none";
-						if( inp) inp.setAttribute("tabindex", "-1");
-					} else {
-						fl.style.display = "block";
-						if( inp) inp.removeAttribute("tabindex");
-					}
-
-				})
-			},
 			ready: function() {
 				this.isInvalid = false;
+				this.options = { autoOpen : true }
 			},
 			compactChanged: function( ) {
 				if( this.compact === false) return;
@@ -79608,36 +79618,10 @@ dd.rules-group-body{
 				this.items = o;
 			},
 			itemsChanged:function(){
-				var select = this.$.select;
-				while (select.firstChild) {
-    			select.removeChild(select.firstChild);
-				}
-				if( this.items == null){
-					return;
-				}
-				if( this.items.length ){
-					for( var i=0; i < this.items.length;i++){
-						var item = this.items[i];
-						var option = document.createElement("option");
-						var label = document.createTextNode(item.label);
-						option.value = item.value;
-						Polymer.dom( option ).appendChild( label );
-						Polymer.dom( select ).appendChild( option );
-					}
-				}else{
-					var items=this.items
-					Object.keys(items).forEach(function(k) {
-						var item = items[k];
-						var option = document.createElement("option");
-						var label = document.createTextNode(item.label);
-						option.value = item.value;
-						Polymer.dom( option ).appendChild( label );
-						Polymer.dom( select ).appendChild( option );
-					})
-				}
+				console.log("itemsChanged:", this.items);
 			},
 			valueChanged: function( v ) {
-				//console.log( "select-field(" + this.name + ").valueChanged:", this.value+"/wo:"+this.withoutCheck );
+				console.log( "tree-field(" + this.name + ").valueChanged:", this.value+"/wo:"+this.withoutCheck );
 				if ( this.isDomReady != true ) return;
 				if ( this.withoutCheck ) {
 					this.withoutCheck = false;
@@ -79646,46 +79630,31 @@ dd.rules-group-body{
 				this.checkConstraints();
 			},
 			setValue: function( v ) {
-				//console.log( "select-field(" + this.name + ").setValue:",v );
-				this.value = v;
-				if( this.selectize){
-					this.selectize.setValue(v);
-				}else{
-					this.__value = v;
+				console.log( "tree-field(" + this.name + ").setValue:",v );
+				var id = v;
+				if( _.isString(v)){
+					try{
+						id = JSON5.parse(v).id;
+					}catch(e){}		
+				}
+				if( !_.isEmpty(id) ){
+					var node = this.jqtree.tree('getNodeById', id);
+					this.jqtree.tree('selectNode', node);
+					this.jqtree.tree('scrollToNode', node);
+					this.value = node.name;
 				}
 			},
 			getValue: function() {
-				//console.log( "select-field(" + this.name + "),getValue:", this.value );
-				if( this.multiple !== true && this.value && Array.isArray(this.value) && this.value.length>0){
-					return this.value[0];
-				}
-				return this.value;
+				console.log( "tree-field(" + this.name + "),getValue:", this.value );
+				//if( this.multiple !== true && this.value && Array.isArray(this.value) && this.value.length>0){
+				//	return this.value[0];
+				//}
+				return JSON.stringify(this.value);
 			},
-			onFocus: function( val ) {
-				//console.log( "select-field(" + this.name + ").onFocus" );
-				//this.selectizeControl.blur();
-			},
-			onChange: function( val ) {
-				//console.log( "select-field(" + this.name + ").onChange:", this.value+"/val:"+val );
+			selectedItemChanged: function( val ) {
+				console.log( "tree-field(" + this.name + ").selectedItemChanged:", this.value+"/val:"+val );
 				this.value = val;
 				this.fire( 'value-changed', this );
-			},
-			createSelectize: function() {
-				if( this.multiple === true){
-					this.maxItems = 1000;
-				}
-				var options = {
-						delimiter: this.delimiter,
-						onChange: this.onChange.bind(this),
-						onFocus: this.onFocus.bind(this)
-				};
- 				var field = this.$.select;
-				var $select = $(field).selectize(options);
-				this.selectize = $select[0].selectize;
-				if( this.__value){
-					this.selectize.setValue(this.__value);
-					this.__value = null;
-				}
 			},
 			attached:function(){
 				this.async( function() {
@@ -79695,14 +79664,11 @@ dd.rules-group-body{
 			_attached: function() {
 				this.alwaysFloatLabel = true;
 				this.placeholder=" "; //@@@MS is needed to show the floating label, if the the field is empyty.
-				//console.log( "select-field(" + this.name + ").attached" );
+				console.log( "tree-field(" + this.name + ").attached" );
 				this.isDomReady = true;
 				if ( this.compact ) {
 					this.compactChanged();
 				}
-				this.createSelectize();
-				this.selectizeControl = this.$.decorator.querySelector( ".selectize-control" );
-//					jQuery( this.selectizeControl ).css( "pointer-events", "none" );
 			},
 			isEmpty: function( s ) {
 				if( Array.isArray(s)){
@@ -81002,7 +80968,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			return r;
 		},
 		isField: function( id ) {
-			var r = id == 'Input' || id == 'Tableselect' || id == 'Gridinput' || id == 'Enumselect' || id == 'Upload' || id == 'Custom' || id == 'Textarea' || id == 'RelatedTo' || id == 'Moduleselector' || id == 'Alert' || id == 'break';
+			var r = id == 'Input' || id == 'Tableselect' || id == 'Gridinput' || id == 'Enumselect' || id == 'Treeselect' || id == 'Upload' || id == 'Custom' || id == 'Textarea' || id == 'RelatedTo' || id == 'Moduleselector' || id == 'Alert' || id == 'break';
 			return r;
 		},
 		isInputAndBoolean: function( id, xf_type ) {
@@ -81204,26 +81170,28 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 
 	</style>
 	<template>
-		<paper-tabs selected="{{tabsId}}" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
-			<template is="dom-repeat" as="i" items="[[item.childShapes]]">
-				<template is="dom-if" if="[[i.title]]" restamp="">
-					<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.title)]]</paper-tab>
+		<div id="[[item.xf_id]]">
+			<paper-tabs selected="{{tabsId}}" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
+				<template is="dom-repeat" as="i" items="[[item.childShapes]]">
+					<template is="dom-if" if="[[i.label]]" restamp="">
+						<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.label)]]</paper-tab>
+					</template>
+					<template is="dom-if" if="[[!i.label]]" restamp="">
+						<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.xf_id)]]</paper-tab>
+					</template>
 				</template>
-				<template is="dom-if" if="[[!i.title]]" restamp="">
-					<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.xf_id)]]</paper-tab>
-				</template>
-			</template>
-		</paper-tabs>
+			</paper-tabs>
 
-		<neon-animated-pages style$="[[pagesStyle]]" selected="[[tabsId]]" attr-for-selected="tabs-id">
-			<template is="dom-repeat" as="i" items="[[item.childShapes]]">
-				<simpl-animatable-page class="page" tabs-id$="[[i.xf_id]]" style$="[[getPageStyle()]]">
-					<template is="dom-repeat" as="j" items="[[i.childShapes]]">
-						<form-element-renderer style$="[[getElementStyle()]]" class="flex" item="[[j]]">
-					</form-element-renderer></template>
-				</simpl-animatable-page>
-			</template>
-		</neon-animated-pages>
+			<neon-animated-pages style$="[[pagesStyle]]" selected="[[tabsId]]" attr-for-selected="tabs-id">
+				<template is="dom-repeat" as="i" items="[[item.childShapes]]">
+					<simpl-animatable-page class="page" tabs-id$="[[i.xf_id]]" style$="[[getPageStyle()]]">
+						<template is="dom-repeat" as="j" items="[[i.childShapes]]">
+							<form-element-renderer style$="[[getElementStyle()]]" class="flex" item="[[j]]">
+						</form-element-renderer></template>
+					</simpl-animatable-page>
+				</template>
+			</neon-animated-pages>
+		</div>
 	</template>
 	<script>
 		Polymer( {
