@@ -3373,7 +3373,7 @@ if (!String.prototype.endsWith) String.prototype.endsWith = function(searchStrin
         if (button === undefined) button = e.target;
         pos = offset(button);
         if (menu === undefined) menu = contextMenufor(button);
-        initContextMenu(menu, pos.left, pos.top + pos.height + 8);
+        initContextMenu(menu, pos.left, pos.top + 28);
         if (e) {
             e.preventDefault();
             e.stopPropagation()
@@ -15599,9 +15599,17 @@ try {
             if (shouldValidate(this, params)) {
                 this.value = this.value ? this.value.toString() : "";
                 var value = this.value.replace(/\s/g, "");
-                var parts = value.split(/\./);
+                var parts = null;
+                if (value.indexOf(",") >= 0) parts = value.split(/,/);
+                else parts = value.split(/\./);
+                var error = false;
+                for (var i = 0; i < parts.length; i++) {
+                    error = parts[i].match(/^[0-9]+$/) ==
+                        null;
+                    if (error) break
+                }
                 result = false;
-                if (value.length > 0) {
+                if (!error && value.length > 0) {
                     if (parts.length == 1) parts[1] = "";
                     if (params["integer"] > 0) result = parts[0].length <= params["integer"];
                     else result = true;
@@ -15620,15 +15628,15 @@ try {
         },
         future: function(params) {
             var result = true;
-            if (shouldValidate(this, params)) {
+            if (shouldValidate(this,
+                    params)) {
                 var dates = parseDates.call(this, params);
                 if (dates != null) result = dates.dateToValidate > dates.dateToTestAgainst
             }
             return result
         },
         url: function(params) {
-            var result =
-                true;
+            var result = true;
             if (shouldValidate(this, params)) result = /^([a-z]([a-z]|\d|\+|-|\.)*):(\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?((\[(|(v[\da-f]{1,}\.(([a-z]|\d|-|\.|_|~)|[!\$&'\(\)\*\+,;=]|:)+))\])|((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=])*)(:\d*)?)(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*|(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)|((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)){0})(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(this.value);
             return result
         },
@@ -18286,7 +18294,7 @@ try {
     }
 })(this, function(MapUtils, DOMUtils, BindingService, ExceptionService, ConstraintService, ValidationService, GroupService) {
     var config = {
-        validateEmptyFields: true,
+        validateEmptyFields: false,
         enableHTML5Validation: false,
         debug: false
     };
@@ -69392,6 +69400,22 @@ clazz.construct.extend("simpl4.util.CrudForm", {}, {
     },
     getFieldShape: function(f) {
         var shape = {};
+        if (!isNaN(f.datatype)) {
+            shape.id = this.convertOrientId(f.datatype);
+            shape.xf_id = f.name;
+            shape.xf_type = this.convertOrientType(f.datatype);
+            shape.xf_default = f.default_value !== "" ? f.default_value : null;
+            var p = "odata";
+            var e = this.entityname;
+            if (this.entityname.indexOf(":") >= 0) {
+                p = this.entityname.split(":")[0];
+                e = this.entityname.split(":")[1]
+            }
+            shape.label = tr(p + "." + e + "." + f.name);
+            shape.xf_namespace = this.namespace;
+            console.log("OrientDB:", shape);
+            return shape
+        }
         shape.id = "Input";
         if (f.edittype == "select") {
             shape.id = "Enumselect";
@@ -69407,7 +69431,8 @@ clazz.construct.extend("simpl4.util.CrudForm", {}, {
         var p = "data";
         var e = this.entityname;
         if (this.entityname.indexOf(":") >= 0) {
-            p = this.entityname.split(":")[0];
+            p =
+                this.entityname.split(":")[0];
             e = this.entityname.split(":")[1]
         }
         shape.label = tr(p + "." + e + "." + f.name);
@@ -69437,7 +69462,8 @@ clazz.construct.extend("simpl4.util.CrudForm", {}, {
         var childShapes = tabView.childShapes;
         var ret = null;
         childShapes.forEach(function(c) {
-            if (c.xf_id == tabKey) {
+            if (c.xf_id ==
+                tabKey) {
                 ret = c;
                 return
             }
@@ -69468,8 +69494,7 @@ clazz.construct.extend("simpl4.util.CrudForm", {}, {
                 "childShapes": []
             }]
         };
-        if (formLayout ==
-            null) return defLayout;
+        if (formLayout == null) return defLayout;
         else {
             try {
                 var lays = formLayout.split(";");
@@ -69500,18 +69525,59 @@ clazz.construct.extend("simpl4.util.CrudForm", {}, {
                     childShapes.push(page)
                 }
             } catch (e) {
-                console.log("catch:" +
-                    e);
+                console.log("catch:" + e);
                 return defLayout
             }
             return formLayout
         }
     },
+    convertOrientId: function(type) {
+        if (type == "17") type = "Input";
+        if (type == "5") type = "Input";
+        if (type == "1") type = "Input";
+        if (type == "3") type = "Input";
+        if (type == "7") type = "Input";
+        if (type == "0") type = "Input";
+        if (type == "21") type = "Input";
+        if (type == "19") type = "Input";
+        if (type == "6") type = "Input";
+        if (type == "9") type = "Form";
+        if (type == "10") type = "Crud";
+        if (type == "11") type = "Crud";
+        if (type == "12") type = "Crud";
+        if (type == "13") type = "Form";
+        if (type == "14") type = "Crud";
+        if (type == "15") type = "Crud";
+        if (type == "16") type = "Crud";
+        return type
+    },
+    convertOrientType: function(type) {
+        if (type ==
+            "17") type = "integer";
+        if (type == "5") type = "double";
+        if (type == "1") type = "integer";
+        if (type == "3") type = "integer";
+        if (type == "7") type = "string";
+        if (type == "0") type = "boolean";
+        if (type == "21") type = "double";
+        if (type == "19") type = "date";
+        if (type == "6") type = "datetime";
+        if (type == "9") type = "Form";
+        if (type == "10") type = "Crud";
+        if (type == "11") type = "Crud";
+        if (type == "12") type = "Crud";
+        if (type == "13") type = "Form";
+        if (type == "14") type = "Crud";
+        if (type == "15") type = "Crud";
+        if (type == "16") type = "Crud";
+        return type
+    },
     getSpec: function() {
         return this._form
     },
     toString: function() {
-        return "CrudForm:" + this._fields
+        return "CrudForm:" +
+            this._fields
     }
 });
 simpl4.util.BaseManager.extend("simpl4.util.EntityManager", {

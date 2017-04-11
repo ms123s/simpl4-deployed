@@ -50609,14 +50609,19 @@ r - processing display element<br/>
 			'_dataChanged(data,meta)'
 		],
 		_createTable: function( dtMeta, dataSet, options ) {
-			this._whenTableReady( ( function() {
-				this.__createTable( dtMeta, dataSet, options );
-			} ).bind( this ) );
+			console.log( "_createTable:", dtMeta );
+			if ( this.asyncRunning == null ) {
+				this._tableRecalcJob( ( function() {} ).bind( this ) );
+			} else {
+				this.asyncRunning = true;
+			}
+			this.__createTable( dtMeta, dataSet, options );
 		},
 		/**
 		 *  recalc and redraw the table
 		 */
 		recalc: function() {
+			console.log( "recalc:", this._api );
 			if ( this._api ) {
 				this._api.responsive.recalc();
 				this._api.columns.adjust()
@@ -50835,10 +50840,12 @@ r - processing display element<br/>
 				this._createTable( this.preparedMeta, this.data, this.options );
 			} else {
 				this._api.clear();
-				this.data.forEach( ( function( row, idx ) {
-					row.__control = "";
-					this._api.row.add( row );
-				} ).bind( this ) );
+				if ( this.data != null ) {
+					this.data.forEach( ( function( row, idx ) {
+						row.__control = "";
+						this._api.row.add( row );
+					} ).bind( this ) );
+				}
 				this._api.draw();
 				this._createRowListener();
 			}
@@ -50889,20 +50896,17 @@ r - processing display element<br/>
 			}, this );
 			return ret;
 		},
-		_whenTableReady: function( done ) {
+		_tableRecalcJob: function( done ) {
 			var self = this;
-			var counter = 0;
-
+			var lastWidth = -1;
 			function waitForTable() {
 				var width = self.$.dataTablesId.offsetWidth;
-				//console.log( "xxx.waitForTable.Width:", width );
-				if ( width > 0 ) {
-					done();
-					return;
+				//console.log( "_tableRecalcJob.width:", width+"/"+lastWidth );
+				if ( width > 0 && width != lastWidth ) {
+					self.recalc();
 				}
-				if ( counter++ < 50 ) {
-					setTimeout( waitForTable, 20 );
-				}
+				lastWidth = width;
+				setTimeout( waitForTable, 30 );
 			}
 			waitForTable();
 		},
@@ -52490,6 +52494,11 @@ console.log("height:",height);
 		setForm: function( form ) {
 			this.form = form;
 		},
+		getPack:function(){
+      if( this.form == null) return null;
+			var pack = this.form.pack;
+			return pack;
+		},
 		setValue: function( v ) {
 			this.value = v;
 		},
@@ -52501,6 +52510,12 @@ console.log("height:",height);
 		],
 		getForm:function(){
 			return this.form;
+		},
+		getSimpleEntityName: function( entity ) {
+			if ( entity.indexOf( ':' ) >= 0 ) {
+				return entity.split( ':' )[ 1 ];
+			}
+			return entity;
 		},
 		disabledChanged: function( event ) {
 			this.alwaysFloatLabel = this.disabled;
@@ -52593,7 +52608,7 @@ console.log("height:",height);
 			};
 			env = simpl4.util.Merge.merge( true, data, env );
 			this.saveDisabled = this._isSaveDisabled( env );
-			this._errorMessage=null;
+			this._errorMessage = null;
 			for ( var i = 0, l = this.fields.length; i < l; i++ ) {
 				var f = this.fields[ i ];
 				var enabledExpr = f.getAttribute( "enabled-expr" );
@@ -52636,12 +52651,12 @@ console.log("height:",height);
 				}
 			}
 			var abuttons = this.$.formdiv.parentNode.querySelectorAll( "xaction-button" );
-			for( var i=0;i< abuttons.length;i++){
-				var ab = abuttons[i];
-				if( ab.xaction == "execute"){
-					if( this.saveDisabled){
-						ab.setAttribute( "disabled", "");
-					}else{
+			for ( var i = 0; i < abuttons.length; i++ ) {
+				var ab = abuttons[ i ];
+				if ( ab.xaction == "execute" ) {
+					if ( this.saveDisabled ) {
+						ab.setAttribute( "disabled", "" );
+					} else {
 						ab.removeAttribute( "disabled" );
 					}
 				}
@@ -52670,13 +52685,15 @@ console.log("height:",height);
 			this._valueChanged();
 		},
 		/**
-		 * validate the form data 
-     *
+		 * validate the form data
+		 *
 		 * @param {Boolean} dontInvalidate   don't invalidate the fields
 		 */
 		validate: function( dontInvalidate ) {
 			var errorList = [];
-			var elements = this._filterToArray( this.$.formdiv.querySelectorAll( "input-field,checkbox-field,select-field" ), false );
+
+			var elements = this._filterToArray( "input-field,checkbox-field,select-field" , this.$.formdiv, true,false );
+			console.log("elements:",elements);
 			Array.prototype.forEach.call( elements, function( elem ) {
 				elem.setInvalid( false );
 			} );
@@ -52687,7 +52704,7 @@ console.log("height:",height);
 				errorList = regula.validate( {
 					elements: elements
 				} );
-				if( dontInvalidate !== true){
+				if ( dontInvalidate !== true ) {
 					errorList.forEach( function( err ) {
 						err.failingElements.forEach( function( elem ) {
 							elem.setInvalid( true );
@@ -52696,24 +52713,24 @@ console.log("height:",height);
 					} );
 				}
 			}
-			var elements = this._filterToArray( this.$.formdiv.querySelectorAll( "gridinput-field,tableselect-field,upload-field,tree-field,select-field" ), true );
+			var elements = this._filterToArray( "gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedlist-field,tree-field,select-field" ,this.$.formdiv, true , true );
 			for ( var i = 0; i < elements.length; i++ ) {
 				var saveInvalid = elements[ i ].isInvalid;
 				elements[ i ].checkConstraints();
 				if ( elements[ i ].isInvalid ) {
 					errorList.push( "Error" );
 				}
-				if( dontInvalidate === true){
-					elements[i].setInvalid(saveInvalid);
+				if ( dontInvalidate === true ) {
+					elements[ i ].setInvalid( saveInvalid );
 				}
 			}
 			if ( errorList && errorList.length > 0 ) {
 				console.log( "form.validate.errorList:", errorList );
 			}
-			this._validateLocal(errorList);
+			this._validateLocal( errorList );
 			return errorList.length == 0;
 		},
-		_validateLocal: function(errorListGlobal) {
+		_validateLocal: function( errorListGlobal ) {
 			var validateExprs = this._form.xf_validate_local;
 			if ( this._isEmpty( validateExprs ) ) return null;
 			var data = this._getData();
@@ -52725,42 +52742,61 @@ console.log("height:",height);
 			env = simpl4.util.Merge.merge( true, data, env );
 			var items = validateExprs.items;
 			var errorListLocal = [];
-			for( var i=0; i< items.length;i++){
-				var item = items[i];
+			for ( var i = 0; i < items.length; i++ ) {
+				var item = items[ i ];
 				var valid = this._maskedEval( item.expr, env ) === false;
-				if( valid == false){
+				if ( valid == false ) {
 					var errormsg = item.errormsg;
 					if ( errormsg && errormsg.match( /^[@%]/ ) ) {
 						errormsg = tr( errormsg.substring( 1 ) );
 					}
-					errorListGlobal.push(errormsg);
-					errorListLocal.push(errormsg);
+					errorListGlobal.push( errormsg );
+					errorListLocal.push( errormsg );
 				}
 			}
 			var e = "";
-			var br="";
-			for( var i=0; i< errorListLocal.length;i++){
-				e += br + errorListLocal[i];	
-				br="<br/>";
+			var br = "";
+			for ( var i = 0; i < errorListLocal.length; i++ ) {
+				e += br + errorListLocal[ i ];
+				br = "<br/>";
 			}
-			this._setGlobalErrorMessage(e);
+			this._setGlobalErrorMessage( e );
 		},
-		_setGlobalErrorMessage:function(msg){
-			this._errorMessage=msg;
+		_setGlobalErrorMessage: function( msg ) {
+			this._errorMessage = msg;
 			this.async( function() {
-				var error = this.querySelector("#globalErrorId");
-				error.innerHTML=msg;
+				var error = this.querySelector( "#globalErrorId" );
+				error.innerHTML = msg;
 			}, 10 );
 		},
-		_filterToArray: function( nodeList, all ) {
-			var ret = [];
-			for ( var i = 0; i < nodeList.length; i++ ) {
-				var c = nodeList[ i ].getAttribute( "data-constraints" );
-				if ( all || ( c != null && c.length > 0 ) ) {
-					ret.push( nodeList[ i ] );
-				}
+		_getExcludes:function(selector){
+			var exclude = [];
+			var self = this;
+			$('simpl-form', this.$.formdiv ).each( function( index){
+				exclude = exclude.concat(  self._filterToArray( selector,this,false,false));
+			});
+			return exclude;
+		},
+		_filterToArray: function( selector, context,doExclude, all ) {
+			var excludes=null;
+			if( doExclude === true){
+				excludes = this._getExcludes(selector);
 			}
-			return ret;
+			var elements = [];
+			$(selector, context ).each( function( index){
+				var c = this.getAttribute( "data-constraints" );
+				if ( all || ( c != null && c.length > 0 ) ) {
+					if( excludes ){
+						var contains = excludes.indexOf(this);
+						if( contains < 0){
+							elements.push( this);
+						}
+					}else{
+						elements.push( this);
+					}
+				}
+			});
+			return elements;
 		},
 		_maskedEval: function( scr, env, def ) {
 			try {
@@ -52798,13 +52834,13 @@ console.log("height:",height);
 		},
 		_dataChanged: function() {
 			console.log( "\n-->form._dataChanged.internal:", this.internal );
-			if(this.internal !== true){
+			if ( this.internal !== true ) {
 				this.__dataChanged();
 			}
-			this.internal=false;
+			this.internal = false;
 		},
 		__dataChanged: function() {
-			console.error( "\n-->form._dataChanged:", JSON.stringify(this.data,null,2) );
+			console.trace( "\n-->form._dataChanged:", JSON.stringify( this.data, null, 2 ) );
 			this._whenFieldsReady( ( function() {
 				if ( this.preProcessData ) {
 					simpl4.util.Merge.merge( false, this.data, this.preProcessData );
@@ -52814,7 +52850,7 @@ console.log("height:",height);
 					simpl4.util.Merge.merge( false, this.data, this.preProcessData );
 					this.preProcessData = null;
 				}
-				console.log( "form._dataChanged.afterPre:", JSON.stringify(this.data,null,2) );
+				console.log( "form._dataChanged.afterPre:", JSON.stringify( this.data, null, 2 ) );
 				this._setData( this.data );
 			} ).bind( this ) );
 		},
@@ -52828,7 +52864,7 @@ console.log("height:",height);
 			}, this );
 		},
 		/**
-		 * set the form data 
+		 * set the form data
 		 */
 		setData: function( data ) {
 			this.resetData = jQuery.extend( {}, data );;
@@ -52841,9 +52877,9 @@ console.log("height:",height);
 			this.fields.forEach( function( field ) {
 				if ( field.setValue == null ) return;
 				field.withoutCheck = true;
-				if ( field.setInvalid ){
-					 field.setInvalid( false );
-					 field.setErrorMessage( null );
+				if ( field.setInvalid ) {
+					field.setInvalid( false );
+					field.setErrorMessage( null );
 				}
 				var fieldData = data[ field.name ];
 				var oldValue = fieldData;
@@ -52855,15 +52891,15 @@ console.log("height:",height);
 					};
 					env = simpl4.util.Merge.merge( true, data, env );
 					fieldData = this._maskedEval( field.expressionIn, env );
-					console.log("expressionIn("+field.name+"\t,"+field.expressionIn+"\t,"+oldValue+ ") -> ",fieldData);
+					console.log( "expressionIn(" + field.name + "\t," + field.expressionIn + "\t," + oldValue + ") -> ", fieldData );
 
 				}
-				field.setValue( fieldData || field.defaultvalue || "" );
+				field.setValue( fieldData || field.defaultvalue || null );
 			}, this );
 			this._valueChanged();
 		},
 		/**
-		 * clear the form data 
+		 * clear the form data
 		 */
 		clearData: function() {
 			this.fields.forEach( function( field ) {
@@ -52874,14 +52910,14 @@ console.log("height:",height);
 			}, this );
 		},
 		/**
-		 * update the form data 
+		 * update the form data
 		 */
 		updateData: function( data ) {
 			this.internal = true;
 			this.data = this.data || {};
 			var keys = Object.keys( data );
 			keys.forEach( ( function( key ) {
-				this.data[key] = data[key];
+				this.data[ key ] = data[ key ];
 				var field = this.fieldsMap[ key ];
 				if ( field ) {
 					field.withoutCheck = true;
@@ -52900,7 +52936,7 @@ console.log("height:",height);
 			return data;
 		},
 		/**
-		 * get the form data 
+		 * get the form data
 		 */
 		getData: function() {
 			var data = simpl4.util.Merge.merge( true, this.data );
@@ -52919,7 +52955,7 @@ console.log("height:",height);
 				env = simpl4.util.Merge.merge( true, data, env );
 				data[ field.name ] = this._maskedEval( field.expressionOut, env );
 
-				console.log("expressionOut("+field.name+"\t,"+field.expressionOut+"\t,"+oldValue+ ") -> ",data[field.name]);
+				console.log( "expressionOut(" + field.name + "\t," + field.expressionOut + "\t," + oldValue + ") -> ", data[ field.name ] );
 			}, this );
 			return data;
 		},
@@ -53083,7 +53119,7 @@ console.log("height:",height);
 			this._preProcessLocal();
 			var dataLoc = this._preData;
 			this.preProcessData = simpl4.util.Merge.merge( true, dataSer, dataLoc );
-			this._preData=null;
+			this._preData = null;
 		},
 		_formNameChanged: function() {
 			this.async( function() {
@@ -53109,12 +53145,12 @@ console.log("height:",height);
 				this._shapeMap = {};
 				this._buildShapeMap( this.shapes[ 0 ] );
 				this.async( function() {
-					this.fields = this._filterToArray( this.$.formdiv.querySelectorAll( "[field]" ), true );
+					this.fields = this._filterToArray( "[field]", this.$.formdiv, true, true );
 					this.fields.forEach( function( field ) {
 						field.setForm( this );
 					}, this );
 					this.fieldsMap = this._toMap( this.fields );
-					this.fire("form-ready", this );
+					this.fire( "form-ready", this );
 					this._valueChanged();
 					if ( this.resetData == null ) {
 						this.resetData = this._getData();
@@ -53123,7 +53159,7 @@ console.log("height:",height);
 			}, 1 );
 		},
 		/*----------------------------------*/
-		_specChanged: function(  ) {
+		_specChanged: function() {
 			this.fields = [];
 			this.fieldsMap = {};
 			this.shapes = [];
@@ -53134,13 +53170,13 @@ console.log("height:",height);
 				this._shapeMap = {};
 				this._buildShapeMap( this.shapes[ 0 ] );
 				this.async( function() {
-					this.fields = this._filterToArray( this.$.formdiv.querySelectorAll( "[field]" ), true );
+					this.fields = this._filterToArray( "[field]" , this.$.formdiv, true, true );
 					this.fields.forEach( function( field ) {
 						field.setForm( this );
 					}, this );
 					this.fieldsMap = this._toMap( this.fields );
 					this._valueChanged();
-					this.fire("form-ready", this );
+					this.fire( "form-ready", this );
 					if ( this.resetData == null ) {
 						this.resetData = this._getData();
 					}
@@ -53201,8 +53237,12 @@ console.log("height:",height);
 		_cleanShape: function( shape ) {
 			if ( shape.stencil.id.toLowerCase() == "input" ||
 				shape.stencil.id.toLowerCase() == 'textarea' ||
-				shape.stencil.id.toLowerCase() == 'relatedto' ||
+				shape.stencil.id.toLowerCase() == 'linkedobj' ||
 				shape.stencil.id.toLowerCase() == 'upload' ||
+				shape.stencil.id.toLowerCase() == 'embeddedlist' ||
+				shape.stencil.id.toLowerCase() == 'linkedlist' ||
+				shape.stencil.id.toLowerCase() == 'linkedobj' ||
+				shape.stencil.id.toLowerCase() == 'embeddedobj' ||
 				shape.stencil.id.toLowerCase() == 'moduleselector' ||
 				shape.stencil.id.toLowerCase() == 'enumselect' ||
 				shape.stencil.id.toLowerCase() == 'treeselect' ||
@@ -53255,8 +53295,8 @@ console.log("height:",height);
 						}
 					}
 				}
-				if ( _.isEmpty(shape.properties.xf_required)){
-					shape.properties.xf_required="false";
+				if ( _.isEmpty( shape.properties.xf_required ) ) {
+					shape.properties.xf_required = "false";
 				}
 				if ( shape.stencil.id.toLowerCase() == 'textarea' ) {
 					if ( shape.properties.xf_rows == null ) {
@@ -53265,6 +53305,15 @@ console.log("height:",height);
 				}
 				if ( shape.stencil.id.toLowerCase() == 'moduleselector' ) {
 					shape.properties.xf_namespace = this.namespace;
+				}
+				if ( shape.stencil.id.toLowerCase() == 'embeddedlist' || 
+						 shape.stencil.id.toLowerCase() == 'linkedlist' ||
+						 shape.stencil.id.toLowerCase() == 'linkedobj' ||
+						 shape.stencil.id.toLowerCase() == 'embeddedobj' 
+					) {
+					shape.properties.xf_namespace = this.namespace;
+					var bounds = shape.bounds;
+					shape.properties.height = bounds.lowerRight.y - bounds.upperLeft.y;
 				}
 				if ( shape.stencil.id.toLowerCase() == 'gridinput' ) {
 					var props = shape.properties;
@@ -53286,13 +53335,10 @@ console.log("height:",height);
 				if ( shape.stencil.id.toLowerCase() == 'page' ) {
 					var label = shape.properties.xf_label;
 					if ( label && label.match( /^[@%]/ ) ) {
-						shape.properties.label  = tr( label.substring( 1 ) );
+						shape.properties.label = tr( label.substring( 1 ) );
 					}
 				}
-				if ( shape.stencil.id.toLowerCase() == "enumselect" 
-						|| shape.stencil.id.toLowerCase() == "tableselect" 
-						|| shape.stencil.id.toLowerCase() == "treeselect" 
-					) {
+				if ( shape.stencil.id.toLowerCase() == "enumselect" || shape.stencil.id.toLowerCase() == "tableselect" || shape.stencil.id.toLowerCase() == "treeselect" ) {
 					var isTableSelect = shape.stencil.id.toLowerCase() == "tableselect";
 					var isTreeSelect = shape.stencil.id.toLowerCase() == "treeselect";
 					var props = shape.properties;
@@ -53306,7 +53352,7 @@ console.log("height:",height);
 					var varname = props.xf_varname;
 					if ( !this._isEmpty( varname ) ) {
 						props.items = this.variables[ varname ];
-						if( !isTreeSelect){
+						if ( !isTreeSelect ) {
 							props.items = this._doResultMapping( props.items, resultmapping );
 						}
 					} else if ( !this._isEmpty( jsonpath ) ) {
@@ -53396,7 +53442,7 @@ console.log("height:",height);
 				if ( icon == null || icon == "" ) {
 					shape.properties.xf_iconname = ( action == "execute" ) ? "check" : "clear";
 				}
-				if ( this.enterAction==null && enter === true ) {
+				if ( this.enterAction == null && enter === true ) {
 					this.enterAction = action;
 				}
 				var label = shape.properties.xf_label;
@@ -53478,8 +53524,8 @@ console.log("height:",height);
 			}
 			var mapping = resultmapping.items;
 			for ( var i = 0; i < items.length; i++ ) {
-				var selectionObject = {};
 				var item = items[ i ];
+				var selectionObject = clone(item);
 				for ( var j = 0; j < mapping.length; j++ ) {
 					var _mapping = mapping[ j ].mapping;
 					var resexpr = mapping[ j ].resultexpr;
@@ -53510,6 +53556,14 @@ console.log("height:",height);
 					} else {
 						msg = tr( "validation." + self._mapKeys( key ) );
 					}
+					for ( var i = 0; params && i < params.length; i++ ) {
+						var param = params[ i ];
+						var val = values[ i + 1 ];
+						if ( ( "Size" == key || "Length" == key ) && i == 1 ) {
+							val = val || "512";
+						}
+						msg = msg.replace( "{" + param + "}", val );
+					}
 					ret += '(message="' + msg + '"';
 					if ( params && params.length > 0 ) {
 						var pkey = params[ 0 ];
@@ -53521,6 +53575,11 @@ console.log("height:",height);
 						if ( params.length > 1 ) {
 							var pkey = params[ 1 ];
 							var val = values[ 2 ];
+							if ( val == null || val == "" ) {
+								if ( "Size" == key || "Length" == key ) {
+									val = "512";
+								}
+							}
 							ret += ',' + pkey + '=' + val;
 						}
 					}
@@ -75805,6 +75864,600 @@ dd.rules-group-body{
 	</script>
 
 </dom-module>
+<dom-module id="simpl-embeddedlist" flex="" relative="" assetpath="src/simpl-form/">
+	<template>
+		<style>
+			:host {
+			}
+			:host /deep/ #formDialog {
+				position: fixed;
+				top: 5vh;
+				min-width: 70%;
+				max-width: 70%;
+				max-height: 90%;
+				border-radius: 4px;
+			}
+			@media screen and (max-width: 767px) {
+				:host /deep/ #formDialog {
+					left: 0vw;
+					min-width: 100%;
+					margin: 0px;
+				}
+			}
+			paper-toast#toast {
+				z-index: 10;
+			}
+			simpl-toast /deep/ paper-toast {
+				white-space: nowrap;
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			simpl-toast /deep/ span {
+				min-width: 450px;
+				padding-right: 25px;
+				font-size: 30px;
+				vertical-align: middle;
+			}
+			simpl-toast /deep/ iron-icon {
+				width: 48px;
+				height: 48px;
+				vertical-align: middle;
+			}
+
+		</style>
+		<div class="layout vertical" style="width:100%;">
+			<simpl-datatables style="width:100%;position:relative;" class="flex" id="dataTablesId" on-rows-selected="onRowSelected" options="[[dataTablesOptions]]" meta="[[meta]]" data="[[data]]"> </simpl-datatables>
+			<div class="layout horizontal" style="max-height:24px;margin-bottom:10px;">
+				<template is="dom-repeat" items="{{buttonList}}" filter="isGlobalButton">
+					<paper-button class="button button_primary ripple" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
+						<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
+				</template>
+			</div>
+		</div>
+		<paper-dialog id="formDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<template is="dom-repeat" items="{{buttonList}}" filter="isFormButton">
+					<paper-button class="button button_secondary ripple flex" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
+						<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
+				</template>
+				<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+		<simpl-toast id="toastId"></simpl-toast>
+		<delete-dialog on-delete-ok="onDeleteOk" id="dialogOkId"></delete-dialog>
+	</template>
+	<script>
+		Polymer( {
+			is: 'simpl-embeddedlist',
+			behaviors: [
+				Polymer.IronA11yKeysBehavior,
+				TranslationsBehavior
+			],
+			properties: {
+				namespace: {
+					value: null,
+					type: String
+				},
+				entity: {
+					value: null,
+					type: String
+				},
+				mode: {
+					value: "add",
+					type: String
+				},
+				height: {
+					value: "150",
+					type: String
+				},
+				buttons: {
+					value: 'save,add,del,edit,cancel',
+					type: String
+				},
+				buttonList: {
+					type: String
+				}
+			},
+			observers: [
+				'buttonsChanged(buttons)',
+				'heightChanged(height)',
+				'entityChanged(entity,namespace)'
+			],
+			buttonsChanged: function() {
+				var buttons = {
+					add: {
+						action: this.addAction,
+						icon: "add",
+						position: "global",
+						text: tr( 'button.new' ),
+						disabled: false
+					},
+					edit: {
+						action: this.editAction,
+						icon: "create",
+						position: "global",
+						text: tr( 'button.edit' ),
+						disabled: true
+					},
+					del: {
+						action: this.delAction,
+						icon: "delete",
+						position: "global",
+						text: tr( 'button.del' ),
+						disabled: true
+					},
+					save: {
+						action: this.saveAction,
+						icon: "undo",
+						position: "form",
+						text: tr( 'button.take_over' ),
+						disabled: false
+					},
+					cancel: {
+						action: this.cancelAction,
+						icon: "cancel",
+						position: "form",
+						text: tr( 'button.cancel' ),
+						disabled: false
+					}
+				}
+				this.buttonDef = buttons;
+				var bList = [];
+				this.buttons.split( "," ).forEach( ( function( name ) {
+					var b = buttons[ name ];
+					b.name = name;
+					bList.push( b );
+				} ).bind( this ) );
+				this.buttonList = bList;
+			},
+			heightChanged: function() {
+				console.log("embeddedlist.height:"+this.height);
+				this.dataTablesOptions = {
+					paging: false,
+					dom: "ft",
+					scrollY: this.height+'px'
+				};
+				this.data=[];
+			},
+			getData: function() {
+				return this.data;
+			},
+			setData: function( data ) {
+				this.data = data;
+			},
+			setButtonState: function( name, enabled ) {
+				if ( this.buttonDef == null ) return;
+				this.buttonDef[ name ].disabled = !enabled;
+				for ( var i = 0; i < this.buttonList.length; i++ ) {
+					if ( this.buttonList[ i ].name == name ) {
+						this.set( "buttonList." + i + ".disabled", !enabled );
+					}
+				}
+			},
+			isGlobalButton: function( b ) {
+				console.log( "isGlobalButton:", b.position );
+				return b.position == "global";
+			},
+			isFormButton: function( b ) {
+				console.log( "isFormButton:", b.position );
+				return b.position == "form";
+			},
+			onTap: function( e ) {
+				var src = e.srcElement || e.target;
+				var name = null;
+				while ( src ) {
+					name = src.getAttribute( "name" );
+					if ( name ) break;
+					src = src.parentElement;
+				}
+				if ( name == null ) return;
+				this.buttonDef[ name ].action.call( this );
+			},
+			onRowSelected: function( e ) {
+				this.currentData = e.detail.rows[ 0 ];
+				this.setButtonState( "edit", true );
+				this.setButtonState( "del", true );
+			},
+			addAction: function() {
+				this.entityName = this.entity;
+				console.log( "embeddedlist.entity:", this.entity );
+				this.mode = "add";
+				this.$.formid.setData( {} );
+				this.async( function() {
+					this.$.formDialog.open();
+				}, 50 );
+			},
+			editAction: function() {
+				this.mode = "edit";
+				this.$.formid.setData( this.currentData );
+				this.async( function() {
+					this.$.formDialog.open();
+				}, 50 );
+			},
+			delAction: function() {
+				this.setButtonState( "del", false );
+				this.mode = 'del';
+				this._saveAction();
+				//this.$.dialogOkId.open( this.currentData );
+			},
+			onDeleteOk: function( e ) {
+				console.log( "deleteok:", e );
+				this._saveAction();
+			},
+			cancelAction: function( e ) {
+				this.setButtonState( "del", false );
+				this.setButtonState( "edit", false );
+				this.querySelector( "#dataTablesId" ).unselectAll();
+				this.$.formDialog.close();
+			},
+			saveAction: function() {
+				var form= this.querySelector( "#formid" );
+				if( !form.validate()){
+					return;
+				}
+				this._saveAction();
+			},
+			_saveAction: function() {
+				this.cancelAction();
+				var chgData = this.querySelector( "#formid" ).getData();
+				var oldData = clone( this.data ) || [];
+				this.data = [];
+				if ( this.mode == "add" ) {
+					chgData._id = this.guid();
+					oldData.push( chgData );
+				} else if ( this.mode == "del" ) {
+					chgData = this.currentData;
+					var index = _.findIndex( oldData, function( o ) {
+						return o._id == chgData._id;
+					} );
+					oldData.splice( index, 1 );
+				} else {
+					var index = _.findIndex( oldData, function( o ) {
+						return o._id == chgData._id;
+					} );
+					simpl4.util.Merge.merge( false, oldData[ index ], chgData );
+				}
+				this.async( function() {
+					this.data = oldData;
+					this.fire( "changed", {
+						data: this.data
+					} );
+				}, 150 );
+			},
+			entityChanged: function() {
+				this.getColumns( this.entity );
+				this._pack = this.getPackFromEntity( this.entity );
+				this.setFormSpec( this.namespace, this.entity );
+			},
+			setFormSpec: function( namespace, entity ) {
+				if ( namespace === this.prevNamespace && entity === this.prevEntityName ) return;
+				this.currentNamespace = namespace;
+				var formSpec = simpl4FormManager.getCrudForm( entity, namespace );
+				this.prevEntityName = entity;
+				this.prevNamespace = namespace;
+				if ( typeof formSpec === 'string' ) {
+					this.formName = formSpec;
+				} else {
+					this.formSpec = [ formSpec ];
+				}
+			},
+			getColumns: function( entity ) {
+				console.log( "getColumns:", entity + "/" + this.namespace );
+				try {
+					var em = simpl4.util.EntityManager;
+					var data = em.getEntityViewFields( entity, this.namespace, "main-grid", false );
+					colModel = em.buildColModel( data, this.namespace, entity, "search" );
+					this._buildMeta( colModel, entity );
+				} catch ( e ) {
+					console.error( "getSelectableFields:", e );
+					return;
+				}
+				return colModel;
+			},
+			_buildMeta: function( colMode, entity ) {
+				simpl4.util.MessageManager.installMessages( this.namespace );
+				this.fieldmap = {};
+				var columns = new Array();
+				for ( var f = 0; f < colModel.length; f++ ) {
+					var col = colModel[ f ];
+
+					if ( col.id!="id" ) {
+						var fd = {};
+						fd.label = tr( this.getPackFromEntity( entity ) + "." + this.getSimpleEntityName( entity ) + "." + col.id );
+						fd.title = fd.label;
+						fd[ "data" ] = col.name;
+						columns.push( fd );
+					}
+				}
+				console.debug( "embeddedlist.meta:", columns );
+				this.meta = columns;
+			},
+			getPackFromEntity: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 0 ];
+				}
+				return "data";
+			},
+			getSimpleEntityName: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 1 ];
+				}
+				return entity;
+			},
+			guid: function() {
+				var firstPart = ( Math.random() * 46656 ) | 0;
+				var secondPart = ( Math.random() * 46656 ) | 0;
+				firstPart = ( "000" + firstPart.toString( 36 ) ).slice( -3 );
+				secondPart = ( "000" + secondPart.toString( 36 ) ).slice( -3 );
+				return firstPart + secondPart;
+			},
+			getToast: function() {
+				var t = document.querySelector( "#toastGlobal" );
+				if ( t == null ) {
+					t = this.querySelector( "#toastId" );
+				}
+				return t;
+			}
+		} );
+
+	</script>
+</dom-module>
+<dom-module id="simpl-linkedlist" flex="" relative="" assetpath="src/simpl-form/">
+	<template>
+		<style>
+			:host {
+			}
+			:host /deep/ #selectDialog {
+				position: fixed;
+				top: 5vh;
+				min-width: 70%;
+				max-width: 70%;
+				max-height: 90%;
+				border-radius: 4px;
+			}
+			@media screen and (max-width: 767px) {
+				:host /deep/ #selectDialog {
+					left: 0vw;
+					min-width: 100%;
+					margin: 0px;
+				}
+			}
+			paper-toast#toast {
+				z-index: 10;
+			}
+			simpl-toast /deep/ paper-toast {
+				white-space: nowrap;
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			simpl-toast /deep/ span {
+				min-width: 450px;
+				padding-right: 25px;
+				font-size: 30px;
+				vertical-align: middle;
+			}
+			simpl-toast /deep/ iron-icon {
+				width: 48px;
+				height: 48px;
+				vertical-align: middle;
+			}
+
+		</style>
+		<div class="layout vertical" style="width:100%;">
+			<simpl-datatables style="width:100%;position:relative;" class="flex" id="dataTablesId" on-rows-selected="onRowSelected" options="[[dataTablesOptions]]" meta="[[meta]]" data="[[data]]"> </simpl-datatables>
+			<div class="layout horizontal" style="max-height:24px;margin-bottom:10px;">
+				<template is="dom-repeat" items="{{buttonList}}">
+					<paper-button class="button button_primary ripple" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
+						<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
+				</template>
+			</div>
+		</div>
+		<paper-dialog id="selectDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<div class="lyaout vertical flex">
+					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
+					<div style="height:20px;"></div>
+					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]" collapsable="">
+						<simpl-crudtable id="linkedListId" disable-spinner="" namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="selectCancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+					</simpl-panel>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+	</template>
+	<script>
+		Polymer( {
+			is: 'simpl-linkedlist',
+			behaviors: [
+				Polymer.IronA11yKeysBehavior,
+				TranslationsBehavior
+			],
+			properties: {
+				namespace: {
+					value: null,
+					type: String
+				},
+				entity: {
+					value: null,
+					type: String
+				},
+				height: {
+					value: "150",
+					type: String
+				},
+				buttons: {
+					value: 'select,del',
+					type: String
+				},
+				buttonList: {
+					type: String
+				}
+			},
+			observers: [
+				'buttonsChanged(buttons)',
+				'heightChanged(height)',
+				'entityChanged(entity,namespace)'
+			],
+			buttonsChanged: function() {
+				var buttons = {
+					select: {
+						action: this.openSelectDialog,
+						icon: "add",
+						text: tr( 'button.select' ),
+						disabled: false
+					},
+					del: {
+						action: this.delAction,
+						icon: "delete",
+						text: tr( 'button.del' ),
+						disabled: true
+					}
+				}
+				this.buttonDef = buttons;
+				var bList = [];
+				this.buttons.split( "," ).forEach( ( function( name ) {
+					var b = buttons[ name ];
+					b.name = name;
+					bList.push( b );
+				} ).bind( this ) );
+				this.buttonList = bList;
+			},
+			heightChanged: function() {
+				console.log("linkedlist.height:"+this.height);
+				this.dataTablesOptions = {
+					paging: false,
+					dom: "ft",
+					scrollY: this.height+'px'
+				};
+				this.data=[];
+			},
+			getData: function() {
+				return this.data;
+			},
+			setData: function( data ) {
+				this.data = data;
+			},
+			setButtonState: function( name, enabled ) {
+				if ( this.buttonDef == null ) return;
+				this.buttonDef[ name ].disabled = !enabled;
+				for ( var i = 0; i < this.buttonList.length; i++ ) {
+					if ( this.buttonList[ i ].name == name ) {
+						this.set( "buttonList." + i + ".disabled", !enabled );
+					}
+				}
+			},
+			onTap: function( e ) {
+				var src = e.srcElement || e.target;
+				var name = null;
+				while ( src ) {
+					name = src.getAttribute( "name" );
+					if ( name ) break;
+					src = src.parentElement;
+				}
+				if ( name == null ) return;
+				this.buttonDef[ name ].action.call( this );
+			},
+			onRowSelected: function( e ) {
+				this.currentData = e.detail.rows[ 0 ];
+				this.setButtonState( "del", true );
+			},
+			openSelectDialog: function() {
+				this.entityName = this.entity;
+				console.log( "linkedlist.selectOpenAction:", this.entity );
+				this.async( function() {
+					this.$.selectDialog.open();
+				}, 50 );
+			},
+			selectAction: function(e) {
+				this.setButtonState( "del", false );
+				console.log( "linkedlist.selectAction:", e.detail );
+				this.changeData("select", e.detail.data);
+			},
+			delAction: function() {
+				this.setButtonState( "del", false );
+				this.changeData("del",this.currentData);
+			},
+			changeData: function(mode, chgData) {
+				this.$.selectDialog.close();
+				var oldData = clone( this.data ) || [];
+				this.data = [];
+				if ( mode == "select" ) {
+					var index = _.findIndex( oldData, function( o ) {
+						return o._id == chgData._id;
+					} );
+					if( index < 0){
+						oldData.push( chgData );
+					}
+				} else if ( mode == "del" ) {
+					var index = _.findIndex( oldData, function( o ) {
+						return o._id == chgData._id;
+					} );
+					oldData.splice( index, 1 );
+				}
+				this.async( function() {
+					this.data = oldData;
+					this.fire( "changed", {
+						data: this.data
+					} );
+				}, 150 );
+			},
+			selectCancelAction: function( e ) {
+				this.setButtonState( "del", false );
+				this.$.selectDialog.close();
+			},
+			entityChanged: function() {
+				this.getColumns( this.entity );
+				this._pack = this.getPackFromEntity( this.entity );
+			},
+			getColumns: function( entity ) {
+				console.log( "getColumns:", entity + "/" + this.namespace );
+				try {
+					var em = simpl4.util.EntityManager;
+					var data = em.getEntityViewFields( entity, this.namespace, "main-grid", false );
+					colModel = em.buildColModel( data, this.namespace, entity, "search" );
+					this._buildMeta( colModel, entity );
+				} catch ( e ) {
+					console.error( "getSelectableFields:", e );
+					return;
+				}
+				return colModel;
+			},
+			_buildMeta: function( colMode, entity ) {
+				simpl4.util.MessageManager.installMessages( this.namespace );
+				this.fieldmap = {};
+				var columns = new Array();
+				for ( var f = 0; f < colModel.length; f++ ) {
+					var col = colModel[ f ];
+
+					if ( col.id!="id" ) {
+						var fd = {};
+						fd.label = tr( this.getPackFromEntity( entity ) + "." + this.getSimpleEntityName( entity ) + "." + col.id );
+						fd.title = fd.label;
+						fd[ "data" ] = col.name;
+						columns.push( fd );
+					}
+				}
+				console.debug( "linkedlist.meta:", columns );
+				this.meta = columns;
+			},
+			getHeader:function(entityName){
+				return tr(this.getPackFromEntity(this.entity)+'.'+this.getSimpleEntityName(entityName));
+			},
+			getPackFromEntity: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 0 ];
+				}
+				return "data";
+			},
+			getSimpleEntityName: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 1 ];
+				}
+				return entity;
+			}
+		} );
+
+	</script>
+</dom-module>
 <dom-module id="simpl-crud" flex="" relative="" assetpath="src/simpl-crud/">
 	<style>
 		:host {
@@ -75917,7 +76570,7 @@ dd.rules-group-body{
 							<iron-icon icon="image:navigate-next"></iron-icon>
 						</paper-button>
 					</div>
-					<simpl-form id="formid" mode="{{mode}}" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+					<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
 				
 				<paper-dialog id="error" class="scrolling">
 					
@@ -76062,6 +76715,7 @@ dd.rules-group-body{
 				this.mainEntityName = this.entity;
 
 				var ep = this.getPack( this.mainEntityName );
+				this._pack = ep.pack;
 				this.panelHeaderCrudTable = tr( ep.pack + "." + ep.entityName + "_list" );
 				this.pageStack = new Array();
 				this.pageSelected = 0;
@@ -76559,6 +77213,435 @@ dd.rules-group-body{
 			alert: function( message ) {
 				this.querySelector( "#error p" ).innerHTML = message;
 				this.querySelector( "#error" ).open();
+			}
+		} );
+
+	</script>
+</dom-module>
+<dom-module id="simpl-crud2" flex="" relative="" assetpath="src/simpl-crud/">
+	<template>
+		<style>
+			:host {
+				min-height: 400px;
+				display: inherit;
+			}
+			:host /deep/ #searchDialog {
+				position:fixed;
+				top: 5vh;
+				min-width: 70%;
+				max-width: 70%;
+				max-height:90%;
+				border-radius: 4px;
+			}
+			@media screen and (max-width: 767px) {
+				:host /deep/ #searchDialog {
+					left: 0vw;
+					min-width: 100%;
+					margin: 0px;
+				}
+			}
+			paper-toast#toast {
+				z-index: 10;
+			}
+			simpl-toast /deep/ paper-toast {
+				white-space: nowrap;
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			simpl-toast /deep/ span {
+				min-width: 450px;
+				padding-right: 25px;
+				font-size: 30px;
+				vertical-align: middle;
+			}
+			simpl-toast /deep/ iron-icon {
+				width: 48px;
+				height: 48px;
+				vertical-align: middle;
+			}
+		</style>
+		<div class="layout horizontal" style="margin-bottom:10px;">
+			<template is="dom-repeat" items="{{buttonList}}">
+				<paper-button class="button button_secondary ripple flex" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
+					<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
+			</template>
+		</div>
+		<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+		<paper-dialog id="searchDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<div class="lyaout vertical flex">
+					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
+					<div style="height:20px;"></div>
+					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]" collapsable="">
+						<simpl-crudtable id="crud2TableId" disable-spinner="" namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="selectCancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+					</simpl-panel>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+		<simpl-toast id="toastId"></simpl-toast>
+		<delete-dialog on-delete-ok="onDeleteOk" id="dialogOkId"></delete-dialog>
+	</template>
+	<script>
+		Polymer( {
+			is: 'simpl-crud2',
+			behaviors: [
+				Polymer.IronA11yKeysBehavior,
+				TranslationsBehavior
+			],
+			properties: {
+				namespace: {
+					type: String
+				},
+				mode: {
+					value: "add",
+					type: String
+				},
+				buttons: {
+					value: 'save,add,del,search',
+					type: String
+				},
+				entity: {
+					type: String
+				},
+				buttonList: {
+					type: String
+				}
+			},
+			observers: [
+				'buttonsChanged(buttons)',
+				'entityChanged(entity)'
+			],
+			buttonsChanged: function(){
+				var buttons = {
+					add: {
+						action: this.addAction,
+						icon: "add",
+						text: tr( 'button.new' ),
+						disabled: false
+					},
+					del: {
+						action: this.delAction,
+						icon: "delete",
+						text: tr( 'button.del' ),
+						disabled: true
+					},
+					save: {
+						action: this.saveAction,
+						icon: "save",
+						text: tr( 'button.save' ),
+						disabled: false
+					},
+					search: {
+						action: this.searchAction,
+						icon: "search",
+						text: tr( 'button.select' ),
+						disabled: false
+					}
+				}
+				this.buttonDef = buttons;
+				var bList = [];
+				this.buttons.split( "," ).forEach( ( function( name ) {
+					var b = buttons[ name ];
+					b.name = name;
+					bList.push( b );
+				} ).bind( this ) );
+				this.buttonList = bList;
+			},
+			setButtonState: function(name,enabled) {
+				if ( this.buttonDef == null ) return;
+				this.buttonDef[ name ].disabled = !enabled;
+				for ( var i = 0; i < this.buttonList.length; i++ ) {
+					if ( this.buttonList[ i ].name == name ) {
+						this.set( "buttonList." + i + ".disabled", !enabled );
+					}
+				}
+			},
+			onTap: function( e ) {
+				var src = e.srcElement || e.target;
+				var name = null;
+				while ( src ) {
+					name = src.getAttribute( "name" );
+					if ( name ) break;
+					src = src.parentElement;
+				}
+				if ( name == null ) return;
+				this.buttonDef[ name ].action.call( this );
+			},
+			addAction: function(noEvent) {
+				this.mode = "add";
+				this.setButtonState("save", true);
+				this.setButtonState("del", false);
+				this.$.formid.setData( {} );
+				if( noEvent !== true){
+					this.fire( "add-action", {
+						entity: this.entity,
+						namespace: this.namespace
+					} );
+				}
+			},
+			searchAction: function() {
+				this.entityName = this.entity;
+				this.querySelector("#crud2TableId").refresh();
+				this.async( function() {
+					this.$.searchDialog.open();
+				},50 );
+				this.fire( "search-action", {
+					entity: this.entity,
+					namespace: this.namespace
+				} );
+			},
+			delAction: function() {
+				this.setButtonState("del", false);
+				this.mode = 'del';
+				this.$.dialogOkId.open( this.currentData );
+				this.fire( "del-action", {
+					entity: this.entity,
+					namespace: this.namespace
+				} );
+			},
+			onDeleteOk: function( e ) {
+				console.log( "deleteok:", e );
+				try {
+					this.deleteData( e.detail );
+					this.getToast().show( tr("entitytypes.deleted"), "success", "5000" );
+					this.addAction( true );
+				} catch ( e ) {
+					console.error( "delAction:", e );
+					var msg = null;
+					if ( e.message ) {
+						msg = e.message;
+					} else {
+						msg = e.toString();
+					}
+					this.getToast().show( msg, "error", "10000" );
+					return;
+				}
+			},
+			selectCancelAction: function() {
+				this.async( function() {
+					this.$.searchDialog.close();
+				},50 );
+			},
+			selectAction: function( e ) {
+				this.setButtonState("del", true);
+				this.mode = "edit";
+				var data = e.detail.data;
+				console.log("selectAction:",e);
+				this.$.searchDialog.close();
+				this.currentData = clone(data);
+				this.$.formid.setData( this.currentData );
+			},
+			saveAction: function() {
+				if(this._saveAction()){
+					this.addAction(true);
+				}
+			},
+			_saveAction: function() {
+				var postServiceData = this.$.formid._postProcessService();
+				var data = this.$.formid.getData();
+				if ( postServiceData != null ) {
+					this.$.formid._setFieldData( postServiceData );
+					data = simpl4.util.Merge.merge( true, data, postServiceData );
+				}
+
+				var postLocalService = this.$.formid._postProcessLocal();
+				if ( postLocalService != null ) {
+					this.$.formid._setFieldData( postLocalService );
+					data = simpl4.util.Merge.merge( true, data, postLocalService );
+				}
+
+				var valid = this.$.formid.validate();
+				console.log( "saveAction.valid(" + valid + "):", data );
+				if ( !valid ) {
+					var msg = tr( "widgets.table.form_incomplete" );
+					this.getToast().show( msg, "error", "10000" );
+					return false;
+				} else {
+					try {
+						if ( this.mode == 'edit' ) {
+							//data = simpl4.util.Merge.merge( true, this.currentRowData, data );
+						}
+						console.log( "saveAction.storeData:", data );
+						var ret = this.storeData( data );
+console.log("ret:",ret);
+						var cv = ret[ "constraintViolations" ];
+						if ( cv ) {
+							var message = "";
+							for ( var i = 0; i < cv.length; i++ ) {
+								var c = cv[ i ];
+								message += this.$.formid._getLabel( c.path ) + " : " + c.message + "<br />";
+							}
+							this.alert( message );
+						} else {
+							var msg = "";
+							if ( this.mode == 'add' ) {
+								msg = tr( "data.form.created" );
+							} else {
+								msg = tr( "data.form.saved" );
+							}
+							data.id = ret.id;
+							this.$.formid.updateData(data);
+							this.getToast().show( msg, "success", "10000" );
+						}
+					} catch ( e ) {
+						console.error( "saveAction:", e.stack );
+						var msg = null;
+						if ( e.message ) {
+							msg = e.message;
+						} else {
+							var m = e.toString();
+							msg = m.substring( m.indexOf( "entityName:" ) + 11 );
+							msg = tr( "data.form.save" ) + ": (" + msg + ")";
+						}
+						this.getToast().show( msg, "error", "10000" );
+						return false;
+					}
+				}
+				return true;
+				this.fire( "save-action", {
+					entity: this.entity,
+					namespace: this.namespace
+				} );
+			},
+			storeData: function( data ) {
+				var props = simpl4.util.EntityManager.getPropertiesForEntity( this.entity, {
+					namespace: this.namespace
+				} );
+				var customServiceUpdate = props.customServiceUpdate;
+				var customServiceInsert = props.customServiceInsert;
+				var mode = this.mode;
+				if ( mode == "add" && customServiceInsert ) {
+					return this._storeDataCustom( data, customServiceInsert );
+				} else if ( mode == "edit" && customServiceUpdate ) {
+					return this._storeDataCustom( data, customServiceUpdate );
+				} else {
+					return this._storeData( data );
+				}
+			},
+			_storeData: function( data ) {
+				var idValue = this.getIdValue( this.entity, this.namespace, data );
+				console.log( "storeData.idValue:", idValue );
+				var rpc = {
+					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity(this.entity),
+					entity: this.entity,
+					id: idValue,
+					data: data
+				}
+				console.log( "rpc:", rpc );
+				console.log( "mode:", this.mode );
+				var ret = simpl4.util.Rpc.rpcSync( "data:" + ( this.mode == 'add' ? "insert" : "update" ), rpc );
+				return ret;
+			},
+			deleteData: function( data ) {
+				var rpc = {
+					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity(this.entity),
+					entity: this.entity,
+					id: this.getIdValue( this.entity, this.namespace, data )
+				}
+				console.log( "rpc.delete:", rpc );
+				var ret = simpl4.util.Rpc.rpcSync( "data:delete" , rpc );
+				return ret;
+			},
+			getIdValue: function( entityName, namespace, data ) {
+				if( this.mode == "add") return null;
+				console.log( "getIdValue:", entityName + "/", data );
+				var pkList = simpl4.util.EntityManager.getEntity( entityName, namespace ).primaryKeys;
+				if ( pkList == null || pkList.length === 0 ) {
+					if( data["_id"] != null){
+						pkList = [ "_id" ];
+					}else{
+						pkList = [ "id" ];
+					}
+				}
+				var idValue = "";
+				var colon = "";
+				for ( var i = 0; i < pkList.length; i++ ) {
+					idValue += colon + data[ pkList[ i ] ];
+					colon = ":";
+				}
+				return idValue;
+			},
+			entityChanged:function(){
+				this.getColumns( this.entity );
+				this._pack = this.getPackFromEntity( this.entity );
+				this.setFormSpec( this.namespace, this.entity );
+			},
+			setFormSpec: function( namespace, entity ) {
+				if ( namespace === this.prevNamespace && entity === this.prevEntityName ) return;
+				this.currentNamespace = namespace;
+				var formSpec = simpl4FormManager.getCrudForm( entity, namespace );
+				console.debug( "setFormSpec:", formSpec );
+				this.prevEntityName = entity;
+				this.prevNamespace = namespace;
+				if ( typeof formSpec === 'string' ) {
+					this.formName = formSpec;
+				} else {
+					this.formSpec = [ formSpec ];
+				}
+				this.async( function() {
+					this.$.formid.setData( {} );
+				},5 );
+			},
+			getFormSpec: function( item ) {
+				return [ simpl4FormManager.getCrudForm( item.entity, item.namespace || this.namespace ) ];
+			},
+			getEditMode: function() {
+				return "edit";
+			},
+			getColumns: function( entity ) {
+				try {
+					var em = simpl4.util.EntityManager;
+					var data = em.getEntityViewFields( entity, this.namespace, "report", false );
+					colModel = em.buildColModel( data, this.namespace, entity, "search" );
+					this._buildMeta( colModel, entity );
+				} catch ( e ) {
+					console.error( "getSelectableFields:", e );
+					return;
+				}
+				return colModel;
+			},
+			_buildMeta: function( colMode, entity ) {
+				simpl4.util.MessageManager.installMessages( this.namespace );
+				this.fieldmap = {};
+				var columns = new Array();
+				for ( var f = 0; f < colModel.length; f++ ) {
+					var col = colModel[ f ];
+
+					if ( true || col.display === true ) {
+						var fd = {};
+						fd.label = tr( this.getPackFromEntity( entity ) + "." + this.getSimpleEntityName( entity ) + "." + col.id );
+						fd.title = fd.label;
+						fd[ "data" ] = col.name;
+						columns.push( fd );
+					}
+				}
+				console.debug( "meta:", columns );
+				this.meta = columns;
+				this.data = [ {
+					articleId: "ABC"
+				} ]
+			},
+			getHeader:function(entityName){
+				return tr(this.getPackFromEntity(this.entity)+'.'+this.getSimpleEntityName(entityName));
+			},
+			getPackFromEntity: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 0 ];
+				}
+				return "data";
+			},
+			getSimpleEntityName: function( entity ) {
+				if ( entity.indexOf( ':' ) >= 0 ) {
+					return entity.split( ':' )[ 1 ];
+				}
+				return entity;
+			},
+			getToast:function(){
+				var t = document.querySelector("#toastGlobal");
+				if( t == null){
+					t = this.querySelector("#toastId");
+				}
+				return t;
 			}
 		} );
 
@@ -77070,6 +78153,10 @@ dd.rules-group-body{
 				StyleScopeBehavior
 			],
 			properties: {
+				disableSpinner: {
+					type: Boolean,
+					value: false
+				},
 				dtOptions: {
 					type: String,
 					value: ""
@@ -77271,6 +78358,7 @@ dd.rules-group-body{
 				this.getData( this.filter, firsttime );
 			},
 			showSpinner: function( table ) {
+				if( this.disableSpinner) return;
 				this.async( function() {
 					var sel = this.querySelector( ".spinner" );
 					if ( sel ) {
@@ -77719,7 +78807,6 @@ dd.rules-group-body{
 <dom-module id="html-echo" assetpath="src/simpl-form/">
 	<style>
 		:host {
-			margin:15px;
 		}
   </style>
 	<template><content></content></template>
@@ -78423,11 +79510,13 @@ dd.rules-group-body{
 				}
 				this.field  = this.querySelector(this.elementname);
 				this.field.setValue(this.value);
+				console.log("Custom("+this.name+").setValue:",this.value);
 				this.field.label = this.label;
 			},
 			setValue:function(v){
 				this.value = v;
 				if( this.field==null) return;
+				console.log("Custom("+this.name+").setValue:",this.value);
 				this.field.setValue(v);
 			},
 			getValue:function(){
@@ -78436,6 +79525,7 @@ dd.rules-group-body{
 					 return null;
 				 }
 				this.value=this.field.getValue();
+				console.log("Custom("+this.name+").getValue:",this.value);
 				return this.value;
 			},
 			valueChanged: function( e ) {
@@ -79618,7 +80708,7 @@ dd.rules-group-body{
 				this.items = o;
 			},
 			itemsChanged:function(){
-				console.log("itemsChanged:", this.items);
+				console.log( "tree-field(" + this.name + ").itemsChanged:", this.items );
 			},
 			valueChanged: function( v ) {
 				console.log( "tree-field(" + this.name + ").valueChanged:", this.value+"/wo:"+this.withoutCheck );
@@ -79645,7 +80735,7 @@ dd.rules-group-body{
 				}
 			},
 			getValue: function() {
-				console.log( "tree-field(" + this.name + "),getValue:", this.value );
+				//console.log( "tree-field(" + this.name + "),getValue:", this.value );
 				//if( this.multiple !== true && this.value && Array.isArray(this.value) && this.value.length>0){
 				//	return this.value[0];
 				//}
@@ -79654,6 +80744,7 @@ dd.rules-group-body{
 			selectedItemChanged: function( val ) {
 				console.log( "tree-field(" + this.name + ").selectedItemChanged:", this.value+"/val:"+val );
 				this.value = val;
+				this.checkConstraints();
 				this.fire( 'value-changed', this );
 			},
 			attached:function(){
@@ -79678,11 +80769,14 @@ dd.rules-group-body{
 				return false;
 			},
 			checkConstraints: function() {
+
+				console.log( "tree-field(" + this.name + ").checkConstraints" );
 				this.setInvalid( false );
 				if ( !this.isRequired() ) return;
 				if ( !this.isEmpty(this.value) ) {
 					return;
 				}
+				console.log( "tree-field(" + this.name + ").checkConstraints2" );
 				this.setInvalid( true );
 				this.setErrorMessage( tr( "This field is required" ) );
 			},
@@ -80356,18 +81450,263 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</script>
 </dom-module>
 
-<dom-module id="related-field" assetpath="src/simpl-form/">
+<dom-module id="linkedlist-field" assetpath="src/simpl-form/">
 	<style>
-		:host /deep/ #relatedDialog {
+		.error {
+			color: #d34336;
+		}
+		.error-text {
+			font-size: 0.75em;
+			padding: 0.5em 0;
+		}
+		[invisible] {
+			visibility: hidden;
+		}
+		.floatedLabel {
+			font-size: 1.05em;
+			white-space: nowrap;
+			color: #757575;
+			padding:0.4em;
+		}
+		.label-text {
+			display: inline-block;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		:host /deep/ .dataTables_wrapper.no-footer .dataTables_scrollBody {
+			border-bottom: 0px solid #fc0;
+		}
+		simpl-datatables /deep/ #dataTablesId thead tr th,
+		:host /deep/ #dataTablesId tfoot tr th {
+			//background: white;
+		}
+
+	</style>
+	<template>
+		<div class="vertical layout">
+			<simpl-linkedlist id="miniId" on-changed="onChanged" height="[[height]]" namespace="[[namespace]]" entity="[[entity]]"></simpl-linkedlist>
+			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
+				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
+				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
+				<iron-icon class="error-icon" icon="warning"></iron-icon>
+			</div>
+		</div>
+	</template>
+	<script>
+		Polymer( {
+			is: "linkedlist-field",
+			behaviors: [
+				Polymer.IronFormElementBehavior,
+				Polymer.PaperInputBehavior,
+				Polymer.IronControlState,
+				TranslationsBehavior,
+				FieldBehavior
+			],
+			properties: {
+				required: {
+					value:"",
+					type: String
+				},
+				entity: {
+					value:null,
+					type: String
+				},
+				namespace: {
+					value:null,
+					type: String
+				},
+				meta: {
+					type: Object
+				},
+				height: {
+					value:null,
+					observer: "heightChanged",
+					type: String
+				}
+			},
+			observers: [
+				'entityChanged(entity,namespace)'
+			],
+			onChanged:function(e){
+				console.log("onChanged:",e);
+				this.value = e.detail.data;
+			},
+			entityChanged:function(){
+			  console.log("Field.linkedlist-field.entityChanged:",this.entity+"/"+this.namespace);
+				this.setInvalid( false );
+			},
+			checkConstraints: function() {
+				this.setInvalid( false );
+				if ( !this.isRequired() ) return;
+				if ( this.value && this.value.length > 0 ) {
+					return;
+				}
+				this.setInvalid( true );
+				this.setErrorMessage( tr( "This field is required" ) );
+			},
+			setValue: function( v ) {
+				this.value = v;
+				this.querySelector( "#miniId" ).setData(v);
+			},
+			getValue: function() {
+				return this.value;
+			},
+			setErrorMessage: function( message ) {
+				this.error = message;
+			},
+			setInvalid: function( b ) {
+				this.isInvalid = b;
+			},
+			heightChanged: function() {
+				this.setInvalid(false);;
+			},
+			isRequired: function() {
+				var data = this.form._getData();
+				var req = this.form._maskedEval( this.required, data, false );
+				return req;
+			}
+		} );
+
+	</script>
+</dom-module>
+
+<dom-module id="embeddedlist-field" assetpath="src/simpl-form/">
+	<style>
+		.error {
+			color: #d34336;
+		}
+		.error-text {
+			font-size: 0.75em;
+			padding: 0.5em 0;
+		}
+		[invisible] {
+			visibility: hidden;
+		}
+		.floatedLabel {
+			font-size: 1.05em;
+			white-space: nowrap;
+			color: #757575;
+			padding:0.4em;
+		}
+		.label-text {
+			display: inline-block;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		:host /deep/ .dataTables_wrapper.no-footer .dataTables_scrollBody {
+			border-bottom: 0px solid #fc0;
+		}
+		simpl-datatables /deep/ #dataTablesId thead tr th,
+		:host /deep/ #dataTablesId tfoot tr th {
+			//background: white;
+		}
+
+	</style>
+	<template>
+		<div class="vertical layout">
+			<simpl-embeddedlist id="miniId" on-changed="onChanged" height="[[height]]" namespace="[[namespace]]" entity="[[entity]]"></simpl-embeddedlist>
+			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
+				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
+				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
+				<iron-icon class="error-icon" icon="warning"></iron-icon>
+			</div>
+		</div>
+	</template>
+	<script>
+		Polymer( {
+			is: "embeddedlist-field",
+			behaviors: [
+				Polymer.IronFormElementBehavior,
+				Polymer.PaperInputBehavior,
+				Polymer.IronControlState,
+				TranslationsBehavior,
+				FieldBehavior
+			],
+			properties: {
+				required: {
+					value:"",
+					type: String
+				},
+				entity: {
+					value:null,
+					type: String
+				},
+				namespace: {
+					value:null,
+					type: String
+				},
+				meta: {
+					type: Object
+				},
+				height: {
+					value:null,
+					observer: "heightChanged",
+					type: String
+				}
+			},
+			observers: [
+				'entityChanged(entity,namespace)'
+			],
+			onChanged:function(e){
+				console.log("onChanged:",e);
+				this.value = e.detail.data;
+			},
+			entityChanged:function(){
+			  console.log("Field.embeddedlist-field.entityChanged:",this.entity+"/"+this.namespace);
+				this.setInvalid( false );
+			},
+			checkConstraints: function() {
+				this.setInvalid( false );
+				if ( !this.isRequired() ) return;
+				if ( this.value && this.value.length > 0 ) {
+					return;
+				}
+				this.setInvalid( true );
+				this.setErrorMessage( tr( "This field is required" ) );
+			},
+			setValue: function( v ) {
+				this.value = v;
+				console.log("setValue("+this.entity+","+this.name+"):",this.value);
+				this.querySelector( "#miniId" ).setData(v);
+			},
+			getValue: function() {
+				console.log("getValue("+this.entity+","+this.name+"):",this.value);
+				return this.value;
+			},
+			setErrorMessage: function( message ) {
+				this.error = message;
+			},
+			setInvalid: function( b ) {
+				this.isInvalid = b;
+			},
+			heightChanged: function() {
+				this.setInvalid(false);;
+			},
+			isRequired: function() {
+				var data = this.form._getData();
+				var req = this.form._maskedEval( this.required, data, false );
+				return req;
+			}
+		} );
+
+	</script>
+</dom-module>
+
+<dom-module id="linkedobj-field" assetpath="src/simpl-form/">
+	<style>
+		:host /deep/ #linkedObjDialog {
 			position:fixed;
 			top: 5vh;
+			left: 15%;
 			min-width: 70%;
 			max-width: 70%;
 			max-height:90%;
 			border-radius: 4px;
 		}
 		@media screen and (max-width: 767px) {
-			:host /deep/ #relatedDialog {
+			:host /deep/ #linkedObjDialog {
 				left: 0vw;
 				min-width: 100%;
 				margin: 0px;
@@ -80384,7 +81723,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		:host /deep/ paper-dialog > *:first-child {
 			margin-top: 14px;
 		}
-		:host /deep/ paper-dialog#relatedDialog {
+		:host /deep/ paper-dialog#linkedObjDialog {
 			padding: 0px 0px 0 0px;
 		}
 		:host /deep/ .button-content {
@@ -80417,13 +81756,13 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</template>
 		</div>
 
-		<paper-dialog id="relatedDialog" no-cancel-on-outside-click="" with-backdrop="">
+		<paper-dialog id="linkedObjDialog" no-cancel-on-outside-click="" with-backdrop="">
 			<paper-dialog-scrollable>
 				<div class="lyaout vertical flex">
 					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
 					<div style="height:20px;"></div>
-					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]" collapsable="">
-						<simpl-crudtable namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="cancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+					<simpl-panel bgcolor="black" heading="[[getHeader(_entityName)]]" collapsable="">
+						<simpl-crudtable disable-spinner="" namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="cancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
 					</simpl-panel>
 				</div>
 			</paper-dialog-scrollable>
@@ -80432,7 +81771,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</template>
 	<script>
 		Polymer( {
-			is: "related-field",
+			is: "linkedobj-field",
 			behaviors: [
 				Polymer.IronFormElementBehavior,
 				Polymer.PaperInputBehavior,
@@ -80460,14 +81799,15 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				return this.filter != null;
 			},
 			ready: function() {
-				//console.log("Field.relatedto.ready:",this.entity+"/"+this.namespace);
+				console.log("Field.linkedobj.ready:",this.entity+"/"+this.namespace);
 				this.props = simpl4.util.EntityManager.getPropertiesForEntity( this.entity, {
 					namespace: this.namespace
 				} );
 			},
 			actionCallback: function() {
+				this._entityName = this.entityName;
 				this.async( function() {
-					this.$.relatedDialog.open();
+					this.$.linkedObjDialog.open();
 				},50 );
 			},
 			clearCallback: function() {
@@ -80475,30 +81815,46 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				this.id = null;
 			},
 			selectAction: function( e ) {
-				var data = e.detail.data;
-				this.$.relatedDialog.close();
-				var t = this._maskedEval( this.props.title_expression, data );
-				this.id = data.id;
-				this.editValue = t;
+				this.data = e.detail.data;
+				this.$.linkedObjDialog.close();
+				var t = this._maskedEval( this.props.title_expression, this.data );
+				this.id = this.data.id || this.data._id;
+				this.editValue = t || this.id ||  ".";
 			},
 			cancelAction: function() {
 				this.async( function() {
-					this.$.relatedDialog.close();
+					this.$.linkedObjDialog.close();
 				},50 );
 			},
 			editValueChanged: function() {
 				if ( this.editValue ) {
-					this.value = this.editValue + "/" + this.id;
+					if( "odata" == this.getPack()){
+						this.value = this.data;
+					}else{
+						this.value = this.editValue + "/" + this.id;
+					}
 				} else {
 					this.value = null;
 				}
+				console.log("editValueChanged("+this.getPack()+","+this.entityName+","+this.name+"):",this.value);
 				this.fire( 'value-changed', this );
 			},
+			getValue: function( v ) {
+				console.log("getValue("+this.entityName+","+this.name+"):",this.value);
+				return this.value;
+			},
 			setValue: function( v ) {
+				console.log("setValue("+this.entityName+","+this.name+"):",v);
 				if ( v != null ) {
-					var s = v.split( "/" );
-					this.editValue = s[ 0 ];
-					this.id = s[ 1 ];
+					if( _.isString(v)){
+						var s = v.split( "/" );
+						this.editValue = s[ 0 ];
+						this.id = s[ 1 ];
+					}else{
+						this.data = v;
+						var t = this._maskedEval( this.props.title_expression, this.data );
+						this.editValue = t || this.data._id || this.data.id| ".";
+					}
 				} else {
 					this.editValue = null;
 				}
@@ -80507,18 +81863,23 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				simpl4.util.MessageManager.installMessages( this.namespace );
 			},
 			entityChanged: function() {
-			  //console.log("Field.relatedto.entityChanged:",this.entity+"/"+this.namespace);
-				if( this.entity==null) return;
-				this.entityName = this.entity;
+				this.async( function() {
+					if( this.entity == null){
+					  return;
+					}
+					var pack = this.getPack();
+					this.entityName = pack ? (pack +":"+ this.getSimpleEntityName(this.entity)) : this.entity;
+				},10 );
 			},
 			getHeader:function(entityName){
-				return tr('data.'+entityName);
+				this.pack = this.getPack() || "data";
+				return tr(this.pack+'.'+this.getSimpleEntityName(entityName));
 			},
 			_maskedEval: function( scr, env, def ) {
 				try {
 					return ( new Function( "with(this) { return " + scr + "}" ) ).call( env );
 				} catch ( e ) {
-					console.log( "RelatedField._maskedEval:" + scr );
+					console.log( "LinkedObjFieldField._maskedEval:" + scr );
 					console.error( "error:" + e );
 				}
 				return def;
@@ -80529,11 +81890,9 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 </dom-module>
 
 
-
-
-<dom-module id="db-selector-field" assetpath="src/simpl-form/">
+<dom-module id="embeddedobj-field" assetpath="src/simpl-form/">
 	<style>
-		:host /deep/ #relatedDialog {
+		:host /deep/ #embeddedObjDialog {
 			position:fixed;
 			top: 5vh;
 			min-width: 70%;
@@ -80542,7 +81901,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			border-radius: 4px;
 		}
 		@media screen and (max-width: 767px) {
-			:host /deep/ #relatedDialog {
+			:host /deep/ #embeddedObjDialog {
 				left: 0vw;
 				min-width: 100%;
 				margin: 0px;
@@ -80559,7 +81918,292 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		:host /deep/ paper-dialog > *:first-child {
 			margin-top: 14px;
 		}
-		:host /deep/ paper-dialog#relatedDialog {
+		:host /deep/ paper-dialog#embeddedObjDialog {
+			padding: 0px 0px 0 0px;
+		}
+		:host /deep/ .button-content {
+			padding: 0.2em 0.27em;
+		}
+		paper-button {
+			min-width: 0px;
+		}
+		:host /deep/ #scrollable {
+			max-height: inherit !important;
+			padding: 0 10px;
+		}
+
+	</style>
+	<template>
+
+		<div class="layout horizontal center">
+		<paper-input-container id="decorator" class="flex" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" readonly="" disabled$="[[disabled]]">
+			<label id="label" hidden$="[[!label]]">[[label]]</label>
+			<paper-tooltip for="" position="bottom" xffset="0">[[help]]</paper-tooltip>
+			<input is="iron-input" id="input" value="{{editValue}}" bind-value="[[editValue]]" readonly="" disabled$="{{disabled}}">
+			</paper-input-container>
+			<paper-button on-tap="actionCallback" class="button" raised="">
+				<iron-icon icon="launch"></iron-icon>
+			</paper-button>
+			<paper-button on-tap="clearCallback" class="button" raised="">
+				<iron-icon icon="clear"></iron-icon>
+			</paper-button>
+		</div>
+
+		<paper-dialog id="embeddedObjDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+					<paper-button class="button button_secondary ripple flex" raised="" name$="{{buttonsave.name}}" on-tap="takeOverAction" disabled$="{{buttonsave.disabled}}">
+						<iron-icon name$="{{buttonsave.name}}" icon="{{buttonsave.icon}}"></iron-icon>{{buttonsave.text}}</paper-button>
+					<paper-button class="button button_secondary ripple flex" raised="" name$="{{buttoncancel.name}}" on-tap="cancelAction" disabled$="{{buttoncancel.disabled}}">
+						<iron-icon name$="{{buttoncancel.name}}" icon="{{buttoncancel.icon}}"></iron-icon>{{buttoncancel.text}}</paper-button>
+				<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+
+	</template>
+	<script>
+		Polymer( {
+			is: "embeddedobj-field",
+			behaviors: [
+				Polymer.IronFormElementBehavior,
+				Polymer.PaperInputBehavior,
+				Polymer.IronControlState,
+				TranslationsBehavior,
+				FieldBehavior
+			],
+			properties: {
+				namespace: {
+					type: String
+				},
+				entity: {
+					type: String
+				}
+			},
+			observers: [
+				'editValueChanged(editValue)',
+				'entityChanged(entity,namespace)'
+			],
+			id: null,
+			ready: function() {
+				this.props = simpl4.util.EntityManager.getPropertiesForEntity( this.entity, {
+					namespace: this.namespace
+				} );
+				this.buttonsave= {
+					icon: "undo",
+					position: "form",
+					text: tr( 'button.take_over' ),
+					disabled: false
+				};
+				this.buttoncancel= {
+					icon: "cancel",
+					position: "form",
+					text: tr( 'button.cancel' ),
+					disabled: false
+				}
+			},
+			setFormSpec: function( namespace, entity ) {
+				var formSpec = simpl4FormManager.getCrudForm( entity, namespace );
+				console.log("setFormSpec("+this.name+"):",formSpec);
+				if ( typeof formSpec === 'string' ) {
+					this.formName = formSpec;
+				} else {
+					this.formSpec = [ formSpec ];
+				}
+			},
+			actionCallback: function() {
+				this._pack = this.getPack();
+				this.$.formid.setData(this.data);
+				this.async( function() {
+					this.$.embeddedObjDialog.open();
+				},50 );
+			},
+			clearCallback: function() {
+				this.editValue = null;
+				this.id = null;
+			},
+			takeOverAction: function( e ) {
+				this.data = this.$.formid.getData();
+				this.$.embeddedObjDialog.close();
+				var t = this._maskedEval( this.props.title_expression, this.data );
+				this.editValue = t || this.data._id ||  ".";
+			},
+			cancelAction: function() {
+				this.async( function() {
+					this.$.embeddedObjDialog.close();
+				},50 );
+			},
+			editValueChanged: function() {
+				if ( this.editValue ) {
+					this.value = this.data;
+				} else {
+					this.value = null;
+				}
+				console.log("editValueChanged("+this.name+"):",this.value);
+				this.fire( 'value-changed', this );
+			},
+			setValue: function( v ) {
+				console.log("setValue("+this.name+"):",v);
+				if ( v != null ) {
+					this.data = v;
+					var t = this._maskedEval( this.props.title_expression, this.data );
+					this.editValue = t || this.data._id ||  ".";
+				} else {
+					this.editValue = null;
+				}
+			},
+			namespaceChanged: function() {
+				simpl4.util.MessageManager.installMessages( this.namespace );
+			},
+			entityChanged: function() {
+				console.log("entityChanged("+this.name+"):",this.entity);
+				this.async( function() {
+					if( this.entity == null){
+					  return;
+					}
+					this.setFormSpec( this.namespace, this.entity );
+				},10 );
+			},
+			_maskedEval: function( scr, env, def ) {
+				try {
+					return ( new Function( "with(this) { return " + scr + "}" ) ).call( env );
+				} catch ( e ) {
+					console.log( "EmbeddedObjFieldField._maskedEval:" + scr );
+					console.error( "error:" + e );
+				}
+				return def;
+			}
+		} );
+
+	</script>
+</dom-module>
+
+<dom-module id="embeddedobj-inline-field" assetpath="src/simpl-form/">
+	<style>
+		:host {
+			--paper-input-container: {
+				padding: 0px;
+			};
+		}
+		#formid {
+			position:relative;
+			width:100%;
+		}
+
+	</style>
+	<template>
+		<div class="layout horizontal center">
+			<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+	</div></template>
+	<script>
+		Polymer( {
+			is: "embeddedobj-inline-field",
+			behaviors: [
+				Polymer.IronFormElementBehavior,
+				Polymer.PaperInputBehavior,
+				Polymer.IronControlState,
+				TranslationsBehavior,
+				FieldBehavior
+			],
+			properties: {
+				namespace: {
+					type: String
+				},
+				entity: {
+					type: String
+				}
+			},
+			observers: [
+				'entityChanged(entity,namespace)'
+			],
+			setFormSpec: function( namespace, entity ) {
+				var formSpec = simpl4FormManager.getCrudForm( entity, namespace );
+				console.log("setFormSpec("+this.name+"):",formSpec);
+				if ( typeof formSpec === 'string' ) {
+					this.formName = formSpec;
+				} else {
+					this.formSpec = [ formSpec ];
+				}
+			},
+			checkConstraints: function() {
+				var valid = this.$.formid.validate();
+				this.setInvalid( !valid );
+			},
+			setInvalid: function( b ) {
+				this.isInvalid = b;
+			},
+			getValue: function( v ) {
+				var val=null;
+				try{
+					val = 	this.$.formid.getData();
+				}catch(e){
+					return null;
+				}
+				console.log("getValue("+this.name+"):",val);
+				return val;
+			},
+			setValue: function( v ) {
+				console.log("setValue("+this.name+"):",v);
+				if ( v != null ) {
+					this.$.formid.setData(v);
+				}else{
+					this.$.formid.setData({});
+				}
+			},
+			namespaceChanged: function() {
+				simpl4.util.MessageManager.installMessages( this.namespace );
+			},
+			entityChanged: function() {
+				console.log("entityChanged("+this.name+"):",this.entity);
+				this.async( function() {
+					if( this.entity == null){
+					  return;
+					}
+					this.setFormSpec( this.namespace, this.entity );
+					this._pack = this.getPack();
+				},10 );
+			},
+			_maskedEval: function( scr, env, def ) {
+				try {
+					return ( new Function( "with(this) { return " + scr + "}" ) ).call( env );
+				} catch ( e ) {
+					console.log( "EmbeddedObjFieldField._maskedEval:" + scr );
+					console.error( "error:" + e );
+				}
+				return def;
+			}
+		} );
+
+	</script>
+</dom-module>
+
+<dom-module id="db-selector-field" assetpath="src/simpl-form/">
+	<style>
+		:host /deep/ #selectorDialog {
+			position:fixed;
+			top: 5vh;
+			min-width: 70%;
+			max-width: 70%;
+			max-height:90%;
+			border-radius: 4px;
+		}
+		@media screen and (max-width: 767px) {
+			:host /deep/ #selectorDialog {
+				left: 0vw;
+				min-width: 100%;
+				margin: 0px;
+			}
+		}
+		:host {
+			--paper-input-container: {
+				padding: 0px;
+			};
+		}
+		:host /deep/ paper-dialog > *:last-child {
+			margin-bottom: 4px;
+		}
+		:host /deep/ paper-dialog > *:first-child {
+			margin-top: 14px;
+		}
+		:host /deep/ paper-dialog#selectorDialog {
 			padding: 0px 0px 0 0px;
 		}
 		:host /deep/ .button-content {
@@ -80592,7 +82236,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</template>
 		</div>
 
-		<paper-dialog id="relatedDialog" no-cancel-on-outside-click="" with-backdrop="">
+		<paper-dialog id="selectorDialog" no-cancel-on-outside-click="" with-backdrop="">
 			<paper-dialog-scrollable>
 				<div class="lyaout vertical flex">
 					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
@@ -80635,14 +82279,14 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				return this.filter != null;
 			},
 			ready: function() {
-				//console.log("Field.relatedto.ready:",this.entity+"/"+this.namespace);
+				//console.log("Field.dbselector.ready:",this.entity+"/"+this.namespace);
 				this.props = simpl4.util.EntityManager.getPropertiesForEntity( this.entity, {
 					namespace: this.namespace
 				} );
 			},
 			actionCallback: function() {
 				this.async( function() {
-					this.$.relatedDialog.open();
+					this.$.selectorDialog.open();
 				},50 );
 			},
 			clearCallback: function() {
@@ -80651,7 +82295,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			},
 			selectAction: function( e ) {
 				var data = e.detail.data;
-				this.$.relatedDialog.close();
+				this.$.selectorDialog.close();
 				this.assignValues( data );
 			},
 			assignValues: function( record ) {
@@ -80744,7 +82388,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			},
 			cancelAction: function() {
 				this.async( function() {
-					this.$.relatedDialog.close();
+					this.$.selectorDialog.close();
 				},50 );
 			},
 			editValueChanged: function() {
@@ -80768,18 +82412,22 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				simpl4.util.MessageManager.installMessages( this.namespace );
 			},
 			entityChanged: function() {
-			  //console.log("Field.relatedto.entityChanged:",this.entity+"/"+this.namespace);
-				if( this.entity==null) return;
-				this.entityName = this.entity;
+				this.async( function() {
+					console.log("Field("+this.name+"):entityChanged:"+this.getPack() + "/"+ this.getSimpleEntityName(this.entity)+"/"+this.namespace);
+					if( this.entity==null) return;
+					var pack = this.getPack();
+					this.entityName = pack ? (pack +":"+ this.getSimpleEntityName(this.entity)) : this.entity;
+				},10 );
 			},
 			getHeader:function(entityName){
-				return tr('data.'+entityName);
+				var pack = this.getPack() || "data";
+				return tr(pack+'.'+this.getSimpleEntityName(entityName));
 			},
 			_maskedEval: function( scr, env, def ) {
 				try {
 					return ( new Function( "with(this) { return " + scr + "}" ) ).call( env );
 				} catch ( e ) {
-					console.log( "RelatedField._maskedEval:" + scr );
+					console.log( "DbSelectorField._maskedEval:" + scr );
 					console.error( "error:" + e );
 				}
 				return def;
@@ -80944,14 +82592,26 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		isTableSelect: function( id ) {
 			return id == 'Tableselect';
 		},
+		isEmbeddedList: function( id ) {
+			return id == 'EmbeddedList';
+		},
+		isLinkedList: function( id ) {
+			return id == 'LinkedList';
+		},
+		isEmbeddedObj: function( item ) {
+			return item.id == 'EmbeddedObj' && (!item.xf_inline || item.xf_inline===false);
+		},
+		isEmbeddedObjInline: function( item ) {
+			return item.id == 'EmbeddedObj' && item.xf_inline;
+		},
 		isGridInput: function( id ) {
 			return id == 'Gridinput';
 		},
 		isTextArea: function( id ) {
 			return id == 'Textarea';
 		},
-		isRelatedTo: function( id ) {
-			return id == 'RelatedTo';
+		isLinkedObj: function( id ) {
+			return id == 'LinkedObj';
 		},
 		isGroup: function( id ) {
 			return id == 'Group';
@@ -80968,7 +82628,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			return r;
 		},
 		isField: function( id ) {
-			var r = id == 'Input' || id == 'Tableselect' || id == 'Gridinput' || id == 'Enumselect' || id == 'Treeselect' || id == 'Upload' || id == 'Custom' || id == 'Textarea' || id == 'RelatedTo' || id == 'Moduleselector' || id == 'Alert' || id == 'break';
+			var r = id == 'Input' || id == 'Tableselect' || id == 'Gridinput' || id == 'EmbeddedList' || id == 'LinkedList' || id == 'Enumselect' || id == 'Treeselect' || id == 'Upload' || id == 'Custom' || id == 'Textarea' || id == 'LinkedObj' || id == 'EmbeddedObj' || id == 'Moduleselector' || id == 'Alert' || id == 'break';
 			return r;
 		},
 		isInputAndBoolean: function( id, xf_type ) {
@@ -81090,6 +82750,14 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<tableselect-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</tableselect-field>
 		</template>
+		<template is="dom-if" if="{{isEmbeddedList(item.id)}}">
+			<embeddedlist-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			</embeddedlist-field>
+		</template>
+		<template is="dom-if" if="{{isLinkedList(item.id)}}">
+			<linkedlist-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			</linkedlist-field>
+		</template>
 		<template is="dom-if" if="{{isGridInput(item.id)}}">
 			<gridinput-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" required="[[item.xf_required]]" height="[[item.height]]" columns="[[item.columns]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</gridinput-field>
@@ -81097,14 +82765,20 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isTextArea(item.id)}}">
 			<multiline-field field="" class="flex" name$="{{item.xf_id}}" rows="{{item.xf_rows}}" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></multiline-field>
 		</template>
-		<template name="{{item.xf_id}}" is="dom-if" if="{{isRelatedTo(item.id)}}">
-			<related-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_type}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></related-field>
+		<template name="{{item.xf_id}}" is="dom-if" if="{{isLinkedObj(item.id)}}">
+			<linkedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></linkedobj-field>
+		</template>
+		<template name="{{item.xf_id}}" is="dom-if" if="{{isEmbeddedObj(item)}}">
+			<embeddedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-field>
+		</template>
+		<template name="{{item.xf_id}}" is="dom-if" if="{{isEmbeddedObjInline(item)}}">
+			<embeddedobj-inline-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-inline-field>
 		</template>
 		<template is="dom-if" if="{{isModuleSelector(item.id)}}">
 			<db-selector-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" fieldlist="{{item.xf_fieldlist}}" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></db-selector-field>
 		</template>
 		<template is="dom-if" if="{{isAlert(item.id)}}">
-			<html-echo field="" name$="{{item.xf_id}}" html="{{item.xf_message}}" invisible-expr$="{{item.xf_invisible}}" tabindex$="[[item.xf_tabindex]]" exclude-expr$="{{item.xf_exclude}}"></html-echo>
+			<html-echo field="" name$="{{item.xf_id}}" id="{{item.xf_id}}" html="{{item.xf_message}}" invisible-expr$="{{item.xf_invisible}}" tabindex$="[[item.xf_tabindex]]" exclude-expr$="{{item.xf_exclude}}"></html-echo>
 		</template>
 		<template is="dom-if" if="{{isCustom(item.id)}}">
 			<custom-field field="" class="flex" type="{{item.xf_type}}" url="[[item.xf_url]]" elementname="[[item.xf_elementname]]" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" name$="{{item.xf_id}}" help$="{{item.help}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></custom-field>
@@ -81249,6 +82923,9 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		label {
 			margin-bottom: 10px;
 		}
+		:host {
+			width: 100%;
+		}
 
 	</style>
 	<template>
@@ -81324,7 +83001,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			opacity: 0.75 !important;
 		}
 		input-field,
-		related-field,
+		linkedobj-field,
+		embeddedobj-field,
+		linkedlist-field,
+		embeddedlist-field,
 		db-selector-field,
 		tableselect-field,
 		gridinput-field,
