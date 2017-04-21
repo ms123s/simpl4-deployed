@@ -52874,6 +52874,7 @@ console.log("height:",height);
 			this.__dataChanged();
 		},
 		_setData: function( data ) {
+			if( data == null) return;
 			this.fields.forEach( function( field ) {
 				if ( field.setValue == null ) return;
 				field.withoutCheck = true;
@@ -54279,6 +54280,9 @@ img.jssocials-share-logo {
 		attached: function() {
 			this.appendItems();
 		},
+		focus: function() {
+			this.$.expressionInput.focus();
+		},
 		appendItems: function() {
 			var items = this.items;
 			var select = this.$.operationSelect;
@@ -54354,7 +54358,7 @@ img.jssocials-share-logo {
       this.uniqueValueKey = this.config.uniqueValueKey;
       this.rowIndex = this.config.rowIndex;
       this.useFixedHeaders = this.config.useFixedHeaders;
-      this.element = document.querySelectorAll(this.config.element || '#gridedit')[0];
+      this.element = this.config.element,
       this.contextMenu = new GridEdit.ContextMenu(this);
       this.themeName = this.config.themeName;
       this.customTheme = this.config.themeTemplate;
@@ -79152,7 +79156,8 @@ html.mm-opening .mm-menu.mm-front, html.mm-opening .mm-menu.mm-next {
 			-ms-flex: 1;
 			flex: 1;
 			padding: 6px;
-			overflow: auto;
+			overflow-y: auto;
+			overflow-x: hidden;
 			border: 0px solid #428bca;
 			box-sizing: border-box;
 		}
@@ -92009,9 +92014,12 @@ Use the Help button for an technical overview.
 	<template>
 		<style>
 			#operationSelect {
-				box-shadow: 0 0px 0 #000, 0 0px #fff inset;
+				box-shadow: 0 0px 0;
 				padding-right: 8px;
-				width: 70px;
+				color: #303e45;
+				margin: 0px;
+				border-top: 1px solid #303e45;
+				border-left: 1px solid #303e45;
 			}
 			#container {
 				width: 100%;
@@ -92019,7 +92027,11 @@ Use the Help button for an technical overview.
 			}
 			#expressionInput {
 				width: 100%;
+				color: black;
+				border: 0px;
+				border-top: 1px solid #303e45;
 				height: 100%;
+				padding: 5px;
 			}
 
 		</style>
@@ -92031,7 +92043,7 @@ Use the Help button for an technical overview.
 		<style include="dmn-input-styles"></style>
 		<div id="container" class="layout horizontal">
 			<select on-change="operationValueChanged" id="operationSelect" bind-value="{{operationValue}}"> </select>
-			<input id="expressionInput" is="iron-input" bind-value="{{expressionValue}}">
+			<input spellcheck="false" id="expressionInput" is="iron-input" bind-value="{{expressionValue}}">
 		</div>
 	</template>
 	<script>
@@ -92045,11 +92057,20 @@ Use the Help button for an technical overview.
 					value: "=",
 					label: "="
 				}, {
+					value: "==~",
+					label: "==~"
+				}, {
 					value: "startsWith",
 					label: "startsWith"
 				}, {
+					value: "endsWith",
+					label: "endsWith"
+				}, {
 					value: "contains",
 					label: "contains"
+				}, {
+					value: "equalsIgnoreCase",
+					label: "equalsIgnoreCase"
 				} ];
 			}
 		} );
@@ -92396,7 +92417,7 @@ Use the Help button for an technical overview.
 		Polymer( {
 			is: "dmn-editor",
 			properties: {
-				key: {
+				regkey: {
 					type: String
 				},
 				namespace: {
@@ -92419,10 +92440,10 @@ Use the Help button for an technical overview.
 					cols: this.cols,
 					rows: this.rows,
 					tableClass: 'dmnTable',
+					element: this.$.gridedit,
 					includeRowHandles: true,
 					includeContextMenu: true,
 					onCellClick: function( e ) {
-						console.log( "onCellClick:", e );
 					},
 					contextMenuOrder: [ "undo", "redo", "insertInput", "insertOutput", "removeColumn", "removeRow" ],
 					contextMenuItems: {
@@ -92557,7 +92578,7 @@ Use the Help button for an technical overview.
 					label: "Output -> " + ( data.label || data.name ) + ":" + data.type,
 					valueKey: data.name,
 					type: 'string',
-					exprType: data.type.substring(4),
+					exprType: data.type,
 					editable: true
 				};
 				this.gridedit.addToStack( {
@@ -92616,7 +92637,7 @@ Use the Help button for an technical overview.
 					service: "registry",
 					method: "set",
 					parameter: {
-						key: this.key,
+						key: this.regkey,
 						attributes:{ subject:"decision", namespace:this.namespace},
 						value: JSON.stringify( data )
 					},
@@ -92639,7 +92660,7 @@ Use the Help button for an technical overview.
 					method: "get",
 					parameter: {
 						namespace: this.namespace,
-						key: this.key
+						key: this.regkey
 					},
 					async: true,
 					context: this,
