@@ -24983,7 +24983,7 @@ JSON5.stringify = function(obj, replacer, space) {
             else this._protocols = ["wamp.2.json", "wamp.2.msgpack"]
     };
     Wampy.prototype._validateURI = function(uri) {
-        var re = /^([0-9a-zA-Z_]{2,}\.)*([0-9a-zA-Z_]{2,})$/;
+        var re = /^([0-9a-zA-Z_|\[\]]{2,}\.)*([0-9a-zA-Z_|\[\]]{2,})$/;
         if (!re.test(uri) || uri.indexOf("wamp") === 0) return false;
         else return true
     };
@@ -61739,6 +61739,277 @@ var module;
     else window[exportName] = Hammer
 })(window,
     document, "Hammer");
+"use strict";
+(function() {
+    var global = this,
+        isIE8 = global.attachEvent && !global[addEventListener],
+        document = global.document,
+        addEventListener = "addEventListener",
+        removeEventListener = "removeEventListener",
+        getBoundingClientRect = "getBoundingClientRect",
+        FLOAT_FUDGING = .5,
+        calc = function() {
+            var el, prefixes = ["", "-webkit-", "-moz-", "-o-"];
+            for (var i = 0; i < prefixes.length; i++) {
+                el = document.createElement("div");
+                el.style.cssText = "width:" + prefixes[i] + "calc(9px)";
+                if (el.style.length) return prefixes[i] + "calc"
+            }
+        }(),
+        elementOrSelector = function(el) {
+            if (typeof el ===
+                "string" || el instanceof String) return document.querySelector(el);
+            else return el
+        },
+        Split = function(ids, options) {
+            var dimension, i, clientDimension, clientAxis, position, gutterClass, paddingA, paddingB, pairs = [];
+            options = typeof options !== "undefined" ? options : {};
+            if (typeof options.gutterSize === "undefined") options.gutterSize = 10;
+            if (typeof options.minSize === "undefined") options.minSize = 100;
+            if (typeof options.snapOffset === "undefined") options.snapOffset = 30;
+            if (typeof options.direction === "undefined") options.direction = "horizontal";
+            if (typeof options.elementStyle === "undefined") options.elementStyle = function(dimension, size, gutterSize) {
+                var style = {};
+                if (typeof size !== "string" && !(size instanceof String))
+                    if (!isIE8) style[dimension] = calc + "(" + size + "% - " + gutterSize + "px)";
+                    else style[dimension] = size + "%";
+                else style[dimension] = size;
+                return style
+            };
+            if (typeof options.gutterStyle === "undefined") options.gutterStyle = function(dimension, gutterSize) {
+                var style = {};
+                style[dimension] = gutterSize + "px";
+                return style
+            };
+            if (options.direction == "horizontal") {
+                dimension =
+                    "width";
+                clientDimension = "clientWidth";
+                clientAxis = "clientX";
+                position = "left";
+                gutterClass = "gutter gutter-horizontal";
+                paddingA = "paddingLeft";
+                paddingB = "paddingRight";
+                if (!options.cursor) options.cursor = "ew-resize"
+            } else if (options.direction == "vertical") {
+                dimension = "height";
+                clientDimension = "clientHeight";
+                clientAxis = "clientY";
+                position = "top";
+                gutterClass = "gutter gutter-vertical";
+                paddingA = "paddingTop";
+                paddingB = "paddingBottom";
+                if (!options.cursor) options.cursor = "ns-resize"
+            }
+            var startDragging = function(e) {
+                    var self =
+                        this,
+                        a = self.a,
+                        b = self.b;
+                    if (!self.dragging && options.onDragStart) options.onDragStart();
+                    e.preventDefault();
+                    self.dragging = true;
+                    self.move = drag.bind(self);
+                    self.stop = stopDragging.bind(self);
+                    global[addEventListener]("mouseup", self.stop);
+                    global[addEventListener]("touchend", self.stop);
+                    global[addEventListener]("touchcancel", self.stop);
+                    self.parent[addEventListener]("mousemove", self.move);
+                    self.parent[addEventListener]("touchmove", self.move);
+                    a[addEventListener]("selectstart", noop);
+                    a[addEventListener]("dragstart",
+                        noop);
+                    b[addEventListener]("selectstart", noop);
+                    b[addEventListener]("dragstart", noop);
+                    a.style.userSelect = "none";
+                    a.style.webkitUserSelect = "none";
+                    a.style.MozUserSelect = "none";
+                    a.style.pointerEvents = "none";
+                    b.style.userSelect = "none";
+                    b.style.webkitUserSelect = "none";
+                    b.style.MozUserSelect = "none";
+                    b.style.pointerEvents = "none";
+                    self.gutter.style.cursor = options.cursor;
+                    self.parent.style.cursor = options.cursor;
+                    calculateSizes.call(self)
+                },
+                stopDragging = function() {
+                    var self = this,
+                        a = self.a,
+                        b = self.b;
+                    if (self.dragging && options.onDragEnd) options.onDragEnd();
+                    self.dragging = false;
+                    global[removeEventListener]("mouseup", self.stop);
+                    global[removeEventListener]("touchend", self.stop);
+                    global[removeEventListener]("touchcancel", self.stop);
+                    self.parent[removeEventListener]("mousemove", self.move);
+                    self.parent[removeEventListener]("touchmove", self.move);
+                    delete self.stop;
+                    delete self.move;
+                    a[removeEventListener]("selectstart", noop);
+                    a[removeEventListener]("dragstart", noop);
+                    b[removeEventListener]("selectstart", noop);
+                    b[removeEventListener]("dragstart", noop);
+                    a.style.userSelect =
+                        "";
+                    a.style.webkitUserSelect = "";
+                    a.style.MozUserSelect = "";
+                    a.style.pointerEvents = "";
+                    b.style.userSelect = "";
+                    b.style.webkitUserSelect = "";
+                    b.style.MozUserSelect = "";
+                    b.style.pointerEvents = "";
+                    self.gutter.style.cursor = "";
+                    self.parent.style.cursor = ""
+                },
+                drag = function(e) {
+                    var offset;
+                    if (!this.dragging) return;
+                    if ("touches" in e) offset = e.touches[0][clientAxis] - this.start;
+                    else offset = e[clientAxis] - this.start;
+                    if (offset <= this.aMin + options.snapOffset + this.aGutterSize) offset = this.aMin + this.aGutterSize;
+                    else if (offset >= this.size -
+                        (this.bMin + options.snapOffset + this.bGutterSize)) offset = this.size - (this.bMin + this.bGutterSize);
+                    offset = offset - FLOAT_FUDGING;
+                    adjust.call(this, offset);
+                    if (options.onDrag) options.onDrag()
+                },
+                calculateSizes = function() {
+                    var computedStyle = global.getComputedStyle(this.parent),
+                        parentSize = this.parent[clientDimension] - parseFloat(computedStyle[paddingA]) - parseFloat(computedStyle[paddingB]);
+                    this.size = this.a[getBoundingClientRect]()[dimension] + this.b[getBoundingClientRect]()[dimension] + this.aGutterSize + this.bGutterSize;
+                    this.percentage = Math.min(this.size / parentSize * 100, 100);
+                    this.start = this.a[getBoundingClientRect]()[position]
+                },
+                adjust = function(offset) {
+                    setElementSize(this.a, offset / this.size * this.percentage, this.aGutterSize);
+                    setElementSize(this.b, this.percentage - offset / this.size * this.percentage, this.bGutterSize)
+                },
+                setElementSize = function(el, size, gutterSize) {
+                    var style = options.elementStyle(dimension, size, gutterSize),
+                        props = Object.keys(style);
+                    for (var i = 0; i < props.length; i++) el.style[props[i]] = style[props[i]]
+                },
+                setGutterSize =
+                function(gutter, gutterSize) {
+                    var style = options.gutterStyle(dimension, gutterSize),
+                        props = Object.keys(style);
+                    for (var i = 0; i < props.length; i++) gutter.style[props[i]] = style[props[i]]
+                },
+                noop = function() {
+                    return false
+                },
+                parent = elementOrSelector(ids[0]).parentNode;
+            if (!options.sizes) {
+                var percent = 100 / ids.length;
+                options.sizes = [];
+                for (i = 0; i < ids.length; i++) options.sizes.push(percent)
+            }
+            if (!Array.isArray(options.minSize)) {
+                var minSizes = [];
+                for (i = 0; i < ids.length; i++) minSizes.push(options.minSize);
+                options.minSize = minSizes
+            }
+            for (i =
+                0; i < ids.length; i++) {
+                var el = elementOrSelector(ids[i]),
+                    isFirstPair = i == 1,
+                    isLastPair = i == ids.length - 1,
+                    size = options.sizes[i],
+                    gutterSize = options.gutterSize,
+                    pair, parentFlexDirection = window.getComputedStyle(parent).flexDirection,
+                    temp;
+                if (i > 0) {
+                    pair = {
+                        a: elementOrSelector(ids[i - 1]),
+                        b: el,
+                        aMin: options.minSize[i - 1],
+                        bMin: options.minSize[i],
+                        dragging: false,
+                        parent: parent,
+                        isFirst: isFirstPair,
+                        isLast: isLastPair,
+                        direction: options.direction
+                    };
+                    pair.aGutterSize = options.gutterSize;
+                    pair.bGutterSize = options.gutterSize;
+                    if (isFirstPair) pair.aGutterSize =
+                        options.gutterSize / 2;
+                    if (isLastPair) pair.bGutterSize = options.gutterSize / 2;
+                    if (parentFlexDirection === "row-reverse" || parentFlexDirection === "column-reverse") {
+                        temp = pair.a;
+                        pair.a = pair.b;
+                        pair.b = temp
+                    }
+                }
+                if (!isIE8) {
+                    if (i > 0) {
+                        var gutter = document.createElement("div");
+                        gutter.className = gutterClass;
+                        setGutterSize(gutter, gutterSize);
+                        gutter[addEventListener]("mousedown", startDragging.bind(pair));
+                        gutter[addEventListener]("touchstart", startDragging.bind(pair));
+                        parent.insertBefore(gutter, el);
+                        pair.gutter = gutter
+                    }
+                    if (i === 0 ||
+                        i == ids.length - 1) gutterSize = options.gutterSize / 2
+                }
+                setElementSize(el, size, gutterSize);
+                if (i > 0) {
+                    var aSize = pair.a[getBoundingClientRect]()[dimension],
+                        bSize = pair.b[getBoundingClientRect]()[dimension];
+                    if (aSize < pair.aMin) pair.aMin = aSize;
+                    if (bSize < pair.bMin) pair.bMin = bSize
+                }
+                if (i > 0) pairs.push(pair)
+            }
+            return {
+                setSizes: function(sizes) {
+                    for (var i = 0; i < sizes.length; i++)
+                        if (i > 0) {
+                            var pair = pairs[i - 1];
+                            setElementSize(pair.a, sizes[i - 1], pair.aGutterSize);
+                            setElementSize(pair.b, sizes[i], pair.bGutterSize)
+                        }
+                },
+                getSizes: function() {
+                    var sizes = [];
+                    for (var i = 0; i < pairs.length; i++) {
+                        var pair = pairs[i],
+                            computedStyle = global.getComputedStyle(pair.parent),
+                            parentSize = pair.parent[clientDimension] - parseFloat(computedStyle[paddingA]) - parseFloat(computedStyle[paddingB]);
+                        sizes.push((pair.a[getBoundingClientRect]()[dimension] + pair.aGutterSize) / parentSize * 100);
+                        if (i === pairs.length - 1) sizes.push((pair.b[getBoundingClientRect]()[dimension] + pair.bGutterSize) / parentSize * 100)
+                    }
+                    return sizes
+                },
+                collapse: function(i) {
+                    var pair;
+                    if (i === pairs.length) {
+                        pair = pairs[i - 1];
+                        calculateSizes.call(pair);
+                        adjust.call(pair, pair.size - pair.bGutterSize)
+                    } else {
+                        pair = pairs[i];
+                        calculateSizes.call(pair);
+                        adjust.call(pair, pair.aGutterSize)
+                    }
+                },
+                destroy: function() {
+                    for (var i = 0; i < pairs.length; i++) {
+                        pairs[i].parent.removeChild(pairs[i].gutter);
+                        pairs[i].a.style[dimension] = "";
+                        pairs[i].b.style[dimension] = ""
+                    }
+                }
+            }
+        };
+    if (typeof exports !== "undefined") {
+        if (typeof module !== "undefined" && module.exports) exports = module.exports = Split;
+        exports.Split = Split
+    } else global.Split = Split
+}).call(window);
 var Spinners = {
     version: "3.0.0"
 };
