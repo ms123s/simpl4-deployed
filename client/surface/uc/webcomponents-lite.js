@@ -2098,7 +2098,11 @@ window.CustomElements.addModule(function(scope) {
           if (!n.localName) {
             return;
           }
-          detachedNode(n);
+					if( isAttached){
+						detachedNode(n);
+					}else{
+						console.log("WebComponents.dont.remove("+n.localName+","+isAttached+"):",n);
+					}
         });
       }
     });

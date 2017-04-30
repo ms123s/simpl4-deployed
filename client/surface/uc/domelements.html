@@ -13253,9 +13253,6 @@ context. You should place this element as a child of `<body>` whenever possible.
     listeners: {
       'iron-resize': '_onIronResize'
     },
-			observers: [
-				'isAttachedChanged(isAttached)'
-			],
 
     /**
      * The backdrop element.
@@ -13325,9 +13322,6 @@ context. You should place this element as a child of `<body>` whenever possible.
       });
     },
 
-		isAttachedChanged:function(){
-console.debug("overlay.isAttachedChanged("+this.id+","+this.isAttached+")");
-		},
     ready: function() {
       // Used to skip calls to notifyResize and refit while the overlay is animating.
       this.__isAnimating = false;
@@ -13344,7 +13338,6 @@ console.debug("overlay.isAttachedChanged("+this.id+","+this.isAttached+")");
     },
 
     attached: function() {
-console.debug("overlay.attached("+this.id+","+this.isAttached+"):",this.opened);
       // Call _openedChanged here so that position can be computed correctly.
       if (this.opened) {
         this._openedChanged();
@@ -13353,7 +13346,6 @@ console.debug("overlay.attached("+this.id+","+this.isAttached+"):",this.opened);
     },
 
     detached: function() {
-console.debug("overlay.detached("+this.id+","+this.isAttached+")");
       Polymer.dom(this).unobserveNodes(this._observer);
       this._observer = null;
       this.opened = false;
@@ -13371,7 +13363,6 @@ console.debug("overlay.detached("+this.id+","+this.isAttached+")");
      * Open the overlay.
      */
     open: function() {
-console.debug("overlay.open("+this.id+","+this.isAttached+")");
       this._setCanceled(false);
       this.opened = true;
     },
@@ -13408,7 +13399,6 @@ console.debug("overlay.open("+this.id+","+this.isAttached+")");
     },
 
     _openedChanged: function() {
-console.log("_openedChanged");
       if (this.opened) {
         this.removeAttribute('aria-hidden');
       } else {
@@ -22291,15 +22281,15 @@ Simpl4.Cache = (function () {
 				Polymer.dom( insertPoint ).appendChild( head.firstElementChild );
 			}
 			if ( body.firstElementChild ) {
-				if ( body.childNodes.length > 1 ) {
+				if ( body.childNodes.length > 0 ) {
 					for ( var i = 0; i < body.childNodes.length; i++ ) {
 						var node = body.childNodes[ i ];
+						if( node.nodeType != 1){
+							 continue;
+						}
 						Polymer.dom( insertPoint ).appendChild( node );
 						this.$.dispatcherId.filterLocalLinks( node );
 					}
-				} else {
-					Polymer.dom( insertPoint ).appendChild( body.firstElementChild );
-					this.$.dispatcherId.filterLocalLinks( insertPoint.firstElementChild );
 				}
 			}
 			this.async( function() {
@@ -79211,6 +79201,9 @@ body.lobipanel-minimized {
 				this.selectMenuItem( this.selected );
 			},
 			filterLocalLinks:function(e){
+				if( !e.querySelectorAll ){
+					return;
+				}
 				var aList = e.querySelectorAll( "a" );
 				for ( var i = 0; i < aList.length; i++ ) {
 					var a = aList[ i ];
@@ -91873,15 +91866,15 @@ core-animated-pages {
 <dom-module id="simpl-animatable-page" assetpath="src/simpl-util/">
 	<style>
 		[outer] > div {
-			background-color: white;
-			border:3px solid yellow;
-			padding: 10px;
+//			background-color: white;
+//			border:3px solid yellow;
+//			padding: 10px;
 		}
 
 	</style>
 	<template>
-		<div id="ABC1" outer="" class="layout vertical">
-			<div id="ABC2">
+		<div outer="" class="layout vertical">
+			<div>
 				<content></content>
 			</div>
 		</div>
