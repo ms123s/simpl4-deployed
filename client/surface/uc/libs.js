@@ -63346,6 +63346,2091 @@ var Spinners = {
     });
     else window.Font = Font
 })(window);
+var Lobibox = Lobibox || {};
+(function() {
+    Lobibox.counter = 0;
+    Lobibox.prompt = function(type, options) {
+        return new LobiboxPrompt(type, options)
+    };
+    Lobibox.confirm = function(options) {
+        return new LobiboxConfirm(options)
+    };
+    Lobibox.progress = function(options) {
+        return new LobiboxProgress(options)
+    };
+    Lobibox.error = {};
+    Lobibox.success = {};
+    Lobibox.warning = {};
+    Lobibox.info = {};
+    Lobibox.alert = function(type, options) {
+        if (["success", "error", "warning", "info"].indexOf(type) > -1) return new LobiboxAlert(type, options)
+    };
+    Lobibox.window = function(options) {
+        return new LobiboxWindow("window",
+            options)
+    };
+    var LobiboxBase = {
+        $type: null,
+        $el: null,
+        $options: null,
+        debug: function() {
+            if (this.$options.debug) window.console.debug.apply(window.console, arguments)
+        },
+        _processInput: function(options) {
+            if ($.isArray(options.buttons)) {
+                var btns = {};
+                for (var i = 0; i < options.buttons.length; i++) btns[options.buttons[i]] = Lobibox.base.OPTIONS.buttons[options.buttons[i]];
+                options.buttons = btns
+            }
+            options.customBtnClass = options.customBtnClass ? options.customBtnClass : Lobibox.base.DEFAULTS.customBtnClass;
+            for (var i in options.buttons)
+                if (options.buttons.hasOwnProperty(i)) {
+                    var btn =
+                        options.buttons[i];
+                    btn = $.extend({}, Lobibox.base.OPTIONS.buttons[i], btn);
+                    if (!btn["class"]) btn["class"] = options.customBtnClass;
+                    options.buttons[i] = btn
+                }
+            options = $.extend({}, Lobibox.base.DEFAULTS, options);
+            if (options.showClass === undefined) options.showClass = Lobibox.base.OPTIONS.showClass;
+            if (options.hideClass === undefined) options.hideClass = Lobibox.base.OPTIONS.hideClass;
+            if (options.baseClass === undefined) options.baseClass = Lobibox.base.OPTIONS.baseClass;
+            if (options.delayToRemove === undefined) options.delayToRemove =
+                Lobibox.base.OPTIONS.delayToRemove;
+            if (!options.iconClass) options.iconClass = Lobibox.base.OPTIONS.icons[options.iconSource][this.$type];
+            return options
+        },
+        _init: function() {
+            var me = this;
+            me._createMarkup();
+            me.setTitle(me.$options.title);
+            if (me.$options.draggable && !me._isMobileScreen()) {
+                me.$el.addClass("draggable");
+                me._enableDrag()
+            }
+            if (me.$options.closeButton) me._addCloseButton();
+            if (me.$options.closeOnEsc) $(document).on("keyup.lobibox", function(ev) {
+                if (ev.which === 27) me.destroy()
+            });
+            if (me.$options.baseClass) me.$el.addClass(me.$options.baseClass);
+            if (me.$options.showClass) {
+                me.$el.removeClass(me.$options.hideClass);
+                me.$el.addClass(me.$options.showClass)
+            }
+            me.$el.data("lobibox", me)
+        },
+        _calculatePosition: function(position) {
+            var me = this;
+            var top;
+            if (position === "top") top = 30;
+            else if (position === "bottom") top = $(window).outerHeight() - me.$el.outerHeight() - 30;
+            else top = ($(window).outerHeight() - me.$el.outerHeight()) / 2;
+            var left = ($(window).outerWidth() - me.$el.outerWidth()) / 2;
+            return {
+                left: left,
+                top: top
+            }
+        },
+        _createButton: function(type, op) {
+            var me = this;
+            var btn = $("<button></button>").addClass(op["class"]).attr("data-type",
+                type).html(op.text);
+            if (me.$options.callback && typeof me.$options.callback === "function") btn.on("click.lobibox", function(ev) {
+                var bt = $(this);
+                me._onButtonClick(me.$options.buttons[type], type);
+                me.$options.callback(me, bt.data("type"), ev)
+            });
+            btn.click(function() {
+                me._onButtonClick(me.$options.buttons[type], type)
+            });
+            return btn
+        },
+        _onButtonClick: function(buttonOptions, type) {
+            var me = this;
+            if ((type === "ok" && me.$type === "prompt" && me.isValid() || me.$type !== "prompt" || type !== "ok") && buttonOptions && buttonOptions.closeOnClick) me.destroy()
+        },
+        _generateButtons: function() {
+            var me = this;
+            var btns = [];
+            for (var i in me.$options.buttons)
+                if (me.$options.buttons.hasOwnProperty(i)) {
+                    var op = me.$options.buttons[i];
+                    var btn = me._createButton(i, op);
+                    btns.push(btn)
+                }
+            return btns
+        },
+        _createMarkup: function() {
+            var me = this;
+            var lobibox = $('<div class="lobibox"></div>');
+            lobibox.attr("data-is-modal", me.$options.modal);
+            var header = $('<div class="lobibox-header"></div>').append('<span class="lobibox-title"></span>');
+            var body = $('<div class="lobibox-body"></div>');
+            lobibox.append(header);
+            lobibox.append(body);
+            if (me.$options.buttons && !$.isEmptyObject(me.$options.buttons)) {
+                var footer = $('<div class="lobibox-footer"></div>');
+                footer.append(me._generateButtons());
+                lobibox.append(footer);
+                if (Lobibox.base.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1) footer.addClass("text-" + me.$options.buttonsAlign)
+            }
+            me.$el = lobibox.addClass(Lobibox.base.OPTIONS.modalClasses[me.$type])
+        },
+        _setSize: function() {
+            var me = this;
+            me.setWidth(me.$options.width);
+            if (me.$options.height === "auto") me.setHeight(me.$el.outerHeight());
+            else me.setHeight(me.$options.height)
+        },
+        _calculateBodyHeight: function(height) {
+            var me = this;
+            var headerHeight = me.$el.find(".lobibox-header").outerHeight();
+            var footerHeight = me.$el.find(".lobibox-footer").outerHeight();
+            return height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0)
+        },
+        _addBackdrop: function() {
+            if ($(".lobibox-backdrop").length === 0) $("body").append('<div class="lobibox-backdrop"></div>')
+        },
+        _triggerEvent: function(type) {
+            var me = this;
+            if (me.$options[type] && typeof me.$options[type] === "function") me.$options[type](me)
+        },
+        _calculateWidth: function(width) {
+            var me = this;
+            width = Math.min(Math.max(width, me.$options.width), $(window).outerWidth());
+            if (width === $(window).outerWidth()) width -= 2 * me.$options.horizontalOffset;
+            return width
+        },
+        _calculateHeight: function(height) {
+            var me = this;
+            console.log(me.$options.height);
+            height = Math.min(Math.max(height, me.$options.height), $(window).outerHeight());
+            if (height === $(window).outerHeight()) height -= 2 * me.$options.verticalOffset;
+            return height
+        },
+        _addCloseButton: function() {
+            var me = this;
+            var closeBtn = $('<span class="btn-close">&times;</span>');
+            me.$el.find(".lobibox-header").append(closeBtn);
+            closeBtn.on("mousedown", function(ev) {
+                ev.stopPropagation()
+            });
+            closeBtn.on("click.lobibox", function() {
+                me.destroy()
+            })
+        },
+        _position: function() {
+            var me = this;
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top)
+        },
+        _isMobileScreen: function() {
+            return $(window).outerWidth() < 768
+        },
+        _enableDrag: function() {
+            var el = this.$el,
+                heading = el.find(".lobibox-header");
+            heading.on("mousedown.lobibox", function(ev) {
+                el.attr("offset-left", ev.offsetX);
+                el.attr("offset-top",
+                    ev.offsetY);
+                el.attr("allow-drag", "true")
+            });
+            $(document).on("mouseup.lobibox", function() {
+                el.attr("allow-drag", "false")
+            });
+            $(document).on("mousemove.lobibox", function(ev) {
+                if (el.attr("allow-drag") === "true") {
+                    var left = ev.clientX - parseInt(el.attr("offset-left"), 10) - parseInt(el.css("border-left-width"), 10);
+                    var top = ev.clientY - parseInt(el.attr("offset-top"), 10) - parseInt(el.css("border-top-width"), 10);
+                    el.css({
+                        left: left,
+                        top: top
+                    })
+                }
+            })
+        },
+        _setContent: function(msg) {
+            var me = this;
+            me.$el.find(".lobibox-body").html(msg);
+            return me
+        },
+        _beforeShow: function() {
+            var me = this;
+            me._triggerEvent("onShow")
+        },
+        _afterShow: function() {
+            var me = this;
+            Lobibox.counter++;
+            me.$el.attr("data-nth", Lobibox.counter);
+            if (!me.$options.draggable) $(window).on("resize.lobibox-" + me.$el.attr("data-nth"), function() {
+                me.refreshWidth();
+                me.refreshHeight();
+                me.$el.css("left", "50%").css("margin-left", "-" + me.$el.width() / 2 + "px");
+                me.$el.css("top", "50%").css("margin-top", "-" + me.$el.height() / 2 + "px")
+            });
+            me._triggerEvent("shown")
+        },
+        _beforeClose: function() {
+            var me = this;
+            me._triggerEvent("beforeClose")
+        },
+        _afterClose: function() {
+            var me = this;
+            if (!me.$options.draggable) $(window).off("resize.lobibox-" + me.$el.attr("data-nth"));
+            me._triggerEvent("closed")
+        },
+        hide: function() {
+            var me = this;
+            if (me.$options.hideClass) {
+                me.$el.removeClass(me.$options.showClass);
+                me.$el.addClass(me.$options.hideClass);
+                setTimeout(function() {
+                    callback()
+                }, me.$options.delayToRemove)
+            } else callback();
+
+            function callback() {
+                me.$el.addClass("lobibox-hidden");
+                if ($(".lobibox[data-is-modal=true]:not(.lobibox-hidden)").length === 0) {
+                    $(".lobibox-backdrop").remove();
+                    $("body").removeClass(Lobibox.base.OPTIONS.bodyClass)
+                }
+            }
+            return this
+        },
+        destroy: function() {
+            var me = this;
+            me._beforeClose();
+            if (me.$options.hideClass) {
+                me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
+                setTimeout(function() {
+                    callback()
+                }, me.$options.delayToRemove)
+            } else callback();
+
+            function callback() {
+                me.$el.remove();
+                if ($(".lobibox[data-is-modal=true]").length === 0) {
+                    $(".lobibox-backdrop").remove();
+                    $("body").removeClass(Lobibox.base.OPTIONS.bodyClass)
+                }
+                me._afterClose()
+            }
+            return this
+        },
+        setWidth: function(width) {
+            var me =
+                this;
+            me.$el.css("width", me._calculateWidth(width));
+            return me
+        },
+        refreshWidth: function() {
+            this.setWidth(this.$el.width())
+        },
+        refreshHeight: function() {
+            this.setHeight(this.$el.height())
+        },
+        setHeight: function(height) {
+            var me = this;
+            me.$el.css("height", me._calculateHeight(height)).find(".lobibox-body").css("height", me._calculateBodyHeight(me.$el.innerHeight()));
+            return me
+        },
+        setSize: function(width, height) {
+            var me = this;
+            me.setWidth(width);
+            me.setHeight(height);
+            return me
+        },
+        setPosition: function(left, top) {
+            var pos;
+            if (typeof left ===
+                "number" && typeof top === "number") pos = {
+                left: left,
+                top: top
+            };
+            else if (typeof left === "string") pos = this._calculatePosition(left);
+            this.$el.css(pos);
+            return this
+        },
+        setTitle: function(title) {
+            return this.$el.find(".lobibox-title").html(title)
+        },
+        getTitle: function() {
+            return this.$el.find(".lobibox-title").html()
+        },
+        show: function() {
+            var me = this,
+                $body = $("body");
+            me._beforeShow();
+            me.$el.removeClass("lobibox-hidden");
+            $body.append(me.$el);
+            if (me.$options.buttons) {
+                var buttons = me.$el.find(".lobibox-footer").children();
+                buttons[0].focus()
+            }
+            if (me.$options.modal) {
+                $body.addClass(Lobibox.base.OPTIONS.bodyClass);
+                me._addBackdrop()
+            }
+            if (me.$options.delay !== false) setTimeout(function() {
+                me.destroy()
+            }, me.$options.delay);
+            me._afterShow();
+            return me
+        }
+    };
+    Lobibox.base = {};
+    Lobibox.base.OPTIONS = {
+        bodyClass: "lobibox-open",
+        modalClasses: {
+            "error": "lobibox-error",
+            "success": "lobibox-success",
+            "info": "lobibox-info",
+            "warning": "lobibox-warning",
+            "confirm": "lobibox-confirm",
+            "progress": "lobibox-progress",
+            "prompt": "lobibox-prompt",
+            "default": "lobibox-default",
+            "window": "lobibox-window"
+        },
+        buttonsAlign: ["left", "center", "right"],
+        buttons: {
+            ok: {
+                "class": "lobibox-btn lobibox-btn-default",
+                text: "OK",
+                closeOnClick: true
+            },
+            cancel: {
+                "class": "lobibox-btn lobibox-btn-cancel",
+                text: "Cancel",
+                closeOnClick: true
+            },
+            yes: {
+                "class": "lobibox-btn lobibox-btn-yes",
+                text: "Yes",
+                closeOnClick: true
+            },
+            no: {
+                "class": "lobibox-btn lobibox-btn-no",
+                text: "No",
+                closeOnClick: true
+            }
+        },
+        icons: {
+            bootstrap: {
+                confirm: "glyphicon glyphicon-question-sign",
+                success: "glyphicon glyphicon-ok-sign",
+                error: "glyphicon glyphicon-remove-sign",
+                warning: "glyphicon glyphicon-exclamation-sign",
+                info: "glyphicon glyphicon-info-sign"
+            },
+            fontAwesome: {
+                confirm: "fa fa-question-circle",
+                success: "fa fa-check-circle",
+                error: "fa fa-times-circle",
+                warning: "fa fa-exclamation-circle",
+                info: "fa fa-info-circle"
+            }
+        }
+    };
+    Lobibox.base.DEFAULTS = {
+        horizontalOffset: 5,
+        verticalOffset: 5,
+        width: 600,
+        height: "auto",
+        closeButton: true,
+        draggable: false,
+        customBtnClass: "lobibox-btn lobibox-btn-default",
+        modal: true,
+        debug: false,
+        buttonsAlign: "center",
+        closeOnEsc: true,
+        delayToRemove: 200,
+        delay: false,
+        baseClass: "animated-super-fast",
+        showClass: "zoomIn",
+        hideClass: "zoomOut",
+        iconSource: "bootstrap",
+        onShow: null,
+        shown: null,
+        beforeClose: null,
+        closed: null
+    };
+
+    function LobiboxPrompt(type, options) {
+        this.$input = null;
+        this.$type = "prompt";
+        this.$promptType = type;
+        options = $.extend({}, Lobibox.prompt.DEFAULT_OPTIONS, options);
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxPrompt.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxPrompt,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                ok: Lobibox.base.OPTIONS.buttons.ok,
+                cancel: Lobibox.base.OPTIONS.buttons.cancel
+            };
+            options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            me._setContent(me._createInput())._position();
+            me.$input.focus();
+            LobiboxBase._afterShow.call(me)
+        },
+        _createInput: function() {
+            var me = this,
+                label;
+            if (me.$options.multiline) me.$input = $("<textarea></textarea>").attr("rows", me.$options.lines);
+            else me.$input = $('<input type="' + me.$promptType + '"/>');
+            me.$input.addClass("lobibox-input").attr(me.$options.attrs);
+            if (me.$options.value) me.setValue(me.$options.value);
+            if (me.$options.label) label = $("<label>" + me.$options.label + "</label>");
+            return $("<div></div>").append(label, me.$input)
+        },
+        setValue: function(val) {
+            this.$input.val(val);
+            return this
+        },
+        getValue: function() {
+            return this.$input.val()
+        },
+        isValid: function() {
+            var me = this,
+                $error = me.$el.find(".lobibox-input-error-message");
+            if (me.$options.required && !me.getValue()) {
+                me.$input.addClass("invalid");
+                if ($error.length === 0) {
+                    me.$el.find(".lobibox-body").append('<p class="lobibox-input-error-message">' +
+                        me.$options.errorMessage + "</p>");
+                    me._position();
+                    me.$input.focus()
+                }
+                return false
+            }
+            me.$input.removeClass("invalid");
+            $error.remove();
+            me._position();
+            me.$input.focus();
+            return true
+        }
+    });
+    LobiboxPrompt.DEFAULT_OPTIONS = {
+        width: 400,
+        attrs: {},
+        value: "",
+        multiline: false,
+        lines: 3,
+        type: "text",
+        label: "",
+        required: true,
+        errorMessage: "The field is required"
+    };
+
+    function LobiboxConfirm(options) {
+        this.$type = "confirm";
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxConfirm.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxConfirm,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                yes: Lobibox.base.OPTIONS.buttons.yes,
+                no: Lobibox.base.OPTIONS.buttons.no
+            };
+            options = $.extend({}, mergedOptions, Lobibox.confirm.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            var d = $("<div></div>");
+            if (me.$options.iconClass) d.append($('<div class="lobibox-icon-wrapper"></div>').append('<i class="lobibox-icon ' +
+                me.$options.iconClass + '"></i>'));
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">' + me.$options.msg + "</span></div>");
+            me._setContent(d.html());
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        }
+    });
+    Lobibox.confirm.DEFAULTS = {
+        title: "Question",
+        width: 500
+    };
+
+    function LobiboxAlert(type, options) {
+        this.$type = type;
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxAlert,
+        _processInput: function(options) {
+            var me =
+                this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                ok: Lobibox.base.OPTIONS.buttons.ok
+            };
+            options = $.extend({}, mergedOptions, Lobibox.alert.OPTIONS[me.$type], Lobibox.alert.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            var d = $("<div></div>");
+            if (me.$options.iconClass) d.append($('<div class="lobibox-icon-wrapper"></div>').append('<i class="lobibox-icon ' + me.$options.iconClass + '"></i>'));
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">' + me.$options.msg + "</span></div>");
+            me._setContent(d.html());
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        }
+    });
+    Lobibox.alert.OPTIONS = {
+        warning: {
+            title: "Warning"
+        },
+        info: {
+            title: "Information"
+        },
+        success: {
+            title: "Success"
+        },
+        error: {
+            title: "Error"
+        }
+    };
+    Lobibox.alert.DEFAULTS = {};
+
+    function LobiboxProgress(options) {
+        this.$type = "progress";
+        this.$progressBarElement = null;
+        this.$options = this._processInput(options);
+        this.$progress = 0;
+        this._init();
+        this.debug(this)
+    }
+    LobiboxProgress.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxProgress,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            options = $.extend({}, mergedOptions, Lobibox.progress.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            if (me.$options.progressTpl) me.$progressBarElement = $(me.$options.progressTpl);
+            else me.$progressBarElement = me._createProgressbar();
+            var label;
+            if (me.$options.label) label = $("<label>" + me.$options.label + "</label>");
+            var innerHTML = $("<div></div>").append(label, me.$progressBarElement);
+            me._setContent(innerHTML);
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        },
+        _createProgressbar: function() {
+            var me = this;
+            var outer = $('<div class="lobibox-progress-bar-wrapper lobibox-progress-outer"></div>').append('<div class="lobibox-progress-bar lobibox-progress-element"></div>');
+            if (me.$options.showProgressLabel) outer.append('<span class="lobibox-progress-text" data-role="progress-text"></span>');
+            return outer
+        },
+        setProgress: function(progress) {
+            var me = this;
+            if (me.$progress === 100) return;
+            progress = Math.min(100, Math.max(0, progress));
+            me.$progress = progress;
+            me._triggerEvent("progressUpdated");
+            if (me.$progress === 100) me._triggerEvent("progressCompleted");
+            me.$el.find(".lobibox-progress-element").css("width", progress.toFixed(1) + "%");
+            me.$el.find('[data-role="progress-text"]').html(progress.toFixed(1) + "%");
+            return me
+        },
+        getProgress: function() {
+            return this.$progress
+        }
+    });
+    Lobibox.progress.DEFAULTS = {
+        width: 500,
+        showProgressLabel: true,
+        label: "",
+        progressTpl: false,
+        progressUpdated: null,
+        progressCompleted: null
+    };
+
+    function LobiboxWindow(type, options) {
+        this.$type = type;
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxWindow.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxWindow,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            if (options.content && typeof options.content === "function") options.content = options.content();
+            if (options.content instanceof jQuery) options.content =
+                options.content.clone();
+            options = $.extend({}, mergedOptions, Lobibox.window.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.setContent(me.$options.content);
+            if (me.$options.url && me.$options.autoload) {
+                if (!me.$options.showAfterLoad) me.show();
+                me.load(function() {
+                    if (me.$options.showAfterLoad) me.show()
+                })
+            } else me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        },
+        setParams: function(params) {
+            var me = this;
+            me.$options.params = params;
+            return me
+        },
+        getParams: function() {
+            var me = this;
+            return me.$options.params
+        },
+        setLoadMethod: function(method) {
+            var me = this;
+            me.$options.loadMethod = method;
+            return me
+        },
+        getLoadMethod: function() {
+            var me = this;
+            return me.$options.loadMethod
+        },
+        setContent: function(content) {
+            var me = this;
+            me.$options.content = content;
+            me.$el.find(".lobibox-body").html("").append(content);
+            return me
+        },
+        getContent: function() {
+            var me = this;
+            return me.$options.content
+        },
+        setUrl: function(url) {
+            this.$options.url = url;
+            return this
+        },
+        getUrl: function() {
+            return this.$options.url
+        },
+        load: function(callback) {
+            var me = this;
+            if (!me.$options.url) return me;
+            $.ajax(me.$options.url, {
+                method: me.$options.loadMethod,
+                data: me.$options.params
+            }).done(function(res) {
+                me.setContent(res);
+                if (callback && typeof callback === "function") callback(res)
+            });
+            return me
+        }
+    });
+    Lobibox.window.DEFAULTS = {
+        width: 480,
+        height: 600,
+        content: "",
+        url: "",
+        draggable: true,
+        autoload: true,
+        loadMethod: "GET",
+        showAfterLoad: true,
+        params: {}
+    }
+})();
+Math.randomString = function(n) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < n; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text
+};
+var Lobibox = Lobibox || {};
+(function() {
+    var LobiboxNotify = function(type, options) {
+        this.$type = null;
+        this.$options = null;
+        this.$el = null;
+        var me = this;
+        var _processInput = function(options) {
+            if (options.size === "mini" || options.size === "large") options = $.extend({}, Lobibox.notify.OPTIONS[options.size], options);
+            options = $.extend({}, Lobibox.notify.OPTIONS[me.$type], Lobibox.notify.DEFAULTS, options);
+            if (options.size !== "mini" && options.title === true) options.title = Lobibox.notify.OPTIONS[me.$type].title;
+            else if (options.size === "mini" && options.title === true) options.title =
+                false;
+            if (options.icon === true) options.icon = Lobibox.notify.OPTIONS.icons[options.iconSource][me.$type];
+            if (options.sound === true) options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
+            if (options.sound) options.sound = options.soundPath + options.sound + options.soundExt;
+            return options
+        };
+        var _appendInWrapper = function($el, $wrapper) {
+            if (me.$options.size === "normal")
+                if ($wrapper.hasClass("bottom")) $wrapper.prepend($el);
+                else $wrapper.append($el);
+            else if (me.$options.size === "mini")
+                if ($wrapper.hasClass("bottom")) $wrapper.prepend($el);
+                else $wrapper.append($el);
+            else if (me.$options.size === "large") {
+                var tabPane = _createTabPane().append($el);
+                var $li = _createTabControl(tabPane.attr("id"));
+                $wrapper.find(".lb-notify-wrapper").append(tabPane);
+                $wrapper.find(".lb-notify-tabs").append($li);
+                _activateTab($li);
+                $li.find(">a").click(function() {
+                    _activateTab($li)
+                })
+            }
+        };
+        var _activateTab = function($li) {
+            $li.closest(".lb-notify-tabs").find(">li").removeClass("active");
+            $li.addClass("active");
+            var $current = $($li.find(">a").attr("href"));
+            $current.closest(".lb-notify-wrapper").find(">.lb-tab-pane").removeClass("active");
+            $current.addClass("active")
+        };
+        var _createTabControl = function(tabPaneId) {
+            var $li = $("<li></li>", {
+                "class": Lobibox.notify.OPTIONS[me.$type]["class"]
+            });
+            $("<a></a>", {
+                "href": "#" + tabPaneId
+            }).append('<i class="tab-control-icon ' + me.$options.icon + '"></i>').appendTo($li);
+            return $li
+        };
+        var _createTabPane = function() {
+            return $("<div></div>", {
+                "class": "lb-tab-pane",
+                "id": Math.randomString(10)
+            })
+        };
+        var _createNotifyWrapper = function() {
+            var selector = (me.$options.size === "large" ? ".lobibox-notify-wrapper-large" : ".lobibox-notify-wrapper") +
+                "." + me.$options.position.replace(/\s/gi, "."),
+                $wrapper;
+            $wrapper = $(selector);
+            if ($wrapper.length === 0) {
+                $wrapper = $("<div></div>").addClass(selector.replace(/\./g, " ").trim()).appendTo($("body"));
+                if (me.$options.size === "large") $wrapper.append($('<ul class="lb-notify-tabs"></ul>')).append($('<div class="lb-notify-wrapper"></div>'))
+            }
+            return $wrapper
+        };
+        var _createNotify = function() {
+            var OPTS = Lobibox.notify.OPTIONS,
+                $iconEl, $innerIconEl, $iconWrapper, $body, $msg, $notify = $("<div></div>", {
+                    "class": "lobibox-notify " + OPTS[me.$type]["class"] +
+                        " " + OPTS["class"] + " " + me.$options.showClass
+                });
+            $iconWrapper = $('<div class="lobibox-notify-icon-wrapper"></div>').appendTo($notify);
+            $iconEl = $('<div class="lobibox-notify-icon"></div>').appendTo($iconWrapper);
+            $innerIconEl = $("<div></div>").appendTo($iconEl);
+            if (me.$options.img) $innerIconEl.append('<img src="' + me.$options.img + '"/>');
+            else if (me.$options.icon) $innerIconEl.append('<div class="icon-el"><i class="' + me.$options.icon + '"></i></div>');
+            else $notify.addClass("without-icon");
+            $msg = $('<div class="lobibox-notify-msg">' +
+                me.$options.msg + "</div>");
+            if (me.$options.messageHeight !== false) $msg.css("max-height", me.$options.messageHeight);
+            $body = $("<div></div>", {
+                "class": "lobibox-notify-body"
+            }).append($msg).appendTo($notify);
+            if (me.$options.title) $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + "<div>");
+            _addCloseButton($notify);
+            if (me.$options.size === "normal" || me.$options.size === "mini") {
+                _addCloseOnClick($notify);
+                _addDelay($notify)
+            }
+            if (me.$options.width) $notify.css("width", _calculateWidth(me.$options.width));
+            return $notify
+        };
+        var _addCloseButton = function($el) {
+            if (!me.$options.closable) return;
+            $('<span class="lobibox-close">&times;</span>').click(function(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                me.remove()
+            }).appendTo($el)
+        };
+        var _addCloseOnClick = function($el) {
+            if (!me.$options.closeOnClick) return;
+            $el.click(function() {
+                me.remove()
+            })
+        };
+        var _addDelay = function($el) {
+            if (!me.$options.delay) return;
+            if (me.$options.delayIndicator) {
+                var delay = $('<div class="lobibox-delay-indicator"><div></div></div>');
+                $el.append(delay)
+            }
+            var time =
+                0;
+            var interval = 1E3 / 30;
+            var currentTime = (new Date).getTime();
+            var timer = setInterval(function() {
+                if (me.$options.continueDelayOnInactiveTab) time = (new Date).getTime() - currentTime;
+                else time += interval;
+                var width = 100 * time / me.$options.delay;
+                if (width >= 100) {
+                    width = 100;
+                    me.remove();
+                    timer = clearInterval(timer)
+                }
+                if (me.$options.delayIndicator) delay.find("div").css("width", width + "%")
+            }, interval);
+            if (me.$options.pauseDelayOnHover) $el.on("mouseenter.lobibox", function() {
+                interval = 0
+            }).on("mouseleave.lobibox", function() {
+                interval =
+                    1E3 / 30
+            })
+        };
+        var _findTabToActivate = function($li) {
+            var $itemToActivate = $li.prev();
+            if ($itemToActivate.length === 0) $itemToActivate = $li.next();
+            if ($itemToActivate.length === 0) return null;
+            return $itemToActivate
+        };
+        var _calculateWidth = function(width) {
+            width = Math.min($(window).outerWidth(), width);
+            return width
+        };
+        this.remove = function() {
+            me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
+            var parent = me.$el.parent();
+            var wrapper = parent.closest(".lobibox-notify-wrapper-large");
+            var href = "#" + parent.attr("id");
+            var $li = wrapper.find('>.lb-notify-tabs>li:has(a[href="' + href + '"])');
+            $li.addClass(Lobibox.notify.OPTIONS["class"]).addClass(me.$options.hideClass);
+            setTimeout(function() {
+                    if (me.$options.size === "normal" || me.$options.size === "mini") me.$el.remove();
+                    else if (me.$options.size === "large") {
+                        var $newLi = _findTabToActivate($li);
+                        if ($newLi) _activateTab($newLi);
+                        $li.remove();
+                        parent.remove()
+                    }
+                    var list = Lobibox.notify.list;
+                    var ind = list.indexOf(me);
+                    list.splice(ind, 1);
+                    var next = list[ind];
+                    if (next && next.$options.showAfterPrevious) next._init()
+                },
+                500);
+            return me
+        };
+        me._init = function() {
+            var $notify = _createNotify();
+            if (me.$options.size === "mini") $notify.addClass("notify-mini");
+            if (typeof me.$options.position === "string") {
+                var $wrapper = _createNotifyWrapper();
+                _appendInWrapper($notify, $wrapper);
+                if ($wrapper.hasClass("center")) $wrapper.css("margin-left", "-" + $wrapper.width() / 2 + "px")
+            } else {
+                $("body").append($notify);
+                $notify.css({
+                    "position": "fixed",
+                    left: me.$options.position.left,
+                    top: me.$options.position.top
+                })
+            }
+            me.$el = $notify;
+            if (me.$options.sound) {
+                var snd = new Audio(me.$options.sound);
+                snd.play()
+            }
+            if (me.$options.rounded) me.$el.addClass("rounded");
+            me.$el.on("click.lobibox", function(ev) {
+                if (me.$options.onClickUrl) window.location.href = me.$options.onClickUrl;
+                if (me.$options.onClick && typeof me.$options.onClick === "function") me.$options.onClick.call(me, ev)
+            });
+            me.$el.data("lobibox", me)
+        };
+        this.$type = type;
+        this.$options = _processInput(options);
+        if (!me.$options.showAfterPrevious || Lobibox.notify.list.length === 0) this._init()
+    };
+    Lobibox.notify = function(type, options) {
+        if (["default", "info", "warning", "error",
+                "success"
+            ].indexOf(type) > -1) {
+            var lobibox = new LobiboxNotify(type, options);
+            Lobibox.notify.list.push(lobibox);
+            return lobibox
+        }
+    };
+    Lobibox.notify.list = [];
+    Lobibox.notify.closeAll = function() {
+        var list = Lobibox.notify.list;
+        for (var i in list) list[i].remove()
+    };
+    Lobibox.notify.DEFAULTS = {
+        title: true,
+        size: "normal",
+        soundPath: "sounds/",
+        soundExt: ".ogg",
+        showClass: "fadeInDown",
+        hideClass: "zoomOut",
+        icon: true,
+        msg: "",
+        img: null,
+        closable: true,
+        hideCloseButton: false,
+        delay: 5E3,
+        delayIndicator: true,
+        closeOnClick: true,
+        width: 400,
+        sound: false,
+        position: "bottom right",
+        iconSource: "bootstrap",
+        rounded: false,
+        messageHeight: 60,
+        pauseDelayOnHover: true,
+        onClickUrl: null,
+        showAfterPrevious: false,
+        continueDelayOnInactiveTab: true,
+        onClick: null
+    };
+    Lobibox.notify.OPTIONS = {
+        "class": "animated-fast",
+        large: {
+            width: 500,
+            messageHeight: 96
+        },
+        mini: {
+            "class": "notify-mini",
+            messageHeight: 32
+        },
+        default: {
+            "class": "lobibox-notify-default",
+            "title": "Default",
+            sound: false
+        },
+        success: {
+            "class": "lobibox-notify-success",
+            "title": "Success",
+            sound: "sound2"
+        },
+        error: {
+            "class": "lobibox-notify-error",
+            "title": "Error",
+            sound: "sound4"
+        },
+        warning: {
+            "class": "lobibox-notify-warning",
+            "title": "Warning",
+            sound: "sound5"
+        },
+        info: {
+            "class": "lobibox-notify-info",
+            "title": "Information",
+            sound: "sound6"
+        },
+        icons: {
+            bootstrap: {
+                success: "glyphicon glyphicon-ok-sign",
+                error: "glyphicon glyphicon-remove-sign",
+                warning: "glyphicon glyphicon-exclamation-sign",
+                info: "glyphicon glyphicon-info-sign"
+            },
+            fontAwesome: {
+                success: "fa fa-check-circle",
+                error: "fa fa-times-circle",
+                warning: "fa fa-exclamation-circle",
+                info: "fa fa-info-circle"
+            }
+        }
+    }
+})();
+var Lobibox = Lobibox || {};
+(function() {
+    Lobibox.counter = 0;
+    Lobibox.prompt = function(type, options) {
+        return new LobiboxPrompt(type, options)
+    };
+    Lobibox.confirm = function(options) {
+        return new LobiboxConfirm(options)
+    };
+    Lobibox.progress = function(options) {
+        return new LobiboxProgress(options)
+    };
+    Lobibox.error = {};
+    Lobibox.success = {};
+    Lobibox.warning = {};
+    Lobibox.info = {};
+    Lobibox.alert = function(type, options) {
+        if (["success", "error", "warning", "info"].indexOf(type) > -1) return new LobiboxAlert(type, options)
+    };
+    Lobibox.window = function(options) {
+        return new LobiboxWindow("window", options)
+    };
+    var LobiboxBase = {
+        $type: null,
+        $el: null,
+        $options: null,
+        debug: function() {
+            if (this.$options.debug) window.console.debug.apply(window.console, arguments)
+        },
+        _processInput: function(options) {
+            if ($.isArray(options.buttons)) {
+                var btns = {};
+                for (var i = 0; i < options.buttons.length; i++) btns[options.buttons[i]] = Lobibox.base.OPTIONS.buttons[options.buttons[i]];
+                options.buttons = btns
+            }
+            options.customBtnClass = options.customBtnClass ? options.customBtnClass : Lobibox.base.DEFAULTS.customBtnClass;
+            for (var i in options.buttons)
+                if (options.buttons.hasOwnProperty(i)) {
+                    var btn =
+                        options.buttons[i];
+                    btn = $.extend({}, Lobibox.base.OPTIONS.buttons[i], btn);
+                    if (!btn["class"]) btn["class"] = options.customBtnClass;
+                    options.buttons[i] = btn
+                }
+            options = $.extend({}, Lobibox.base.DEFAULTS, options);
+            if (options.showClass === undefined) options.showClass = Lobibox.base.OPTIONS.showClass;
+            if (options.hideClass === undefined) options.hideClass = Lobibox.base.OPTIONS.hideClass;
+            if (options.baseClass === undefined) options.baseClass = Lobibox.base.OPTIONS.baseClass;
+            if (options.delayToRemove === undefined) options.delayToRemove =
+                Lobibox.base.OPTIONS.delayToRemove;
+            if (!options.iconClass) options.iconClass = Lobibox.base.OPTIONS.icons[options.iconSource][this.$type];
+            return options
+        },
+        _init: function() {
+            var me = this;
+            me._createMarkup();
+            me.setTitle(me.$options.title);
+            if (me.$options.draggable && !me._isMobileScreen()) {
+                me.$el.addClass("draggable");
+                me._enableDrag()
+            }
+            if (me.$options.closeButton) me._addCloseButton();
+            if (me.$options.closeOnEsc) $(document).on("keyup.lobibox", function(ev) {
+                if (ev.which === 27) me.destroy()
+            });
+            if (me.$options.baseClass) me.$el.addClass(me.$options.baseClass);
+            if (me.$options.showClass) {
+                me.$el.removeClass(me.$options.hideClass);
+                me.$el.addClass(me.$options.showClass)
+            }
+            me.$el.data("lobibox", me)
+        },
+        _calculatePosition: function(position) {
+            var me = this;
+            var top;
+            if (position === "top") top = 30;
+            else if (position === "bottom") top = $(window).outerHeight() - me.$el.outerHeight() - 30;
+            else top = ($(window).outerHeight() - me.$el.outerHeight()) / 2;
+            var left = ($(window).outerWidth() - me.$el.outerWidth()) / 2;
+            return {
+                left: left,
+                top: top
+            }
+        },
+        _createButton: function(type, op) {
+            var me = this;
+            var btn = $("<button></button>").addClass(op["class"]).attr("data-type",
+                type).html(op.text);
+            if (me.$options.callback && typeof me.$options.callback === "function") btn.on("click.lobibox", function(ev) {
+                var bt = $(this);
+                me._onButtonClick(me.$options.buttons[type], type);
+                me.$options.callback(me, bt.data("type"), ev)
+            });
+            btn.click(function() {
+                me._onButtonClick(me.$options.buttons[type], type)
+            });
+            return btn
+        },
+        _onButtonClick: function(buttonOptions, type) {
+            var me = this;
+            if ((type === "ok" && me.$type === "prompt" && me.isValid() || me.$type !== "prompt" || type !== "ok") && buttonOptions && buttonOptions.closeOnClick) me.destroy()
+        },
+        _generateButtons: function() {
+            var me = this;
+            var btns = [];
+            for (var i in me.$options.buttons)
+                if (me.$options.buttons.hasOwnProperty(i)) {
+                    var op = me.$options.buttons[i];
+                    var btn = me._createButton(i, op);
+                    btns.push(btn)
+                }
+            return btns
+        },
+        _createMarkup: function() {
+            var me = this;
+            var lobibox = $('<div class="lobibox"></div>');
+            lobibox.attr("data-is-modal", me.$options.modal);
+            var header = $('<div class="lobibox-header"></div>').append('<span class="lobibox-title"></span>');
+            var body = $('<div class="lobibox-body"></div>');
+            lobibox.append(header);
+            lobibox.append(body);
+            if (me.$options.buttons && !$.isEmptyObject(me.$options.buttons)) {
+                var footer = $('<div class="lobibox-footer"></div>');
+                footer.append(me._generateButtons());
+                lobibox.append(footer);
+                if (Lobibox.base.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1) footer.addClass("text-" + me.$options.buttonsAlign)
+            }
+            me.$el = lobibox.addClass(Lobibox.base.OPTIONS.modalClasses[me.$type])
+        },
+        _setSize: function() {
+            var me = this;
+            me.setWidth(me.$options.width);
+            if (me.$options.height === "auto") me.setHeight(me.$el.outerHeight());
+            else me.setHeight(me.$options.height)
+        },
+        _calculateBodyHeight: function(height) {
+            var me = this;
+            var headerHeight = me.$el.find(".lobibox-header").outerHeight();
+            var footerHeight = me.$el.find(".lobibox-footer").outerHeight();
+            return height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0)
+        },
+        _addBackdrop: function() {
+            if ($(".lobibox-backdrop").length === 0) $("body").append('<div class="lobibox-backdrop"></div>')
+        },
+        _triggerEvent: function(type) {
+            var me = this;
+            if (me.$options[type] && typeof me.$options[type] === "function") me.$options[type](me)
+        },
+        _calculateWidth: function(width) {
+            var me = this;
+            width = Math.min(Math.max(width, me.$options.width), $(window).outerWidth());
+            if (width === $(window).outerWidth()) width -= 2 * me.$options.horizontalOffset;
+            return width
+        },
+        _calculateHeight: function(height) {
+            var me = this;
+            console.log(me.$options.height);
+            height = Math.min(Math.max(height, me.$options.height), $(window).outerHeight());
+            if (height === $(window).outerHeight()) height -= 2 * me.$options.verticalOffset;
+            return height
+        },
+        _addCloseButton: function() {
+            var me = this;
+            var closeBtn = $('<span class="btn-close">&times;</span>');
+            me.$el.find(".lobibox-header").append(closeBtn);
+            closeBtn.on("mousedown", function(ev) {
+                ev.stopPropagation()
+            });
+            closeBtn.on("click.lobibox", function() {
+                me.destroy()
+            })
+        },
+        _position: function() {
+            var me = this;
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top)
+        },
+        _isMobileScreen: function() {
+            return $(window).outerWidth() < 768
+        },
+        _enableDrag: function() {
+            var el = this.$el,
+                heading = el.find(".lobibox-header");
+            heading.on("mousedown.lobibox", function(ev) {
+                el.attr("offset-left", ev.offsetX);
+                el.attr("offset-top",
+                    ev.offsetY);
+                el.attr("allow-drag", "true")
+            });
+            $(document).on("mouseup.lobibox", function() {
+                el.attr("allow-drag", "false")
+            });
+            $(document).on("mousemove.lobibox", function(ev) {
+                if (el.attr("allow-drag") === "true") {
+                    var left = ev.clientX - parseInt(el.attr("offset-left"), 10) - parseInt(el.css("border-left-width"), 10);
+                    var top = ev.clientY - parseInt(el.attr("offset-top"), 10) - parseInt(el.css("border-top-width"), 10);
+                    el.css({
+                        left: left,
+                        top: top
+                    })
+                }
+            })
+        },
+        _setContent: function(msg) {
+            var me = this;
+            me.$el.find(".lobibox-body").html(msg);
+            return me
+        },
+        _beforeShow: function() {
+            var me = this;
+            me._triggerEvent("onShow")
+        },
+        _afterShow: function() {
+            var me = this;
+            Lobibox.counter++;
+            me.$el.attr("data-nth", Lobibox.counter);
+            if (!me.$options.draggable) $(window).on("resize.lobibox-" + me.$el.attr("data-nth"), function() {
+                me.refreshWidth();
+                me.refreshHeight();
+                me.$el.css("left", "50%").css("margin-left", "-" + me.$el.width() / 2 + "px");
+                me.$el.css("top", "50%").css("margin-top", "-" + me.$el.height() / 2 + "px")
+            });
+            me._triggerEvent("shown")
+        },
+        _beforeClose: function() {
+            var me = this;
+            me._triggerEvent("beforeClose")
+        },
+        _afterClose: function() {
+            var me = this;
+            if (!me.$options.draggable) $(window).off("resize.lobibox-" + me.$el.attr("data-nth"));
+            me._triggerEvent("closed")
+        },
+        hide: function() {
+            var me = this;
+            if (me.$options.hideClass) {
+                me.$el.removeClass(me.$options.showClass);
+                me.$el.addClass(me.$options.hideClass);
+                setTimeout(function() {
+                    callback()
+                }, me.$options.delayToRemove)
+            } else callback();
+
+            function callback() {
+                me.$el.addClass("lobibox-hidden");
+                if ($(".lobibox[data-is-modal=true]:not(.lobibox-hidden)").length === 0) {
+                    $(".lobibox-backdrop").remove();
+                    $("body").removeClass(Lobibox.base.OPTIONS.bodyClass)
+                }
+            }
+            return this
+        },
+        destroy: function() {
+            var me = this;
+            me._beforeClose();
+            if (me.$options.hideClass) {
+                me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
+                setTimeout(function() {
+                    callback()
+                }, me.$options.delayToRemove)
+            } else callback();
+
+            function callback() {
+                me.$el.remove();
+                if ($(".lobibox[data-is-modal=true]").length === 0) {
+                    $(".lobibox-backdrop").remove();
+                    $("body").removeClass(Lobibox.base.OPTIONS.bodyClass)
+                }
+                me._afterClose()
+            }
+            return this
+        },
+        setWidth: function(width) {
+            var me =
+                this;
+            me.$el.css("width", me._calculateWidth(width));
+            return me
+        },
+        refreshWidth: function() {
+            this.setWidth(this.$el.width())
+        },
+        refreshHeight: function() {
+            this.setHeight(this.$el.height())
+        },
+        setHeight: function(height) {
+            var me = this;
+            me.$el.css("height", me._calculateHeight(height)).find(".lobibox-body").css("height", me._calculateBodyHeight(me.$el.innerHeight()));
+            return me
+        },
+        setSize: function(width, height) {
+            var me = this;
+            me.setWidth(width);
+            me.setHeight(height);
+            return me
+        },
+        setPosition: function(left, top) {
+            var pos;
+            if (typeof left ===
+                "number" && typeof top === "number") pos = {
+                left: left,
+                top: top
+            };
+            else if (typeof left === "string") pos = this._calculatePosition(left);
+            this.$el.css(pos);
+            return this
+        },
+        setTitle: function(title) {
+            return this.$el.find(".lobibox-title").html(title)
+        },
+        getTitle: function() {
+            return this.$el.find(".lobibox-title").html()
+        },
+        show: function() {
+            var me = this,
+                $body = $("body");
+            me._beforeShow();
+            me.$el.removeClass("lobibox-hidden");
+            $body.append(me.$el);
+            if (me.$options.buttons) {
+                var buttons = me.$el.find(".lobibox-footer").children();
+                buttons[0].focus()
+            }
+            if (me.$options.modal) {
+                $body.addClass(Lobibox.base.OPTIONS.bodyClass);
+                me._addBackdrop()
+            }
+            if (me.$options.delay !== false) setTimeout(function() {
+                me.destroy()
+            }, me.$options.delay);
+            me._afterShow();
+            return me
+        }
+    };
+    Lobibox.base = {};
+    Lobibox.base.OPTIONS = {
+        bodyClass: "lobibox-open",
+        modalClasses: {
+            "error": "lobibox-error",
+            "success": "lobibox-success",
+            "info": "lobibox-info",
+            "warning": "lobibox-warning",
+            "confirm": "lobibox-confirm",
+            "progress": "lobibox-progress",
+            "prompt": "lobibox-prompt",
+            "default": "lobibox-default",
+            "window": "lobibox-window"
+        },
+        buttonsAlign: ["left", "center", "right"],
+        buttons: {
+            ok: {
+                "class": "lobibox-btn lobibox-btn-default",
+                text: "OK",
+                closeOnClick: true
+            },
+            cancel: {
+                "class": "lobibox-btn lobibox-btn-cancel",
+                text: "Cancel",
+                closeOnClick: true
+            },
+            yes: {
+                "class": "lobibox-btn lobibox-btn-yes",
+                text: "Yes",
+                closeOnClick: true
+            },
+            no: {
+                "class": "lobibox-btn lobibox-btn-no",
+                text: "No",
+                closeOnClick: true
+            }
+        },
+        icons: {
+            bootstrap: {
+                confirm: "glyphicon glyphicon-question-sign",
+                success: "glyphicon glyphicon-ok-sign",
+                error: "glyphicon glyphicon-remove-sign",
+                warning: "glyphicon glyphicon-exclamation-sign",
+                info: "glyphicon glyphicon-info-sign"
+            },
+            fontAwesome: {
+                confirm: "fa fa-question-circle",
+                success: "fa fa-check-circle",
+                error: "fa fa-times-circle",
+                warning: "fa fa-exclamation-circle",
+                info: "fa fa-info-circle"
+            }
+        }
+    };
+    Lobibox.base.DEFAULTS = {
+        horizontalOffset: 5,
+        verticalOffset: 5,
+        width: 600,
+        height: "auto",
+        closeButton: true,
+        draggable: false,
+        customBtnClass: "lobibox-btn lobibox-btn-default",
+        modal: true,
+        debug: false,
+        buttonsAlign: "center",
+        closeOnEsc: true,
+        delayToRemove: 200,
+        delay: false,
+        baseClass: "animated-super-fast",
+        showClass: "zoomIn",
+        hideClass: "zoomOut",
+        iconSource: "bootstrap",
+        onShow: null,
+        shown: null,
+        beforeClose: null,
+        closed: null
+    };
+
+    function LobiboxPrompt(type, options) {
+        this.$input = null;
+        this.$type = "prompt";
+        this.$promptType = type;
+        options = $.extend({}, Lobibox.prompt.DEFAULT_OPTIONS, options);
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxPrompt.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxPrompt,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                ok: Lobibox.base.OPTIONS.buttons.ok,
+                cancel: Lobibox.base.OPTIONS.buttons.cancel
+            };
+            options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            me._setContent(me._createInput())._position();
+            me.$input.focus();
+            LobiboxBase._afterShow.call(me)
+        },
+        _createInput: function() {
+            var me = this,
+                label;
+            if (me.$options.multiline) me.$input = $("<textarea></textarea>").attr("rows", me.$options.lines);
+            else me.$input = $('<input type="' + me.$promptType + '"/>');
+            me.$input.addClass("lobibox-input").attr(me.$options.attrs);
+            if (me.$options.value) me.setValue(me.$options.value);
+            if (me.$options.label) label = $("<label>" + me.$options.label + "</label>");
+            return $("<div></div>").append(label, me.$input)
+        },
+        setValue: function(val) {
+            this.$input.val(val);
+            return this
+        },
+        getValue: function() {
+            return this.$input.val()
+        },
+        isValid: function() {
+            var me = this,
+                $error = me.$el.find(".lobibox-input-error-message");
+            if (me.$options.required && !me.getValue()) {
+                me.$input.addClass("invalid");
+                if ($error.length === 0) {
+                    me.$el.find(".lobibox-body").append('<p class="lobibox-input-error-message">' +
+                        me.$options.errorMessage + "</p>");
+                    me._position();
+                    me.$input.focus()
+                }
+                return false
+            }
+            me.$input.removeClass("invalid");
+            $error.remove();
+            me._position();
+            me.$input.focus();
+            return true
+        }
+    });
+    LobiboxPrompt.DEFAULT_OPTIONS = {
+        width: 400,
+        attrs: {},
+        value: "",
+        multiline: false,
+        lines: 3,
+        type: "text",
+        label: "",
+        required: true,
+        errorMessage: "The field is required"
+    };
+
+    function LobiboxConfirm(options) {
+        this.$type = "confirm";
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxConfirm.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxConfirm,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                yes: Lobibox.base.OPTIONS.buttons.yes,
+                no: Lobibox.base.OPTIONS.buttons.no
+            };
+            options = $.extend({}, mergedOptions, Lobibox.confirm.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            var d = $("<div></div>");
+            if (me.$options.iconClass) {
+                var icon = "vaadin-icons:question";
+                if (me.$options.icon &&
+                    me.$options.iconClass != "") icon = me.$options.iconClass;
+                d.append($('<div class="lobibox-icon-wrapper"></div>').append('<iron-icon class="big" icon="' + icon + '"></iron-icon>'))
+            }
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">' + me.$options.msg + "</span></div>");
+            me._setContent(d.html());
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        }
+    });
+    Lobibox.confirm.DEFAULTS = {
+        title: "Question",
+        width: 500
+    };
+
+    function LobiboxAlert(type, options) {
+        this.$type = type;
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxAlert,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            mergedOptions.buttons = {
+                ok: Lobibox.base.OPTIONS.buttons.ok
+            };
+            options = $.extend({}, mergedOptions, Lobibox.alert.OPTIONS[me.$type], Lobibox.alert.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            var d = $("<div></div>");
+            if (me.$options.iconClass) d.append($('<div class="lobibox-icon-wrapper"></div>').append('<i class="lobibox-icon ' + me.$options.iconClass + '"></i>'));
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">' + me.$options.msg + "</span></div>");
+            me._setContent(d.html());
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        }
+    });
+    Lobibox.alert.OPTIONS = {
+        warning: {
+            title: "Warning"
+        },
+        info: {
+            title: "Information"
+        },
+        success: {
+            title: "Success"
+        },
+        error: {
+            title: "Error"
+        }
+    };
+    Lobibox.alert.DEFAULTS = {};
+
+    function LobiboxProgress(options) {
+        this.$type =
+            "progress";
+        this.$progressBarElement = null;
+        this.$options = this._processInput(options);
+        this.$progress = 0;
+        this._init();
+        this.debug(this)
+    }
+    LobiboxProgress.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxProgress,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            options = $.extend({}, mergedOptions, Lobibox.progress.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.show()
+        },
+        _afterShow: function() {
+            var me = this;
+            if (me.$options.progressTpl) me.$progressBarElement =
+                $(me.$options.progressTpl);
+            else me.$progressBarElement = me._createProgressbar();
+            var label;
+            if (me.$options.label) label = $("<label>" + me.$options.label + "</label>");
+            var innerHTML = $("<div></div>").append(label, me.$progressBarElement);
+            me._setContent(innerHTML);
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        },
+        _createProgressbar: function() {
+            var me = this;
+            var outer = $('<div class="lobibox-progress-bar-wrapper lobibox-progress-outer"></div>').append('<div class="lobibox-progress-bar lobibox-progress-element"></div>');
+            if (me.$options.showProgressLabel) outer.append('<span class="lobibox-progress-text" data-role="progress-text"></span>');
+            return outer
+        },
+        setProgress: function(progress) {
+            var me = this;
+            if (me.$progress === 100) return;
+            progress = Math.min(100, Math.max(0, progress));
+            me.$progress = progress;
+            me._triggerEvent("progressUpdated");
+            if (me.$progress === 100) me._triggerEvent("progressCompleted");
+            me.$el.find(".lobibox-progress-element").css("width", progress.toFixed(1) + "%");
+            me.$el.find('[data-role="progress-text"]').html(progress.toFixed(1) +
+                "%");
+            return me
+        },
+        getProgress: function() {
+            return this.$progress
+        }
+    });
+    Lobibox.progress.DEFAULTS = {
+        width: 500,
+        showProgressLabel: true,
+        label: "",
+        progressTpl: false,
+        progressUpdated: null,
+        progressCompleted: null
+    };
+
+    function LobiboxWindow(type, options) {
+        this.$type = type;
+        this.$options = this._processInput(options);
+        this._init();
+        this.debug(this)
+    }
+    LobiboxWindow.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxWindow,
+        _processInput: function(options) {
+            var me = this;
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            if (options.content && typeof options.content === "function") options.content = options.content();
+            if (options.content instanceof jQuery) options.content = options.content.clone();
+            options = $.extend({}, mergedOptions, Lobibox.window.DEFAULTS, options);
+            return options
+        },
+        _init: function() {
+            var me = this;
+            LobiboxBase._init.call(me);
+            me.setContent(me.$options.content);
+            if (me.$options.url && me.$options.autoload) {
+                if (!me.$options.showAfterLoad) me.show();
+                me.load(function() {
+                    if (me.$options.showAfterLoad) me.show()
+                })
+            } else me.show()
+        },
+        _afterShow: function() {
+            var me =
+                this;
+            me._position();
+            LobiboxBase._afterShow.call(me)
+        },
+        setParams: function(params) {
+            var me = this;
+            me.$options.params = params;
+            return me
+        },
+        getParams: function() {
+            var me = this;
+            return me.$options.params
+        },
+        setLoadMethod: function(method) {
+            var me = this;
+            me.$options.loadMethod = method;
+            return me
+        },
+        getLoadMethod: function() {
+            var me = this;
+            return me.$options.loadMethod
+        },
+        setContent: function(content) {
+            var me = this;
+            me.$options.content = content;
+            me.$el.find(".lobibox-body").html("").append(content);
+            return me
+        },
+        getContent: function() {
+            var me =
+                this;
+            return me.$options.content
+        },
+        setUrl: function(url) {
+            this.$options.url = url;
+            return this
+        },
+        getUrl: function() {
+            return this.$options.url
+        },
+        load: function(callback) {
+            var me = this;
+            if (!me.$options.url) return me;
+            $.ajax(me.$options.url, {
+                method: me.$options.loadMethod,
+                data: me.$options.params
+            }).done(function(res) {
+                me.setContent(res);
+                if (callback && typeof callback === "function") callback(res)
+            });
+            return me
+        }
+    });
+    Lobibox.window.DEFAULTS = {
+        width: 480,
+        height: 600,
+        content: "",
+        url: "",
+        draggable: true,
+        autoload: true,
+        loadMethod: "GET",
+        showAfterLoad: true,
+        params: {}
+    }
+})();
+Math.randomString = function(n) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < n; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text
+};
+var Lobibox = Lobibox || {};
+(function() {
+    var LobiboxNotify = function(type, options) {
+        this.$type = null;
+        this.$options = null;
+        this.$el = null;
+        var me = this;
+        var _processInput = function(options) {
+            if (options.size === "mini" || options.size === "large") options = $.extend({}, Lobibox.notify.OPTIONS[options.size], options);
+            options = $.extend({}, Lobibox.notify.OPTIONS[me.$type], Lobibox.notify.DEFAULTS, options);
+            if (options.size !== "mini" && options.title === true) options.title = Lobibox.notify.OPTIONS[me.$type].title;
+            else if (options.size === "mini" && options.title === true) options.title =
+                false;
+            if (options.icon === true) options.icon = Lobibox.notify.OPTIONS.icons[options.iconSource][me.$type];
+            if (options.sound === true) options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
+            if (options.sound) options.sound = options.soundPath + options.sound + options.soundExt;
+            return options
+        };
+        var _appendInWrapper = function($el, $wrapper) {
+            if (me.$options.size === "normal")
+                if ($wrapper.hasClass("bottom")) $wrapper.prepend($el);
+                else $wrapper.append($el);
+            else if (me.$options.size === "mini")
+                if ($wrapper.hasClass("bottom")) $wrapper.prepend($el);
+                else $wrapper.append($el);
+            else if (me.$options.size === "large") {
+                var tabPane = _createTabPane().append($el);
+                var $li = _createTabControl(tabPane.attr("id"));
+                $wrapper.find(".lb-notify-wrapper").append(tabPane);
+                $wrapper.find(".lb-notify-tabs").append($li);
+                _activateTab($li);
+                $li.find(">a").click(function() {
+                    _activateTab($li)
+                })
+            }
+        };
+        var _activateTab = function($li) {
+            $li.closest(".lb-notify-tabs").find(">li").removeClass("active");
+            $li.addClass("active");
+            var $current = $($li.find(">a").attr("href"));
+            $current.closest(".lb-notify-wrapper").find(">.lb-tab-pane").removeClass("active");
+            $current.addClass("active")
+        };
+        var _createTabControl = function(tabPaneId) {
+            var $li = $("<li></li>", {
+                "class": Lobibox.notify.OPTIONS[me.$type]["class"]
+            });
+            $("<a></a>", {
+                "href": "#" + tabPaneId
+            }).append('<i class="tab-control-icon ' + me.$options.icon + '"></i>').appendTo($li);
+            return $li
+        };
+        var _createTabPane = function() {
+            return $("<div></div>", {
+                "class": "lb-tab-pane",
+                "id": Math.randomString(10)
+            })
+        };
+        var _createNotifyWrapper = function() {
+            var selector = (me.$options.size === "large" ? ".lobibox-notify-wrapper-large" : ".lobibox-notify-wrapper") +
+                "." + me.$options.position.replace(/\s/gi, "."),
+                $wrapper;
+            $wrapper = $(selector);
+            if ($wrapper.length === 0) {
+                $wrapper = $("<div></div>").addClass(selector.replace(/\./g, " ").trim()).appendTo($("body"));
+                if (me.$options.size === "large") $wrapper.append($('<ul class="lb-notify-tabs"></ul>')).append($('<div class="lb-notify-wrapper"></div>'))
+            }
+            return $wrapper
+        };
+        var _createNotify = function() {
+            var OPTS = Lobibox.notify.OPTIONS,
+                $iconEl, $innerIconEl, $iconWrapper, $body, $msg, $notify = $("<div></div>", {
+                    "class": "lobibox-notify " + OPTS[me.$type]["class"] +
+                        " " + OPTS["class"] + " " + me.$options.showClass
+                });
+            $iconWrapper = $('<div class="lobibox-notify-icon-wrapper"></div>').appendTo($notify);
+            $iconEl = $('<div class="lobibox-notify-icon"></div>').appendTo($iconWrapper);
+            $innerIconEl = $("<div></div>").appendTo($iconEl);
+            if (me.$options.img) $innerIconEl.append('<img src="' + me.$options.img + '"/>');
+            else if (me.$options.icon) {
+                var icon = "vaadin-icons:info-circle-o";
+                if (me.$options.icon && me.$options.icon != "") icon = me.$options.icon;
+                $innerIconEl.append('<iron-icon class="big" icon="' +
+                    icon + '"></iron-icon>')
+            } else $notify.addClass("without-icon");
+            $msg = $('<div class="lobibox-notify-msg">' + me.$options.msg + "</div>");
+            if (me.$options.messageHeight !== false) $msg.css("max-height", me.$options.messageHeight);
+            $body = $("<div></div>", {
+                "class": "lobibox-notify-body"
+            }).append($msg).appendTo($notify);
+            if (me.$options.title) $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + "<div>");
+            _addCloseButton($notify);
+            if (me.$options.size === "normal" || me.$options.size === "mini") {
+                _addCloseOnClick($notify);
+                _addDelay($notify)
+            }
+            if (me.$options.width) $notify.css("width", _calculateWidth(me.$options.width));
+            return $notify
+        };
+        var _addCloseButton = function($el) {
+            if (!me.$options.closable) return;
+            $('<span class="lobibox-close">&times;</span>').click(function(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                me.remove()
+            }).appendTo($el)
+        };
+        var _addCloseOnClick = function($el) {
+            if (!me.$options.closeOnClick) return;
+            $el.click(function() {
+                me.remove()
+            })
+        };
+        var _addDelay = function($el) {
+            if (!me.$options.delay) return;
+            if (me.$options.delayIndicator) {
+                var delay =
+                    $('<div class="lobibox-delay-indicator"><div></div></div>');
+                $el.append(delay)
+            }
+            var time = 0;
+            var interval = 1E3 / 30;
+            var currentTime = (new Date).getTime();
+            var timer = setInterval(function() {
+                if (me.$options.continueDelayOnInactiveTab) time = (new Date).getTime() - currentTime;
+                else time += interval;
+                var width = 100 * time / me.$options.delay;
+                if (width >= 100) {
+                    width = 100;
+                    me.remove();
+                    timer = clearInterval(timer)
+                }
+                if (me.$options.delayIndicator) delay.find("div").css("width", width + "%")
+            }, interval);
+            if (me.$options.pauseDelayOnHover) $el.on("mouseenter.lobibox",
+                function() {
+                    interval = 0
+                }).on("mouseleave.lobibox", function() {
+                interval = 1E3 / 30
+            })
+        };
+        var _findTabToActivate = function($li) {
+            var $itemToActivate = $li.prev();
+            if ($itemToActivate.length === 0) $itemToActivate = $li.next();
+            if ($itemToActivate.length === 0) return null;
+            return $itemToActivate
+        };
+        var _calculateWidth = function(width) {
+            width = Math.min($(window).outerWidth(), width);
+            return width
+        };
+        this.remove = function() {
+            me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
+            var parent = me.$el.parent();
+            var wrapper = parent.closest(".lobibox-notify-wrapper-large");
+            var href = "#" + parent.attr("id");
+            var $li = wrapper.find('>.lb-notify-tabs>li:has(a[href="' + href + '"])');
+            $li.addClass(Lobibox.notify.OPTIONS["class"]).addClass(me.$options.hideClass);
+            setTimeout(function() {
+                if (me.$options.size === "normal" || me.$options.size === "mini") me.$el.remove();
+                else if (me.$options.size === "large") {
+                    var $newLi = _findTabToActivate($li);
+                    if ($newLi) _activateTab($newLi);
+                    $li.remove();
+                    parent.remove()
+                }
+                var list = Lobibox.notify.list;
+                var ind = list.indexOf(me);
+                list.splice(ind, 1);
+                var next = list[ind];
+                if (next &&
+                    next.$options.showAfterPrevious) next._init()
+            }, 500);
+            return me
+        };
+        me._init = function() {
+            var $notify = _createNotify();
+            if (me.$options.size === "mini") $notify.addClass("notify-mini");
+            if (typeof me.$options.position === "string") {
+                var $wrapper = _createNotifyWrapper();
+                _appendInWrapper($notify, $wrapper);
+                if ($wrapper.hasClass("center")) $wrapper.css("margin-left", "-" + $wrapper.width() / 2 + "px")
+            } else {
+                $("body").append($notify);
+                $notify.css({
+                    "position": "fixed",
+                    left: me.$options.position.left,
+                    top: me.$options.position.top
+                })
+            }
+            me.$el =
+                $notify;
+            if (me.$options.sound) {
+                var snd = new Audio(me.$options.sound);
+                snd.play()
+            }
+            if (me.$options.rounded) me.$el.addClass("rounded");
+            me.$el.on("click.lobibox", function(ev) {
+                if (me.$options.onClickUrl) window.location.href = me.$options.onClickUrl;
+                if (me.$options.onClick && typeof me.$options.onClick === "function") me.$options.onClick.call(me, ev)
+            });
+            me.$el.data("lobibox", me)
+        };
+        this.$type = type;
+        this.$options = _processInput(options);
+        if (!me.$options.showAfterPrevious || Lobibox.notify.list.length === 0) this._init()
+    };
+    Lobibox.notify =
+        function(type, options) {
+            if (["default", "info", "warning", "error", "success"].indexOf(type) > -1) {
+                var lobibox = new LobiboxNotify(type, options);
+                Lobibox.notify.list.push(lobibox);
+                return lobibox
+            }
+        };
+    Lobibox.notify.list = [];
+    Lobibox.notify.closeAll = function() {
+        var list = Lobibox.notify.list;
+        for (var i in list) list[i].remove()
+    };
+    Lobibox.notify.DEFAULTS = {
+        title: true,
+        size: "normal",
+        soundPath: "sounds/",
+        soundExt: ".ogg",
+        showClass: "fadeInDown",
+        hideClass: "zoomOut",
+        icon: true,
+        msg: "",
+        img: null,
+        closable: true,
+        hideCloseButton: false,
+        delay: 5E3,
+        delayIndicator: true,
+        closeOnClick: true,
+        width: 400,
+        sound: false,
+        position: "bottom right",
+        iconSource: "bootstrap",
+        rounded: false,
+        messageHeight: 60,
+        pauseDelayOnHover: true,
+        onClickUrl: null,
+        showAfterPrevious: false,
+        continueDelayOnInactiveTab: true,
+        onClick: null
+    };
+    Lobibox.notify.OPTIONS = {
+        "class": "animated-fast",
+        large: {
+            width: 500,
+            messageHeight: 96
+        },
+        mini: {
+            "class": "notify-mini",
+            messageHeight: 32
+        },
+        default: {
+            "class": "lobibox-notify-default",
+            "title": "Information",
+            sound: false
+        },
+        success: {
+            "class": "lobibox-notify-success",
+            "title": "Success",
+            sound: "sound2"
+        },
+        error: {
+            "class": "lobibox-notify-error",
+            "title": "Error",
+            sound: "sound4"
+        },
+        warning: {
+            "class": "lobibox-notify-warning",
+            "title": "Warning",
+            sound: "sound5"
+        },
+        info: {
+            "class": "lobibox-notify-info",
+            "title": "Information",
+            sound: "sound6"
+        },
+        icons: {
+            bootstrap: {
+                success: "glyphicon glyphicon-ok-sign",
+                error: "glyphicon glyphicon-remove-sign",
+                warning: "glyphicon glyphicon-exclamation-sign",
+                info: "glyphicon glyphicon-info-sign"
+            },
+            fontAwesome: {
+                success: "fa fa-check-circle",
+                error: "fa fa-times-circle",
+                warning: "fa fa-exclamation-circle",
+                info: "fa fa-info-circle"
+            }
+        }
+    }
+})();
 (function webpackUniversalModuleDefinition(root, factory) {
     if (typeof exports === "object" && typeof module === "object") module.exports = factory();
     else if (typeof define === "function" && define.amd) define([], factory);
@@ -72701,341 +74786,563 @@ var Spinners = {
         }
     }
     var widgetsButton = $.ui.button;
-
-    function spinnerModifer(fn) {
-        return function() {
-            var previous = this.element.val();
-            fn.apply(this, arguments);
-            this._refresh();
-            if (previous !== this.element.val()) this._trigger("change")
-        }
-    }
-    $.widget("ui.spinner", {
+    $.widget("ui.dialog", {
         version: "1.12.1",
-        defaultElement: "<input>",
-        widgetEventPrefix: "spin",
         options: {
+            appendTo: "body",
+            autoOpen: true,
+            buttons: [],
             classes: {
-                "ui-spinner": "ui-corner-all",
-                "ui-spinner-down": "ui-corner-br",
-                "ui-spinner-up": "ui-corner-tr"
+                "ui-dialog": "ui-corner-all",
+                "ui-dialog-titlebar": "ui-corner-all"
             },
-            culture: null,
-            icons: {
-                down: "ui-icon-triangle-1-s",
-                up: "ui-icon-triangle-1-n"
+            closeOnEscape: true,
+            closeText: "Close",
+            draggable: true,
+            hide: null,
+            height: "auto",
+            maxHeight: null,
+            maxWidth: null,
+            minHeight: 150,
+            minWidth: 150,
+            modal: false,
+            position: {
+                my: "center",
+                at: "center",
+                of: window,
+                collision: "fit",
+                using: function(pos) {
+                    var topOffset = $(this).css(pos).offset().top;
+                    if (topOffset < 0) $(this).css("top", pos.top - topOffset)
+                }
             },
-            incremental: true,
-            max: null,
-            min: null,
-            numberFormat: null,
-            page: 10,
-            step: 1,
-            change: null,
-            spin: null,
-            start: null,
-            stop: null
+            resizable: true,
+            show: null,
+            title: null,
+            width: 300,
+            beforeClose: null,
+            close: null,
+            drag: null,
+            dragStart: null,
+            dragStop: null,
+            focus: null,
+            open: null,
+            resize: null,
+            resizeStart: null,
+            resizeStop: null
+        },
+        sizeRelatedOptions: {
+            buttons: true,
+            height: true,
+            maxHeight: true,
+            maxWidth: true,
+            minHeight: true,
+            minWidth: true,
+            width: true
+        },
+        resizableRelatedOptions: {
+            maxHeight: true,
+            maxWidth: true,
+            minHeight: true,
+            minWidth: true
         },
         _create: function() {
-            this._setOption("max", this.options.max);
-            this._setOption("min", this.options.min);
-            this._setOption("step", this.options.step);
-            if (this.value() !== "") this._value(this.element.val(), true);
-            this._draw();
-            this._on(this._events);
-            this._refresh();
-            this._on(this.window, {
-                beforeunload: function() {
-                    this.element.removeAttr("autocomplete")
-                }
-            })
+            this.originalCss = {
+                display: this.element[0].style.display,
+                width: this.element[0].style.width,
+                minHeight: this.element[0].style.minHeight,
+                maxHeight: this.element[0].style.maxHeight,
+                height: this.element[0].style.height
+            };
+            this.originalPosition = {
+                parent: this.element.parent(),
+                index: this.element.parent().children().index(this.element)
+            };
+            this.originalTitle = this.element.attr("title");
+            if (this.options.title == null && this.originalTitle != null) this.options.title =
+                this.originalTitle;
+            if (this.options.disabled) this.options.disabled = false;
+            this._createWrapper();
+            this.element.show().removeAttr("title").appendTo(this.uiDialog);
+            this._addClass("ui-dialog-content", "ui-widget-content");
+            this._createTitlebar();
+            this._createButtonPane();
+            if (this.options.draggable && $.fn.draggable) this._makeDraggable();
+            if (this.options.resizable && $.fn.resizable) this._makeResizable();
+            this._isOpen = false;
+            this._trackFocus()
         },
-        _getCreateOptions: function() {
-            var options = this._super();
-            var element = this.element;
-            $.each(["min", "max", "step"], function(i, option) {
-                var value = element.attr(option);
-                if (value != null && value.length) options[option] = value
-            });
-            return options
+        _init: function() {
+            if (this.options.autoOpen) this.open()
         },
-        _events: {
-            keydown: function(event) {
-                if (this._start(event) && this._keydown(event)) event.preventDefault()
-            },
-            keyup: "_stop",
-            focus: function() {
-                this.previous = this.element.val()
-            },
-            blur: function(event) {
-                if (this.cancelBlur) {
-                    delete this.cancelBlur;
-                    return
-                }
-                this._stop();
-                this._refresh();
-                if (this.previous !== this.element.val()) this._trigger("change", event)
-            },
-            mousewheel: function(event, delta) {
-                if (!delta) return;
-                if (!this.spinning && !this._start(event)) return false;
-                this._spin((delta > 0 ? 1 : -1) * this.options.step, event);
-                clearTimeout(this.mousewheelTimer);
-                this.mousewheelTimer = this._delay(function() {
-                    if (this.spinning) this._stop(event)
-                }, 100);
-                event.preventDefault()
-            },
-            "mousedown .ui-spinner-button": function(event) {
-                var previous;
-                previous = this.element[0] === $.ui.safeActiveElement(this.document[0]) ?
-                    this.previous : this.element.val();
-
-                function checkFocus() {
-                    var isActive = this.element[0] === $.ui.safeActiveElement(this.document[0]);
-                    if (!isActive) {
-                        this.element.trigger("focus");
-                        this.previous = previous;
-                        this._delay(function() {
-                            this.previous = previous
-                        })
-                    }
-                }
-                event.preventDefault();
-                checkFocus.call(this);
-                this.cancelBlur = true;
-                this._delay(function() {
-                    delete this.cancelBlur;
-                    checkFocus.call(this)
-                });
-                if (this._start(event) === false) return;
-                this._repeat(null, $(event.currentTarget).hasClass("ui-spinner-up") ? 1 : -1, event)
-            },
-            "mouseup .ui-spinner-button": "_stop",
-            "mouseenter .ui-spinner-button": function(event) {
-                if (!$(event.currentTarget).hasClass("ui-state-active")) return;
-                if (this._start(event) === false) return false;
-                this._repeat(null, $(event.currentTarget).hasClass("ui-spinner-up") ? 1 : -1, event)
-            },
-            "mouseleave .ui-spinner-button": "_stop"
-        },
-        _enhance: function() {
-            this.uiSpinner = this.element.attr("autocomplete", "off").wrap("<span>").parent().append("<a></a><a></a>")
-        },
-        _draw: function() {
-            this._enhance();
-            this._addClass(this.uiSpinner, "ui-spinner", "ui-widget ui-widget-content");
-            this._addClass("ui-spinner-input");
-            this.element.attr("role", "spinbutton");
-            this.buttons = this.uiSpinner.children("a").attr("tabIndex", -1).attr("aria-hidden", true).button({
-                classes: {
-                    "ui-button": ""
-                }
-            });
-            this._removeClass(this.buttons, "ui-corner-all");
-            this._addClass(this.buttons.first(), "ui-spinner-button ui-spinner-up");
-            this._addClass(this.buttons.last(), "ui-spinner-button ui-spinner-down");
-            this.buttons.first().button({
-                "icon": this.options.icons.up,
-                "showLabel": false
-            });
-            this.buttons.last().button({
-                "icon": this.options.icons.down,
-                "showLabel": false
-            });
-            if (this.buttons.height() > Math.ceil(this.uiSpinner.height() * .5) && this.uiSpinner.height() > 0) this.uiSpinner.height(this.uiSpinner.height())
-        },
-        _keydown: function(event) {
-            var options = this.options,
-                keyCode = $.ui.keyCode;
-            switch (event.keyCode) {
-                case keyCode.UP:
-                    this._repeat(null, 1, event);
-                    return true;
-                case keyCode.DOWN:
-                    this._repeat(null, -1, event);
-                    return true;
-                case keyCode.PAGE_UP:
-                    this._repeat(null, options.page, event);
-                    return true;
-                case keyCode.PAGE_DOWN:
-                    this._repeat(null, -options.page, event);
-                    return true
-            }
-            return false
-        },
-        _start: function(event) {
-            if (!this.spinning && this._trigger("start", event) === false) return false;
-            if (!this.counter) this.counter = 1;
-            this.spinning = true;
-            return true
-        },
-        _repeat: function(i, steps, event) {
-            i = i || 500;
-            clearTimeout(this.timer);
-            this.timer = this._delay(function() {
-                this._repeat(40, steps, event)
-            }, i);
-            this._spin(steps * this.options.step, event)
-        },
-        _spin: function(step, event) {
-            var value = this.value() || 0;
-            if (!this.counter) this.counter = 1;
-            value = this._adjustValue(value + step * this._increment(this.counter));
-            if (!this.spinning ||
-                this._trigger("spin", event, {
-                    value: value
-                }) !== false) {
-                this._value(value);
-                this.counter++
-            }
-        },
-        _increment: function(i) {
-            var incremental = this.options.incremental;
-            if (incremental) return $.isFunction(incremental) ? incremental(i) : Math.floor(i * i * i / 5E4 - i * i / 500 + 17 * i / 200 + 1);
-            return 1
-        },
-        _precision: function() {
-            var precision = this._precisionOf(this.options.step);
-            if (this.options.min !== null) precision = Math.max(precision, this._precisionOf(this.options.min));
-            return precision
-        },
-        _precisionOf: function(num) {
-            var str = num.toString(),
-                decimal =
-                str.indexOf(".");
-            return decimal === -1 ? 0 : str.length - decimal - 1
-        },
-        _adjustValue: function(value) {
-            var base, aboveMin, options = this.options;
-            base = options.min !== null ? options.min : 0;
-            aboveMin = value - base;
-            aboveMin = Math.round(aboveMin / options.step) * options.step;
-            value = base + aboveMin;
-            value = parseFloat(value.toFixed(this._precision()));
-            if (options.max !== null && value > options.max) return options.max;
-            if (options.min !== null && value < options.min) return options.min;
-            return value
-        },
-        _stop: function(event) {
-            if (!this.spinning) return;
-            clearTimeout(this.timer);
-            clearTimeout(this.mousewheelTimer);
-            this.counter = 0;
-            this.spinning = false;
-            this._trigger("stop", event)
-        },
-        _setOption: function(key, value) {
-            var prevValue, first, last;
-            if (key === "culture" || key === "numberFormat") {
-                prevValue = this._parse(this.element.val());
-                this.options[key] = value;
-                this.element.val(this._format(prevValue));
-                return
-            }
-            if (key === "max" || key === "min" || key === "step")
-                if (typeof value === "string") value = this._parse(value);
-            if (key === "icons") {
-                first = this.buttons.first().find(".ui-icon");
-                this._removeClass(first, null, this.options.icons.up);
-                this._addClass(first, null, value.up);
-                last = this.buttons.last().find(".ui-icon");
-                this._removeClass(last, null, this.options.icons.down);
-                this._addClass(last, null, value.down)
-            }
-            this._super(key, value)
-        },
-        _setOptionDisabled: function(value) {
-            this._super(value);
-            this._toggleClass(this.uiSpinner, null, "ui-state-disabled", !!value);
-            this.element.prop("disabled", !!value);
-            this.buttons.button(value ? "disable" : "enable")
-        },
-        _setOptions: spinnerModifer(function(options) {
-            this._super(options)
-        }),
-        _parse: function(val) {
-            if (typeof val ===
-                "string" && val !== "") val = window.Globalize && this.options.numberFormat ? Globalize.parseFloat(val, 10, this.options.culture) : +val;
-            return val === "" || isNaN(val) ? null : val
-        },
-        _format: function(value) {
-            if (value === "") return "";
-            return window.Globalize && this.options.numberFormat ? Globalize.format(value, this.options.numberFormat, this.options.culture) : value
-        },
-        _refresh: function() {
-            this.element.attr({
-                "aria-valuemin": this.options.min,
-                "aria-valuemax": this.options.max,
-                "aria-valuenow": this._parse(this.element.val())
-            })
-        },
-        isValid: function() {
-            var value =
-                this.value();
-            if (value === null) return false;
-            return value === this._adjustValue(value)
-        },
-        _value: function(value, allowAny) {
-            var parsed;
-            if (value !== "") {
-                parsed = this._parse(value);
-                if (parsed !== null) {
-                    if (!allowAny) parsed = this._adjustValue(parsed);
-                    value = this._format(parsed)
-                }
-            }
-            this.element.val(value);
-            this._refresh()
+        _appendTo: function() {
+            var element =
+                this.options.appendTo;
+            if (element && (element.jquery || element.nodeType)) return $(element);
+            return this.document.find(element || "body").eq(0)
         },
         _destroy: function() {
-            this.element.prop("disabled", false).removeAttr("autocomplete role aria-valuemin aria-valuemax aria-valuenow");
-            this.uiSpinner.replaceWith(this.element)
-        },
-        stepUp: spinnerModifer(function(steps) {
-            this._stepUp(steps)
-        }),
-        _stepUp: function(steps) {
-            if (this._start()) {
-                this._spin((steps || 1) * this.options.step);
-                this._stop()
-            }
-        },
-        stepDown: spinnerModifer(function(steps) {
-            this._stepDown(steps)
-        }),
-        _stepDown: function(steps) {
-            if (this._start()) {
-                this._spin((steps || 1) * -this.options.step);
-                this._stop()
-            }
-        },
-        pageUp: spinnerModifer(function(pages) {
-            this._stepUp((pages || 1) * this.options.page)
-        }),
-        pageDown: spinnerModifer(function(pages) {
-            this._stepDown((pages || 1) * this.options.page)
-        }),
-        value: function(newVal) {
-            if (!arguments.length) return this._parse(this.element.val());
-            spinnerModifer(this._value).call(this, newVal)
+            var next, originalPosition = this.originalPosition;
+            this._untrackInstance();
+            this._destroyOverlay();
+            this.element.removeUniqueId().css(this.originalCss).detach();
+            this.uiDialog.remove();
+            if (this.originalTitle) this.element.attr("title", this.originalTitle);
+            next = originalPosition.parent.children().eq(originalPosition.index);
+            if (next.length && next[0] !== this.element[0]) next.before(this.element);
+            else originalPosition.parent.append(this.element)
         },
         widget: function() {
-            return this.uiSpinner
+            return this.uiDialog
+        },
+        disable: $.noop,
+        enable: $.noop,
+        close: function(event) {
+            var that = this;
+            if (!this._isOpen || this._trigger("beforeClose", event) === false) return;
+            this._isOpen = false;
+            this._focusedElement = null;
+            this._destroyOverlay();
+            this._untrackInstance();
+            if (!this.opener.filter(":focusable").trigger("focus").length) $.ui.safeBlur($.ui.safeActiveElement(this.document[0]));
+            this._hide(this.uiDialog, this.options.hide, function() {
+                that._trigger("close",
+                    event)
+            })
+        },
+        isOpen: function() {
+            return this._isOpen
+        },
+        moveToTop: function() {
+            this._moveToTop()
+        },
+        _moveToTop: function(event, silent) {
+            var moved = false,
+                zIndices = this.uiDialog.siblings(".ui-front:visible").map(function() {
+                    return +$(this).css("z-index")
+                }).get(),
+                zIndexMax = Math.max.apply(null, zIndices);
+            if (zIndexMax >= +this.uiDialog.css("z-index")) {
+                this.uiDialog.css("z-index", zIndexMax + 1);
+                moved = true
+            }
+            if (moved && !silent) this._trigger("focus", event);
+            return moved
+        },
+        open: function() {
+            var that = this;
+            if (this._isOpen) {
+                if (this._moveToTop()) this._focusTabbable();
+                return
+            }
+            this._isOpen = true;
+            this.opener = $($.ui.safeActiveElement(this.document[0]));
+            this._size();
+            this._position();
+            this._createOverlay();
+            this._moveToTop(null, true);
+            if (this.overlay) this.overlay.css("z-index", this.uiDialog.css("z-index") - 1);
+            this._show(this.uiDialog, this.options.show, function() {
+                that._focusTabbable();
+                that._trigger("focus")
+            });
+            this._makeFocusTarget();
+            this._trigger("open")
+        },
+        _focusTabbable: function() {
+            var hasFocus = this._focusedElement;
+            if (!hasFocus) hasFocus = this.element.find("[autofocus]");
+            if (!hasFocus.length) hasFocus =
+                this.element.find(":tabbable");
+            if (!hasFocus.length) hasFocus = this.uiDialogButtonPane.find(":tabbable");
+            if (!hasFocus.length) hasFocus = this.uiDialogTitlebarClose.filter(":tabbable");
+            if (!hasFocus.length) hasFocus = this.uiDialog;
+            hasFocus.eq(0).trigger("focus")
+        },
+        _keepFocus: function(event) {
+            function checkFocus() {
+                var activeElement = $.ui.safeActiveElement(this.document[0]),
+                    isActive = this.uiDialog[0] === activeElement || $.contains(this.uiDialog[0], activeElement);
+                if (!isActive) this._focusTabbable()
+            }
+            event.preventDefault();
+            checkFocus.call(this);
+            this._delay(checkFocus)
+        },
+        _createWrapper: function() {
+            this.uiDialog = $("<div>").hide().attr({
+                tabIndex: -1,
+                role: "dialog"
+            }).appendTo(this._appendTo());
+            this._addClass(this.uiDialog, "ui-dialog", "ui-widget ui-widget-content ui-front");
+            this._on(this.uiDialog, {
+                keydown: function(event) {
+                    if (this.options.closeOnEscape && !event.isDefaultPrevented() && event.keyCode && event.keyCode === $.ui.keyCode.ESCAPE) {
+                        event.preventDefault();
+                        this.close(event);
+                        return
+                    }
+                    if (event.keyCode !== $.ui.keyCode.TAB || event.isDefaultPrevented()) return;
+                    var tabbables = this.uiDialog.find(":tabbable"),
+                        first = tabbables.filter(":first"),
+                        last = tabbables.filter(":last");
+                    if ((event.target === last[0] || event.target === this.uiDialog[0]) && !event.shiftKey) {
+                        this._delay(function() {
+                            first.trigger("focus")
+                        });
+                        event.preventDefault()
+                    } else if ((event.target === first[0] || event.target === this.uiDialog[0]) && event.shiftKey) {
+                        this._delay(function() {
+                            last.trigger("focus")
+                        });
+                        event.preventDefault()
+                    }
+                },
+                mousedown: function(event) {
+                    if (this._moveToTop(event)) this._focusTabbable()
+                }
+            });
+            if (!this.element.find("[aria-describedby]").length) this.uiDialog.attr({
+                "aria-describedby": this.element.uniqueId().attr("id")
+            })
+        },
+        _createTitlebar: function() {
+            var uiDialogTitle;
+            this.uiDialogTitlebar = $("<div>");
+            this._addClass(this.uiDialogTitlebar, "ui-dialog-titlebar", "ui-widget-header ui-helper-clearfix");
+            this._on(this.uiDialogTitlebar, {
+                mousedown: function(event) {
+                    if (!$(event.target).closest(".ui-dialog-titlebar-close")) this.uiDialog.trigger("focus")
+                }
+            });
+            this.uiDialogTitlebarClose = $("<button type='button'></button>").button({
+                label: $("<a>").text(this.options.closeText).html(),
+                icon: "ui-icon-closethick",
+                showLabel: false
+            }).appendTo(this.uiDialogTitlebar);
+            this._addClass(this.uiDialogTitlebarClose, "ui-dialog-titlebar-close");
+            this._on(this.uiDialogTitlebarClose, {
+                click: function(event) {
+                    event.preventDefault();
+                    this.close(event)
+                }
+            });
+            uiDialogTitle = $("<span>").uniqueId().prependTo(this.uiDialogTitlebar);
+            this._addClass(uiDialogTitle, "ui-dialog-title");
+            this._title(uiDialogTitle);
+            this.uiDialogTitlebar.prependTo(this.uiDialog);
+            this.uiDialog.attr({
+                "aria-labelledby": uiDialogTitle.attr("id")
+            })
+        },
+        _title: function(title) {
+            if (this.options.title) title.text(this.options.title);
+            else title.html("&#160;")
+        },
+        _createButtonPane: function() {
+            this.uiDialogButtonPane = $("<div>");
+            this._addClass(this.uiDialogButtonPane, "ui-dialog-buttonpane", "ui-widget-content ui-helper-clearfix");
+            this.uiButtonSet = $("<div>").appendTo(this.uiDialogButtonPane);
+            this._addClass(this.uiButtonSet, "ui-dialog-buttonset");
+            this._createButtons()
+        },
+        _createButtons: function() {
+            var that = this,
+                buttons = this.options.buttons;
+            this.uiDialogButtonPane.remove();
+            this.uiButtonSet.empty();
+            if ($.isEmptyObject(buttons) || $.isArray(buttons) &&
+                !buttons.length) {
+                this._removeClass(this.uiDialog, "ui-dialog-buttons");
+                return
+            }
+            $.each(buttons, function(name, props) {
+                var click, buttonOptions;
+                props = $.isFunction(props) ? {
+                    click: props,
+                    text: name
+                } : props;
+                props = $.extend({
+                    type: "button"
+                }, props);
+                click = props.click;
+                buttonOptions = {
+                    icon: props.icon,
+                    iconPosition: props.iconPosition,
+                    showLabel: props.showLabel,
+                    icons: props.icons,
+                    text: props.text
+                };
+                delete props.click;
+                delete props.icon;
+                delete props.iconPosition;
+                delete props.showLabel;
+                delete props.icons;
+                if (typeof props.text ===
+                    "boolean") delete props.text;
+                $("<button></button>", props).button(buttonOptions).appendTo(that.uiButtonSet).on("click", function() {
+                    click.apply(that.element[0], arguments)
+                })
+            });
+            this._addClass(this.uiDialog, "ui-dialog-buttons");
+            this.uiDialogButtonPane.appendTo(this.uiDialog)
+        },
+        _makeDraggable: function() {
+            var that = this,
+                options = this.options;
+
+            function filteredUi(ui) {
+                return {
+                    position: ui.position,
+                    offset: ui.offset
+                }
+            }
+            this.uiDialog.draggable({
+                cancel: ".ui-dialog-content, .ui-dialog-titlebar-close",
+                handle: ".ui-dialog-titlebar",
+                containment: "document",
+                start: function(event, ui) {
+                    that._addClass($(this), "ui-dialog-dragging");
+                    that._blockFrames();
+                    that._trigger("dragStart", event, filteredUi(ui))
+                },
+                drag: function(event, ui) {
+                    that._trigger("drag", event, filteredUi(ui))
+                },
+                stop: function(event, ui) {
+                    var left = ui.offset.left - that.document.scrollLeft(),
+                        top = ui.offset.top - that.document.scrollTop();
+                    options.position = {
+                        my: "left top",
+                        at: "left" + (left >= 0 ? "+" : "") + left + " " + "top" + (top >= 0 ? "+" : "") + top,
+                        of: that.window
+                    };
+                    that._removeClass($(this), "ui-dialog-dragging");
+                    that._unblockFrames();
+                    that._trigger("dragStop", event, filteredUi(ui))
+                }
+            })
+        },
+        _makeResizable: function() {
+            var that = this,
+                options = this.options,
+                handles = options.resizable,
+                position = this.uiDialog.css("position"),
+                resizeHandles = typeof handles === "string" ? handles : "n,e,s,w,se,sw,ne,nw";
+
+            function filteredUi(ui) {
+                return {
+                    originalPosition: ui.originalPosition,
+                    originalSize: ui.originalSize,
+                    position: ui.position,
+                    size: ui.size
+                }
+            }
+            this.uiDialog.resizable({
+                cancel: ".ui-dialog-content",
+                containment: "document",
+                alsoResize: this.element,
+                maxWidth: options.maxWidth,
+                maxHeight: options.maxHeight,
+                minWidth: options.minWidth,
+                minHeight: this._minHeight(),
+                handles: resizeHandles,
+                start: function(event, ui) {
+                    that._addClass($(this), "ui-dialog-resizing");
+                    that._blockFrames();
+                    that._trigger("resizeStart", event, filteredUi(ui))
+                },
+                resize: function(event, ui) {
+                    that._trigger("resize", event, filteredUi(ui))
+                },
+                stop: function(event, ui) {
+                    var offset = that.uiDialog.offset(),
+                        left = offset.left - that.document.scrollLeft(),
+                        top = offset.top - that.document.scrollTop();
+                    options.height =
+                        that.uiDialog.height();
+                    options.width = that.uiDialog.width();
+                    options.position = {
+                        my: "left top",
+                        at: "left" + (left >= 0 ? "+" : "") + left + " " + "top" + (top >= 0 ? "+" : "") + top,
+                        of: that.window
+                    };
+                    that._removeClass($(this), "ui-dialog-resizing");
+                    that._unblockFrames();
+                    that._trigger("resizeStop", event, filteredUi(ui))
+                }
+            }).css("position", position)
+        },
+        _trackFocus: function() {
+            this._on(this.widget(), {
+                focusin: function(event) {
+                    this._makeFocusTarget();
+                    this._focusedElement = $(event.target)
+                }
+            })
+        },
+        _makeFocusTarget: function() {
+            this._untrackInstance();
+            this._trackingInstances().unshift(this)
+        },
+        _untrackInstance: function() {
+            var instances = this._trackingInstances(),
+                exists = $.inArray(this, instances);
+            if (exists !== -1) instances.splice(exists, 1)
+        },
+        _trackingInstances: function() {
+            var instances = this.document.data("ui-dialog-instances");
+            if (!instances) {
+                instances = [];
+                this.document.data("ui-dialog-instances", instances)
+            }
+            return instances
+        },
+        _minHeight: function() {
+            var options = this.options;
+            return options.height === "auto" ? options.minHeight : Math.min(options.minHeight, options.height)
+        },
+        _position: function() {
+            var isVisible = this.uiDialog.is(":visible");
+            if (!isVisible) this.uiDialog.show();
+            this.uiDialog.position(this.options.position);
+            if (!isVisible) this.uiDialog.hide()
+        },
+        _setOptions: function(options) {
+            var that = this,
+                resize = false,
+                resizableOptions = {};
+            $.each(options, function(key, value) {
+                that._setOption(key, value);
+                if (key in that.sizeRelatedOptions) resize = true;
+                if (key in that.resizableRelatedOptions) resizableOptions[key] = value
+            });
+            if (resize) {
+                this._size();
+                this._position()
+            }
+            if (this.uiDialog.is(":data(ui-resizable)")) this.uiDialog.resizable("option",
+                resizableOptions)
+        },
+        _setOption: function(key, value) {
+            var isDraggable, isResizable, uiDialog = this.uiDialog;
+            if (key === "disabled") return;
+            this._super(key, value);
+            if (key === "appendTo") this.uiDialog.appendTo(this._appendTo());
+            if (key === "buttons") this._createButtons();
+            if (key === "closeText") this.uiDialogTitlebarClose.button({
+                label: $("<a>").text("" + this.options.closeText).html()
+            });
+            if (key === "draggable") {
+                isDraggable = uiDialog.is(":data(ui-draggable)");
+                if (isDraggable && !value) uiDialog.draggable("destroy");
+                if (!isDraggable &&
+                    value) this._makeDraggable()
+            }
+            if (key === "position") this._position();
+            if (key === "resizable") {
+                isResizable = uiDialog.is(":data(ui-resizable)");
+                if (isResizable && !value) uiDialog.resizable("destroy");
+                if (isResizable && typeof value === "string") uiDialog.resizable("option", "handles", value);
+                if (!isResizable && value !== false) this._makeResizable()
+            }
+            if (key === "title") this._title(this.uiDialogTitlebar.find(".ui-dialog-title"))
+        },
+        _size: function() {
+            var nonContentHeight, minContentHeight, maxContentHeight, options = this.options;
+            this.element.show().css({
+                width: "auto",
+                minHeight: 0,
+                maxHeight: "none",
+                height: 0
+            });
+            if (options.minWidth > options.width) options.width = options.minWidth;
+            nonContentHeight = this.uiDialog.css({
+                height: "auto",
+                width: options.width
+            }).outerHeight();
+            minContentHeight = Math.max(0, options.minHeight - nonContentHeight);
+            maxContentHeight = typeof options.maxHeight === "number" ? Math.max(0, options.maxHeight - nonContentHeight) : "none";
+            if (options.height === "auto") this.element.css({
+                minHeight: minContentHeight,
+                maxHeight: maxContentHeight,
+                height: "auto"
+            });
+            else this.element.height(Math.max(0,
+                options.height - nonContentHeight));
+            if (this.uiDialog.is(":data(ui-resizable)")) this.uiDialog.resizable("option", "minHeight", this._minHeight())
+        },
+        _blockFrames: function() {
+            this.iframeBlocks = this.document.find("iframe").map(function() {
+                var iframe = $(this);
+                return $("<div>").css({
+                    position: "absolute",
+                    width: iframe.outerWidth(),
+                    height: iframe.outerHeight()
+                }).appendTo(iframe.parent()).offset(iframe.offset())[0]
+            })
+        },
+        _unblockFrames: function() {
+            if (this.iframeBlocks) {
+                this.iframeBlocks.remove();
+                delete this.iframeBlocks
+            }
+        },
+        _allowInteraction: function(event) {
+            if ($(event.target).closest(".ui-dialog").length) return true;
+            return !!$(event.target).closest(".ui-datepicker").length
+        },
+        _createOverlay: function() {
+            if (!this.options.modal) return;
+            var isOpening = true;
+            this._delay(function() {
+                isOpening = false
+            });
+            if (!this.document.data("ui-dialog-overlays")) this._on(this.document, {
+                focusin: function(event) {
+                    if (isOpening) return;
+                    if (!this._allowInteraction(event)) {
+                        event.preventDefault();
+                        this._trackingInstances()[0]._focusTabbable()
+                    }
+                }
+            });
+            this.overlay =
+                $("<div>").appendTo(this._appendTo());
+            this._addClass(this.overlay, null, "ui-widget-overlay ui-front");
+            this._on(this.overlay, {
+                mousedown: "_keepFocus"
+            });
+            this.document.data("ui-dialog-overlays", (this.document.data("ui-dialog-overlays") || 0) + 1)
+        },
+        _destroyOverlay: function() {
+            if (!this.options.modal) return;
+            if (this.overlay) {
+                var overlays = this.document.data("ui-dialog-overlays") - 1;
+                if (!overlays) {
+                    this._off(this.document, "focusin");
+                    this.document.removeData("ui-dialog-overlays")
+                } else this.document.data("ui-dialog-overlays",
+                    overlays);
+                this.overlay.remove();
+                this.overlay = null
+            }
         }
     });
-    if ($.uiBackCompat !== false) $.widget("ui.spinner", $.ui.spinner, {
-        _enhance: function() {
-            this.uiSpinner = this.element.attr("autocomplete", "off").wrap(this._uiSpinnerHtml()).parent().append(this._buttonHtml())
+    if ($.uiBackCompat !== false) $.widget("ui.dialog", $.ui.dialog, {
+        options: {
+            dialogClass: ""
         },
-        _uiSpinnerHtml: function() {
-            return "<span>"
+        _createWrapper: function() {
+            this._super();
+            this.uiDialog.addClass(this.options.dialogClass)
         },
-        _buttonHtml: function() {
-            return "<a></a><a></a>"
+        _setOption: function(key, value) {
+            if (key === "dialogClass") this.uiDialog.removeClass(this.options.dialogClass).addClass(value);
+            this._superApply(arguments)
         }
     });
-    var widgetsSpinner = $.ui.spinner;
+    var widgetsDialog = $.ui.dialog;
     $.widget("ui.tooltip", {
         version: "1.12.1",
         options: {

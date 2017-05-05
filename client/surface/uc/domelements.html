@@ -22300,7 +22300,7 @@ Simpl4.Cache = (function () {
 				}
 				this.setStyleScope( insertPoint, scope );
 				this.async( function() {
-					$( insertPoint ).fadeIn();
+					$( insertPoint ).fadeIn(700);
 				}, 0 );
 			}, 2 );
 		},
@@ -27903,6 +27903,51 @@ $(function () {
 });
 
 </script>
+<script>
+	ScrollbarBehavior = {
+		attached: function() {
+			this.async( function() {
+				this._initScrollbars();
+				$( '.panel' ).on( 'onFullScreen.lobiPanel', ( function( ev, lobiPanel ) {
+					var sbElements = lobiPanel.$body[ 0 ].querySelectorAll( ".smooth-scrollbar" );
+					for ( var i = 0; i < sbElements.length; i++ ) {
+						var sb = Scrollbar.get( sbElements[ i ] );
+						if ( sb ) {
+							sb.setPosition( 0, 0 );
+							sb.update();
+						}
+					}
+				} ).bind( this ) );
+			}, 500 );
+		},
+		_initScrollbars: function() {
+			var isTouch = ( ( 'ontouchstart' in window ) || ( navigator.msMaxTouchPoints > 0 ) );
+			var tables = this._toElementArray( this.querySelectorAll( ".dataTables_scrollBody" ) );
+			var sbElements = this._toElementArray( this.querySelectorAll( ".smooth-scrollbar" ) );
+			var elementArray = tables.concat( sbElements );
+			console.log("smoothElementArray:",elementArray);
+			for ( var i = 0; i < elementArray.length; i++ ) {
+				window.Scrollbar.init( elementArray[i], {
+					speed: isTouch ? 1 : 4,
+					damping: isTouch ? 0.1 : 0.05,
+					renderByPixels: true,
+					overscrollEffect: "bounce",
+					alwaysShowTracks: true,
+					overscrollEffectColor: "#87ceeb",
+					thumbMinSize: 10
+				} );
+			}
+		},
+		_toElementArray: function( elements ) {
+			var res = []
+			for ( var i = 0; i < elements.length; i++ ) {
+				res.push( elements[ i ] );
+			}
+			return res;
+		}
+	}
+
+</script>
 <script>/*
 JqTree 1.3.7
 
@@ -31684,6 +31729,27 @@ span.jqtree-dragging {
 </style>
 
 <script>
+	LobiboxBehavior = {
+		notify: function( msg, type, delay ) {
+			var icon = "vaadin-icons:info-circle-o";
+			if ( type == "success" ) {
+				icon = "vaadin-icons:check-circle-o";
+			} else if ( type == "warning" ) {
+				icon = "vaadin-icons:warning";
+			} else if ( type == "error" ) {
+				icon = "vaadin-icons:exclamation";
+			}
+			Lobibox.notify( type, {
+				delay: delay,
+				icon: icon,
+				msg: msg
+			} );
+
+		}
+	}
+
+</script>
+<script>
 
 //
 // Generated on Tue Dec 16 2014 12:13:47 GMT+0100 (CET) by Charlie Robbins, Paolo Fragomeni & the Contributors (Using Codesurgeon).
@@ -32628,7 +32694,6 @@ console.log("QueryBuilder.construct");
      */
     QueryBuilder.prototype.init = function(options) {
         // PROPERTIES
-console.log("QueryBuilder.init");
         this.settings = $.extendext(true, 'replace', {}, QueryBuilder.DEFAULTS, options);
         this.status = {
             group_id: 0,
@@ -33303,7 +33368,7 @@ console.log("QueryBuilder.init");
                                     break;
                                 }
                             }
-                            else if (value[i].length === 0) {
+                            else if (value[i].length === 1000) { //@@@MS disabled
                                 result = ['string_empty'];
                                 break;
                             }
@@ -56091,7 +56156,7 @@ img.jssocials-share-logo {
   height: auto;
   padding: 0;
   margin: 2px 0 0 0;
-  z-index: 1000;
+  z-index: 600000;
   background: #ffffff;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -75642,6 +75707,13 @@ console.log("toggleLeftPanel.main:",this._isMainSelected());
 			awFont.onload = function() {
 				//console.log("awfont loaded");
 			}
+ Lobibox.base.OPTIONS.buttons.yes.text = tr("yes");
+ Lobibox.base.OPTIONS.buttons.no.text = tr("no");
+ Lobibox.notify.OPTIONS.error.title = tr("error");
+ Lobibox.notify.OPTIONS.warning.title = tr("warning");
+ Lobibox.notify.OPTIONS.success.title = tr("success");
+ Lobibox.notify.OPTIONS.info.title = tr("info");
+
 
 			Polymer( {
 				is: 'simpl-globals',
@@ -77888,8 +77960,10 @@ html.mm-opening .mm-menu.mm-front, html.mm-opening .mm-menu.mm-next {
 <dom-module id="simpl-lobipanel" flex="" relative="" assetpath="src/simpl-lobipanel/">
 	<template>
 		<style>
-
-
+			.panel {
+				box-shadow: 10px 10px 15px -6px rgba(96, 125, 139, 0.67) !important;
+				border-left: 2px solid rgb(239, 242, 243) !important;
+			}
 		</style>
 		<style>
 .panel {
@@ -82217,7 +82291,7 @@ body.lobipanel-minimized {
 			position: relative;
 			box-sizing: border-box;
 		}
-		.panel {
+		.simpl_panel {
 			position: relative;
 			height: 100%;
 			box-sizing: border-box;
@@ -82290,7 +82364,7 @@ body.lobipanel-minimized {
 	</style>
 	<template>
 		<paper-material style="position:relative;height:100%;-webkit-flex:1;" id="panelId" elevation="1">
-			<div id="panel" class="panel">
+			<div id="panel" class="simpl_panel">
 				<header class="panel__header" id="heading">
 					<template is="dom-if" if="[[collapsable]]">
 						<paper-ripple></paper-ripple>
@@ -82834,14 +82908,14 @@ dd.rules-group-body{
   margin:4px 0;
   border-radius:5px;
   padding:3px;
-  border:1px solid #eee;
+  border:1px solid white;
   background:#fff;
   background:rgba(255, 255, 255, 0.9);
 }
 
 .query-builder .rules-group-container {
   padding:10px 10px 5px 10px;
-  border:1px solid #DCC896;
+  border:1px solid #cfd8dc;
   background:#FCF9ED;
   background:rgba(250, 240, 210, 0.5);
 }
@@ -82864,7 +82938,7 @@ dd.rules-group-body{
     vertical-align:top;
   }
   .query-builder .rule-value-container:not(:empty) {
-    border-left:1px solid #ddd;
+    border-left:0px solid #ddd;
     padding-left:5px;
   }
   .query-builder .rule-value-container label {
@@ -82888,7 +82962,7 @@ dd.rules-group-body{
 .query-builder .error-container {
   display:none !important;
   cursor:help;
-  color:red;
+  color:#d00c0c;
 }
 
 .query-builder .has-error .error-container {
@@ -82958,19 +83032,21 @@ dd.rules-group-body{
 			//color: #4B575C;
 		}
 		.btn-primary {
-			color: #FFF;
-			background-color: #8A8B8C !important;
-			border-color: #8A8B8C !important;
+			color: #607d8b;
+			background-color: #eff2f3 !important;
+			border-color: #eff2f3 !important;
 		}
-		.btn-primary:hover,
+		.btn-primary:hover{
+			color: #000;
+		}
 		.btn-primary:focus,
 		.btn-primary.focus,
 		.btn-primary:active,
 		.btn-primary.active,
 		.open > .dropdown-toggle.btn-primary {
 			color: #FFF;
-			background-color: #4B575C !important;
-			border-color: #4B575C !important;
+    	background-color: #607d8b !important;
+    	border-color: #607d8b !important;
 		}
 		.btn-success {
 			color: #FFF;
@@ -82979,7 +83055,12 @@ dd.rules-group-body{
 		}
 		.button_error_raised,
 		.button_secondary_raised{
-			padding:0px 0px;
+			background: #607d8b !important;
+			padding: 2px;
+			color: #fff !important;
+		}
+		.btn-group {
+			font-size: 0.9em !important;
 		}
 		.btn-xs{
 			line-height:1;
@@ -82997,7 +83078,7 @@ dd.rules-group-body{
 			padding: 4px;
 		}
 		:host /deep/ #builder_group_0 {
-			border: 1px #eaeaea solid;
+			border: 1px white solid;
 			border-radius: 0px;
 		}
 		:host /deep/ .#builder {
@@ -83048,6 +83129,29 @@ dd.rules-group-body{
 			padding: 0.3em 0.57em;
 		}
 
+		.query-builder .rule-container  {
+			margin: 0px 0;
+			padding: 0px;
+		}
+
+		:host /deep/ select {
+			box-shadow: 3px 3px 12px -4px rgba(0,0,0,0.75);
+			border: none !important;
+			color: #303e45 !important;
+			min-width: 125px;
+		}
+		:host /deep/ paper-button,
+		:host /deep/ label.btn {
+			box-shadow: 3px 3px 12px -5px rgba(0, 0, 0, 0.75);
+			border: none !important;
+			border-radius: 1px !important;
+			min-width: 5.14em !important;
+		}
+		:host /deep/ .btn {
+			font-size: 12px !important;
+			padding: 3px 6px !important;
+		}
+
 	</style>
 
 	<template>
@@ -83062,7 +83166,10 @@ dd.rules-group-body{
 				</div>
 				
 				<div class="flex" style="text-align:right;">
-				<content></content>
+					<template is="dom-if" if="[[withCancel]]">
+						<paper-button style="min-width:150px !important;" class="flex button" on-tap="cancel">
+							<iron-icon icon="cancel"></iron-icon>{{tr('button.cancel')}}</paper-button>
+					</template>
 					<paper-button raised="" style="min-width:150px !important;" class="flex button_primary_raised" on-tap="search">
 						<iron-icon icon="search"></iron-icon>{{tr('searchfilter.searchbutton')}}</paper-button>
 				</div>
@@ -83090,6 +83197,14 @@ dd.rules-group-body{
 					observer: "entityChanged",
 					type: String
 				},
+				withCancel: {
+					type: Boolean,
+					value: false
+				},
+				isInited: {
+					type: Boolean,
+					value: false
+				},
 				filter: {
 					value: null,
 					notify: true,
@@ -83102,17 +83217,26 @@ dd.rules-group-body{
 			namespaceChanged: function() {
 				console.log( "filter.namespaceChanged:", this.namespace + "/" + this.entity );
 				if ( this.entity == null ) return;
-				this.attached();
+				this.init();
 			},
 			entityChanged: function() {
 				console.log( "filter.entityChanged:", this.namespace + "/" + this.entity );
 				if ( this.namespace == null ) return;
-				this.attached();
+				this.init();
 			},
 			ready:function(){
-				this.toggleSearchMode();
+//				this.toggleSearchMode();
+			},
+			doSearch:function(){
+				if( this.entity == null) return;
+				this.search();
 			},
 			attached: function() {
+				if( this.isInited !== true){
+					this.init();
+				}
+			},
+			init: function() {
 				console.debug( "Filter.attached.Entity:", this.entity + "/namespace:" + this.namespace );
 				if ( this.entity == null || this.namespace == null ) {
 					return;
@@ -83153,6 +83277,7 @@ dd.rules-group-body{
 					this.setStyleScope( this.$.builder, "style-scope", this.tagName.toLowerCase() );
 					//this.toggleSearchMode();
 				} );
+				this.isInited=true;
 			},
 			renameOne: function( from, to, model ) {
 				model[ to ] = model[ from ];
@@ -83242,6 +83367,10 @@ dd.rules-group-body{
 					$( Polymer.dom( this.root ).querySelectorAll( ".rules-group-container" ) ).attr( "simpleSearch", "" );
 				}
 			},
+			cancel: function( e ) {
+				this.fire( "cancel", {
+				} );
+			},
 			search: function( e ) {
 				var event = {
 					name: "filter-changed",
@@ -83315,6 +83444,10 @@ dd.rules-group-body{
 					margin: 0px;
 				}
 			}
+			#formDialog {
+				margin: 0px;
+				padding: 0px;
+			}
 			paper-toast#toast {
 				z-index: 10;
 			}
@@ -83334,7 +83467,17 @@ dd.rules-group-body{
 				height: 48px;
 				vertical-align: middle;
 			}
+			#dataTablesId /deep/ table.responsive.dataTables thead tr th, 
+			#dataTablesId /deep/ table.responsive.dataTables tfoot tr th {
+					color: #303e45;
+					background: white;
+			}
 
+			#dataTablesId /deep/ table.responsive.dataTables thead th, 
+			#dataTablesId /deep/ table.responsive.dataTables thead td {
+					border-top: 3px solid white;
+					border-bottom: 1px solid #607d8b;
+			}
 		</style>
 		<div class="layout vertical" style="width:100%;">
 			<simpl-datatables style="width:100%;position:relative;" class="flex" id="dataTablesId" on-rows-selected="onRowSelected" options="[[dataTablesOptions]]" meta="[[meta]]" data="[[data]]"> </simpl-datatables>
@@ -83495,14 +83638,30 @@ dd.rules-group-body{
 				this.mode = "add";
 				this.$.formid.setData( {} );
 				this.async( function() {
-					this.$.formDialog.open();
+					var sd = $( this.$.formDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
 				}, 50 );
 			},
 			editAction: function() {
 				this.mode = "edit";
 				this.$.formid.setData( this.currentData );
 				this.async( function() {
-					this.$.formDialog.open();
+					var sd = $( this.$.formDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
 				}, 50 );
 			},
 			delAction: function() {
@@ -83519,10 +83678,10 @@ dd.rules-group-body{
 				this.setButtonState( "del", false );
 				this.setButtonState( "edit", false );
 				this.querySelector( "#dataTablesId" ).unselectAll();
-				this.$.formDialog.close();
+				$( this.$.formDialog ).dialog( "close" );
 			},
 			saveAction: function() {
-				var form= this.querySelector( "#formid" );
+				var form= this.$.formid;
 				if( !form.validate()){
 					return;
 				}
@@ -83530,7 +83689,8 @@ dd.rules-group-body{
 			},
 			_saveAction: function() {
 				this.cancelAction();
-				var chgData = this.querySelector( "#formid" ).getData();
+				var form= this.$.formid;
+				var chgData = form.getData();
 				var oldData = clone( this.data ) || [];
 				this.data = [];
 				if ( this.mode == "add" ) {
@@ -83653,6 +83813,10 @@ dd.rules-group-body{
 					margin: 0px;
 				}
 			}
+			#selectDialog {
+				margin: 0px;
+				padding: 0px;
+			}
 			paper-toast#toast {
 				z-index: 10;
 			}
@@ -83673,6 +83837,17 @@ dd.rules-group-body{
 				vertical-align: middle;
 			}
 
+			#linkedListId /deep/ table.responsive.dataTables thead tr th, 
+			#linkedListId /deep/ table.responsive.dataTables tfoot tr th {
+					color: #303e45;
+					background: white;
+			}
+
+			#linkedListId /deep/ table.responsive.dataTables thead th, 
+			#linkedListId /deep/ table.responsive.dataTables thead td {
+					border-top: 3px solid white;
+					border-bottom: 1px solid #607d8b;
+			}
 		</style>
 		<div class="layout vertical" style="width:100%;">
 			<simpl-datatables style="width:100%;position:relative;" class="flex" id="dataTablesId" on-rows-selected="onRowSelected" options="[[dataTablesOptions]]" meta="[[meta]]" data="[[data]]"> </simpl-datatables>
@@ -83795,7 +83970,15 @@ dd.rules-group-body{
 				this.entityName = this.entity;
 				console.log( "linkedlist.selectOpenAction:", this.entity );
 				this.async( function() {
-					this.$.selectDialog.open();
+					var sd = $( this.$.selectDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
 				}, 50 );
 			},
 			selectAction: function(e) {
@@ -83808,7 +83991,7 @@ dd.rules-group-body{
 				this.changeData("del",this.currentData);
 			},
 			changeData: function(mode, chgData) {
-				this.$.selectDialog.close();
+				$( this.$.selectDialog ).dialog( "close" );
 				var oldData = clone( this.data ) || [];
 				this.data = [];
 				if ( mode == "select" ) {
@@ -83833,7 +84016,7 @@ dd.rules-group-body{
 			},
 			selectCancelAction: function( e ) {
 				this.setButtonState( "del", false );
-				this.$.selectDialog.close();
+				$( this.$.selectDialog ).dialog( "close" );
 			},
 			entityChanged: function() {
 				this.getColumns( this.entity );
@@ -83905,14 +84088,14 @@ dd.rules-group-body{
 		paper-button /deep/ paper-material.content {
 			padding: 0.5em 0 !important;
 		}
+		paper-button.h {
+			max-width: 200px;
+		}
 		paper-button.h /deep/ iron-icon {
 			vertical-align: bottom;
 		}
 		paper-button[invisible] {
 			display: none;
-		}
-		paper-toast#toast {
-			z-index: 10;
 		}
 		paper-button[dialog-confirm] {
 			color: #4285f4;
@@ -83944,31 +84127,31 @@ dd.rules-group-body{
 		paper-button.new /deep/ paper-material.content {
 			padding: 0.3em 0.57em !important;
 		}
-		simpl-toast /deep/ paper-toast {
-			white-space: nowrap;
-			padding-top: 10px;
-			padding-bottom: 10px;
+
+		simpl-crudtable /deep/ table.responsive.dataTables thead th {
+			border-top: 3px solid white;
+			border-bottom: 1px solid #607d8b;
 		}
-		simpl-toast /deep/ span {
-			min-width: 450px;
-			padding-right: 25px;
-			font-size: 30px;
-			vertical-align: middle;
+		simpl-crudtable /deep/ table.responsive.dataTables thead tr th {
+			color: #303e45;
+			background: white;
 		}
-		simpl-toast /deep/ iron-icon {
-			width: 48px;
-			height: 48px;
-			vertical-align: middle;
+
+		simpl-panel /deep/ .panel__header {
+			background: white;
+			border-bottom-width: 0px;
+			height: 0px;
+		}
+		simpl-panel /deep/ .panel__header .title {
+			display: none !important;
 		}
 
 	</style>
 	<template>
-		<simpl-toast id="toastId"></simpl-toast>
-
 		<iron-pages id="ironPages" selected="{{pageSelected}}" attr-for-selected="num">
 			<section style="padding:0px;min-height:400px;position:relative;overflow-x:hidden;" num="0">
 				<template is="dom-if" if="[[!filterName]]">
-					<simpl-filter namespace="{{namespace}}" entity="{{mainEntityName}}" filter="{{filter}}">
+					<simpl-filter id="filterId" namespace="{{namespace}}" entity="{{mainEntityName}}" filter="{{filter}}">
 						<paper-button raised="" style="min-width:100px !important;" class="new flex button_primary" on-tap="_addAction">
 							<iron-icon icon="add"></iron-icon>{{tr('button.new')}}</paper-button>
 					</simpl-filter>
@@ -83978,30 +84161,38 @@ dd.rules-group-body{
 				</simpl-buildfilter></template>
 				<template is="dom-if" if="[[filter]]">
 					<template is="dom-if" if="[[withPanel]]">
+						<div style="height:1px;padding-right:20px;line-height:initial;color:#303e45;" class="layout horizontal">
+							<div class="flex">&nbsp;</div>
+							<div class="" style="font-size:11px;top:40px;position: relative;z-index: 111;">[[getHelp()]]</div>
+						</div>
 						<simpl-panel id="panel2" heading="[[panelHeaderCrudTable]]">
-							<simpl-crudtable on-error="onError" namespace="[[namespace]]" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
+							<simpl-crudtable id="crudTableId" disable-spinner="" on-error="onError" namespace="[[namespace]]" on-rows-selected="rowsSelected" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
 						</simpl-panel>
 					</template>
 					<template is="dom-if" if="[[!withPanel]]">
-						<simpl-crudtable on-error="onError" namespace="[[namespace]]" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
+						<div style="height:13px;padding-right:20px;line-height:initial;" class="layout horizontal">
+							<div class="flex">&nbsp;</div>
+							<div class="" style="font-size:11px;">[[getHelp()]]</div>
+						</div>
+						<simpl-crudtable id="crudTableId" disable-spinner="" on-error="onError" namespace="[[namespace]]" on-rows-selected="rowsSelected" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
 					</template>
 				</template>
 			</section>
 			<section style="padding:0px;position:relative;overflow-x:hidden;" num="1" unresolved="">
 				
-					<div class="layout horizontal" style="margin-top:20px;margin-bottom:4px;text-align:left;">
-						<paper-button class="h flex button button_primary" disabled$="{{saveDisabled}}" raised="" on-tap="saveAction">
-							<iron-icon icon="save"></iron-icon>{{tr('data.form.save')}}</paper-button>
-						<paper-button class="h flex button" raised="" on-tap="cancelAction">
-							<iron-icon icon="arrow-back"></iron-icon>{{tr('button.back')}}</paper-button>
-						<paper-button class="h flex button button_primary" id="prevButton" invisible$="{{prevNextButtonsInvisible}}" style="min-width:45px;max-width:45px;" raised="" on-tap="prevAction">
-							<iron-icon icon="image:navigate-before"></iron-icon>
-						</paper-button>
-						<paper-button class="h flex button button_primary" id="nextButton" invisible$="{{prevNextButtonsInvisible}}" style="min-width:45px;max-width:45px;" raised="" on-tap="nextAction">
-							<iron-icon icon="image:navigate-next"></iron-icon>
-						</paper-button>
-					</div>
-					<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+				<div class="layout horizontal" style="margin-top:20px;margin-bottom:4px;text-align:left;">
+					<paper-button class="h flex button" raised="" on-tap="cancelAction">
+						<iron-icon icon="vaadin-icons:close-small"></iron-icon>{{tr('button.back')}}</paper-button>
+					<paper-button class="h flex button button_secondary" disabled$="{{saveDisabled}}" raised="" on-tap="saveAction">
+						<iron-icon icon="vaadin-icons:check"></iron-icon>{{tr('data.form.save')}}</paper-button>
+					<paper-button class="h flex button button_primary" id="prevButton" invisible$="{{prevNextButtonsInvisible}}" style="min-width:45px;max-width:45px;" raised="" on-tap="prevAction">
+						<iron-icon icon="vaadin-icons:angle-left"></iron-icon>
+					</paper-button>
+					<paper-button class="h flex button button_primary" id="nextButton" invisible$="{{prevNextButtonsInvisible}}" style="min-width:45px;max-width:45px;" raised="" on-tap="nextAction">
+						<iron-icon icon="vaadin-icons:angle-right"></iron-icon>
+					</paper-button>
+				</div>
+				<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
 				
 				<paper-dialog id="error" class="scrolling">
 					
@@ -84052,13 +84243,13 @@ dd.rules-group-body{
 				</neon-animated-pages>
 			</section>
 		</iron-pages>
-		<delete-dialog on-delete-ok="onDeleteOk" id="dialogOkId"></delete-dialog>
 	</template>
 	<script>
 		Polymer( {
 			is: 'simpl-crud',
 			behaviors: [
 				Polymer.IronA11yKeysBehavior,
+				LobiboxBehavior,
 				TranslationsBehavior
 			],
 			properties: {
@@ -84068,6 +84259,10 @@ dd.rules-group-body{
 				filterName: {
 					value: null,
 					type: String
+				},
+				autoSearch: {
+					value: false,
+					type: Boolean
 				},
 				entity: {
 					type: String
@@ -84101,7 +84296,7 @@ dd.rules-group-body{
 					readOnly: true,
 					value: ''
 				},
-				noCarriageReturn:{
+				noCarriageReturn: {
 					type: Boolean,
 					value: false
 				},
@@ -84129,7 +84324,7 @@ dd.rules-group-body{
 			_enterPressed: function() {
 				console.log( "_enterPressedCrud:", this.saveDisabled );
 				console.log( "_pageSelected:", this.pageSelected );
-				if ( this.pageSelected==0 || this.noCarriageReturn || this.saveDisabled === true ) return;
+				if ( this.pageSelected == 0 || this.noCarriageReturn || this.saveDisabled === true ) return;
 				this.saveAction();
 			},
 			onError: function( e ) {
@@ -84137,6 +84332,16 @@ dd.rules-group-body{
 				this.fire( "error", e.detail );
 			},
 			attached: function() {
+				if ( this.initialized != true ) {
+					this.init();
+					if ( this.autoSearch ) {
+						this.async( function() {
+							this.querySelector( "#filterId" ).doSearch();
+						}, 200 );
+					}
+				}
+			},
+			init: function() {
 				this.selectedDetailsTabId = "detailsMainTabId";
 				this.entryAnimation = 'slide-from-left-animation';
 				this.exitAnimation = 'slide-left-animation';
@@ -84150,6 +84355,7 @@ dd.rules-group-body{
 				this.panelHeaderCrudTable = tr( ep.pack + "." + ep.entityName + "_list" );
 				this.pageStack = new Array();
 				this.pageSelected = 0;
+				this.initialized = true;
 			},
 			setFormSpec: function( namespace, entity ) {
 				if ( namespace === this.prevNamespace && entity === this.prevEntityName ) return;
@@ -84178,7 +84384,7 @@ dd.rules-group-body{
 				if ( dataDesc.type == "table" ) {
 					ct.filter = dataDesc;
 				} else {
-					ct.setData( clone(this.getFormData( dataDesc )) );
+					ct.setData( clone( this.getFormData( dataDesc ) ) );
 				}
 			},
 			cancelAction: function( e ) {
@@ -84221,7 +84427,7 @@ dd.rules-group-body{
 
 				this.whenElementsReady( ( function() {
 					console.debug( "Ready" );
-					this.$.formid.setData( clone(this.currentRowData) );
+					this.$.formid.setData( clone( this.currentRowData ) );
 					this.pageSelected = 1;
 				} ).bind( this ) );
 			},
@@ -84233,13 +84439,13 @@ dd.rules-group-body{
 					} else {
 						this.currentRowData = this.currentDataSet[ this.currentRowIndex ];
 					}
-					if( Detectizr.browser.name == "firefox"){
-						this.$.formid.clearData( );
+					if ( Detectizr.browser.name == "firefox" ) {
+						this.$.formid.clearData();
 						this.async( function() {
-							this.$.formid.setData( clone(this.currentRowData) );
+							this.$.formid.setData( clone( this.currentRowData ) );
 						}, 10 );
-					}else{
-						this.$.formid.setData( clone(this.currentRowData) );
+					} else {
+						this.$.formid.setData( clone( this.currentRowData ) );
 					}
 				}
 				this.handlePrevNextButtons();
@@ -84252,13 +84458,13 @@ dd.rules-group-body{
 					} else {
 						this.currentRowData = this.currentDataSet[ this.currentRowIndex ];
 					}
-					if( Detectizr.browser.name == "firefox"){
-						this.$.formid.clearData( );
+					if ( Detectizr.browser.name == "firefox" ) {
+						this.$.formid.clearData();
 						this.async( function() {
-							this.$.formid.setData( clone(this.currentRowData) );
+							this.$.formid.setData( clone( this.currentRowData ) );
 						}, 10 );
-					}else{
-						this.$.formid.setData( clone(this.currentRowData) );
+					} else {
+						this.$.formid.setData( clone( this.currentRowData ) );
 					}
 				}
 				this.handlePrevNextButtons();
@@ -84291,10 +84497,29 @@ dd.rules-group-body{
 
 				var ep = this.getPack( detail.entity );
 				this.panelHeaderCrudForm = tr( ep.pack + "." + ep.entityName );
-				this.$.formid.setData( clone(this.currentRowData) );
+				this.$.formid.setData( clone( this.currentRowData ) );
 				this.whenElementsReady( ( function() {
 					this.pageSelected = 1;
 				} ).bind( this ) );
+			},
+			rowsSelected: function( e ) {
+				console.log( "rowsSelected:", e.detail );
+				if ( !e.detail.doubleTap ) {
+					return;
+				}
+				var crud = this.querySelector( "#crudTableId" );
+				var data = e.detail.rows[ 0 ];
+				var detail = {
+					data: data,
+					dataSet: crud.dataSet,
+					rowIndex: crud.currentRowIndex,
+					table: crud,
+					entity: this.entity,
+					namespace: this.namespace
+				}
+				this.editAction( {
+					detail: detail
+				} );
 			},
 			refreshAction: function( e ) {
 				var detail = e.detail;
@@ -84303,10 +84528,18 @@ dd.rules-group-body{
 			},
 			delAction: function( e ) {
 				var detail = e.detail;
-				this.mode = 'del';
 				console.log( "delAction:", detail );
 				this.currentTable = detail.table;
-				this.$.dialogOkId.open( detail );
+				Lobibox.confirm( {
+					msg: tr( "entitytypes.confirm_delete" ),
+					title: "&nbsp;",
+					callback: ( function( $this, type ) {
+						if ( type === 'yes' ) {
+							this.mode = 'del';
+							this.onDeleteOk( e );
+						} else if ( type === 'no' ) {}
+					} ).bind( this )
+				} );
 			},
 			onDeleteOk: function( e ) {
 				console.log( "deleteok:", e );
@@ -84317,7 +84550,7 @@ dd.rules-group-body{
 							this.currentTable.refresh();
 						}
 					}, 100 );
-					this.getToast().show( tr("entitytypes.deleted"), "success", "5000" );
+					this.notify( tr( "entitytypes.deleted" ), "success", "5000" );
 				} catch ( e ) {
 					console.error( "delAction:", e );
 					var msg = null;
@@ -84326,7 +84559,7 @@ dd.rules-group-body{
 					} else {
 						msg = e.toString();
 					}
-					this.getToast().show( msg, "error", "10000" );
+					this.notify( msg, "error", "10000" );
 					return;
 				}
 			},
@@ -84486,7 +84719,7 @@ dd.rules-group-body{
 					id: this.getIdValue( this.mainEntityName, this.namespace, data )
 				}
 				console.log( "rpc.delete:", rpc );
-				var ret = simpl4.util.Rpc.rpcSync( "data:delete" , rpc );
+				var ret = simpl4.util.Rpc.rpcSync( "data:delete", rpc );
 				return ret;
 			},
 			getData: function( data ) {
@@ -84503,7 +84736,7 @@ dd.rules-group-body{
 			getPack: function( en ) {
 				var p = "data";
 				var e = en;
-				if ( en.indexOf( ":" ) > 0 ) {
+				if ( en && en.indexOf( ":" ) > 0 ) {
 					p = en.split( ":" )[ 0 ];
 					e = en.split( ":" )[ 1 ];
 				}
@@ -84516,7 +84749,11 @@ dd.rules-group-body{
 				console.log( "getIdValue:", entityName + "/", data );
 				var pkList = simpl4.util.EntityManager.getEntity( entityName, namespace ).primaryKeys;
 				if ( pkList == null || pkList.length === 0 ) {
-					pkList = [ "id" ];
+					if ( data[ "_id" ] != null ) {
+						pkList = [ "_id" ];
+					} else {
+						pkList = [ "id" ];
+					}
 				}
 				var idValue = "";
 				var colon = "";
@@ -84544,7 +84781,7 @@ dd.rules-group-body{
 				console.log( "saveAction.valid(" + valid + "):", data );
 				if ( !valid ) {
 					var msg = tr( "widgets.table.form_incomplete" );
-					this.getToast().show( msg, "error", "10000" );
+					this.notify( msg, "error", "10000" );
 					return;
 				} else {
 					try {
@@ -84569,15 +84806,15 @@ dd.rules-group-body{
 							} else {
 								msg = tr( "data.form.saved" );
 							}
-							this.getToast().show( msg, "success", "10000" );
+							this.notify( msg, "success", "10000" );
 
 							this.needRefresh = true;
 							if ( this.mode == 'add' ) {
 								this.cancelAction();
 							}
-							if ( this.mode == 'edit' && this.loadBeforeEdit()==false ) {
-								simpl4.util.Merge.merge(false, this.currentRowData, data);
-								console.log("merged:",JSON.stringify(this.currentRowData,null,2));
+							if ( this.mode == 'edit' && this.loadBeforeEdit() == false ) {
+								simpl4.util.Merge.merge( false, this.currentRowData, data );
+								console.log( "merged:", JSON.stringify( this.currentRowData, null, 2 ) );
 							}
 						}
 					} catch ( e ) {
@@ -84590,7 +84827,7 @@ dd.rules-group-body{
 							msg = m.substring( m.indexOf( "entityName:" ) + 11 );
 							msg = tr( "data.form.save" ) + ": (" + msg + ")";
 						}
-						this.getToast().show( msg, "error", "10000" );
+						this.notify( msg, "error", "10000" );
 						return;
 					}
 				}
@@ -84634,12 +84871,8 @@ dd.rules-group-body{
 					done();
 				}, 50 );
 			},
-			getToast:function(){
-				var t = document.querySelector("#toastGlobal");
-				if( t == null){
-					t = this.querySelector("#toastId");
-				}
-				return t;
+			getHelp: function() {
+				return tr( "crud2.select_with" );
 			},
 			alert: function( message ) {
 				this.querySelector( "#error p" ).innerHTML = message;
@@ -84653,15 +84886,16 @@ dd.rules-group-body{
 	<template>
 		<style>
 			:host {
-				min-height: 400px;
 				display: inherit;
+				height: 100%;
+				overflow: hidden;
 			}
 			:host /deep/ #searchDialog {
-				position:fixed;
+				position: fixed;
 				top: 5vh;
 				min-width: 70%;
 				max-width: 70%;
-				max-height:90%;
+				max-height: 90%;
 				border-radius: 4px;
 			}
 			@media screen and (max-width: 767px) {
@@ -84671,52 +84905,69 @@ dd.rules-group-body{
 					margin: 0px;
 				}
 			}
-			paper-toast#toast {
-				z-index: 10;
+			#searchDialog {
+				margin: 0px;
+				padding: 0px;
 			}
-			simpl-toast /deep/ paper-toast {
-				white-space: nowrap;
-				padding-top: 10px;
-				padding-bottom: 10px;
+			.smooth-scrollbar {
+				height: calc(100% - 40px);
+				overflow: auto;
+				position: relative;
 			}
-			simpl-toast /deep/ span {
-				min-width: 450px;
-				padding-right: 25px;
-				font-size: 30px;
-				vertical-align: middle;
+			#searchDialog /deep/ paper-dialog-scrollable {
+				margin: 0px !important;
 			}
-			simpl-toast /deep/ iron-icon {
-				width: 48px;
-				height: 48px;
-				vertical-align: middle;
+
+			simpl-crudtable /deep/ table.responsive.dataTables thead th {
+				border-top: 3px solid white;
+				border-bottom: 1px solid #607d8b;
 			}
+
+			simpl-crudtable /deep/ table.responsive.dataTables thead tr th {
+				color: #303e45;
+				background: white;
+			}
+
+			simpl-panel /deep/ .panel__header {
+				background: white;
+				border-bottom-width: 0px;
+				height: 0px;
+			}
+			simpl-panel /deep/ .panel__header .title {
+				display: none !important;
+			}
+
 		</style>
-		<div class="layout horizontal" style="margin-bottom:10px;">
+		<div class="layout horizontal" style="height:40px;margin-bottom:0px;">
 			<template is="dom-repeat" items="{{buttonList}}">
 				<paper-button class="button button_secondary ripple flex" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
 					<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
 			</template>
 		</div>
-		<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+		<div class="smooth-scrollbar">
+			<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+		</div>
 		<paper-dialog id="searchDialog" no-cancel-on-outside-click="" with-backdrop="">
 			<paper-dialog-scrollable>
-				<div class="lyaout vertical flex">
-					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
-					<div style="height:20px;"></div>
-					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]" collapsable="">
-						<simpl-crudtable id="crud2TableId" disable-spinner="" namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="selectCancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+				<div style="color:#303e45">
+					<simpl-filter id="filterId" style="margin-bottom:10px;" with-cancel="" namespace="{{namespace}}" entity="{{entityName}}" on-cancel="selectCancelAction" filter="{{filter}}"></simpl-filter>
+					<div style="height:1px;padding-right:20px;line-height:initial;" class="layout horizontal">
+						<div class="flex">&nbsp;</div>
+						<div class="" style="font-size:11px;top:5px;position:relative;z-index:111;">[[getHelp()]]</div>
+					</div>
+					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]">
+						<simpl-crudtable id="crud2TableId" disable-spinner="" namespace="{{namespace}}" on-rows-selected="rowsSelected" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
 					</simpl-panel>
 				</div>
 			</paper-dialog-scrollable>
 		</paper-dialog>
-		<simpl-toast id="toastId"></simpl-toast>
-		<delete-dialog on-delete-ok="onDeleteOk" id="dialogOkId"></delete-dialog>
 	</template>
 	<script>
 		Polymer( {
 			is: 'simpl-crud2',
 			behaviors: [
 				Polymer.IronA11yKeysBehavior,
+				LobiboxBehavior,
 				TranslationsBehavior
 			],
 			properties: {
@@ -84735,7 +84986,7 @@ dd.rules-group-body{
 					type: String
 				},
 				buttonList: {
-					value:null,
+					value: null,
 					type: Array
 				}
 			},
@@ -84743,10 +84994,10 @@ dd.rules-group-body{
 				'buttonsChanged(isAttached)',
 				'entityChanged(entity)'
 			],
-			attached: function(){
-				this.isAttached=true;
+			attached: function() {
+				this.isAttached = true;
 			},
-			buttonsChanged: function(){
+			buttonsChanged: function() {
 				var buttons = {
 					add: {
 						action: this.addAction,
@@ -84780,9 +85031,9 @@ dd.rules-group-body{
 					b.name = name;
 					bList.push( b );
 				} ).bind( this ) );
-				this.set("buttonList",  bList);
+				this.set( "buttonList", bList );
 			},
-			setButtonState: function(name,enabled) {
+			setButtonState: function( name, enabled ) {
 				if ( this.buttonDef == null ) return;
 				this.buttonDef[ name ].disabled = !enabled;
 				for ( var i = 0; i < this.buttonList.length; i++ ) {
@@ -84802,12 +85053,12 @@ dd.rules-group-body{
 				if ( name == null ) return;
 				this.buttonDef[ name ].action.call( this );
 			},
-			addAction: function(noEvent) {
+			addAction: function( noEvent ) {
 				this.mode = "add";
-				this.setButtonState("save", true);
-				this.setButtonState("del", false);
+				this.setButtonState( "save", true );
+				this.setButtonState( "del", false );
 				this.$.formid.setData( {} );
-				if( noEvent !== true){
+				if ( noEvent !== true ) {
 					this.fire( "add-action", {
 						entity: this.entity,
 						namespace: this.namespace
@@ -84816,30 +85067,48 @@ dd.rules-group-body{
 			},
 			searchAction: function() {
 				this.entityName = this.entity;
-				this.querySelector("#crud2TableId").refresh();
-				this.$.searchDialog.isAttached=true;//@@@MS ???
+				this.$.filterId.doSearch();
+
 				this.async( function() {
-					this.$.searchDialog.open();
-				},50 );
+					var sd = $( this.$.searchDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
+				}, 200 );
 				this.fire( "search-action", {
 					entity: this.entity,
 					namespace: this.namespace
 				} );
 			},
 			delAction: function() {
-				this.setButtonState("del", false);
-				this.mode = 'del';
-				this.$.dialogOkId.open( this.currentData );
-				this.fire( "del-action", {
-					entity: this.entity,
-					namespace: this.namespace
+				Lobibox.confirm( {
+					msg: tr( "entitytypes.confirm_delete" ),
+					title: "&nbsp;",
+					callback: ( function( $this, type ) {
+						if ( type === 'yes' ) {
+							this.mode = 'del';
+							this.setButtonState( "del", false );
+							this.onDeleteOk( {
+								detail: this.currentData
+							} );
+							this.fire( "del-action", {
+								entity: this.entity,
+								namespace: this.namespace
+							} );
+						} else if ( type === 'no' ) {}
+					} ).bind( this )
 				} );
 			},
 			onDeleteOk: function( e ) {
 				console.log( "deleteok:", e );
 				try {
 					this.deleteData( e.detail );
-					this.getToast().show( tr("entitytypes.deleted"), "success", "5000" );
+					this.notify( tr( "entitytypes.deleted" ), "success", "5000" );
 					this.addAction( true );
 				} catch ( e ) {
 					console.error( "delAction:", e );
@@ -84849,27 +85118,39 @@ dd.rules-group-body{
 					} else {
 						msg = e.toString();
 					}
-					this.getToast().show( msg, "error", "10000" );
+					this.notify( msg, "error", "10000" );
 					return;
 				}
 			},
 			selectCancelAction: function() {
 				this.async( function() {
-					this.$.searchDialog.close();
-				},50 );
+					$( this.$.searchDialog ).dialog( "close" );
+				}, 50 );
 			},
 			selectAction: function( e ) {
-				this.setButtonState("del", true);
+				this.setButtonState( "del", true );
 				this.mode = "edit";
 				var data = e.detail.data;
-				console.log("selectAction:",e);
-				this.$.searchDialog.close();
-				this.currentData = clone(data);
+				console.log( "selectAction:", e );
+				$( this.$.searchDialog ).dialog( "close" );
+				this.currentData = clone( data );
+				this.$.formid.setData( this.currentData );
+			},
+			rowsSelected: function( e ) {
+				console.log( "rowsSelected:", e.detail );
+				if ( !e.detail.doubleTap ) {
+					return;
+				}
+				this.setButtonState( "del", true );
+				this.mode = "edit";
+				var data = e.detail.rows[ 0 ];
+				$( this.$.searchDialog ).dialog( "close" );
+				this.currentData = clone( data );
 				this.$.formid.setData( this.currentData );
 			},
 			saveAction: function() {
-				if(this._saveAction()){
-					this.addAction(true);
+				if ( this._saveAction() ) {
+					this.addAction( true );
 				}
 			},
 			_saveAction: function() {
@@ -84890,7 +85171,7 @@ dd.rules-group-body{
 				console.log( "saveAction.valid(" + valid + "):", data );
 				if ( !valid ) {
 					var msg = tr( "widgets.table.form_incomplete" );
-					this.getToast().show( msg, "error", "10000" );
+					this.notify( msg, "error", "10000" );
 					return false;
 				} else {
 					try {
@@ -84899,7 +85180,7 @@ dd.rules-group-body{
 						}
 						console.log( "saveAction.storeData:", data );
 						var ret = this.storeData( data );
-console.log("ret:",ret);
+						console.log( "ret:", ret );
 						var cv = ret[ "constraintViolations" ];
 						if ( cv ) {
 							var message = "";
@@ -84916,8 +85197,8 @@ console.log("ret:",ret);
 								msg = tr( "data.form.saved" );
 							}
 							data.id = ret.id;
-							this.$.formid.updateData(data);
-							this.getToast().show( msg, "success", "10000" );
+							this.$.formid.updateData( data );
+							this.notify( msg, "success", "10000" );
 						}
 					} catch ( e ) {
 						console.error( "saveAction:", e.stack );
@@ -84929,7 +85210,7 @@ console.log("ret:",ret);
 							msg = m.substring( m.indexOf( "entityName:" ) + 11 );
 							msg = tr( "data.form.save" ) + ": (" + msg + ")";
 						}
-						this.getToast().show( msg, "error", "10000" );
+						this.notify( msg, "error", "10000" );
 						return false;
 					}
 				}
@@ -84958,7 +85239,7 @@ console.log("ret:",ret);
 				var idValue = this.getIdValue( this.entity, this.namespace, data );
 				console.log( "storeData.idValue:", idValue );
 				var rpc = {
-					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity(this.entity),
+					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity( this.entity ),
 					entity: this.entity,
 					id: idValue,
 					data: data
@@ -84970,22 +85251,22 @@ console.log("ret:",ret);
 			},
 			deleteData: function( data ) {
 				var rpc = {
-					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity(this.entity),
+					storeId: ( this.namespace || simpl4.util.BaseManager.getNamespace() ) + "_" + this.getPackFromEntity( this.entity ),
 					entity: this.entity,
 					id: this.getIdValue( this.entity, this.namespace, data )
 				}
 				console.log( "rpc.delete:", rpc );
-				var ret = simpl4.util.Rpc.rpcSync( "data:delete" , rpc );
+				var ret = simpl4.util.Rpc.rpcSync( "data:delete", rpc );
 				return ret;
 			},
 			getIdValue: function( entityName, namespace, data ) {
-				if( this.mode == "add") return null;
+				if ( this.mode == "add" ) return null;
 				console.log( "getIdValue:", entityName + "/", data );
 				var pkList = simpl4.util.EntityManager.getEntity( entityName, namespace ).primaryKeys;
 				if ( pkList == null || pkList.length === 0 ) {
-					if( data["_id"] != null){
+					if ( data[ "_id" ] != null ) {
 						pkList = [ "_id" ];
-					}else{
+					} else {
 						pkList = [ "id" ];
 					}
 				}
@@ -84997,7 +85278,7 @@ console.log("ret:",ret);
 				}
 				return idValue;
 			},
-			entityChanged:function(){
+			entityChanged: function() {
 				this.getColumns( this.entity );
 				this._pack = this.getPackFromEntity( this.entity );
 				this.setFormSpec( this.namespace, this.entity );
@@ -85016,7 +85297,7 @@ console.log("ret:",ret);
 				}
 				this.async( function() {
 					this.$.formid.setData( {} );
-				},5 );
+				}, 5 );
 			},
 			getFormSpec: function( item ) {
 				return [ simpl4FormManager.getCrudForm( item.entity, item.namespace || this.namespace ) ];
@@ -85057,8 +85338,11 @@ console.log("ret:",ret);
 					articleId: "ABC"
 				} ]
 			},
-			getHeader:function(entityName){
-				return tr(this.getPackFromEntity(this.entity)+'.'+this.getSimpleEntityName(entityName));
+			getHelp: function() {
+				return tr( "crud2.select_with" );
+			},
+			getHeader: function( entityName ) {
+				return tr( this.getPackFromEntity( this.entity ) + '.' + this.getSimpleEntityName( entityName ) );
 			},
 			getPackFromEntity: function( entity ) {
 				if ( entity.indexOf( ':' ) >= 0 ) {
@@ -85071,13 +85355,6 @@ console.log("ret:",ret);
 					return entity.split( ':' )[ 1 ];
 				}
 				return entity;
-			},
-			getToast:function(){
-				var t = document.querySelector("#toastGlobal");
-				if( t == null){
-					t = this.querySelector("#toastId");
-				}
-				return t;
 			}
 		} );
 
@@ -85468,6 +85745,9 @@ console.log("ret:",ret);
 			:host /deep/ .dataTables_wrapper.no-footer .dataTables_scrollBody {
 				border-bottom: 0px solid #111;
 			}
+			:host /deep/ .dataTables_wrapper {
+				height:100%;
+			}
 			:host > div {
 				color: var(--simpl-datatables-container-color, --secondary-text-color);
 				background: var(--simpl-datatables-container-background, --light-primary);
@@ -85507,7 +85787,7 @@ console.log("ret:",ret);
 	<template>
 		<style is="custom-style" include="simpl-datatables-shared-styles"></style>
 
-		<div style="overflow:hidden;">
+		<div style="overflow:hidden;height:100%;">
 			<table id="dataTablesId" class="dataTables responsive" style="width:100%;"></table>
 		</div>
 		<content>
@@ -87479,7 +87759,7 @@ console.log("ret:",ret);
   height: auto;
   padding: 0;
   margin: 2px 0 0 0;
-  z-index: 1000;
+  z-index: 600000;
   background: #ffffff;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -88080,7 +88360,7 @@ console.log("ret:",ret);
 
 	</style>
 	<template>
-		<paper-dropdown-menu style="display:inline !important;" id="decorator" label="[[label]]" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" readonly="" disabled$="[[disabled]]" invalid="[[isInvalid]]">
+		<paper-dropdown-menu id="dropdownId" style="display:inline !important;" label="[[label]]" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" readonly="" disabled$="[[disabled]]" invalid="[[isInvalid]]">
 			<simpl-jqtree style="width:100%;" jqtree="{{jqtree}}" class="dropdown-content" contextmenu="[[contextmenu]]" selected-item="{{selectedItem}}" multi-select="[[multiSelect]]" options="[[options]]" data="[[items]]">
 			</simpl-jqtree>
 		</paper-dropdown-menu>
@@ -88153,7 +88433,7 @@ console.log("ret:",ret);
 				console.log( "tree-field(" + this.name + ").itemsChanged:", this.items );
 			},
 			valueChanged: function( v ) {
-				console.log( "tree-field(" + this.name + ").valueChanged:", this.value+"/wo:"+this.withoutCheck );
+				console.log( "tree-field(" + this.name+",wo:"+this.withoutCheck + ").valueChanged:", this.value );
 				if ( this.isDomReady != true ) return;
 				if ( this.withoutCheck ) {
 					this.withoutCheck = false;
@@ -88173,7 +88453,11 @@ console.log("ret:",ret);
 					var node = this.jqtree.tree('getNodeById', id);
 					this.jqtree.tree('selectNode', node);
 					this.jqtree.tree('scrollToNode', node);
-					this.value = node.name;
+				}else{
+					this.jqtree.tree('selectNode', null);
+					this.selectedItem=null;
+					this.$.dropdownId.querySelector("#input").value='';
+					this.setInvalid( false );
 				}
 			},
 			getValue: function() {
@@ -89157,6 +89441,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				margin: 0px;
 			}
 		}
+		#linkedObjDialog {
+			margin: 0px;
+			padding: 0px;
+		}
 		:host {
 			--paper-input-container: {
 				padding: 0px;
@@ -89181,7 +89469,23 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			max-height: inherit !important;
 			padding: 0 10px;
 		}
+		#linkedObjId /deep/ table.responsive.dataTables thead tr th, 
+		#linkedObjId /deep/ table.responsive.dataTables tfoot tr th {
+				color: #303e45;
+				background: white;
+		}
 
+		#linkedObjId /deep/ table.responsive.dataTables thead th, 
+		#linkedObjId /deep/ table.responsive.dataTables thead td {
+				border-top: 3px solid white;
+				border-bottom: 1px solid #607d8b;
+		}
+
+		simpl-panel /deep/ .panel__header {
+				background: #ffffff;
+				border-bottom: 0px solid #607d8b;
+				height: 1px;
+		}
 	</style>
 	<template>
 
@@ -89203,11 +89507,11 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 
 		<paper-dialog id="linkedObjDialog" no-cancel-on-outside-click="" with-backdrop="">
 			<paper-dialog-scrollable>
-				<div class="lyaout vertical flex">
-					<simpl-filter style="margin-bottom:10px;" namespace="{{namespace}}" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
-					<div style="height:20px;"></div>
-					<simpl-panel bgcolor="black" heading="[[getHeader(_entityName)]]" collapsable="">
-						<simpl-crudtable disable-spinner="" namespace="{{namespace}}" buttons="select,cancel" on-select-action="selectAction" on-cancel-action="cancelAction" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+				<div style="color:#d00c0c;">
+					<simpl-filter id="filterId" style="margin-bottom:10px;" namespace="{{namespace}}" with-cancel="" on-cancel="cancelAction" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
+					<div style="height:13px;padding-right:20px;line-height:initial;" class="layout horizontal"><div class="flex">&nbsp;</div><div class="" style="font-size:11px;">[[getHelp()]]</div></div>
+					<simpl-panel bgcolor="black" heading="[[getHeader(_entityName)]]">
+						<simpl-crudtable id="linkedObjId" disable-spinner="" namespace="{{namespace}}" on-rows-selected="rowsSelected" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
 					</simpl-panel>
 				</div>
 			</paper-dialog-scrollable>
@@ -89251,24 +89555,36 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			},
 			actionCallback: function() {
 				this._entityName = this.entityName;
+				this.$.filterId.doSearch();
 				this.async( function() {
-					this.$.linkedObjDialog.open();
-				},50 );
+					var sd = $( this.$.linkedObjDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
+				},250 );
 			},
 			clearCallback: function() {
 				this.editValue = null;
 				this.id = null;
 			},
-			selectAction: function( e ) {
-				this.data = e.detail.data;
-				this.$.linkedObjDialog.close();
+			rowsSelected: function( e ) {
+				if( !e.detail.doubleTap ){
+					return;
+				}
+				this.data = e.detail.rows[0];
+				$( this.$.linkedObjDialog ).dialog( "close" );
 				var t = this._maskedEval( this.props.title_expression, this.data );
 				this.id = this.data.id || this.data._id;
 				this.editValue = t || this.id ||  ".";
 			},
 			cancelAction: function() {
 				this.async( function() {
-					this.$.linkedObjDialog.close();
+					$( this.$.linkedObjDialog ).dialog( "close" );
 				},50 );
 			},
 			editValueChanged: function() {
@@ -89316,6 +89632,9 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 					this.entityName = pack ? (pack +":"+ this.getSimpleEntityName(this.entity)) : this.entity;
 				},10 );
 			},
+			getHelp:function(){
+				return tr("crud2.select_with");
+			},
 			getHeader:function(entityName){
 				this.pack = this.getPack() || "data";
 				return tr(this.pack+'.'+this.getSimpleEntityName(entityName));
@@ -89351,6 +89670,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				min-width: 100%;
 				margin: 0px;
 			}
+		}
+		#embeddedObjDialog {
+			margin: 0px;
+			padding: 0px;
 		}
 		:host {
 			--paper-input-container: {
@@ -89458,7 +89781,15 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				this._pack = this.getPack();
 				this.$.formid.setData(this.data);
 				this.async( function() {
-					this.$.embeddedObjDialog.open();
+					var sd = $( this.$.embeddedObjDialog ).dialog( {
+						resizable: true,
+						draggable: true,
+						title: "",
+						height: "auto",
+						width: "80%",
+						modal: true
+					} );
+					sd.parent().css( "z-index", "555111" );
 				},50 );
 			},
 			clearCallback: function() {
@@ -89467,13 +89798,13 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			},
 			takeOverAction: function( e ) {
 				this.data = this.$.formid.getData();
-				this.$.embeddedObjDialog.close();
+				$( this.$.embeddedObjDialog ).dialog( "close" );
 				var t = this._maskedEval( this.props.title_expression, this.data );
 				this.editValue = t || this.data._id ||  ".";
 			},
 			cancelAction: function() {
 				this.async( function() {
-					this.$.embeddedObjDialog.close();
+					$( this.$.embeddedObjDialog ).dialog( "close" );
 				},50 );
 			},
 			editValueChanged: function() {
@@ -90286,11 +90617,13 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
     	height:    -moz-calc(100% - 75px);
     	height:         calc(100% - 75px);
 		}
-
+		:host neon-animated-pages .iron-selected:not(.neon-animating) { 
+			position: relative; 
+		}
 	</style>
 	<template>
 		<div id="[[item.xf_id]]">
-			<paper-tabs selected="{{tabsId}}" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
+			<paper-tabs selected="{{tabsId}}" style="margin-bottom:15px;" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
 				<template is="dom-repeat" as="i" items="[[item.childShapes]]">
 					<template is="dom-if" if="[[i.label]]" restamp="">
 						<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.label)]]</paper-tab>
@@ -90333,7 +90666,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				return "display:block;padding-top:0px;padding-bottom:0px;"
 			},
 			getPageStyle: function() {
-				return "margin-top:20px;padding:0px;"
+				return "margin-top:0px;padding:0px;"
 			},
 			computePagesStyle: function( item ) {
 				var maxHeight = 0;
@@ -90346,7 +90679,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 					maxHeight = Math.max( maxHeight, h );
 				}
 				if( maxHeight == 0 ) maxHeight=500;
-				return "overflow-x:hidden;min-height:" + ( maxHeight - 30 ) + "px;";
+				return "overflow:hidden;min-height:" + ( maxHeight - 30 ) + "px;";
 			},
 			ready: function() {
 				var tab = this.item.selected;
@@ -94369,35 +94702,7 @@ Use the Help button for an technical overview.
 </dom-module>
 <dom-module id="simpl-processcontroller" assetpath="src/simpl-processes/">
 	<style>
-		html /deep/ iron-icon.error-big {
-			color: red;
-			height: 64px;
-			width: 64px;
-		}
-		html /deep/ paper-button[affirmative] {
-			color: #4285f4;
-		}
-		/*Extra Würste for polyfills*/
-		
-		paper-button[affirmative] {
-			color: #4285f4;
-		}
-		iron-icon.error-big {
-			color: red;
-			height: 64px;
-			width: 64px;
-		}
-		iron-icon.finish-big {
-			color: blue;
-			height: 64px;
-			width: 64px;
-		}
-		paper-toast#toast {
-			z-index: 10;
-		}
-		paper-dialog {
-			min-height: 250px;
-		}
+
 
 	</style>
 	<template>
@@ -94406,30 +94711,6 @@ Use the Help button for an technical overview.
 				<simpl-form id="formid" on-xaction="actionCallback" namespace="[[namespace]]" form-name="[[formName]]" variables="[[variables]]"></simpl-form>
 			</simpl-panel>
 		</template>
-		<paper-toast id="toast" class="capsule" text="[[error_message]]" style="padding-right: 60px;"></paper-toast>
-
-		<paper-dialog with-backdrop="" id="error">
-			<div class="layout vertical flex">
-				<iron-icon class="error-big" icon="error"></iron-icon>
-				<p></p>
-			</div>
-			<div class="buttons">
-				<paper-button raised="" dialog-confirm="">
-					<iron-icon affirmative="" icon="check"></iron-icon>Ok</paper-button>
-			</div>
-		</paper-dialog>
-
-		<paper-dialog with-backdrop="" id="finish">
-			<div class="layout vertical flex">
-				<iron-icon class="finish-big" icon="verified-user"></iron-icon>
-				<p></p>
-			</div>
-			<div class="buttons">
-				<paper-button raised="" on-tap="onFinishTap" xialog-confirm="">
-					<iron-icon affirmative="" icon="check"></iron-icon>Ok</paper-button>
-			</div>
-		</paper-dialog>
-
 	</template>
 
 	<script>
@@ -94449,25 +94730,28 @@ Use the Help button for an technical overview.
 			observers: [
 				'nameChanged(namespace,name,parameter)'
 			],
+			behaviors: [
+				LobiboxBehavior
+			],
 			ready: function() {
 				this.panelBackgroundColor = 'black';
 				this.panelHeader = '';
 				this.formName = null;
-				console.log("ProcessController.ready");
+				console.log( "ProcessController.ready" );
 			},
 			attached: function() {
-				console.log("ProcessController.attached:",this.namespace+"/"+this.name+"/"+this.paramObject);
-				if( this.name && this.namespace && this.paramObject){
-					this.startByName(this.namespace, this.name, this.paramObject);
+				console.log( "ProcessController.attached:", this.namespace + "/" + this.name + "/" + this.paramObject );
+				if ( this.name && this.namespace && this.paramObject ) {
+					this.startByName( this.namespace, this.name, this.paramObject );
 				}
 			},
 			isParamsOk: function( namespace, formName ) {
 				return this.namespace != null && this.formName != null;
 			},
-			nameChanged:function(){
-				var params=null;
-				if( this.parameter && this.parameter.startsWith("{")){
-					params = JSON.parse(this.parameter);
+			nameChanged: function() {
+				var params = null;
+				if ( this.parameter && this.parameter.startsWith( "{" ) ) {
+					params = JSON.parse( this.parameter );
 				}
 				this.paramObject = params || {};
 			},
@@ -94537,8 +94821,11 @@ Use the Help button for an technical overview.
 					if ( xaction == "execute" ) {
 						var buttonKey = xid;
 						if ( !valid ) {
-							self.error_message = tr( "process.form_incomplete" );
-							self.querySelector( "#toast" ).show();
+							Lobibox.notify( 'error', {
+								delay: 6000,
+								icon: "vaadin-icons:exclamation",
+								msg: tr( "process.form_incomplete" )
+							} );
 							return;
 						}
 						self.handleExecuteButton( data, task, formVar, buttonKey, finishCallback );
@@ -94552,15 +94839,15 @@ Use the Help button for an technical overview.
 				var processVariables = {};
 				var mappedFormValues = null;
 				if ( task != null ) {
-					processVariables = this.getProcessVariables( processTenantId,formResourceKey,  task.processInstanceId );
+					processVariables = this.getProcessVariables( processTenantId, formResourceKey, task.processInstanceId );
 					mappedFormValues = this.getMappedFormValues( task.id, task.processInstanceId );
 				} else {
 					processVariables[ "__namespace" ] = simpl4.util.BaseManager.getNamespace();
 				}
-				if( taskName){
-					this.panelHeader = tr(processName) + "/" + taskName;
-				}else{
-					this.panelHeader = tr(processName);
+				if ( taskName ) {
+					this.panelHeader = tr( processName ) + "/" + taskName;
+				} else {
+					this.panelHeader = tr( processName );
 				}
 				this.variables = processVariables;
 				this.namespace = processTenantId;
@@ -94662,7 +94949,7 @@ Use the Help button for an technical overview.
 					if ( tasks && tasks.total > 0 ) {
 						this.showForm( tasks.data[ 0 ], finishCallback );
 					} else {
-						if ( task && task.fromTaskList ) {
+						if ( task ) {
 							this.finish( tr( "processes.taskform.started" ) + " -> ID" + ( task.processInstanceId ), finishCallback );
 						} else {
 							this.finish( tr( "processes.startform.started" ) + " -> ID" + ( task ? task.processInstanceId : ret.id ), finishCallback );
@@ -94802,23 +95089,21 @@ Use the Help button for an technical overview.
 				return null;
 			},
 			finish: function( message, callback ) {
-				this.querySelector( "#finish p" ).innerHTML = message;
-
-				var dia = this.querySelector( "#finish" );
-				this.onFinishTap = function( e ) {
-					dia.close();
+				this.notify( message, 'success', 8000 );
+				this.async( function() {
 					callback();
-				}
-				dia.open();
+				}, 500 );
 			},
 			alert: function( message ) {
-				this.querySelector( "#error p" ).innerHTML = message;
-				this.querySelector( "#error" ).open();
+				Lobibox.notify( 'error', {
+					delay: 6000,
+					icon: "vaadin-icons:exclamation",
+					msg: message
+				} );
 			}
 		} );
 
 	</script>
-
 </dom-module>
 <dom-module id="simpl-processes" assetpath="src/simpl-processes/">
 	<style is="custom-style" include="simpl-datatables-shared-styles"></style>
