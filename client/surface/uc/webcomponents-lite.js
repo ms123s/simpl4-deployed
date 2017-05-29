@@ -2237,7 +2237,8 @@ window.CustomElements.addModule(function(scope) {
   function register(name, options) {
     var definition = options || {};
     if (!name) {
-      throw new Error("document.registerElement: first argument `name` must not be empty");
+			return; 
+      //throw new Error("document.registerElement: first argument `name` must not be empty");
     }
     if (name.indexOf("-") < 0) {
       throw new Error("document.registerElement: first argument ('name') must contain a dash ('-'). Argument provided was '" + String(name) + "'.");
