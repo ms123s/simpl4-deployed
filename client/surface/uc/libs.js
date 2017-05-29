@@ -15489,8 +15489,7 @@ try {
     else if (typeof module !== "undefined" && module["exports"]) module["exports"] = es6$promise$umd$$ES6Promise;
     else if (typeof this !== "undefined") this["ES6Promise"] = es6$promise$umd$$ES6Promise
 }).call(this);
-
-function(root, factory) {
+(function(root, factory) {
     if (typeof define === "function" && define.amd) define("utils/MapUtils", factory);
     else {
         if (typeof root.regulaModules === "undefined") root.regulaModules = {};
@@ -15527,7 +15526,7 @@ function(root, factory) {
             return true
         }
     }
-});
+}));
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define("utils/DOMUtils", factory);
     else {
@@ -15633,8 +15632,7 @@ function(root, factory) {
         firstCustomGroupIndex: firstCustomGroupIndex
     }
 });
-
-function(root, factory) {
+(function(root, factory) {
     if (typeof define === "function" && define.amd) define("utils/ArrayUtils", factory);
     else {
         if (typeof root.regulaModules === "undefined") root.regulaModules = {};
@@ -15649,7 +15647,7 @@ function(root, factory) {
     return {
         explode: explode
     }
-});
+}));
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define("service/ExceptionService", ["utils/ArrayUtils"], factory);
     else {
@@ -16741,8 +16739,7 @@ function(root, factory) {
         createPublicValidator: createPublicValidator
     }
 });
-
-function(root, factory) {
+(function(root, factory) {
     if (typeof define === "function" && define.amd) define("domain/CompositionGraph", factory);
     else {
         if (typeof root.regulaModules === "undefined") root.regulaModules = {};
@@ -16855,7 +16852,7 @@ function(root, factory) {
         clone: clone,
         initializeFromClone: initializeFromClone
     }
-});
+}));
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define("service/ConstraintService", ["service/ValidationService", "domain/CompositionGraph", "service/ExceptionService", "utils/MapUtils", "utils/ArrayUtils"], factory);
     else {
@@ -17469,8 +17466,7 @@ function(root, factory) {
             verifyParameterCountMatches: verifyParameterCountMatches
         }
     });
-
-function(root, factory) {
+(function(root, factory) {
     if (typeof define === "function" && define.amd) define("parser/Parser", ["utils/MapUtils", "service/ExceptionService", "service/ConstraintService"], factory);
     else {
         if (typeof root.regulaModules === "undefined") root.regulaModules = {};
@@ -18087,9 +18083,8 @@ function(root, factory) {
     return {
         parse: parse
     }
-});
-
-function(root, factory) {
+}));
+(function(root, factory) {
     if (typeof define === "function" && define.amd) define("service/BindingService", ["utils/MapUtils", "service/GroupService", "utils/DOMUtils", "parser/Parser", "service/ConstraintService", "service/ExceptionService"], factory);
     else {
         if (typeof root.regulaModules === "undefined") root.regulaModules = {};
@@ -18549,7 +18544,7 @@ function(root, factory) {
             unbind: unbind,
             isBound: isBound
         }
-    });
+    }));
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define("regula", ["utils/MapUtils", "utils/DOMUtils", "service/BindingService", "service/ExceptionService", "service/ConstraintService", "service/ValidationService", "service/GroupService"], factory);
     else {
