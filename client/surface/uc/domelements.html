@@ -45670,6 +45670,8 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   }
   this._saveAction();
 }, _saveAction:function() {
+  this.setButtonState("edit", false);
+  this.setButtonState("del", false);
   this.cancelAction();
   var form = this.$.formid;
   var chgData = form.getData();
