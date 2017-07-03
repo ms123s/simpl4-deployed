@@ -15811,7 +15811,9 @@ CSSImportBehavior = {convertSheetsToStyles:function(root) {
   TrBehavior = {tr:function() {
     return simpl4MessageManager.tr(input);
   }};
-  window.channel = postal.channel();
+  if (window.channel == null) {
+    window.channel = postal.channel();
+  }
   var awFont = new Font;
   awFont.src = simpl4.util.BaseManager.getBaseUrl() + "/sw/surface/fontawesome-webfont.woff?v=4.3.0";
   awFont.fontFamily = "FontAwesome";
