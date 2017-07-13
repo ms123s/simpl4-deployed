@@ -16901,7 +16901,28 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			xosition: absolute;
 		}
 
+		:host /deep/ paper-dialog > *:last-child {
+			margin-bottom: 4px;
+		}
+		:host /deep/ paper-dialog > *:first-child {
+			margin-top: 14px;
+		}
+		:host /deep/ paper-dialog#searchDialog {
+			padding: 0px 0px 0 0px;
+		}
+		:host /deep/ .button-content {
+			padding: 0.2em 0.27em;
+		}
+		paper-button {
+			min-width: 0px;
+		}
+		:host /deep/ #scrollable {
+			max-height: inherit !important;
+			padding: 0 10px;
+		}
+
 	</style>
+  <style is="custom-style" include="simpl-crud-shared-styles"></style>
 	<template>
 
 		<div id="floatedLabel" hidden$="[[!label]]" class="floatedLabel">
@@ -16914,6 +16935,9 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				<div class="line grid row">
 					<template is="dom-repeat" index-as="cid" as="col" items="[[columns]]">
 						<grid-element-renderer id="[[getElementId(lid,cid)]]" style$="[[getColStyle(col.width)]]" class$="[[getColFlex(col.width)]]" item="[[col]]"></grid-element-renderer>
+					</template>
+					<template is="dom-if" if="[[search]]">
+						<paper-icon-button on-tap="_search" data-lid$="[[lid]]" icon="search"></paper-icon-button>
 					</template>
 					<paper-icon-button on-tap="addLine" data-lid$="[[lid]]" icon="add"></paper-icon-button>
 					<paper-icon-button on-tap="removeLine" data-lid$="[[lid]]" icon="remove"></paper-icon-button>
@@ -16931,6 +16955,17 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				<iron-icon class="error-icon" icon="warning"></iron-icon>
 			</div>
 		</div>
+		<paper-dialog id="searchDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<div style="color:#d00c0c;">
+					<simpl-filter id="filterId" style="margin-bottom:10px;" namespace="{{namespace}}" with-cancel="" on-cancel="cancelAction" entity="{{entityName}}" filter="{{filter}}"></simpl-filter>
+					<div style="height:13px;padding-right:20px;line-height:initial;" class="layout horizontal"><div class="flex">&nbsp;</div><div class="" style="font-size:11px;">[[getHelp()]]</div></div>
+					<simpl-panel bgcolor="black" heading="[[getHeader(entityName)]]">
+						<simpl-crudtable id="linkedObjId" disable-spinner="" namespace="{{namespace}}" on-rows-selected="rowsSelected" meta="{{meta}}" filter="{{filter}}"></simpl-crudtable>
+					</simpl-panel>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
 	</template>
 	</dom-module>
 
@@ -17509,7 +17544,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</linkedlist-field>
 		</template>
 		<template is="dom-if" if="{{isGridInput(item.id)}}">
-			<gridinput-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" required="[[item.xf_required]]" height="[[item.height]]" columns="[[item.columns]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			<gridinput-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" namespace="{{item.xf_namespace}}" search="[[item.xf_search]]" entity="{{item.xf_module}}" required="[[item.xf_required]]" height="[[item.height]]" columns="[[item.columns]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</gridinput-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isTextArea(item.id)}}">

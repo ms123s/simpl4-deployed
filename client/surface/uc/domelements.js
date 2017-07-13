@@ -32374,7 +32374,6 @@ FormBehavior = {_valueChanged:function(e) {
 }, validate:function(dontInvalidate) {
   var errorList = [];
   var elements = this._filterToArray("input-field,checkbox-field,select-field", this.$.formdiv, true, false);
-  console.log("elements:", elements);
   Array.prototype.forEach.call(elements, function(elem) {
     elem.setInvalid(false);
   });
@@ -32402,7 +32401,6 @@ FormBehavior = {_valueChanged:function(e) {
     }
   }
   if (errorList && errorList.length > 0) {
-    console.log("form.validate.errorList:", errorList);
   }
   this._validateLocal(errorList);
   return errorList.length == 0;
@@ -32473,6 +32471,7 @@ FormBehavior = {_valueChanged:function(e) {
   try {
     env._ = _;
     env.moment = moment;
+    env.Math = Math;
     env.form = this;
     return metaes.evaluate(scr.toString(), env);
   } catch (e) {
@@ -32556,7 +32555,6 @@ FormBehavior = {_valueChanged:function(e) {
       var env = {$mode:this.mode, $lang:simpl4.util.BaseManager.getLanguage(), $self:fieldData};
       env = simpl4.util.Merge.merge(true, data, env);
       fieldData = this._maskedEval(field.expressionIn, env);
-      console.log("expressionIn(" + field.name + "\t," + field.expressionIn + "\t," + oldValue + ") -> ", fieldData);
     }
     field.setValue(fieldData || field.defaultvalue || null);
   }, this);
@@ -32584,7 +32582,15 @@ FormBehavior = {_valueChanged:function(e) {
       if (field.setInvalid) {
         field.setInvalid(false);
       }
-      field.setValue(data[key]);
+      var fieldData = this.data[key];
+      var oldValue = fieldData;
+      if (field.expressionIn) {
+        var env = {$mode:this.mode, $lang:simpl4.util.BaseManager.getLanguage(), $self:fieldData};
+        env = simpl4.util.Merge.merge(true, data, env);
+        fieldData = this._maskedEval(field.expressionIn, env);
+        console.log("expressionIn(" + field.name + "\t," + field.expressionIn + "\t," + oldValue + ") -> ", fieldData);
+      }
+      field.setValue(fieldData);
     }
   }.bind(this));
   this._valueChanged();
@@ -32613,7 +32619,6 @@ FormBehavior = {_valueChanged:function(e) {
     var env = {$mode:this.mode, $lang:simpl4.util.BaseManager.getLanguage(), $self:field.getValue()};
     env = simpl4.util.Merge.merge(true, data, env);
     data[field.name] = this._maskedEval(field.expressionOut, env);
-    console.log("expressionOut(" + field.name + "\t," + field.expressionOut + "\t," + oldValue + ") -> ", data[field.name]);
   }, this);
   return data;
 }, setItems:function(items) {
@@ -32635,7 +32640,7 @@ FormBehavior = {_valueChanged:function(e) {
     if (method.indexOf(".") == -1) {
       method = this.namespace + "." + method;
     }
-    var params = {service:"camelRoute", method:method, parameter:{lang:simpl4.util.BaseManager.getLanguage(), mode:this.mode, uuid:window.uuid}, async:true, context:this, failed:function(e) {
+    var params = {service:"camelRoute", method:method, parameter:{lang:simpl4.util.BaseManager.getLanguage(), mode:this.mode, uuid:window.uuid}, async:false, context:this, failed:function(e) {
       console.error("_getSelectionLists:", e);
       console.log(e.stack);
     }, completed:function(lists) {
@@ -32876,10 +32881,14 @@ FormBehavior = {_valueChanged:function(e) {
       if (shape.stencil.id.toLowerCase() == "input") {
         if (shape.properties.xf_type.startsWith("date")) {
           var d = shape.properties.xf_default;
-          if (d != null && typeof d === "string" && d.length > 0) {
-            shape.properties.xf_default = Date.create(d).getTime();
-            if (isNaN(shape.properties.xf_default)) {
-              console.error("form-behavior:parse.error.DefaultDate(" + shape.properties.xf_id + "):" + d);
+          if (shape.properties.xf_default == "now") {
+            shape.properties.xf_default = Date.create().getTime();
+          } else {
+            if (d != null && typeof d === "string" && d.length > 0) {
+              shape.properties.xf_default = Date.create(d).getTime();
+              if (isNaN(shape.properties.xf_default)) {
+                console.error("form-behavior:parse.error.DefaultDate(" + shape.properties.xf_id + "):" + d);
+              }
             }
           }
         }
@@ -32912,6 +32921,15 @@ FormBehavior = {_valueChanged:function(e) {
         if (col.label && col.label.match(/^[@%]/)) {
           col.label = tr(col.label.substring(1));
         }
+        if (col.type == "selection") {
+          col.id = "Enumselect";
+          try {
+            col.items = JSONPath({json:this._selectionLists, path:col.parameter, callback:function() {
+            }})[0];
+          } catch (e) {
+            console.error("JSONPath:", e);
+          }
+        }
       }
       props.xf_columns = undefined;
       var bounds = shape.bounds;
@@ -32935,6 +32953,7 @@ FormBehavior = {_valueChanged:function(e) {
       var parammapping = props.xf_parammapping;
       var resultmapping = props.xf_resultmapping;
       var varname = props.xf_varname;
+      var namespace = props.xf_namespace || this.namespace;
       if (!this._isEmpty(varname)) {
         props.items = this.variables[varname];
         if (!isTreeSelect) {
@@ -32952,18 +32971,18 @@ FormBehavior = {_valueChanged:function(e) {
           props.items = this._doResultMapping(props.items, resultmapping);
         } else {
           if (!isTreeSelect && !isTableSelect && enumembed && enumembed.totalCount > 0) {
-            var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, enumembed);
+            var si = simpl4FormManager.createSelectableItems(namespace, this.formName, props.xf_id, enumembed);
             props.items = si.getItems();
           } else {
             if (!isTreeSelect && !isTableSelect && _enum && _enum.totalCount > 0) {
-              var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, JSON.stringify(props.xf_enum));
+              var si = simpl4FormManager.createSelectableItems(namespace, this.formName, props.xf_id, JSON.stringify(props.xf_enum));
               props.items = si.getItems();
             } else {
               if (!isTreeSelect && !this._isEmpty(filter)) {
                 var filterDesc = {"totalCount":1, "enumDescription":"sw.filter:" + filter, items:[]};
                 filterDesc.params = this._doParameterMapping(parammapping);
                 filterDesc.checkParams = true;
-                var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, JSON.stringify(filterDesc));
+                var si = simpl4FormManager.createSelectableItems(namespace, this.formName, props.xf_id, JSON.stringify(filterDesc));
                 var items = si.getItems();
                 if (si.getMissingParamList()) {
                   console.error("Filter:", filterDesc);
@@ -32975,10 +32994,10 @@ FormBehavior = {_valueChanged:function(e) {
                 if (!this._isEmpty(service)) {
                   var serviceDesc = {"totalCount":1, "enumDescription":"sw.service:" + service, items:[]};
                   serviceDesc.params = this._doParameterMapping(parammapping);
-                  var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, JSON.stringify(serviceDesc));
+                  var si = simpl4FormManager.createSelectableItems(namespace, this.formName, props.xf_id, JSON.stringify(serviceDesc));
                   props.items = this._doResultMapping(si.getItems(), resultmapping);
                 } else {
-                  var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, JSON.stringify(props.xf_enum));
+                  var si = simpl4FormManager.createSelectableItems(namespace, this.formName, props.xf_id, JSON.stringify(props.xf_enum));
                   props.items = si.getItems();
                 }
               }
@@ -33014,8 +33033,8 @@ FormBehavior = {_valueChanged:function(e) {
       if (props.items.length > 0 && !this._isEmpty(shape.properties.xf_default) && shape.properties.xf_default.startsWith("#")) {
         try {
           shape.properties.xf_default = props.items[parseInt(shape.properties.xf_default.substring(1))].value;
-        } catch (e) {
-          console.error("set xf_default(" + shape.properties.xf_id + "):", e);
+        } catch (e$8) {
+          console.error("set xf_default(" + shape.properties.xf_id + "):", e$8);
         }
       }
     }
@@ -33106,9 +33125,15 @@ FormBehavior = {_valueChanged:function(e) {
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     var selectionObject = clone(item);
+    if (_.isString(item)) {
+      selectionObject = {"self":item};
+    }
     for (var j = 0; j < mapping.length; j++) {
       var _mapping = mapping[j].mapping;
       var resexpr = mapping[j].resultexpr;
+      if (_.isString(item)) {
+        item = {"self":item};
+      }
       selectionObject[_mapping] = this._maskedEval(resexpr, item);
     }
     selectionList.push(selectionObject);
@@ -33119,6 +33144,8 @@ FormBehavior = {_valueChanged:function(e) {
   if (constraints == null || constraints.length == 0) {
     return "";
   }
+  constraints = constraints.replace(/DecimalMin/g, "Min");
+  constraints = constraints.replace(/DecimalMax/g, "Max");
   constraints = JSON.parse(constraints);
   var ret = "";
   var b = "";
@@ -33546,6 +33573,16 @@ Polymer({is:"input-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.P
   if (this.type && this.type.match(/^password/)) {
     this.autocomplete = "new-password";
   }
+}, isNumber:function() {
+  if (this.type && this.type.match(/^number$/) && !this.isDecimal()) {
+    return true;
+  }
+  return false;
+}, isDecimal:function() {
+  if (this._origType && this._origType.match(/^decimal/)) {
+    return true;
+  }
+  return false;
 }, isDate:function() {
   if (this.isDateYearMonth()) {
     return true;
@@ -33626,10 +33663,17 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
     return;
   }
   if (this.type != "text" && !this.isAuthorizedType()) {
-    if (this.type == "double" || this.type == "integer") {
+    this._origType = this.type;
+    if (this.type == "double" || this.type == "decimal") {
+      this.step = "0.01";
       this.type = "number";
     } else {
-      this.type = "text";
+      if (this.type == "integer") {
+        this.step = "1";
+        this.type = "number";
+      } else {
+        this.type = "text";
+      }
     }
   }
   if (this.isDateTime() && this.hasDate) {
@@ -33677,6 +33721,19 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
   if (this.isDate()) {
     if (typeof this.value === "string" && !this._isIsoDate(this.value)) {
       return null;
+    }
+  }
+  if (this.isNumber()) {
+    if (this.value != null) {
+      return parseInt(this.value);
+    }
+  }
+  if (this.isDecimal()) {
+    if (this.value != null) {
+      if (typeof this.value === "string" && this.value.indexOf(",") >= 0) {
+        this.value = this.value.replace(/,/, ".");
+      }
+      return parseFloat(this.value);
     }
   }
   return this.value;
@@ -34013,6 +34070,9 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   return this.value;
 }, onFocus:function(val) {
 }, onChange:function(val) {
+  if (this.isEmpty(this.value) && this.isEmpty(val)) {
+    return;
+  }
   this.value = val;
   this.fire("value-changed", this);
 }, createSelectize:function() {
@@ -34030,8 +34090,10 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
     this.__value = null;
   }
 }, ignore:function(e) {
-  e.preventDefault();
-  e.stopPropagation();
+  if (this.parentNode.tagName != "FORM-ELEMENT-RENDERER") {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 }, attached:function() {
   this.async(function() {
     this._attached();
@@ -34239,9 +34301,9 @@ Polymer({is:"dropdown-field", behaviors:[Polymer.IronFormElementBehavior, Polyme
     $(this.$.select).dropdown(this._options);
   });
 }});
-Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FormBehavior, FieldBehavior], properties:{required:{value:"", type:String}, columns:{value:null, observer:"columnsChanged", type:Array}, lines:{value:function() {
+Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, DialogBehavior, FormBehavior, FieldBehavior], properties:{required:{value:"", type:String}, columns:{value:null, observer:"columnsChanged", type:Array}, lines:{value:function() {
   return [];
-}, type:Array}, arrows:{value:true, type:Boolean}, height:{value:null, type:String}}, ready:function() {
+}, type:Array}, entity:{type:String}, search:{value:false, type:Boolean}, arrows:{value:true, type:Boolean}, height:{value:null, type:String}}, observers:["entityChanged(entity,namespace)"], ready:function() {
   this.isInvalid = false;
   this.push("lines", {});
 }, getValue:function() {
@@ -34268,11 +34330,45 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   return "border:0px solid #f5f5f5;padding:2px;min-height:" + this.height + "px";
 }, getElementId:function(lid, cid) {
   return "id" + lid + "_" + cid;
+}, entityChanged:function() {
+  this.async(function() {
+    if (this.entity == null) {
+      return;
+    }
+    var pack = this.getPack();
+    this.entityName = pack ? pack + ":" + this.getSimpleEntityName(this.entity) : this.entity;
+  }, 10);
+}, getHeader:function(entityName) {
+  this.pack = this.getPack() || "data";
+  return tr(this.pack + "." + this.getSimpleEntityName(entityName));
+}, _search:function(e) {
+  this._lid = parseInt(e.target.dataset.lid);
+  this._entityName = this.entityName;
+  this.$.filterId.doSearch();
+  this.async(function() {
+    this.openDialog(this.$.searchDialog);
+  }, 250);
+}, rowsSelected:function(e) {
+  if (!e.detail.doubleTap) {
+    return;
+  }
+  var data = e.detail.rows[0];
+  this.closeDialog(this.$.searchDialog);
+  console.log("data:", data);
+  this.setLineValues(data, this._lid);
+}, cancelAction:function() {
+  this.async(function() {
+    this.closeDialog(this.$.searchDialog);
+  }, 50);
+}, getHelp:function() {
+  return tr("crud2.select_with");
 }, columnsChanged:function() {
   this.columns.each(function(c) {
     c.regulaConstraints = this._constructRegulaConstraints(c.constraints);
     c.label = c.display;
-    c.id = "Input";
+    if (c.id != "Enumselect") {
+      c.id = "Input";
+    }
     c.xf_type = c.type;
     c.xf_id = c.colname;
   }.bind(this));
@@ -34280,7 +34376,7 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   var lid = parseInt(e.target.dataset.lid);
   this.push("lines", {});
   this.async(function() {
-    for (var i = this.lines.length - 1; i > lid; i--) {
+    for (var i = this.lines.length - 1; i - 1 > lid; i--) {
       this._upLine(i);
     }
   }, 20);
@@ -37099,7 +37195,7 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
       } else {
         this.testResult = e.message.substring(this.getPosition(e.message, ":", 2) + 1);
       }
-    } catch (e$8) {
+    } catch (e$9) {
     }
   }, completed:function(ret) {
     console.log("executeDecision.ret:", ret);
