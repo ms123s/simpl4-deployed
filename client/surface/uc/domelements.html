@@ -11196,6 +11196,440 @@ span.jqtree-dragging {
 		</paper-dropdown-menu>
 	</template>
 	</dom-module>
+<style>
+/*!
+ * Cropper v3.0.0-rc.3
+ * https://github.com/fengyuanchen/cropper
+ *
+ * Copyright (c) 2017 Fengyuan Chen
+ * Released under the MIT license
+ *
+ * Date: 2017-07-07T13:00:47.346Z
+ */
+
+.cropper-container {
+  font-size: 0;
+  line-height: 0;
+
+  position: relative;
+
+  -webkit-user-select: none;
+
+     -moz-user-select: none;
+
+      -ms-user-select: none;
+
+          user-select: none;
+
+  direction: ltr;
+  -ms-touch-action: none;
+      touch-action: none
+}
+
+.cropper-container img {
+  /* Avoid margin top issue (Occur only when margin-top <= -height) */
+  display: block;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  width: 100%;
+  height: 100%;
+  image-orientation: 0deg
+}
+
+.cropper-wrap-box,
+.cropper-canvas,
+.cropper-drag-box,
+.cropper-crop-box,
+.cropper-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.cropper-wrap-box {
+  overflow: hidden;
+}
+
+.cropper-drag-box {
+  opacity: 0;
+  background-color: #fff;
+}
+
+.cropper-modal {
+  opacity: .5;
+  background-color: #000;
+}
+
+.cropper-view-box {
+  display: block;
+  overflow: hidden;
+
+  width: 100%;
+  height: 100%;
+
+  outline: 1px solid #39f;
+  outline-color: rgba(51, 153, 255, 0.75);
+}
+
+.cropper-dashed {
+  position: absolute;
+
+  display: block;
+
+  opacity: .5;
+  border: 0 dashed #eee
+}
+
+.cropper-dashed.dashed-h {
+  top: 33.33333%;
+  left: 0;
+  width: 100%;
+  height: 33.33333%;
+  border-top-width: 1px;
+  border-bottom-width: 1px
+}
+
+.cropper-dashed.dashed-v {
+  top: 0;
+  left: 33.33333%;
+  width: 33.33333%;
+  height: 100%;
+  border-right-width: 1px;
+  border-left-width: 1px
+}
+
+.cropper-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  display: block;
+
+  width: 0;
+  height: 0;
+
+  opacity: .75
+}
+
+.cropper-center:before,
+  .cropper-center:after {
+  position: absolute;
+  display: block;
+  content: ' ';
+  background-color: #eee
+}
+
+.cropper-center:before {
+  top: 0;
+  left: -3px;
+  width: 7px;
+  height: 1px
+}
+
+.cropper-center:after {
+  top: -3px;
+  left: 0;
+  width: 1px;
+  height: 7px
+}
+
+.cropper-face,
+.cropper-line,
+.cropper-point {
+  position: absolute;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: .1;
+}
+
+.cropper-face {
+  top: 0;
+  left: 0;
+
+  background-color: #fff;
+}
+
+.cropper-line {
+  background-color: #39f
+}
+
+.cropper-line.line-e {
+  top: 0;
+  right: -3px;
+  width: 5px;
+  cursor: e-resize
+}
+
+.cropper-line.line-n {
+  top: -3px;
+  left: 0;
+  height: 5px;
+  cursor: n-resize
+}
+
+.cropper-line.line-w {
+  top: 0;
+  left: -3px;
+  width: 5px;
+  cursor: w-resize
+}
+
+.cropper-line.line-s {
+  bottom: -3px;
+  left: 0;
+  height: 5px;
+  cursor: s-resize
+}
+
+.cropper-point {
+  width: 5px;
+  height: 5px;
+
+  opacity: .75;
+  background-color: #39f
+}
+
+.cropper-point.point-e {
+  top: 50%;
+  right: -3px;
+  margin-top: -3px;
+  cursor: e-resize
+}
+
+.cropper-point.point-n {
+  top: -3px;
+  left: 50%;
+  margin-left: -3px;
+  cursor: n-resize
+}
+
+.cropper-point.point-w {
+  top: 50%;
+  left: -3px;
+  margin-top: -3px;
+  cursor: w-resize
+}
+
+.cropper-point.point-s {
+  bottom: -3px;
+  left: 50%;
+  margin-left: -3px;
+  cursor: s-resize
+}
+
+.cropper-point.point-ne {
+  top: -3px;
+  right: -3px;
+  cursor: ne-resize
+}
+
+.cropper-point.point-nw {
+  top: -3px;
+  left: -3px;
+  cursor: nw-resize
+}
+
+.cropper-point.point-sw {
+  bottom: -3px;
+  left: -3px;
+  cursor: sw-resize
+}
+
+.cropper-point.point-se {
+  right: -3px;
+  bottom: -3px;
+  width: 20px;
+  height: 20px;
+  cursor: se-resize;
+  opacity: 1
+}
+
+@media (min-width: 768px) {
+
+  .cropper-point.point-se {
+    width: 15px;
+    height: 15px
+  }
+}
+
+@media (min-width: 992px) {
+
+  .cropper-point.point-se {
+    width: 10px;
+    height: 10px
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .cropper-point.point-se {
+    width: 5px;
+    height: 5px;
+    opacity: .75
+  }
+}
+
+.cropper-point.point-se:before {
+  position: absolute;
+  right: -50%;
+  bottom: -50%;
+  display: block;
+  width: 200%;
+  height: 200%;
+  content: ' ';
+  opacity: 0;
+  background-color: #39f
+}
+
+.cropper-invisible {
+  opacity: 0;
+}
+
+.cropper-bg {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
+}
+
+.cropper-hide {
+  position: absolute;
+
+  display: block;
+
+  width: 0;
+  height: 0;
+}
+
+.cropper-hidden {
+  display: none !important;
+}
+
+.cropper-move {
+  cursor: move;
+}
+
+.cropper-crop {
+  cursor: crosshair;
+}
+
+.cropper-disabled .cropper-drag-box,
+.cropper-disabled .cropper-face,
+.cropper-disabled .cropper-line,
+.cropper-disabled .cropper-point {
+  cursor: not-allowed;
+}
+
+
+</style>
+<dom-module id="simpl-cropper" flex="" relative="" assetpath="src/simpl-cropper/">
+	<style>
+		.container {
+			max-width: 640px;
+			//			min-height:400px;
+			margin: 20px auto;
+		}
+		img {
+			width: 100%;
+		}
+		:host /deep/ #dropArea {
+			width: 100%;
+			height: 100%;
+		}
+		:host /deep/ #UploadBorder {
+			border: 1px dashed #c10618 !important;
+			width: 100%;
+			height: 200px;
+		}
+		:host /deep/ .uploadtrash {
+			width: 20px;
+		}
+		:host /deep/ .button_secondary {
+			color: #303e45 !important;
+		}
+		:host /deep/ #UploadBorder.simpl-upload {
+			border: 1px dashed #303e45 !important;
+		}
+		:host /deep/ simpl-upload paper-button {
+			margin: 0px !important;
+		}
+		:host /deep/ .paper-input-container {
+			background: white !important;
+		}
+		#preview {
+			border: 1px solid #0d7eb7 !important
+		}
+		#dimensionId {
+			font-size: 14px;
+			padding-right: 5px;
+		}
+		paper-icon-button.toolbar {
+			width: 36px;
+			height: 36px;
+			color: black;
+		}
+
+	</style>
+	<template>
+
+
+		<paper-tabs class="flex" selected="{{mainTabId}}" selectables="paper-tab" on-iron-select="mainTabSelected" attr-for-selected="main-item-id" scrollable="">
+			<paper-tab class="menu__item_secondary" main-item-id="0">[[tr('cropper.upload')]]</paper-tab>
+			<paper-tab disabled="[[!hasImage]]" class="menu__item_secondary" main-item-id="1">[[tr('cropper.editor')]]</paper-tab>
+			
+		</paper-tabs>
+
+		<div scrollbar="" style="" class="scrollId container">
+			<neon-animated-pages selected="{{mainTabId}}" attr-for-selected="main-item-id" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+				<neon-animatable style="position:relative;" main-item-id="0">
+					<simpl-form id="uploadFormId" namespace="global" on-value-changed="onUploadValueChanged" data="[[formData]]" on-xaction="onTapPage1Setup" form-name="cropperUpload.form"></simpl-form>
+
+				</neon-animatable>
+				<neon-animatable style="position:relative;" main-item-id="1">
+					<div class="container">
+						<div>
+							<img id="image" src="" alt="Picture">
+						</div>
+						<div class="layout horizontal">
+							<paper-icon-button id="resetId" class="toolbar" slot="top" icon="vaadin-icons:refresh" on-tap="onTapReset"></paper-icon-button>
+							<paper-tooltip for="resetId">[[tr('cropper.reset')]]</paper-tooltip>
+
+							
+
+							<paper-icon-button id="moveLeftId" class="toolbar" slot="top" icon="vaadin-icons:arrow-left" on-tap="onTapMoveLeft"></paper-icon-button>
+							<paper-tooltip for="moveLeftId">[[tr('cropper.moveleft')]]</paper-tooltip>
+
+							<paper-icon-button id="moveRightId" class="toolbar" slot="top" icon="vaadin-icons:arrow-right" on-tap="onTapMoveRight"></paper-icon-button>
+							<paper-tooltip for="moveRightId">[[tr('cropper.moveright')]]</paper-tooltip>
+
+							<paper-icon-button id="moveUpId" class="toolbar" slot="top" icon="vaadin-icons:arrow-up" on-tap="onTapMoveUp"></paper-icon-button>
+							<paper-tooltip for="moveUpId">[[tr('cropper.moveup')]]</paper-tooltip>
+
+							<paper-icon-button id="moveDownId" class="toolbar" slot="top" icon="vaadin-icons:arrow-down" on-tap="onTapMoveDown"></paper-icon-button>
+							<paper-tooltip for="moveDownId">[[tr('cropper.movedown')]]</paper-tooltip>
+
+							<paper-icon-button id="moveTo0Id" class="toolbar" slot="top" icon="vaadin-icons:arrows" on-tap="onTapMoveTo0"></paper-icon-button>
+							<paper-tooltip for="moveTo0Id">[[tr('cropper.moveto0')]]</paper-tooltip>
+
+							
+							<div id="placeholderId" xtyle="max-width:200px;" class="flex"></div>
+
+							<div id="dimensionId">[[getDimension(dataHeight,dataWidth)]]</div>
+						</div>
+					</div>
+				</neon-animatable>
+				
+			</neon-animated-pages>
+		</div>
+
+
+	</template>
+	</dom-module>
 <dom-module id="simpl-dispatcher" flex="" relative="" assetpath="src/simpl-dispatcher/">
 	<style shim-shadowdom="">
 
@@ -16019,7 +16453,7 @@ div.dtr-modal div.dtr-modal-background {
 				<div hidden$="[[!label]]" style="width:3%;">
 					<label class="label-text">{{label}}</label>
 				</div>
-				<simpl-upload id="input" multi="" class="paper-input-input" drop-text="[[tr('import.drop_file2')]]" droppable="true" raised="true">[[tr('import.select_file')]]</simpl-upload>
+				<simpl-upload id="input" multi="{{multi}}" class="paper-input-input" drop-text="[[tr('import.drop_file2')]]" droppable="true" raised="true">[[tr('import.select_file')]]</simpl-upload>
 			</div>
 			<template is="dom-if" if="[[errorMessage]]">
 				<paper-input-error>[[errorMessage]]</paper-input-error>
@@ -16934,7 +17368,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<template is="dom-repeat" index-as="lid" as="line" items="[[lines]]">
 				<div class="line grid row">
 					<template is="dom-repeat" index-as="cid" as="col" items="[[columns]]">
-						<grid-element-renderer id="[[getElementId(lid,cid)]]" style$="[[getColStyle(col.width)]]" class$="[[getColFlex(col.width)]]" item="[[col]]"></grid-element-renderer>
+						<grid-element-renderer id="[[getElementId(lid,cid)]]" data-lid$="[[lid]]" style$="[[getColStyle(col.width)]]" class$="[[getColFlex(col.width)]]" item="[[col]]"></grid-element-renderer>
 					</template>
 					<template is="dom-if" if="[[search]]">
 						<paper-icon-button on-tap="_search" data-lid$="[[lid]]" icon="search"></paper-icon-button>
@@ -17528,7 +17962,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</tree-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isUpload(item.id)}}">
-			<upload-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" required="[[item.xf_required]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" default-vvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			<upload-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" multi="[[item.xf_multi]]" required="[[item.xf_required]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" default-vvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</upload-field>
 		</template>
 		<template is="dom-if" if="{{isTableSelect(item.id)}}">
@@ -18074,12 +18508,14 @@ img.jssocials-share-logo {
 			vertical-align: middle;
 			padding: 10px;
 			min-width: 150px;
+			width: 100%;
 			text-transform: uppercase;
 			font-weight: 500;
 			max-height: 300px;
 			overflow-y: auto;
 			border-radius: 3px;
 			display: inline-block;
+			border: 1px dashed #c10618;
 		}
 		#dropArea {
 			text-align: center;
@@ -18090,6 +18526,8 @@ img.jssocials-share-logo {
 		paper-button {
 			margin-bottom: 4px;
 			margin-left: 60px;
+			border: 1px solid;
+			margin-right: 20px !important
 		}
 		.file {
 			//padding: 10px 0px;
@@ -18122,13 +18560,14 @@ img.jssocials-share-logo {
 	</style>
 
 	<template>
-		<div>
-			<paper-button id="button" icon="file-upload" class="button button_secondary" on-click="_fileClick">
+		<div style="height:200px;" class="layout horizontal">
+			<paper-button id="button" style="padding:0px;margin:0px;" icon="file-upload" class="button button_secondary" on-click="_fileClick">
 				<iron-icon icon="file-upload"></iron-icon>
 				<content></content>
 			</paper-button>
+			<div style="height:24px;margin-top:85px;margin-right:20px;">[[tr('import.or')]]</div>
 			<paper-material class="button button_secondary" elevation="1" id="UploadBorder">
-				<div id="dropArea" hidden$="{{!_shownDropText}}">{{dropText}}</div>
+				<div id="dropArea" style="position:relative;height:24px;top:80px;" hidden$="{{!_shownDropText}}">{{dropText}}</div>
 				<template is="dom-repeat" items="{{files}}">
 					<div class="file">
 						<div class="name">
