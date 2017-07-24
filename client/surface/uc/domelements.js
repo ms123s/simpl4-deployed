@@ -15553,7 +15553,7 @@ DialogBehavior = {closeDialog:function(dia) {
   }});
 }, openDialog:function(dia, _width) {
   var width = _width || "80%";
-  if (window.matchMedia("(max-device-width: 480px)").matches) {
+  if (window.matchMedia("(max-width: 480px)").matches) {
     width = "95%";
   }
   var sd = $(dia).dialog({open:function(event, ui) {
@@ -15562,6 +15562,81 @@ DialogBehavior = {closeDialog:function(dia) {
   }, resizable:true, draggable:true, title:"", height:"auto", width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
+}};
+RegistryBehavior = {onRegistrySave:function() {
+  this.debounce("onRegistrySave", function() {
+    this._onRegistrySave();
+  }, 250);
+}, _onRegistrySave:function() {
+  this._doSave(this._currentRegistryName);
+}, onRegistrySaveUnder:function() {
+  var json = this.getState();
+  var prompt = Lobibox.prompt("text", {height:200, title:tr("te.enter_name"), attrs:{pattern:"[A-Za-z0-9]{3,}", value:this._currentRegistryName}, callback:function($this, type, ev) {
+    console.log("callback:", prompt.getValue());
+    if (!_.isEmpty(prompt.getValue())) {
+      this._doSave(prompt.getValue());
+    }
+  }.bind(this)});
+}, _doSave:function(name) {
+  var json = this.getState();
+  this._currentRegistryName = name;
+  var attributes = this._registryAttributes;
+  if (attributes == null) {
+    attributes = {subject:this._registrySubject};
+  }
+  var params = {service:"registry", method:"set", parameter:{key:this._registryKey + "/" + name, attributes:attributes, value:JSON.stringify(json)}, async:true, context:this, failed:function(e) {
+    console.error("_doSave:", e);
+    if (e == null) {
+      return;
+    }
+    this.notify(tr("error"), "error", 8000);
+  }, completed:function(ret) {
+    this.notify(tr("registry.saved"), "success", 8000);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, selectFromList:function(menu, valueList, nameList) {
+  var win = Lobibox.window({title:tr("registry.select"), width:300, height:400, modal:true, content:function() {
+    return $(menu);
+  }, buttons:{select:{text:tr("button.select")}, close:{text:tr("button.cancel"), closeOnClick:true}}, callback:function($this, type, ev) {
+    if (type === "select") {
+      var selected = $this.$el[0].querySelector("#registryMenuId").selected;
+      if (selected == null) {
+        return;
+      }
+      this._currentRegistryName = nameList[selected];
+      var state = JSON.parse(valueList[selected]);
+      this.setState(state);
+      win.destroy();
+    }
+  }.bind(this)});
+}, onRegistryLoad:function() {
+  this.debounce("onRegistryLoad", function() {
+    this._onRegistryLoad();
+  }, 250);
+}, _onRegistryLoad:function() {
+  var attributes = this._registryAttributes;
+  if (attributes == null) {
+    attributes = {subject:this._registrySubject};
+  }
+  var params = {service:"registry", method:"getAll", parameter:{attributes:attributes}, async:true, context:this, failed:function(e) {
+    console.error("getRegistry:", e);
+    this.notify(tr("error"), "error", 8000);
+  }, completed:function(ret) {
+    console.log("getRegistry.ret:", ret);
+    var menu = '<paper-menu id="registryMenuId">';
+    var valueList = [];
+    var nameList = [];
+    for (var i = 0; i < ret.length; i++) {
+      var key = ret[i].key;
+      var name = key.substring(key.lastIndexOf("/") + 1);
+      menu += '<paper-item style="min-height:24px; font-size:14px;">' + name + "</paper-item>";
+      valueList.push(ret[i].value);
+      nameList.push(name);
+    }
+    menu += "</paper-menu>";
+    this.selectFromList(menu, valueList, nameList);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
 }};
 "use strict";
 if (!String.format) {
@@ -36307,6 +36382,11 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
     this.selectize.refreshOptions(false);
   }
 }, valueChanged:function(v) {
+  this.async(function() {
+    if (this.selectize && this.selectize.getValue() != this.value) {
+      this.selectize.setValue(this.value);
+    }
+  }, 300);
   if (this.isDomReady != true) {
     return;
   }
@@ -36565,6 +36645,9 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
 }, type:Array}, entity:{type:String}, search:{value:false, type:Boolean}, arrows:{value:true, type:Boolean}, height:{value:null, type:String}}, listeners:{"value-changed":"_valueChanged", "internal-xaction":"_internalXAction"}, observers:["entityChanged(entity,namespace)"], ready:function() {
   this.isInvalid = false;
   this.push("lines", {});
+}, clearLines:function() {
+  this.splice("lines", 0, this.lines.length);
+  this.push("lines", {});
 }, _valueChanged:function(e) {
   var lid = e.target.parentNode.dataset.lid;
   var data = {};
@@ -36579,7 +36662,6 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   keys.forEach(function(key) {
     var expr = this.exprMap[key];
     var result = this.form._maskedEval(expr, data, "");
-    console.log("Expr(" + expr + "):", result);
     fields[key].setValue(result);
   }.bind(this));
 }, getValue:function() {
@@ -36591,17 +36673,24 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   return value;
 }, setValue:function(v) {
   if (!v) {
+    this.clearLines();
+    this.async(function() {
+      this.setLineValues({}, 0);
+    }, 100);
     return;
   }
-  for (var i = 1; i < v.length; i++) {
-    this.push("lines", {});
-  }
+  this.clearLines();
   this.async(function() {
-    for (var i = 0; i < v.length; i++) {
-      var line = v[i];
-      this.setLineValues(line, i);
+    for (var i = 1; i < v.length; i++) {
+      this.push("lines", {});
     }
-  }, 10);
+    this.async(function() {
+      for (var i = 0; i < v.length; i++) {
+        var line = v[i];
+        this.setLineValues(line, i);
+      }
+    }, 100);
+  }, 100);
 }, getContainerStyle:function() {
   return "border:0px solid #f5f5f5;padding:2px;min-height:" + this.height + "px";
 }, getElementId:function(lid, cid) {
@@ -36714,7 +36803,7 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   return "flex";
 }, getColStyle:function(w) {
   if (w != null && parseInt(w) > 0) {
-    return "max-width:" + w + "px;min-width:" + w + "px;";
+    return "width:" + w + "px;min-width:" + w + "px;";
   }
   return "";
 }, validateLine:function(i) {
