@@ -19935,6 +19935,16 @@ Use the Help button for an technical overview.
 		</div>
 	</template>
 	</dom-module>
+
+<dom-module id="dmn-list" assetpath="src/simpl-dmn/">
+	<template>
+		<style include="dmn-input-styles"></style>
+		<div id="container" class="layout horizontal">
+			<select on-change="operationValueChanged" id="operationSelect" bind-value="{{operationValue}}"> </select>
+			<input spellcheck="false" id="expressionInput" is="iron-input" bind-value="{{expressionValue}}">
+		</div>
+	</template>
+	</dom-module>
 <div>
 	<dom-module id="dmn-paramdialog" assetpath="src/simpl-dmn/">
 		<style>
@@ -19956,6 +19966,16 @@ Use the Help button for an technical overview.
 				color: #727272 !important;
 				position: relative;
 			}
+			paper-dialog {
+				margin: 0px;
+				padding: 0px !important;
+			}
+			paper-dialog /deep/ paper-dialog-scrollable {
+				margin: 0px !important;
+			}
+			paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+				padding: 0 12px !important;
+			}
 
 		</style>
 		<template>
@@ -19967,6 +19987,8 @@ Use the Help button for an technical overview.
 				<div class="buttons">
 					<paper-button raised="" dialog="" on-tap="onTap">
 						<iron-icon icon="check"></iron-icon>Ok</paper-button>
+					<paper-button xaised="" dialog="" on-tap="close">
+						<iron-icon icon="clear"></iron-icon>[[tr('Cancel')]]</paper-button>
 				</div>
 			</paper-dialog>
 		</template>
@@ -19993,6 +20015,16 @@ Use the Help button for an technical overview.
 				color: #727272 !important;
 				position: relative;
 			}
+			paper-dialog {
+				margin: 0px;
+				padding: 0px !important;
+			}
+			#scrollable {
+				margin: 0px !important;
+				max-height: 400px;
+				padding-bottom:20px;
+				overflow-y: auto;
+			}
 			simpl-toast /deep/ span {
 				min-width: 450px;
 				padding-right: 25px;
@@ -20009,25 +20041,28 @@ Use the Help button for an technical overview.
 		</style>
 		<template>
 			<paper-dialog with-backdrop="" id="dialogId">
-				<div class="layout vertical flex">
-					<iron-icon class="error-big" icon="device:wifi-tethering"></iron-icon>
-					<template is="dom-repeat" items="[[decision.columns.conditions]]">
-						<template is="dom-if" if="[[isBoolean(item)]]">
-							<checkbox-field id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></checkbox-field>
+				<div id="scrollable">
+
+					<div id="inputAreaId" class="layout vertical flex">
+						<iron-icon class="error-big" icon="device:wifi-tethering"></iron-icon>
+						<template is="dom-repeat" items="[[decision.columns.conditions]]">
+							<template is="dom-if" if="[[isBoolean(item)]]">
+								<checkbox-field id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></checkbox-field>
+							</template>
+							<template is="dom-if" if="[[isString(item)]]">
+								<input-field id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></input-field>
+							</template>
+							<template is="dom-if" if="[[isDate(item)]]">
+								<input-field type="date" id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></input-field>
+							</template>
 						</template>
-						<template is="dom-if" if="[[isString(item)]]">
-							<input-field id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></input-field>
-						</template>
-						<template is="dom-if" if="[[isDate(item)]]">
-							<input-field type="date" id="[[item.variableName]]" label="[[item.variableName]]" name="[[item.variableName]]"></input-field>
-						</template>
-					</template>
+					</div>
 				</div>
 				<div class="buttons">
 					<paper-button raised="" dialog="" on-tap="onTest">
 						<iron-icon icon="device:wifi-tethering"></iron-icon>Test</paper-button>
 					<paper-button raised="" dialog="" on-tap="onClose">
-						<iron-icon icon="check"></iron-icon>Close</paper-button>
+						<iron-icon icon="check"></iron-icon>[[tr('Cancel')]]</paper-button>
 				</div>
 				<div id="viewer">
 					<pre>[[testResult]]</pre>
@@ -20154,25 +20189,74 @@ Use the Help button for an technical overview.
 		#gridedit {
 			position: relative;
 		}
+		paper-icon-button {
+			height: 34px !important;
+		}
+		paper-icon-button[disabled] {
+			color: #9c9c9c;
+		}
+		:host /deep/ .lobipanel.simpl-lobipanel {
+			margin-left: 0px;
+			margin-right: 0px;
+		}
+		#toolbarId {
+			position: relative;
+			top: 2px;
+			left: 2px;
+			float: left;
+			height: 32px;
+			background: #eff2f3;
+		}
+		:host /deep/ #topBar {
+			height: 100%;
+			padding: 0px;
+		}
+		#toolbarId /deep/ paper-icon-button {
+			height: 32px;
+			color: #333333;
+			width: 32px;
+		}
+		#toolbarId /deep/ paper-icon-button[disabled] {
+			color: #9c9c9c;
+		}
 
 	</style>
 	<template>
-		<paper-toolbar class="blue">
-			<paper-button style="color:#d32f2f;" on-tap="doSave">
-				<iron-icon icon="save"></iron-icon>[[tr("dmn.save")]]</paper-button>
-			<paper-button on-tap="doTest">
-				<iron-icon icon="device:wifi-tethering"></iron-icon>[[tr("Test")]]</paper-button>
-			<paper-button on-tap="addInput">
-				<iron-icon icon="icons:file-download"></iron-icon>[[tr("dmn.newInput")]]</paper-button>
-			<paper-button on-tap="addOutput">
-				<iron-icon icon="icons:file-upload"></iron-icon>[[tr("dmn.newOutput")]]</paper-button>
-			<paper-button on-tap="addRow">
-				<iron-icon icon="add"></iron-icon>[[tr("dmn.newRow")]]</paper-button>
-		</paper-toolbar>
-		<div id="gridedit"></div>
+		<simpl-lobipanel>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<paper-toolbar id="toolbarId" class="blue">
+						<paper-icon-button id="clearId" disabled="[[!hasFile]]" slot="top" icon="vaadin-icons:refresh" on-tap="resetAll"></paper-icon-button>
+						<paper-tooltip for="clearId" position="bottom">[[tr('dmn.clear')]]</paper-tooltip>
+
+						<paper-icon-button id="saveId" disabled="[[!_currentRegistryName]]" slot="top" icon="vaadin-icons:upload-alt" on-tap="onRegistrySave"></paper-icon-button>
+						<paper-tooltip for="saveId" position="bottom">[[tr('registry.save')]]</paper-tooltip>
+
+						<paper-icon-button id="saveUnderId" disabled="[[!hasFile]]" slot="top" icon="vaadin-icons:upload" on-tap="onRegistrySaveUnder"></paper-icon-button>
+						<paper-tooltip for="saveUnderId" position="bottom">[[tr('registry.save_under')]]</paper-tooltip>
+
+						<paper-icon-button id="loadId" disabled="[[!hasFile]]" slot="top" icon="vaadin-icons:download" on-tap="onRegistryLoad"></paper-icon-button>
+						<paper-tooltip for="loadId" position="bottom">[[tr('registry.load')]]</paper-tooltip>
+
+
+						<paper-button on-tap="doTest">
+							<iron-icon icon="device:wifi-tethering"></iron-icon>[[tr("Test")]]</paper-button>
+						<paper-button on-tap="addInput">
+							<iron-icon icon="icons:file-download"></iron-icon>[[tr("dmn.newInput")]]</paper-button>
+						<paper-button on-tap="addOutput">
+							<iron-icon icon="icons:file-upload"></iron-icon>[[tr("dmn.newOutput")]]</paper-button>
+						<paper-button on-tap="addRow">
+							<iron-icon icon="add"></iron-icon>[[tr("dmn.newRow")]]</paper-button>
+					</paper-toolbar>
+				</div>
+				<div class="panel-body">
+					<div id="gridedit"></div>
+				</div>
+			</div>
+		</simpl-lobipanel>
+
 		<dmn-paramdialog on-inputparamdialog-ok="onInputParamDialog" on-outputparamdialog-ok="onOutputParamDialog" id="dmnParamDialogId"></dmn-paramdialog>
 		<dmn-testdialog id="dmnTestDialogId"></dmn-testdialog>
-		<simpl-toast id="toastId"></simpl-toast>
 	</template>
 	</dom-module>
 <dom-module id="paper-collapse-item" assetpath="src/paper-collapse-item/">

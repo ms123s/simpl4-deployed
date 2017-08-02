@@ -34968,7 +34968,7 @@ FormBehavior = {_valueChanged:function(e) {
   try {
     var data = this._getData();
     var lang = simpl4.util.BaseManager.getLanguage();
-    var env = {$mode:this.mode, $lang:lang};
+    var env = {$mode:this.mode, $uuid:window.uuid, $lang:lang};
     env = simpl4.util.Merge.merge(true, data, env);
     var formData = this._maskedEval(script, env);
     return formData;
@@ -36382,9 +36382,14 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
     this.selectize.refreshOptions(false);
   }
 }, valueChanged:function(v) {
+  if (this._invalueSetting === true) {
+    return;
+  }
   this.async(function() {
     if (this.selectize && this.selectize.getValue() != this.value) {
+      this._invalueSetting = true;
       this.selectize.setValue(this.value);
+      this._invalueSetting = false;
     }
   }, 300);
   if (this.isDomReady != true) {
@@ -37499,7 +37504,7 @@ ScrollbarBehavior = {attached:function() {
         }
       }
     }.bind(this));
-  }, 500);
+  }, 1000);
 }, _initScrollbar:function(elem) {
   elem = elem || this;
   var isTouch = "ontouchstart" in window || navigator.msMaxTouchPoints > 0;
@@ -39091,7 +39096,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
     this.formName = formName;
     this.async(function() {
       form.setData(mappedFormValues);
-    }, 100);
+    }, 300);
   }, 100);
 }, getFormName:function(formResourceKey) {
   var formName = null;
@@ -39453,20 +39458,17 @@ DmnFieldBehavior = {behaviors:[Polymer.IronFormElementBehavior, Polymer.IronCont
     Polymer.dom(select).appendChild(option);
   }
 }, expressionValueChanged:function() {
-  console.log("expressionValueChanged(" + this.tagName + "):", this.expressionValue);
   if (!this.value) {
     this.value = {};
   }
   this.value.expr = this.expressionValue;
 }, operationValueChanged:function() {
   this.operationValue = this.$.operationSelect.value;
-  console.log("operationValueChanged(" + this.tagName + "):", this.operationValue);
   if (!this.value) {
     this.value = {};
   }
   this.value.op = this.operationValue;
 }, setValue:function(v) {
-  console.log("setValue(" + this.tagName + "):", v);
   if (v) {
     this.async(function() {
       this.$.operationSelect.value = this.getOp(v.op);
@@ -39479,11 +39481,9 @@ DmnFieldBehavior = {behaviors:[Polymer.IronFormElementBehavior, Polymer.IronCont
   }
 }, getValue:function() {
   var v = {op:this.operationValue, expr:this.expressionValue};
-  console.log("getValue(" + this.tagName + "):", v);
   return v;
 }, getOp:function(op) {
   var ret = op || this.items[0].value;
-  console.log("getOp(" + this.tagName + "):", ret);
   return ret;
 }};
 Polymer({is:"dmn-string", behaviors:[DmnFieldBehavior], ready:function() {
@@ -39495,7 +39495,10 @@ Polymer({is:"dmn-integer", behaviors:[DmnFieldBehavior], ready:function() {
 Polymer({is:"dmn-date", behaviors:[DmnFieldBehavior], ready:function() {
   this.items = [{value:"=", label:"="}, {value:">", label:">"}, {value:"<", label:"<"}];
 }});
-Polymer({is:"dmn-paramdialog", behaviors:[TranslationsBehavior], onTap:function() {
+Polymer({is:"dmn-list", behaviors:[DmnFieldBehavior], ready:function() {
+  this.items = [{value:"oneOf", label:"oneOf"}, {value:"notOneOf", label:"notOneOf"}];
+}});
+Polymer({is:"dmn-paramdialog", behaviors:[DialogBehavior, TranslationsBehavior], onTap:function() {
   if (this.$.formId.validate()) {
     console.log("val");
     var data = this.$.formId.getData();
@@ -39503,7 +39506,7 @@ Polymer({is:"dmn-paramdialog", behaviors:[TranslationsBehavior], onTap:function(
     this.fire(this.type + "paramdialog-ok", {index:this.index, data:data});
   }
 }, close:function(msg) {
-  this.$.dialogId.close();
+  this.destroyDialog(this.$.dialogId);
 }, open:function(type, index) {
   this.formname = "dmn" + type + ".form";
   this.type = type;
@@ -39514,9 +39517,9 @@ Polymer({is:"dmn-paramdialog", behaviors:[TranslationsBehavior], onTap:function(
     this.icon = "icons:file-upload";
   }
   this.$.formId.setData({});
-  this.$.dialogId.open();
+  this.openDialog(this.$.dialogId, "inherit");
 }});
-Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:function(item) {
+Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], isBoolean:function(item) {
   return item.variableType == "boolean";
 }, isString:function(item) {
   return item.variableType != "boolean" && item.realType != "date";
@@ -39526,7 +39529,7 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
   var variables = {};
   for (var i = 0; i < this.decision.columns.conditions.length; i++) {
     var cond = this.decision.columns.conditions[i];
-    var f = this.querySelector("#" + cond.variableName);
+    var f = this.inputArea.querySelector("#" + cond.variableName);
     var val = f.getValue();
     var def = null;
     if (cond.variableType == "string") {
@@ -39579,10 +39582,11 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
 }, getPosition:function(s, sub, index) {
   return s.split(sub, index).join(sub).length;
 }, onClose:function() {
-  this.$.dialogId.close();
+  this.destroyDialog(this.$.dialogId);
 }, open:function(decision) {
   this.decision = decision;
-  this.$.dialogId.open();
+  this.inputArea = this.$.inputAreaId;
+  this.openDialog(this.$.dialogId, "inherit");
 }});
 (function() {
   var GridEdit, root, indexOf = [].indexOf || function(item) {
@@ -40635,10 +40639,12 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
       var menu;
       this.cell = cell1;
       if (this.active) {
-        if (!this.cell.isActive()) {
+        if (this.cell && !this.cell.isActive()) {
           this.cell.makeActive();
         }
-        this.cells = this.cell.table.activeCells;
+        if (this.cell) {
+          this.cells = this.cell.table.activeCells;
+        }
         GridEdit.Utilities.prototype.setStyles(this.element, {left:x, top:y});
         document.body.appendChild(this.element);
         menu = this.element;
@@ -41206,6 +41212,9 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
         case "dmn-date":
           cell = new GridEdit.DMNStringCell(value, this, "dmn-date");
           break;
+        case "dmn-list":
+          cell = new GridEdit.DMNStringCell(value, this, "dmn-list");
+          break;
         case "number":
           cell = new GridEdit.NumberCell(value, this);
           break;
@@ -41686,7 +41695,7 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
             return cell.edit(this.value);
           case 9:
             cell.edit(this.value);
-            return moveTo(table.nextCell());
+            return table.moveTo(table.nextCell());
         }
       };
     };
@@ -42723,7 +42732,10 @@ Polymer({is:"dmn-testdialog", behaviors:[TranslationsBehavior], isBoolean:functi
     return Hook;
   }();
 }).call(this);
-Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:String}}, behaviors:[TranslationsBehavior, StyleScopeBehavior], observers:["editValueChanged(editValue)"], attached:function() {
+Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:String}}, behaviors:[TranslationsBehavior, RegistryBehavior, DialogBehavior, LobiboxBehavior, StyleScopeBehavior], observers:["editValueChanged(editValue)"], attached:function() {
+  this._registryAttributes = {subject:"decision", namespace:this.namespace};
+  this._registryKey = "/decisions";
+  this._currentRegistryName = null;
   this.cols = [];
   this.rows = [];
   var ctrlOrCmd = /Mac/.test(navigator.platform) ? "Cmd" : "Ctrl";
@@ -42752,7 +42764,6 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   }.bind(this));
   this.gridedit = ge;
   this.async(function() {
-    this.load();
   }, 50);
 }, onInputParamDialog:function(e) {
   this.$.dmnParamDialogId.close();
@@ -42770,7 +42781,7 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
 }, _insertInput:function(index, data) {
   console.log("insertInput.index:", index + "/data:", data);
   var type = "dmn-" + data.type;
-  var defaultValue = {op:"=", expr:""};
+  var defaultValue = {op:data.type == "list" ? "oneOf" : "=", expr:""};
   if ("boolean" == data.type) {
     type = "checkbox";
     defaultValue = false;
@@ -42824,6 +42835,15 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   this.gridedit.repopulate();
   this.gridedit.rebuild({cols:this.cols});
   console.log("gridRebuild.data:", JSON.stringify(this.gridedit.data(), null, 2));
+  this.refreshResize();
+}, resetAll:function() {
+  var rows = this.gridedit.data();
+  if (rows == null) {
+    return;
+  }
+  for (var i = 0; i < rows.length; i++) {
+    this.gridedit.removeRow(0, true);
+  }
 }, doTest:function() {
   this.async(function() {
     var decision = this.buildDecisionJson();
@@ -42831,46 +42851,43 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
       this.$.dmnTestDialogId.open(decision);
     }
   }, 50);
-}, doSave:function() {
-  this.async(function() {
-    this._doSave();
-  }, 50);
-}, _doSave:function() {
+}, getState:function() {
   var decision = this.buildDecisionJson();
   var rows = this.gridedit.data();
   var data = {decision:decision, meta:{rows:rows, cols:this.cols}};
-  var params = {service:"registry", method:"set", parameter:{key:this.regkey, attributes:{subject:"decision", namespace:this.namespace}, value:JSON.stringify(data)}, async:true, context:this, failed:function(e) {
-    console.error("registry.set:", e);
-    if (e == null) {
-      return;
+  console.log("getState:", data);
+  return data;
+}, setState:function(state) {
+  this.cols = state.meta.cols;
+  var rows = state.meta.rows;
+  var _rows = [];
+  for (var i = 0; i < rows.length; i++) {
+    var _row = {};
+    for (var j = 0; j < this.cols.length; j++) {
+      _row[this.cols[j].valueKey] = rows[i][j];
     }
-    this.$.toastId.show(tr("error"), "error", "10000");
-  }, completed:function(ret) {
-    this.$.toastId.show(tr("Ok"), "success", "10000");
-  }};
-  simpl4.util.Rpc.rpcAsync(params);
-}, load:function() {
-  var params = {service:"registry", method:"get", parameter:{namespace:this.namespace, key:this.regkey}, async:true, context:this, failed:function(e) {
-    console.error("registry.get:", e);
-  }, completed:function(ret) {
-    console.log("ret:", JSON.stringify(ret, null, 2));
-    if (ret.meta == null) {
-      return;
-    }
-    this.cols = ret.meta.cols;
-    var rows = ret.meta.rows;
-    var _rows = [];
-    for (var i = 0; i < rows.length; i++) {
-      var _row = {};
-      for (var j = 0; j < this.cols.length; j++) {
-        _row[this.cols[j].valueKey] = rows[i][j];
-      }
-      _rows.push(_row);
-    }
-    this.rows = _rows;
-    this.gridedit.rebuild({initialize:true, cols:this.cols, rows:this.rows});
-  }};
-  simpl4.util.Rpc.rpcAsync(params);
+    _rows.push(_row);
+  }
+  this.rows = _rows;
+  this.gridedit.rebuild({initialize:true, cols:this.cols, rows:this.rows});
+  this.initDragTable();
+}, getList:function(expr) {
+  return "['" + expr.split(/,| /).join("','") + "']";
+}, refreshResize:function() {
+  var table = this.$.gridedit.querySelector("table.dmnTable");
+  $(".rc-handle-container", $(this.$.gridedit)).remove();
+  this.async(function() {
+    $(table).resizableColumns({});
+  }, 100);
+}, initDragTable:function() {
+  this.refreshResize();
+  return;
+  var table = this.$.gridedit.querySelector("table.dmnTable");
+  var self = this;
+  $(table).dragtable({placeholder:"placeholder", helperCells:":not(.footerrow td)", stop:function() {
+    self.refreshResize();
+  }});
+  this.refreshResize();
 }, buildValue:function(kind, col, cell) {
   if (kind == "output") {
     return cell;
@@ -42883,6 +42900,11 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   if (col.realType == "date") {
     console.log("Date.conv:", moment(expr).valueOf());
     return col.variableName + " " + op + " " + moment(expr).valueOf();
+  }
+  if (col.variableType == "list") {
+    var ex = this.getList(expr) + ".contains(" + col.variableName + ")";
+    console.log("List.conv:", ex);
+    return op == "oneOf" ? ex : "!" + ex;
   }
   if (col.variableType == "string") {
     expr = "'" + expr + "'";
