@@ -16716,7 +16716,6 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
   var _c, _d, _e, glbl;
   function initPlugin(t) {
     if ($[_PLUGIN_].glbl) {
-      return;
     }
     glbl = {$wndw:$(window), $html:t, $body:t};
     _c = {};
@@ -17949,6 +17948,7 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
 })(jQuery);
 Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubmenus:String, background:String, searchfield:String, context:{observer:"contextChanged", type:String}}, observers:[], behaviors:[StyleScopeBehavior], attached:function() {
   this.context = null;
+  this.roles = window.roles || [];
   this.backgroundColor = "invalid";
   this.classes = "mm-white mm-zoom-panels";
   var nodes = document.querySelector("#dispatcherId").getNodes();
@@ -17957,6 +17957,17 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
   this.setStyleScope(this._mainmenu, "style-scope", this.tagName.toLowerCase());
   var subscription = channel.subscribe("context.changed", function(data) {
     this.context = data.context;
+  }.bind(this));
+  var subscription = channel.subscribe("roles.changed", function(data) {
+    console.log("roles.changed", data);
+    this.roles = data.roles;
+    $(this._mainmenu).remove();
+    this.async(function() {
+      this._createTree(nodes);
+      this._createMenu();
+      this.setStyleScope(this._mainmenu, "style-scope", this.tagName.toLowerCase());
+      document.querySelector("#dispatcherId").initListener();
+    }, 200);
   }.bind(this));
   this.fire("menu-ready", {});
 }, getMenuApi:function() {
@@ -18003,7 +18014,7 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
       continue;
     }
     var node = nodes[i];
-    if (this._isNodeDisabled(node)) {
+    if (this._isNodeDisabled(node) || !this._hasNeededRoles(node)) {
       continue;
     }
     if (!this._hasNodeChildren(node)) {
@@ -18081,6 +18092,23 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
   }
 }, _isNodeDisabled:function(node) {
   return node.disabled === true;
+}, _hasNeededRoles:function(node) {
+  if (_.isEmpty(node.roles)) {
+    console.log("node.roles.empty", node.roles);
+    return true;
+  }
+  if (_.isEmpty(this.roles)) {
+    console.log("this.roles.empty", this.roles);
+    return false;
+  }
+  var self = this;
+  var isSuperset = node.roles.every(function(val) {
+    return self.roles.indexOf(val) >= 0;
+  });
+  console.log("node.roles:", node.roles);
+  console.log("this.roles:", this.roles);
+  console.log("isSuperset:", isSuperset);
+  return isSuperset;
 }, _hasNodeChildren:function(node) {
   return node.children && node.children.length > 0;
 }, contextChanged:function() {
@@ -24719,9 +24747,9 @@ Polymer({is:"simpl-dispatcher", properties:{selected:{observer:"selectedChanged"
   return this.nodes;
 }, attached:function() {
   this.async(function() {
-    this._attached();
+    this.initListener();
   });
-}, _attached:function() {
+}, initListener:function() {
   var menuEntries = document.querySelectorAll("a.menuentry");
   for (var i = 0; i < menuEntries.length; i++) {
     var a = menuEntries[i];
