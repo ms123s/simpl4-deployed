@@ -28034,7 +28034,8 @@ observer:"selectedDetailsTabIdChanged"}, pressed:{type:String, readOnly:true, va
   var idValue = "";
   var colon = "";
   for (var i = 0; i < pkList.length; i++) {
-    idValue += colon + data[pkList[i]];
+    var val = data[pkList[i]] || "";
+    idValue += colon + val;
     colon = ":";
   }
   return idValue;
@@ -28069,7 +28070,11 @@ observer:"selectedDetailsTabIdChanged"}, pressed:{type:String, readOnly:true, va
         var message = "";
         for (var i = 0; i < cv.length; i++) {
           var c = cv[i];
-          message += this.$.formid._getLabel(c.path) + " : " + c.message + "<br />";
+          var msg = c.message;
+          if (msg && msg.match(/^[@%].*/)) {
+            msg = tr(msg.substring(1));
+          }
+          message += this.$.formid._getLabel(c.path) + " : " + msg + "<br />";
         }
         this.alert(message);
       } else {
@@ -28274,7 +28279,11 @@ Polymer({is:"simpl-crud2", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehav
         var message = "";
         for (var i = 0; i < cv.length; i++) {
           var c = cv[i];
-          message += this.$.formid._getLabel(c.path) + " : " + c.message + "<br />";
+          var msg = c.message;
+          if (msg && msg.match(/^[@%].*/)) {
+            msg = tr(msg.substring(1));
+          }
+          message += this.$.formid._getLabel(c.path) + " : " + msg + "<br />";
         }
         this.alert(message);
       } else {
@@ -28347,7 +28356,8 @@ Polymer({is:"simpl-crud2", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehav
   var idValue = "";
   var colon = "";
   for (var i = 0; i < pkList.length; i++) {
-    idValue += colon + data[pkList[i]];
+    var val = data[pkList[i]] || "";
+    idValue += colon + val;
     colon = ":";
   }
   return idValue;
@@ -34722,6 +34732,7 @@ FormBehavior = {_valueChanged:function(e) {
   if (errorList && errorList.length > 0) {
   }
   this._validateLocal(errorList);
+  this._validateService(errorList);
   return errorList.length == 0;
 }, _validateLocal:function(errorListGlobal) {
   var validateExprs = this._form.xf_validate_local;
@@ -34753,12 +34764,61 @@ FormBehavior = {_valueChanged:function(e) {
     br = "<br/>";
   }
   this._setGlobalErrorMessage(e);
+}, _validateService:function(errorListGlobal) {
+  var method = this._form.xf_validate_service;
+  var mode = this._form.xf_postprocess_service_mode;
+  if (this._isEmpty(method)) {
+    return null;
+  }
+  try {
+    if (method.indexOf(".") == -1) {
+      method = this.namespace + "." + method;
+    }
+    var lang = simpl4.util.BaseManager.getLanguage();
+    var data = this._getData();
+    var items = simpl4.util.Rpc.rpcSync("camelRoute:" + method, {data:data, lang:lang, formName:this._removeExtension(this.formName), mode:this.mode, uuid:window.uuid});
+    var errorListLocal = [];
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var errormsg = item.message;
+      var fieldname = item.path;
+      if (errormsg && errormsg.match(/^[@%]/)) {
+        errormsg = tr(errormsg.substring(1));
+      }
+      var isErrorSet = false;
+      if (fieldname) {
+        var field = this._getField(fieldname);
+        if (field) {
+          field.setInvalid(true);
+          field.setErrorMessage(errormsg);
+          isErrorSet = true;
+        }
+      }
+      errorListGlobal.push(errormsg);
+      if (!isErrorSet) {
+        errorListLocal.push(errormsg);
+      }
+    }
+    var err = "";
+    var br = "";
+    for (var i = 0; i < errorListLocal.length; i++) {
+      err += br + errorListLocal[i];
+      br = "<br/>";
+    }
+    this._setGlobalErrorMessage(err);
+  } catch (e) {
+    console.error("_validateServiceForm.call:camelRoute:" + method);
+    console.error("_validateServiceForm:", e);
+  }
 }, _setGlobalErrorMessage:function(msg) {
+  if (_.isEmpty(msg)) {
+    return;
+  }
   this._errorMessage = msg;
   this.async(function() {
     var error = this.querySelector("#globalErrorId");
     error.innerHTML = msg;
-  }, 10);
+  }, 50);
 }, _getExcludes:function(selector) {
   var exclude = [];
   var self = this;
@@ -35310,7 +35370,10 @@ FormBehavior = {_valueChanged:function(e) {
       var parammapping = props.xf_parammapping;
       var resultmapping = props.xf_resultmapping;
       var varname = props.xf_varname;
-      var namespace = props.xf_namespace || this.namespace;
+      var namespace = props.xf_namespace;
+      if (!namespace || namespace == "-") {
+        namespace = this.namespace;
+      }
       if (!this._isEmpty(varname)) {
         props.items = this.variables[varname];
         if (!isTreeSelect) {
