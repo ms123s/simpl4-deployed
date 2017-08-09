@@ -34852,6 +34852,7 @@ FormBehavior = {_valueChanged:function(e) {
     env.moment = moment;
     env.Math = Math;
     env.form = this;
+    env.tr = window.tr;
     return metaes.evaluate(scr.toString(), env);
   } catch (e) {
     console.error("\t" + e);
