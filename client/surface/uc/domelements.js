@@ -15883,8 +15883,16 @@ CSSImportBehavior = {convertSheetsToStyles:function(root) {
     themeLink.href = "theme-" + themeName + ".html";
     document.getElementsByTagName("head")[0].appendChild(themeLink);
   }
-  simpl4.util.BaseManager.setUser("guest");
-  simpl4.util.BaseManager.setPassword("guest");
+  var passwd = getParameterByName("passwd");
+  var user = getParameterByName("user");
+  if (user && passwd) {
+    simpl4.util.BaseManager.setUser(user);
+    simpl4.util.BaseManager.setPassword(passwd);
+    console.log("setting(" + user + "," + passwd + ")");
+  } else {
+    simpl4.util.BaseManager.setUser("guest");
+    simpl4.util.BaseManager.setPassword("guest");
+  }
   moment.locale(simpl4.util.BaseManager.getLanguage());
   window.simpl4FormManager = simpl4.util.FormManager;
   window.simpl4MessageManager = simpl4.util.MessageManager;
@@ -39103,9 +39111,8 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
 }, start:function(processDefinition, parameter, finishCallback) {
   this.processDefinition = processDefinition;
   this.processName = processDefinition.name;
-  this.namespace = processDefinition.tenantId;
+  this.namespace = this.processDefinition.id.substring(0, this.processDefinition.id.indexOf("-"));
   console.log("Start:" + JSON.stringify(processDefinition, null, 2));
-  var pid = this.processDefinition.id;
   console.log("startFormResourceKey:" + this.processDefinition.startFormResourceKey);
   if (this.processDefinition.startFormResourceKey) {
     this.showForm(null, finishCallback);
@@ -39121,21 +39128,18 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   var formResourceKey = null;
   var taskName = null;
   var processName = null;
-  var processTenantId = null;
   if (task == null) {
     formResourceKey = this.processDefinition.startFormResourceKey;
+    this.namespace = this.processDefinition.id.substring(0, this.processDefinition.id.indexOf("-"));
     processName = this.processName;
   } else {
     formResourceKey = task.formResourceKey;
     if (task.processName) {
       this.processName = task.processName;
     }
-    processTenantId = task.processTenantId;
     processName = this.processName;
     taskName = task.name;
-  }
-  if (!processTenantId) {
-    processTenantId = simpl4.util.BaseManager.getNamespace();
+    this.namespace = task.processDefinitionId.substring(0, task.processDefinitionId.indexOf("-"));
   }
   if (formResourceKey == null) {
     this.handleExecuteButton(null, task, null, null, finishCallback);
@@ -39145,6 +39149,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   console.log("{task,process}Name:" + taskName + "/" + processName);
   console.log("formResourceKey:" + formResourceKey);
   console.log("formName:" + formName);
+  console.log("namespace:" + this.namespace);
   var self = this;
   this.actionCallback = function(e) {
     console.log("ProcessController.actionCallback:", e.detail);
@@ -39170,7 +39175,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   var processVariables = {};
   var mappedFormValues = null;
   if (task != null) {
-    processVariables = this.getProcessVariables(processTenantId, formResourceKey, task.processInstanceId);
+    processVariables = this.getProcessVariables(this.namespace, formResourceKey, task.processInstanceId);
     mappedFormValues = this.getMappedFormValues(task.id, task.processInstanceId);
   } else {
     processVariables["__namespace"] = simpl4.util.BaseManager.getNamespace();
@@ -39181,12 +39186,13 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
     this.panelHeader = tr(processName);
   }
   this.variables = processVariables;
-  this.namespace = processTenantId;
-  var form = this.querySelector("#formid");
   this.formName = "empty";
   this.async(function() {
     this.formName = formName;
+    console.log("formName:", formName);
     this.async(function() {
+      var form = this.querySelector("#formid");
+      console.log("form:", form);
       form.setData(mappedFormValues);
     }, 300);
   }, 100);
@@ -39233,7 +39239,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   }.bind(this);
   var result = null;
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:getTaskFormProperties", {executionId:processInstanceId, taskId:tid});
+    result = simpl4.util.Rpc.rpcSync("process:getTaskFormProperties", {executionId:processInstanceId, taskId:tid});
   } catch (e) {
     this.alert("ProcessController.getMappedFormValues:" + e);
     failed.call(this, e);
@@ -39248,7 +39254,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
 }, getProcessVariables:function(namespace, formId, pid) {
   var result = null;
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:getVariables", {namespace:namespace, formId:formId, executionId:pid});
+    result = simpl4.util.Rpc.rpcSync("process:getVariables", {namespace:namespace, formId:formId, executionId:pid});
   } catch (e) {
     this.alert("ProcessController.getProcessVariables:" + e);
     return;
@@ -39278,7 +39284,11 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   }.bind(this);
   var failed = function(ret) {
     console.log("ret:" + JSON.stringify(ret));
-    ret = ret.toString();
+    if (ret.message) {
+      ret = ret.message;
+    } else {
+      ret = ret.toString();
+    }
     var msg = ret.replace(/\|/g, "<br/>");
     var msg = msg.replace(/Script.*groovy: [0-9]{0,4}:/g, "<br/><br/>");
     var msg = msg.replace(/ for class: Script[0-9]{1,2}/g, "");
@@ -39289,14 +39299,14 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
     var msg = msg.replace(/: {0,2}Line:/g, "<br/>Line:");
     msg = simpl4.util.Text.explode(msg, 100);
     var message = "<b>" + tr("processes." + (task != null ? "taskform" : "startform") + ".notstarted") + ": </b><pre style='font-size:10px'>" + msg + "</pre>";
-    this.alert(message);
+    this.alert(message, "large");
     if (task != null) {
       this.showForm(task, finishCallback);
     }
   }.bind(this);
   var params = null;
   if (task == null) {
-    params = {service:"activiti", method:"startProcessInstance", parameter:{namespace:this.namespace ? this.namespace : simpl4.util.BaseManager.getNamespace(), processDefinitionId:processVariables["processDefinitionId"], processDefinitionKey:processVariables["processDefinitionKey"], processDefinitionName:processVariables["processDefinitionName"], businessKey:processVariables["businessKey"], startParams:processVariables}, async:false, context:this, failed:failed, completed:completed};
+    params = {service:"process", method:"startProcessInstance", parameter:{namespace:this.namespace ? this.namespace : simpl4.util.BaseManager.getNamespace(), processDefinitionId:processVariables["processDefinitionId"], processDefinitionKey:processVariables["processDefinitionKey"], processDefinitionName:processVariables["processDefinitionName"], businessKey:processVariables["businessKey"], startParams:processVariables}, async:false, context:this, failed:failed, completed:completed};
     return simpl4.util.Rpc.rpcAsync(params);
   } else {
     this.completeTask(task.id, processVariables, completed, failed);
@@ -39331,7 +39341,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   }.bind(this);
   var result = null;
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:executeTaskOperation", {taskId:taskId, operation:"complete", startParams:processVariables});
+    result = simpl4.util.Rpc.rpcSync("process:executeTaskOperation", {taskId:taskId, operation:"complete", startParams:processVariables});
     console.error("RET:" + result.success);
     if (result.success === true) {
       completed.call(this, result);
@@ -39348,7 +39358,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   var result = null;
   var userid = simpl4.util.BaseManager.getUser();
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:getTasks", {queryParams:{assignee:userid, processInstanceId:processInstanceId}, listParams:{size:1000}});
+    result = simpl4.util.Rpc.rpcSync("process:getTasks", {queryParams:{assignee:userid, processInstanceId:processInstanceId}, listParams:{size:1000}});
   } catch (e) {
     this.alert("ProcessController.getTasks:" + e);
     return;
@@ -39357,7 +39367,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
 }, getProcessDefinition:function(namespace, name) {
   var result = null;
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:getProcessDefinitions", {namespace:namespace ? namespace : simpl4.util.BaseManager.getNamespace(), version:-1, key:name});
+    result = simpl4.util.Rpc.rpcSync("process:getProcessDefinitions", {namespace:namespace ? namespace : simpl4.util.BaseManager.getNamespace(), version:-1, key:name});
   } catch (e) {
     this.alert("ProcessController.getProcessDefinitions:" + e);
     return;
@@ -39372,8 +39382,9 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   this.async(function() {
     callback();
   }, 500);
-}, alert:function(message) {
-  Lobibox.notify("error", {delay:6000, icon:"vaadin-icons:exclamation", msg:message});
+}, alert:function(message, size) {
+  var s = size || "normal";
+  Lobibox.notify("error", {size:s, delay:6000, icon:"vaadin-icons:exclamation", msg:message});
 }});
 Polymer({is:"simpl-processes", behaviors:[DataTablesBehavior, ModernizrBehavior, TranslationsBehavior], properties:{namespace:{type:String}}, observers:["selectionChanged(selection)"], attached:function() {
   this.entryAnimation = "slide-from-right-animation";
@@ -39414,7 +39425,7 @@ Polymer({is:"simpl-processes", behaviors:[DataTablesBehavior, ModernizrBehavior,
   var result = null;
   var namespace = this.namespace || simpl4.util.BaseManager.getNamespace();
   try {
-    result = simpl4.util.Rpc.rpcSync("activiti:getProcessDefinitions", {namespace:namespace, version:-1});
+    result = simpl4.util.Rpc.rpcSync("process:getProcessDefinitions", {namespace:namespace, version:-1});
   } catch (e) {
     alert("ProcessDefinitions.getProcessDefinitions:" + e);
     return;
@@ -39524,9 +39535,10 @@ Polymer({is:"simpl-tasks", behaviors:[DataTablesBehavior, StyleScopeBehavior, Mo
     if (what == "notassigned") {
       queryParams = {candidate:this.userid, tenantId:this.namespace};
     }
-    var result = simpl4.util.Rpc.rpcSync("activiti:getTasks", {queryParams:queryParams, listParams:{size:1000}});
+    var result = simpl4.util.Rpc.rpcSync("process:getTasks", {queryParams:queryParams, listParams:{size:1000}});
     return completed.call(this, result);
   } catch (e) {
+    console.log("Tasks.getTasks:", e);
     alert("Tasks.getTasks:" + e);
     return;
   }
