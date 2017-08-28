@@ -39111,7 +39111,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
 }, start:function(processDefinition, parameter, finishCallback) {
   this.processDefinition = processDefinition;
   this.processName = processDefinition.name;
-  this.namespace = this.processDefinition.id.substring(0, this.processDefinition.id.indexOf("-"));
+  this.namespace = this.processDefinition.key.substring(0, this.processDefinition.key.indexOf("_"));
   console.log("Start:" + JSON.stringify(processDefinition, null, 2));
   console.log("startFormResourceKey:" + this.processDefinition.startFormResourceKey);
   if (this.processDefinition.startFormResourceKey) {
@@ -39130,7 +39130,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
   var processName = null;
   if (task == null) {
     formResourceKey = this.processDefinition.startFormResourceKey;
-    this.namespace = this.processDefinition.id.substring(0, this.processDefinition.id.indexOf("-"));
+    this.namespace = this.processDefinition.key.substring(0, this.processDefinition.key.indexOf("_"));
     processName = this.processName;
   } else {
     formResourceKey = task.formResourceKey;
@@ -39139,7 +39139,7 @@ Polymer({is:"simpl-processcontroller", properties:{namespace:{type:String}, name
     }
     processName = this.processName;
     taskName = task.name;
-    this.namespace = task.processDefinitionId.substring(0, task.processDefinitionId.indexOf("-"));
+    this.namespace = task.processDefinitionKey.substring(0, task.processDefinitionKey.indexOf("-"));
   }
   if (formResourceKey == null) {
     this.handleExecuteButton(null, task, null, null, finishCallback);
