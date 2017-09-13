@@ -15559,7 +15559,7 @@ DialogBehavior = {closeDialog:function(dia) {
   var sd = $(dia).dialog({open:function(event, ui) {
     $(dia).hide();
     $(dia).fadeIn(1000);
-  }, resizable:true, draggable:true, title:"", height:"auto", width:width, modal:true});
+  }, resizable:true, draggable:true, closeText:"", title:"", height:"auto", width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
 }};
@@ -16063,6 +16063,9 @@ type:String}, useKeyboard:{value:false, type:Boolean}, waitOnPages:{value:2}, ta
 }, buildToolbar:function() {
   var nodes = document.querySelector("#dispatcherId").getNodes();
   var parent = this.querySelector("#toolbarIconsId");
+  if (nodes == null) {
+    nodes = [];
+  }
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[i];
     if (node.uri && node.uri.startsWith("mainToolbar:")) {
@@ -24946,6 +24949,9 @@ Polymer({is:"simpl-dispatcher", properties:{selected:{observer:"selectedChanged"
   }
   return false;
 }, _getMenuYaml:function() {
+  if (this.name == null) {
+    return [];
+  }
   var nodes = this._loadMenu(this.name);
   var pages = [];
   if (nodes.length > 0) {
@@ -34150,6 +34156,10 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:false}, selec
   }
   return raw;
 }, _dataChanged:function() {
+  if (this.internalDataChanged === true) {
+    this.internalDataChanged = null;
+    return;
+  }
   this.async(function() {
     this.__dataChanged();
   }, 10);
@@ -34168,6 +34178,10 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:false}, selec
     return;
   }
   if (this._api == null) {
+    if (this.data == null) {
+      this.internalDataChanged = true;
+      this.data = [];
+    }
     this._createTable(this.preparedMeta, this.data, this.options);
   } else {
     this._api.clear();
@@ -43290,7 +43304,7 @@ computed:"_compute__attrForSelectedStepPrimaryButtonText(_selectedIndex, stepNum
 }, _updateStepperClosedMaxHeight:function() {
   this.debounce("updateStepperClosedMaxHeight", function() {
     this.customStyle["--label-wrapper-height"] = this.$$("#content-wrapper").clientHeight + "px";
-    this.updateStyles("--label-wrapper-height");
+    this.updateStyles();
   });
 }, _openedChanged:function(newValue, oldValue) {
   if (!this.vertical && oldValue != undefined) {
