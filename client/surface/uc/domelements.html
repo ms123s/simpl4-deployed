@@ -14700,8 +14700,7 @@ dd.rules-group-body{
 				</template>
 			</section>
 			<section style="padding:0px;position:relative;overflow-x:hidden;" num="1" unresolved="">
-				
-				<div class="layout horizontal" style="margin-top:20px;margin-bottom:4px;text-align:left;">
+				<simpl-panel show-header="[[showHeader]]" heading="{{panelHeaderCrudForm}}" <div="" class="layout horizontal" style="margin-top:20px;margin-bottom:4px;text-align:left;">
 					<paper-button class="h flex button" raised="" on-tap="cancelAction">
 						<iron-icon icon="vaadin-icons:close-small"></iron-icon>{{tr('button.back')}}</paper-button>
 					<paper-button class="h flex button button_secondary" disabled$="{{saveDisabled}}" raised="" on-tap="saveAction">
@@ -14712,9 +14711,9 @@ dd.rules-group-body{
 					<paper-button class="h flex button button_primary" id="nextButton" invisible$="{{prevNextButtonsInvisible}}" style="min-width:45px;max-width:45px;" raised="" on-tap="nextAction">
 						<iron-icon icon="vaadin-icons:angle-right"></iron-icon>
 					</paper-button>
-				</div>
-				<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
 				
+				<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+				</simpl-panel>
 				<paper-dialog id="error" class="scrolling">
 					
 					<div style="padding:15px;">

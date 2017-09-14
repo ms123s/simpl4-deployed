@@ -25942,7 +25942,7 @@ clear:function() {
 }});
 Polymer({is:"simpl-elements-docviewer", properties:{}, observers:[], ready:function() {
 }});
-Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsable:{value:false, type:Boolean}, collapsed:{value:false, observer:"collapsedChanged", type:Boolean}, collapsecolor:{value:"white", type:String}, height:{value:null, observer:"heightChanged", type:String}}, getIconFill:function() {
+Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsable:{value:false, type:Boolean}, showHeader:{value:true, type:Boolean}, collapsed:{value:false, observer:"collapsedChanged", type:Boolean}, collapsecolor:{value:"white", type:String}, height:{value:null, observer:"heightChanged", type:String}}, getIconFill:function() {
   return "fill:" + this.collapsecolor;
 }, attached:function() {
 }, ready:function() {
@@ -25967,6 +25967,11 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
       this.$.panelContent.style.display = "block";
     }
     this.$.collapsable.icon = "custom-icons:" + (this.collapsed ? "icon-collapse" : "icon-expand");
+  }
+  if (this.showHeader === true) {
+    this.$.heading.style.display = "block";
+  } else {
+    this.$.heading.style.display = "none";
   }
   var self = this;
   this.$.heading.addEventListener("click", function() {
@@ -27700,7 +27705,7 @@ Polymer({is:"simpl-linkedlist", behaviors:[Polymer.IronA11yKeysBehavior, DialogB
   return entity;
 }});
 Polymer({is:"simpl-crud", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehavior, TranslationsBehavior], properties:{namespace:{type:String}, filterName:{value:null, type:String}, autoSearch:{value:false, type:Boolean}, entity:{type:String}, withPanel:{type:Object, value:true}, saveDisabled:{type:Boolean, value:true}, buttonList:{type:String, value:"add,edit,copy,detail"}, buttonListDetail:{type:String, value:"add,edit,copy"}, pageSelected:{type:Number, value:0}, selectedDetailsTabId:{type:String, 
-observer:"selectedDetailsTabIdChanged"}, pressed:{type:String, readOnly:true, value:""}, noCarriageReturn:{type:Boolean, value:false}, boundKeys:{type:Array, value:function() {
+observer:"selectedDetailsTabIdChanged"}, pressed:{type:String, readOnly:true, value:""}, showHeader:{type:Boolean, value:false}, noCarriageReturn:{type:Boolean, value:false}, boundKeys:{type:Array, value:function() {
   return Object.keys(this.keyBindings).join(" ").split(" ");
 }}, preventDefault:{type:Boolean, value:true, notify:true}, keyEventTarget:{type:Object, value:function() {
   return this;
@@ -28470,6 +28475,9 @@ Polymer({is:"simpl-details", properties:{namespace:{type:String}, entity:{observ
   this.datetimeList = {};
   this.columns = [];
   var ret = [];
+  if (fields == null) {
+    fields = [];
+  }
   fields.forEach(function(f) {
     var dtName = f.name;
     if (f.hidden) {
@@ -35714,6 +35722,8 @@ FieldBehavior = {properties:{readonly:{value:false, type:Boolean}, autofocus:{va
 }, detached:function() {
 }, setForm:function(form) {
   this.form = form;
+  this.convertNullToEmpty = form.xf_string_null_in_empty === true;
+  console.log("convertNullToEmpty(" + this.name + "):" + this.convertNullToEmpty);
 }, getPack:function() {
   if (this.form == null) {
     return null;
@@ -36159,6 +36169,7 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
       v = this._toIso(v);
     }
   }
+  console.log("setValue(" + this.name + "):", v);
   this.editValue = v;
 }, getValue:function() {
   if (this.isDate()) {
@@ -36179,6 +36190,11 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
       return parseFloat(this.value);
     }
   }
+  if (this.value == null && this.convertNullToEmpty) {
+    console.log("getValue(" + this.name + "):leer");
+    return "";
+  }
+  console.log("getValue(" + this.name + "):", this.value);
   return this.value;
 }, getDatePicker:function(showTime, options) {
   if (this.pickerType == "pikaday") {
