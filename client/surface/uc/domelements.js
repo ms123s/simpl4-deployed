@@ -35722,8 +35722,7 @@ FieldBehavior = {properties:{readonly:{value:false, type:Boolean}, autofocus:{va
 }, detached:function() {
 }, setForm:function(form) {
   this.form = form;
-  this.convertNullToEmpty = form.xf_string_null_in_empty === true;
-  console.log("convertNullToEmpty(" + this.name + "):" + this.convertNullToEmpty);
+  this.convertNullToEmpty = form._form.xf_string_null_in_empty === true;
 }, getPack:function() {
   if (this.form == null) {
     return null;
@@ -36191,10 +36190,8 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
     }
   }
   if (this.value == null && this.convertNullToEmpty) {
-    console.log("getValue(" + this.name + "):leer");
     return "";
   }
-  console.log("getValue(" + this.name + "):", this.value);
   return this.value;
 }, getDatePicker:function(showTime, options) {
   if (this.pickerType == "pikaday") {
@@ -36544,6 +36541,9 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   return this.value;
 }, onFocus:function(val) {
 }, onChange:function(val) {
+  if (val == "null") {
+    val = null;
+  }
   if (this.isEmpty(this.value) && this.isEmpty(val)) {
     return;
   }
