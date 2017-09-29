@@ -13508,70 +13508,6 @@ Polymer.PaperItemBehavior = [Polymer.IronButtonState, Polymer.IronControlState, 
 Polymer({is:"paper-icon-item", behaviors:[Polymer.PaperItemBehavior]});
 Polymer({is:"paper-item-body"});
 Polymer({is:"paper-item", behaviors:[Polymer.PaperItemBehavior]});
-console.warn("This file is deprecated. Please use `iron-flex-layout/iron-flex-layout-classes.html`, and one of the specific dom-modules instead");
-console.warn("This file is deprecated. Please use `iron-flex-layout/iron-flex-layout-classes.html`, and one of the specific dom-modules instead");
-Polymer({is:"paper-toolbar", hostAttributes:{"role":"toolbar"}, properties:{bottomJustify:{type:String, value:""}, justify:{type:String, value:""}, middleJustify:{type:String, value:""}}, attached:function() {
-  this._observer = this._observe(this);
-  this._updateAriaLabelledBy();
-}, detached:function() {
-  if (this._observer) {
-    this._observer.disconnect();
-  }
-}, _observe:function(node) {
-  var observer = new MutationObserver(function() {
-    this._updateAriaLabelledBy();
-  }.bind(this));
-  observer.observe(node, {childList:true, subtree:true});
-  return observer;
-}, _updateAriaLabelledBy:function() {
-  var labelledBy = [];
-  var contents = Polymer.dom(this.root).querySelectorAll("content");
-  for (var content, index = 0; content = contents[index]; index++) {
-    var nodes = Polymer.dom(content).getDistributedNodes();
-    for (var node, jndex = 0; node = nodes[jndex]; jndex++) {
-      if (node.classList && node.classList.contains("title")) {
-        if (node.id) {
-          labelledBy.push(node.id);
-        } else {
-          var id = "paper-toolbar-label-" + Math.floor(Math.random() * 10000);
-          node.id = id;
-          labelledBy.push(id);
-        }
-      }
-    }
-  }
-  if (labelledBy.length > 0) {
-    this.setAttribute("aria-labelledby", labelledBy.join(" "));
-  }
-}, _computeBarExtraClasses:function(barJustify) {
-  if (!barJustify) {
-    return "";
-  }
-  return barJustify + (barJustify === "justified" ? "" : "-justified");
-}});
-Polymer({properties:{dismissIcon:{type:String, value:"", observer:"_dismissIconChanged"}, responsiveWidth:{type:String, value:"600px"}, narrow:{type:Boolean, reflectToAttribute:true, observer:"_narrowChanged", notify:true}, modal:{type:Boolean, value:true}, _autoCloseDisabled:{type:Boolean, value:true}, _layered:{type:Boolean, value:false}, _affirmativeBtn:Object}, behaviors:[Polymer.PaperDialogBehavior], attached:function() {
-  this.sizingTarget = this.$.scroller;
-  var nodes = Polymer.dom(this.$.affirmative).getDistributedNodes();
-  if (nodes.length) {
-    this._affirmativeBtn = nodes[0];
-  }
-  this._dismissIconChanged();
-}, _dismissIconChanged:function() {
-  if (!this.dismissIcon) {
-    this.$.dismissBtn.icon = this._affirmativeBtn ? "close" : "arrow-back";
-  } else {
-    this.$.dismissBtn.icon = this.dismissIcon;
-  }
-}, _narrowChanged:function() {
-  if (!this.narrow) {
-    this.style.width = this.responsiveWidth;
-    this.modal = true;
-  } else {
-    this.style.width = "auto";
-    this.modal = false;
-  }
-  this.fire("paper-responsive-change", {narrow:this.narrow});
-}});
 Polymer.IronMenuBehaviorImpl = {properties:{focusedItem:{observer:"_focusedItemChanged", readOnly:true, type:Object}, attrForItemTitle:{type:String}}, hostAttributes:{"role":"menu", "tabindex":"0"}, observers:["_updateMultiselectable(multi)"], listeners:{"focus":"_onFocus", "keydown":"_onKeydown", "iron-items-changed":"_onIronItemsChanged"}, keyBindings:{"up":"_onUpKey", "down":"_onDownKey", "esc":"_onEscKey", "shift+tab:keydown":"_onShiftTabDown"}, attached:function() {
   this._resetTabindices();
 }, select:function(value) {
@@ -13680,7 +13616,6 @@ Polymer.IronMenuBehaviorImpl = {properties:{focusedItem:{observer:"_focusedItemC
   this.focusedItem.blur();
 }, _onKeydown:function(event) {
   if (!this.keyboardEventMatchesKeys(event, "up down esc")) {
-    this._focusWithKeyboardEvent(event);
   }
   event.stopPropagation();
 }, _activateHandler:function(event) {
@@ -13989,6 +13924,8 @@ Polymer.PaperSpinnerBehavior = {listeners:{"animationend":"__reset", "webkitAnim
   this.__coolingDown = false;
 }};
 Polymer({is:"paper-spinner", behaviors:[Polymer.PaperSpinnerBehavior]});
+console.warn("This file is deprecated. Please use `iron-flex-layout/iron-flex-layout-classes.html`, and one of the specific dom-modules instead");
+console.warn("This file is deprecated. Please use `iron-flex-layout/iron-flex-layout-classes.html`, and one of the specific dom-modules instead");
 Polymer({is:"paper-tab", behaviors:[Polymer.IronControlState, Polymer.IronButtonState, Polymer.PaperRippleBehavior], properties:{link:{type:Boolean, value:false, reflectToAttribute:true}}, hostAttributes:{role:"tab"}, listeners:{down:"_updateNoink", tap:"_onTap"}, attached:function() {
   this._updateNoink();
 }, get _parentNoink() {
@@ -14285,6 +14222,45 @@ Polymer({is:"paper-toggle-button", behaviors:[Polymer.PaperCheckedElementBehavio
   ripple.setAttribute("recenters", "");
   ripple.classList.add("circle", "toggle-ink");
   return ripple;
+}});
+Polymer({is:"paper-toolbar", hostAttributes:{"role":"toolbar"}, properties:{bottomJustify:{type:String, value:""}, justify:{type:String, value:""}, middleJustify:{type:String, value:""}}, attached:function() {
+  this._observer = this._observe(this);
+  this._updateAriaLabelledBy();
+}, detached:function() {
+  if (this._observer) {
+    this._observer.disconnect();
+  }
+}, _observe:function(node) {
+  var observer = new MutationObserver(function() {
+    this._updateAriaLabelledBy();
+  }.bind(this));
+  observer.observe(node, {childList:true, subtree:true});
+  return observer;
+}, _updateAriaLabelledBy:function() {
+  var labelledBy = [];
+  var contents = Polymer.dom(this.root).querySelectorAll("content");
+  for (var content, index = 0; content = contents[index]; index++) {
+    var nodes = Polymer.dom(content).getDistributedNodes();
+    for (var node, jndex = 0; node = nodes[jndex]; jndex++) {
+      if (node.classList && node.classList.contains("title")) {
+        if (node.id) {
+          labelledBy.push(node.id);
+        } else {
+          var id = "paper-toolbar-label-" + Math.floor(Math.random() * 10000);
+          node.id = id;
+          labelledBy.push(id);
+        }
+      }
+    }
+  }
+  if (labelledBy.length > 0) {
+    this.setAttribute("aria-labelledby", labelledBy.join(" "));
+  }
+}, _computeBarExtraClasses:function(barJustify) {
+  if (!barJustify) {
+    return "";
+  }
+  return barJustify + (barJustify === "justified" ? "" : "-justified");
 }});
 Polymer({is:"paper-tooltip", hostAttributes:{role:"tooltip", tabindex:-1}, behaviors:[Polymer.NeonAnimationRunnerBehavior], properties:{for:{type:String, observer:"_forChanged"}, manualMode:{type:Boolean, value:false}, position:{type:String, value:"bottom"}, fitToVisibleBounds:{type:Boolean, value:false}, offset:{type:Number, value:14}, marginTop:{type:Number, value:14}, animationDelay:{type:Number, value:500}, animationConfig:{type:Object, value:function() {
   return {"entry":[{name:"fade-in-animation", node:this, timing:{delay:0}}], "exit":[{name:"fade-out-animation", node:this}]};
@@ -15249,6 +15225,29 @@ Polymer.AppLayout.registerEffect("resize-snapped-title", {setUp:function setUp(c
     fx.condensedTitle.style.opacity = 0;
   }
 }});
+Polymer({is:"paper-fullscreen-dialog", properties:{dismissIcon:{type:String, value:"", observer:"_dismissIconChanged"}, responsiveWidth:{type:String, value:"600px"}, narrow:{type:Boolean, reflectToAttribute:true, observer:"_narrowChanged", notify:true}, modal:{type:Boolean, value:true}, _autoCloseDisabled:{type:Boolean, value:true}, _layered:{type:Boolean, value:false}, _affirmativeBtn:Object}, behaviors:[Polymer.PaperDialogBehavior], attached:function() {
+  this.sizingTarget = this.$.scroller;
+  var nodes = Polymer.dom(this.$.affirmative).getDistributedNodes();
+  if (nodes.length) {
+    this._affirmativeBtn = nodes[0];
+  }
+  this._dismissIconChanged();
+}, _dismissIconChanged:function() {
+  if (!this.dismissIcon) {
+    this.$.dismissBtn.icon = this._affirmativeBtn ? "close" : "arrow-back";
+  } else {
+    this.$.dismissBtn.icon = this.dismissIcon;
+  }
+}, _narrowChanged:function() {
+  if (!this.narrow) {
+    this.style.width = this.responsiveWidth;
+    this.modal = true;
+  } else {
+    this.style.width = "auto";
+    this.modal = false;
+  }
+  this.fire("paper-responsive-change", {narrow:this.narrow});
+}});
 (function() {
   var sharedPanel = null;
   function classNames(obj) {
@@ -15571,9 +15570,8 @@ RegistryBehavior = {onRegistrySave:function() {
   this._doSave(this._currentRegistryName);
 }, onRegistrySaveUnder:function() {
   var json = this.getState();
-  var prompt = Lobibox.prompt("text", {height:200, title:tr("te.enter_name"), attrs:{pattern:"[A-Za-z0-9]{3,}", value:this._currentRegistryName}, callback:function($this, type, ev) {
-    console.log("callback:", prompt.getValue());
-    if (!_.isEmpty(prompt.getValue())) {
+  var prompt = Lobibox.prompt("text", {height:200, title:tr(this._registryTitleSave ? this._registryTitleSave : "te.enter_name"), attrs:{pattern:"[A-Za-z0-9]{3,}", value:this._currentRegistryName}, callback:function($this, type, ev) {
+    if (type != "cancel" && !_.isEmpty(prompt.getValue())) {
       this._doSave(prompt.getValue());
     }
   }.bind(this)});
@@ -19206,12 +19204,28 @@ $(function() {
   icon2:"glyphicon glyphicon-plus", tooltip:"Minimize"}, expand:{icon:"glyphicon glyphicon-resize-full", icon2:"glyphicon glyphicon-resize-small", tooltip:"Fullscreen"}, close:{icon:"glyphicon glyphicon-remove", tooltip:"Close"}, editTitle:{icon:"glyphicon glyphicon-pencil", icon2:"glyphicon glyphicon-floppy-disk", tooltip:"Edit title"}, beforeTitleChange:null};
   $(".lobipanel").lobiPanel();
 });
-Polymer({is:"simpl-lobipanel", behaviors:[ModernizrBehavior, StyleScopeBehavior], attached:function() {
+Polymer({is:"simpl-lobipanel", properties:{minimize:{type:Boolean, value:true}}, behaviors:[ModernizrBehavior, StyleScopeBehavior], attached:function() {
   this.async(function() {
     this.init();
   }, 200);
 }, init:function() {
-  $(".panel").lobiPanel({reload:{icon:"fa fa-refresh"}, editTitle:{icon:"fa fa-edit", icon2:"fa fa-save"}, unpin:{icon:"fa fa-arrows"}, minimize:{icon:"fa fa-chevron-up", icon2:"fa fa-chevron-down"}, close:{icon:"fa fa-times-circle"}, expand:{icon:"fa fa-expand", icon2:"fa fa-compress"}, sortable:true, reload:false, unpin:false, close:false, editTitle:false});
+  var opts = {reload:{icon:"fa fa-refresh"}, editTitle:{icon:"fa fa-edit", icon2:"fa fa-save"}, unpin:{icon:"fa fa-arrows"}, minimize:{icon:"fa fa-chevron-up", icon2:"fa fa-chevron-down"}, close:{icon:"fa fa-times-circle"}, expand:{icon:"fa fa-expand", icon2:"fa fa-compress"}, sortable:true, reload:false, unpin:false, close:false, editTitle:false};
+  if (this.minimize === false) {
+    opts.minimize = false;
+  }
+  $(".panel").lobiPanel(opts);
+  $(".panel").on("beforeMaximize.lobiPanel", function(ev, lobiPanel) {
+    this.fire("lp-maximize", ev);
+  }.bind(this));
+  $(".panel").on("beforeMinimize.lobiPanel", function(ev, lobiPanel) {
+    this.fire("lp-minimize", ev);
+  }.bind(this));
+  $(".panel").on("beforeFullScreen.lobiPanel", function(ev, lobiPanel) {
+    this.fire("lp-fullscreen", ev);
+  }.bind(this));
+  $(".panel").on("beforeSmallSize.lobiPanel", function(ev, lobiPanel) {
+    this.fire("lp-smallsize", ev);
+  }.bind(this));
   this.async(function() {
     this.setStyleScope(this, "style-scope", this.tagName.toLowerCase());
   });
@@ -25040,7 +25054,7 @@ Polymer({is:"font-awesome", properties:{icon:{type:String}}, observers:["iconCha
   Polymer.dom(this.$.fontId).classList.add("fa");
   Polymer.dom(this.$.fontId).classList.add("fa-" + this.icon);
 }});
-LobiboxBehavior = {notify:function(msg, type, delay) {
+LobiboxBehavior = {notify:function(msg, type, delay, options) {
   var icon = "vaadin-icons:info-circle-o";
   if (type == "success") {
     icon = "vaadin-icons:check-circle-o";
@@ -25053,7 +25067,9 @@ LobiboxBehavior = {notify:function(msg, type, delay) {
       }
     }
   }
-  Lobibox.notify(type, {delay:delay, icon:icon, msg:msg});
+  var opts = {delay:delay, icon:icon, msg:msg};
+  var options = $.extend({}, opts, options);
+  Lobibox.notify(type, options);
 }};
 Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, method:{type:String}, url:{observer:"urlChanged", type:String}}, behaviors:[StyleScopeBehavior], observers:["dataChanged(data,method)"], urlChanged:function(name) {
   if (this.url == null) {
@@ -25969,7 +25985,7 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
     this.$.collapsable.icon = "custom-icons:" + (this.collapsed ? "icon-collapse" : "icon-expand");
   }
   if (this.showHeader === true) {
-    this.$.heading.style.display = "block";
+    this.$.heading.style.display = "flex";
   } else {
     this.$.heading.style.display = "none";
   }
@@ -34589,7 +34605,7 @@ Polymer({is:"simpl-executefilter", properties:{pagesize:{type:Number, value:100}
   console.log("executeFilter.data:", map.rows);
   this.data = map.rows;
 }});
-Polymer({is:"simpl-buildfilter", properties:{params:{type:Object, notify:true}, namespace:{value:null, type:String}, filter:{value:null, notify:true, type:String}}, observers:["paramsChanged(params.*)"], paramsChanged:function() {
+Polymer({is:"simpl-buildfilter", properties:{params:{type:Object, notify:true}, namespace:{value:null, type:String}, name:{value:null, type:String}, filter:{value:null, notify:true, type:String}}, observers:["paramsChanged(params.*,name)"], paramsChanged:function() {
   this.build(true);
 }, parseParams:function(o) {
   if (o == null) {
@@ -34662,6 +34678,7 @@ FormBehavior = {_valueChanged:function(e) {
     var f = this.fields[i];
     var enabledExpr = f.getAttribute("enabled-expr");
     var readonlyExpr = f.getAttribute("readonly-expr");
+    var contentExpr = f.getAttribute("content-expr");
     if (this._isNotEmpty(readonlyExpr)) {
       var e = this._maskedEval(readonlyExpr, env);
       if (e) {
@@ -34696,6 +34713,10 @@ FormBehavior = {_valueChanged:function(e) {
       } else {
         f.removeAttribute("visibility");
       }
+    }
+    if (this._isNotEmpty(contentExpr)) {
+      var e = this._maskedEval(contentExpr, env);
+      f.setValue(e);
     }
   }
   var abuttons = this.$.formdiv.parentNode.querySelectorAll("xaction-button");
@@ -34880,6 +34901,7 @@ FormBehavior = {_valueChanged:function(e) {
   try {
     env._ = _;
     env.moment = moment;
+    env.accounting = accounting;
     env.Math = Math;
     env.form = this;
     env.tr = window.tr;
@@ -34935,6 +34957,8 @@ FormBehavior = {_valueChanged:function(e) {
     }
     field.setValue(data[k]);
   }, this);
+}, setState:function(data) {
+  this.setData(data);
 }, setData:function(data) {
   this.resetData = jQuery.extend({}, data);
   if (data == null) {
@@ -35010,6 +35034,8 @@ FormBehavior = {_valueChanged:function(e) {
     data[field.name] = field.getValue();
   }, this);
   return data;
+}, getState:function() {
+  return this.getData();
 }, getData:function() {
   var data = simpl4.util.Merge.merge(true, this.data);
   this.fields.forEach(function(field) {
@@ -35174,10 +35200,10 @@ FormBehavior = {_valueChanged:function(e) {
     this._buildShapeMap(this.shapes[0]);
     this.async(function() {
       this.fields = this._filterToArray("[field]", this.$.formdiv, true, true);
+      this.fieldsMap = this._toMap(this.fields);
       this.fields.forEach(function(field) {
         field.setForm(this);
       }, this);
-      this.fieldsMap = this._toMap(this.fields);
       this.fire("form-ready", this);
       this._valueChanged();
       if (this.resetData == null) {
@@ -36168,7 +36194,6 @@ incrementSecond:"Sekunde +1", decrementSecond:"Sekunde -1", togglePeriod:"Period
       v = this._toIso(v);
     }
   }
-  console.log("setValue(" + this.name + "):", v);
   this.editValue = v;
 }, getValue:function() {
   if (this.isDate()) {
@@ -36419,14 +36444,14 @@ Polymer({is:"checkbox-field", behaviors:[FieldBehavior], properties:{compact:{va
   this.fire("value-changed", this);
 }});
 Polymer({is:"toggle-field"});
-Polymer({is:"select-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, StyleScopeBehavior, FieldBehavior], listeners:{"value-changed":"ignore"}, properties:{multiple:{value:false}, compact:{value:false}, jsonItems:{type:String}, items:{observer:"itemsChanged", type:Object}, required:{value:"false", type:String}, delimiter:{type:String, value:","}, diacritics:{type:Boolean, value:true}, create:{type:Boolean, value:false}, createOnBlur:{type:Boolean, 
-value:false}, createFilter:{type:String, value:null}, highlight:{type:Boolean, value:true}, persist:{type:Boolean, value:true}, openOnFocus:{type:Boolean, value:true}, maxOptions:{type:Number, value:1000}, maxItems:{type:Number, value:1}, hideSelected:{type:Boolean, value:true}, closeAfterSelect:{type:Boolean, value:false}, allowEmptyOption:{type:Boolean, value:false}, scrollDuration:{type:Number, value:60}, loadThrottle:{type:Number, value:300}, loadingClass:{type:String, value:"loading"}, preload:{type:String, 
-value:false}, dropdownParent:{type:String, value:"body"}, addPrecedence:{type:Boolean, value:false}, selectOnTab:{type:Boolean, value:false}, options:{type:Array, value:[]}, optgroups:{type:Array, value:[]}, dataAttr:{type:String, value:"data-data"}, valueField:{type:String, value:"value"}, optgroupValueField:{type:String, value:"value"}, labelField:{type:String, value:"text"}, optgroupLabelField:{type:String, value:"label"}, optgroupField:{type:String, value:"optgroup"}, sortField:{type:String, 
-value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{type:String, value:"and"}, lockOptgroupOrder:{type:Boolean, value:false}, copyClassesToDropdown:{type:Boolean, value:true}, ajaxOptions:{type:String, value:null}, ajaxOptionsRoot:{type:String, value:null}, ajaxOptionsDataType:{type:String, value:null}, mutationObserver:{value:function() {
+Polymer({is:"select-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, StyleScopeBehavior, FieldBehavior], listeners:{"value-changed":"ignore"}, properties:{multiple:{value:false}, compact:{value:false}, jsonItems:{type:String}, items:{observer:"itemsChanged", type:Object}, required:{value:"false", type:String}, delimiter:{type:String, value:","}, diacritics:{type:Boolean, value:true}, createFilter:{type:String, value:null}, highlight:{type:Boolean, 
+value:true}, persist:{type:Boolean, value:true}, openOnFocus:{type:Boolean, value:true}, maxOptions:{type:Number, value:1000}, maxItems:{type:Number, value:1}, hideSelected:{type:Boolean, value:true}, closeAfterSelect:{type:Boolean, value:false}, allowEmptyOption:{type:Boolean, value:false}, scrollDuration:{type:Number, value:60}, loadThrottle:{type:Number, value:300}, loadingClass:{type:String, value:"loading"}, preload:{type:String, value:false}, dropdownParent:{type:String, value:"body"}, addPrecedence:{type:Boolean, 
+value:false}, selectOnTab:{type:Boolean, value:false}, options:{type:Array, value:[]}, optgroups:{type:Array, value:[]}, dataAttr:{type:String, value:"data-data"}, valueField:{type:String, value:"value"}, optgroupValueField:{type:String, value:"value"}, labelField:{type:String, value:"text"}, optgroupLabelField:{type:String, value:"label"}, optgroupField:{type:String, value:"optgroup"}, sortField:{type:String, value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{type:String, 
+value:"and"}, lockOptgroupOrder:{type:Boolean, value:false}, copyClassesToDropdown:{type:Boolean, value:true}, ajaxOptions:{type:String, value:null}, ajaxOptionsRoot:{type:String, value:null}, ajaxOptionsDataType:{type:String, value:null}, mutationObserver:{value:function() {
   var observer = new MutationObserver(this.mutated.bind(this));
   observer.observe(this, {attributes:true, attributeOldValue:true, attributeFilter:["disabled"]});
   return observer;
-}}}, observers:["valueChanged(value)", "compactChanged(compact)", "jsonItemsChanged(jsonItems)"], mutated:function(mutations) {
+}}}, listeners:{"value-changed":"_formValueChanged"}, observers:["valueChanged(value)", "compactChanged(compact)", "jsonItemsChanged(jsonItems)"], mutated:function(mutations) {
   var self = this;
   mutations.forEach(function(mutation) {
     var entry = {name:mutation.target.getAttribute("name"), value:mutation.target.getAttribute("disabled"), oldValue:mutation.oldValue};
@@ -36467,6 +36492,9 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   var o = JSON.parse(this.jsonItems);
   this.items = o;
 }, itemsChanged:function() {
+  if (this.form == null && !_.isEmpty(this.parentName)) {
+    return;
+  }
   var select = this.$.select;
   while (select.firstChild) {
     select.removeChild(select.firstChild);
@@ -36477,33 +36505,43 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   if (this.selectize) {
     this.selectize.clearOptions();
   }
-  if (this.items.length) {
-    for (var i = 0; i < this.items.length; i++) {
-      var item = this.items[i];
-      if (this.selectize) {
-        this.selectize.addOption({value:item.value, text:item.label});
-      } else {
-        var option = document.createElement("option");
-        var label = document.createTextNode(item.label);
-        option.value = item.value;
-        Polymer.dom(option).appendChild(label);
-        Polymer.dom(select).appendChild(option);
+  if (_.isEmpty(this.parentName) || !_.isEmpty(this.parentName) && !_.isEmpty(this.parentValue)) {
+    if (this.items.length) {
+      for (var i = 0; i < this.items.length; i++) {
+        var item = this.items[i];
+        var parentList = _.isEmpty(item.parent) ? null : item.parent.split(",");
+        if (!_.isEmpty(this.parentValue) && parentList != null && _.indexOf(parentList, this.parentValue) < 0) {
+          continue;
+        }
+        if (this.selectize) {
+          this.selectize.addOption({value:item.value, text:item.label});
+        } else {
+          var option = document.createElement("option");
+          var label = document.createTextNode(item.label);
+          option.value = item.value;
+          Polymer.dom(option).appendChild(label);
+          Polymer.dom(select).appendChild(option);
+        }
       }
+    } else {
+      var items = this.items;
+      Object.keys(items).forEach(function(k) {
+        var item = items[k];
+        var parentList = _.isEmpty(item.parent) ? null : item.parent.split(",");
+        if (!_.isEmpty(this.parentValue) && parentList != null && _.indexOf(parentList, this.parentValue) < 0) {
+          return;
+        }
+        if (this.selectize) {
+          this.selectize.addOption({value:item.value, text:item.label});
+        } else {
+          var option = document.createElement("option");
+          var label = document.createTextNode(item.label);
+          option.value = item.value;
+          Polymer.dom(option).appendChild(label);
+          Polymer.dom(select).appendChild(option);
+        }
+      });
     }
-  } else {
-    var items = this.items;
-    Object.keys(items).forEach(function(k) {
-      var item = items[k];
-      if (this.selectize) {
-        this.selectize.addOption({value:item.value, text:item.label});
-      } else {
-        var option = document.createElement("option");
-        var label = document.createTextNode(item.label);
-        option.value = item.value;
-        Polymer.dom(option).appendChild(label);
-        Polymer.dom(select).appendChild(option);
-      }
-    });
   }
   if (this.selectize) {
     this.selectize.refreshOptions(false);
@@ -36540,6 +36578,11 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   }
   return this.value;
 }, onFocus:function(val) {
+}, onCreate:function(tag) {
+  if (this.combobox) {
+    return {"value":tag, "text":tag};
+  }
+  return false;
 }, onChange:function(val) {
   if (val == "null") {
     val = null;
@@ -36553,9 +36596,9 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   if (this.multiple === true) {
     this.maxItems = 1000;
   }
-  var options = {delimiter:this.delimiter, diacritics:this.diacritics, create:this.create, createOnBlur:this.createOnBlur, createFilter:this.createFilter, highlight:this.highlight, persist:this.persist, openOnFocus:this.openOnFocus, maxOptions:this.maxOptions, maxItems:this.maxItems, hideSelected:this.hideSelected, closeAfterSelect:this.closeAfterSelect, alglowEmptyOption:this.allowEmptyOption, scrollDuration:this.scrollDuration, loadThrottle:this.loadThrottle, loadingClass:this.loadingClass, preload:this.preload, 
-  dropdownParent:this.dropdownParent, addPrecedence:this.addPrecedence, selectOnTab:this.selectOnTab, options:this.options, optgroups:this.optgroups, dataAttr:this.dataAttr, valueField:this.valueField, optgroupValueField:this.optgroupValueField, labelField:this.labelField, optgroupLabelField:this.optgroupLabelField, optgroupField:this.optgroupField, sortField:this.sortField, searchField:this.searchField, searchConjunction:this.searchConjunction, lockOptgroupOrder:this.lockOptgroupOrder, copyClassesToDropdown:this.copyClassesToDropdown, 
-  onChange:this.onChange.bind(this), onFocus:this.onFocus.bind(this)};
+  var options = {delimiter:this.delimiter, diacritics:this.diacritics, create:this.onCreate.bind(this), createOnBlur:this.onCreate.bind(this), createFilter:this.createFilter, highlight:this.highlight, persist:this.persist, openOnFocus:this.openOnFocus, maxOptions:this.maxOptions, maxItems:this.maxItems, hideSelected:this.hideSelected, closeAfterSelect:this.closeAfterSelect, alglowEmptyOption:this.allowEmptyOption, scrollDuration:this.scrollDuration, loadThrottle:this.loadThrottle, loadingClass:this.loadingClass, 
+  preload:this.preload, dropdownParent:this.dropdownParent, addPrecedence:this.addPrecedence, selectOnTab:this.selectOnTab, options:this.options, optgroups:this.optgroups, dataAttr:this.dataAttr, valueField:this.valueField, optgroupValueField:this.optgroupValueField, labelField:this.labelField, optgroupLabelField:this.optgroupLabelField, optgroupField:this.optgroupField, sortField:this.sortField, searchField:this.searchField, searchConjunction:this.searchConjunction, lockOptgroupOrder:this.lockOptgroupOrder, 
+  copyClassesToDropdown:this.copyClassesToDropdown, onChange:this.onChange.bind(this), onFocus:this.onFocus.bind(this)};
   var field = this.$.select;
   var $select = $(field).selectize(options);
   this.selectize = $select[0].selectize;
@@ -36603,6 +36646,49 @@ value:"$order"}, searchField:{type:Array, value:["text"]}, searchConjunction:{ty
   this.errorMessage = message;
 }, setInvalid:function(b) {
   this.isInvalid = b;
+}, _formValueChanged:function(e) {
+  var name = e.detail.name;
+  var list = this.getFieldsWithParent();
+  for (var i = 0; i < list.length; i++) {
+    var f = list[i];
+    if (f.parentName == name) {
+      f.parentValue = e.detail.getValue();
+      f.itemsChanged();
+      f.setValue(f.defaultvalue);
+    }
+  }
+}, getFieldsWithParent:function() {
+  if (this.fieldsWithParent) {
+    return this.fieldsWithParent;
+  }
+  var list = [];
+  if (this.form == null) {
+    return [];
+  }
+  this.form.fields.forEach(function(field) {
+    if (!_.isEmpty(field.parentName)) {
+      list.push(field);
+    }
+  }, this);
+  this.fieldsWithParent = list;
+  return list;
+}, isParentDest:function(name) {
+  var list = this.getFieldsWithParent();
+  for (var i = 0; i < list.length; i++) {
+    var f = list[i];
+    if (f.parentName == name) {
+      return true;
+    }
+  }
+  return false;
+}, setForm:function(form) {
+  this.form = form;
+  if (this.isParentDest(this.name) || !_.isEmpty(this.parentName)) {
+    this.itemsChanged();
+  }
+  if (this.getValue() == null) {
+    this.setValue(this.defaultvalue);
+  }
 }, isRequired:function() {
   if (!this.form) {
     return false;
@@ -43146,7 +43232,7 @@ Stepper.StepLabelBehavior = {properties:{icon:{type:String, computed:"_computeIc
 }};
 Polymer({is:"step-horizontal-label", behaviors:[Stepper.StepLabelBehavior], properties:{alternativeLabel:{type:Boolean, value:false, reflectToAttribute:true}}});
 Polymer({is:"step-vertical-label", properties:{canSkip:{type:Boolean}}, behaviors:[Stepper.StepLabelBehavior]});
-Polymer({is:"paper-step", behaviors:[Polymer.IronValidatableBehavior, Polymer.NeonAnimatableBehavior, Polymer.PaperItemBehavior, Polymer.PaperRippleBehavior], properties:{saved:{type:Boolean, value:false, notify:true, readOnly:true}, editable:{type:Boolean, value:false}, index:{type:Number, notify:true, readOnly:true}, _previousSaved:{type:Boolean, readOnly:true}, optional:{type:Boolean, value:false}, selectable:{type:Boolean, computed:"_computeSelectable(_stepperData.linear, saved, editable, _previousSaved)", 
+Polymer({is:"paper-step", behaviors:[Polymer.IronValidatableBehavior, Polymer.NeonAnimatableBehavior, Polymer.PaperItemBehavior, Polymer.PaperRippleBehavior], properties:{saved:{type:Boolean, value:false, notify:true, readOnly:true}, editable:{type:Boolean, value:false}, index:{type:Number, notify:true, readOnly:true}, topPos:{type:Number, value:100}, _previousSaved:{type:Boolean, readOnly:true}, optional:{type:Boolean, value:false}, selectable:{type:Boolean, computed:"_computeSelectable(_stepperData.linear, saved, editable, _previousSaved)", 
 reflectToAttribute:true, notify:true}, disabled:{computed:"_computeDisabled(selectable)"}, label:{type:String, value:""}, opened:{type:Boolean, value:false, notify:true}, animationConfig:{readOnly:true}, entryAnimation:{readOnly:true}, exitAnimation:{readOnly:true}, vertical:{type:Boolean, readOnly:true, reflectToAttribute:true}, horizontalHigherEntryAnimation:{type:String}, horizontalHigherExitAnimation:{type:String}, horizontalLowerEntryAnimation:{type:String}, horizontalLowerExitAnimation:{type:String}, 
 _alternativeLabel:{type:Boolean, readOnly:true}, _optionalText:{type:Boolean, readOnly:true}, _attrForPrimaryButtonText:{type:String, readOnly:true}, _stepper:{type:Object, readOnly:true}, _stepperData:{type:Object, readOnly:true}, _canSkip:{type:Boolean, readOnly:true}, _hasBackStep:{type:Boolean, readOnly:true}}, listeners:{"paper-step-vertical-skip-tapped":"skip", "paper-step-vertical-back-tapped":"back", "paper-step-vertical-continue-tapped":"continue", "tap":"_tapHandler"}, observers:["_toggleClassPosition(index, _stepperData.stepNumber, vertical)", 
 "_updateSlideshowViewportTop(optional, _alternativeLabel, vertical)", "_verticalChange(vertical)", "_focusedChanged(receivedFocusFromKeyboard)", "_labelElementChanged(_labelElement)"], _focusedChanged:function(receivedFocusFromKeyboard) {
@@ -43190,7 +43276,7 @@ _alternativeLabel:{type:Boolean, readOnly:true}, _optionalText:{type:Boolean, re
 }, _updateSlideshowViewportTop:function(optional, _alternativeLabel, vertical) {
   if (!vertical) {
     this.async(function() {
-      this.$$("#slideshowViewport").style.top = "100px";
+      this.$$("#slideshowViewport").style.top = this.topPos + "px";
       this.fire("step-horizontal-label-resize");
     }, 1);
   }
