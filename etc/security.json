@@ -1,0 +1,37 @@
+{
+  "allowDefault": true,
+  "authenticators": [
+    {
+      "name": "Password",
+      "class": "org.ms123.common.system.orientdb.OrientDBServiceImpl.Authenticator",
+      "enabled": true
+    },
+    {
+      "name": "ServerConfig",
+      "class": "com.orientechnologies.orient.server.security.authenticator.OServerConfigAuthenticator",
+      "enabled": true
+    },
+    {
+      "name": "SystemAuthenticator",
+      "class": "com.orientechnologies.orient.server.security.authenticator.OSystemUserAuthenticator",
+      "enabled": true
+    }
+  ],
+  "authentication": {
+    "allowDefault": true,
+    "authenticators": [
+      {
+        "name": "Password",
+        "class": "org.ms123.common.system.orientdb.Authenticator",
+        "enabled": true
+      },
+      {
+        "name": "SystemAuthenticator",
+        "class": "com.orientechnologies.orient.server.security.authenticator.OSystemUserAuthenticator",
+        "enabled": true
+      },
+      {
+      }
+    ]
+  }
+}

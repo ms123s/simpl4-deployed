@@ -136,6 +136,7 @@ dashboard: http://simpl4.org:2480/index.html#/dashboard/general
         <entry name="db.pool.min" value="1"/>
         <entry name="db.pool.max" value="50"/>
         <entry name="orientdb.www.path" value="etc/orientdb/www"/>
+			  <entry value="etc/security.json" name="server.security.file"/>
         <entry name="server.database.path" value="../gitrepos/global_data/store/orientdb"/>
 
         <!-- PROFILER: configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size> -->
