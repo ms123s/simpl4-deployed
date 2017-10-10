@@ -28177,8 +28177,16 @@ observer:"selectedDetailsTabIdChanged"}, pressed:{type:String, readOnly:true, va
   this.querySelector("#error p").innerHTML = message;
   this.querySelector("#error").open();
 }});
-Polymer({is:"simpl-crud2", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehavior, DialogBehavior, TranslationsBehavior], properties:{namespace:{type:String}, mode:{value:"add", type:String}, buttons:{value:"save,add,del,search", type:String}, entity:{type:String}, buttonList:{value:null, type:Array}}, observers:["buttonsChanged(isAttached)", "entityChanged(entity)"], attached:function() {
+Polymer({is:"simpl-crud2", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehavior, DialogBehavior, TranslationsBehavior], properties:{getFirst:{value:false, type:Boolean}, namespace:{type:String}, mode:{value:"add", type:String}, buttons:{value:"save,add,del,search", type:String}, entity:{type:String}, buttonList:{value:null, type:Array}}, observers:["buttonsChanged(isAttached)", "entityChanged(entity)"], attached:function() {
   this.isAttached = true;
+  if (this.initialized != true) {
+    if (this.getFirst) {
+      this.async(function() {
+        this.getInitialData();
+      }, 200);
+    }
+  }
+  this.initialized;
 }, buttonsChanged:function() {
   var buttons = {add:{action:this.addAction, icon:"add", text:tr("button.new"), disabled:false}, del:{action:this.delAction, icon:"delete", text:tr("button.del"), disabled:true}, save:{action:this.saveAction, icon:"save", text:tr("button.save"), disabled:false}, search:{action:this.searchAction, icon:"search", text:tr("button.select"), disabled:false}};
   this.buttonDef = buttons;
@@ -28449,6 +28457,16 @@ Polymer({is:"simpl-crud2", behaviors:[Polymer.IronA11yKeysBehavior, LobiboxBehav
   console.debug("meta:", columns);
   this.meta = columns;
   this.data = [{articleId:"ABC"}];
+}, getInitialData:function(data) {
+  var rpc = {storeId:(this.namespace || simpl4.util.BaseManager.getNamespace()) + "_" + this._pack, entity:this.entity};
+  var ret = simpl4.util.Rpc.rpcSync("data:query", rpc);
+  if (ret != null && ret.rows) {
+    this.currentData = clone(ret.rows[0]);
+    console.log("currentData:", this.currentData);
+    this.$.formid.setData(this.currentData);
+    this.mode = "edit";
+  }
+  return ret;
 }, getHelp:function() {
   return tr("crud2.select_with");
 }, getHeader:function(entityName) {
