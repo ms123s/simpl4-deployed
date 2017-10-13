@@ -36125,7 +36125,9 @@ Polymer({is:"input-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.P
   if (this.isDate() && !this.hasDate) {
     this.datetimePicker = this.getDatePicker(showTime, {});
     if (this.hasTouch()) {
-      this.readonly = true;
+      if (window.isGes != true) {
+        this.readonly = true;
+      }
     }
     if (this._date) {
       this.datetimePickerGotoDate(this._date);
