@@ -9986,9 +9986,9 @@ Polymer.IronOverlayManager = new Polymer.IronOverlayManagerClass;
     this.style.display = "";
     this.scrollTop = this.scrollTop;
   }, _applyFocus:function() {
+    console.trace("_applyFocus:", this.opened + "/" + this.noAutoFocus);
     if (this.opened) {
       if (!this.noAutoFocus) {
-        this._focusNode.focus();
       }
     } else {
       this._focusNode.blur();
@@ -15550,7 +15550,7 @@ DialogBehavior = {closeDialog:function(dia) {
   $(dia).fadeOut({duration:400, complete:function() {
     $(dia).dialog("destroy");
   }});
-}, openDialog:function(dia, _width) {
+}, openDialog:function(dia, _width, height) {
   var width = _width || "80%";
   if (window.matchMedia("(max-width: 480px)").matches) {
     width = "95%";
@@ -15558,7 +15558,7 @@ DialogBehavior = {closeDialog:function(dia) {
   var sd = $(dia).dialog({open:function(event, ui) {
     $(dia).hide();
     $(dia).fadeIn(1000);
-  }, resizable:true, draggable:true, closeText:"", title:"", height:"auto", width:width, modal:true});
+  }, resizable:true, draggable:true, closeText:"", title:"", height:height || "auto", width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
 }};
@@ -15575,7 +15575,7 @@ RegistryBehavior = {onRegistrySave:function() {
       this._doSave(prompt.getValue());
     }
   }.bind(this)});
-}, _doSave:function(name) {
+}, _doSave:function(name, silent) {
   var json = this.getState();
   this._currentRegistryName = name;
   var attributes = this._registryAttributes;
@@ -15587,9 +15587,13 @@ RegistryBehavior = {onRegistrySave:function() {
     if (e == null) {
       return;
     }
-    this.notify(tr("error"), "error", 8000);
+    if (silent !== true) {
+      this.notify(tr("error"), "error", 8000);
+    }
   }, completed:function(ret) {
-    this.notify(tr("registry.saved"), "success", 8000);
+    if (silent !== true) {
+      this.notify(tr("registry.saved"), "success", 8000);
+    }
   }};
   simpl4.util.Rpc.rpcAsync(params);
 }, selectFromList:function(menu, valueList, nameList) {
@@ -15633,6 +15637,31 @@ RegistryBehavior = {onRegistrySave:function() {
     }
     menu += "</paper-menu>";
     this.selectFromList(menu, valueList, nameList);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, _doDelete:function(name, silent) {
+  var params = {service:"registry", method:"delete", parameter:{key:this._registryKey + "/" + name, silent:silent}, async:true, context:this, failed:function(e) {
+    console.error("deleteRegistry:", e);
+    if (silent != true) {
+      this.notify(tr("error"), "error", 8000);
+    }
+  }, completed:function(ret) {
+    console.log("deleteRegistry.ok");
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, _doLoad:function(name, callback, silent) {
+  var attributes = this._registryAttributes;
+  if (attributes == null) {
+    attributes = {subject:this._registrySubject};
+  }
+  var params = {service:"registry", method:"get", parameter:{key:this._registryKey + "/" + name, attributes:attributes, silent:silent}, async:true, context:this, failed:function(e) {
+    console.error("getRegistry:", e);
+    if (silent != true) {
+      this.notify(tr("error"), "error", 8000);
+    }
+  }, completed:function(ret) {
+    console.log("getRegistry.ret:", ret);
+    callback(ret);
   }};
   simpl4.util.Rpc.rpcAsync(params);
 }};
@@ -34088,6 +34117,9 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:false}, selec
     this._api.responsive.recalc();
     this._api.columns.adjust();
   }
+}, createNew:function() {
+  this._api.destroy(false);
+  this._api = null;
 }, __createTable:function(dtMeta, dataSet, options) {
   this.dataSet = dataSet;
   if (options) {
@@ -34737,6 +34769,47 @@ FormBehavior = {_valueChanged:function(e) {
       f.setValue(e);
     }
   }
+  for (var i = 0, l = this.groups.length; i < l; i++) {
+    var g = this.groups[i];
+    var enabledExpr = g.getAttribute("enabled-expr");
+    var readonlyExpr = g.getAttribute("readonly-expr");
+    var contentExpr = g.getAttribute("content-expr");
+    if (this._isNotEmpty(readonlyExpr)) {
+      var e = this._maskedEval(readonlyExpr, env);
+      if (e) {
+        g.setAttribute("disabled", "r");
+      } else {
+        g.removeAttribute("disabled");
+      }
+    } else {
+      if (this._isNotEmpty(enabledExpr)) {
+        var e = this._maskedEval(enabledExpr, env);
+        if (e) {
+          g.removeAttribute("disabled");
+        } else {
+          g.setAttribute("disabled", "e");
+        }
+      }
+    }
+    var excludeExpr = g.getAttribute("exclude-expr");
+    if (this._isNotEmpty(excludeExpr)) {
+      var e = this._maskedEval(excludeExpr, env);
+      if (e) {
+        g.setAttribute("hidden", "");
+      } else {
+        g.removeAttribute("hidden");
+      }
+    }
+    var invisibleExpr = g.getAttribute("invisible-expr");
+    if (this._isNotEmpty(invisibleExpr)) {
+      var e = this._maskedEval(invisibleExpr, env);
+      if (e) {
+        g.setAttribute("visibility", "hidden");
+      } else {
+        g.removeAttribute("visibility");
+      }
+    }
+  }
   var abuttons = this.$.formdiv.parentNode.querySelectorAll("xaction-button");
   for (var i = 0; i < abuttons.length; i++) {
     var ab = abuttons[i];
@@ -34778,14 +34851,12 @@ FormBehavior = {_valueChanged:function(e) {
   if (elements.length > 0) {
     regula.bind({elements:elements});
     errorList = regula.validate({elements:elements});
-    if (dontInvalidate !== true) {
-      errorList.forEach(function(err) {
-        err.failingElements.forEach(function(elem) {
-          elem.setInvalid(true);
-          elem.setErrorMessage(err.message);
-        });
+    errorList.forEach(function(err) {
+      err.failingElements.forEach(function(elem) {
+        elem.setInvalid(dontInvalidate !== true ? true : false);
+        elem.setErrorMessage(dontInvalidate != true ? err.message : null);
       });
-    }
+    });
   }
   var elements = this._filterToArray("gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedlist-field,tree-field,select-field", this.$.formdiv, true, true);
   for (var i = 0; i < elements.length; i++) {
@@ -34886,7 +34957,9 @@ FormBehavior = {_valueChanged:function(e) {
   this._errorMessage = msg;
   this.async(function() {
     var error = this.querySelector("#globalErrorId");
-    error.innerHTML = msg;
+    if (error != null) {
+      error.innerHTML = msg;
+    }
   }, 50);
 }, _getExcludes:function(selector) {
   var exclude = [];
@@ -34915,6 +34988,20 @@ FormBehavior = {_valueChanged:function(e) {
     }
   });
   return elements;
+}, isNumEmpty:function(v) {
+  if (v == null) {
+    return true;
+  }
+  if (v == 0) {
+    return true;
+  }
+  if (isNaN(v)) {
+    return true;
+  }
+  if (v == "") {
+    return true;
+  }
+  return false;
 }, _maskedEval:function(scr, env, def) {
   try {
     env._ = _;
@@ -34923,11 +35010,30 @@ FormBehavior = {_valueChanged:function(e) {
     env.Math = Math;
     env.form = this;
     env.tr = window.tr;
+    env.isNumEmpty = this.isNumEmpty;
+    env.parseFloat = window.parseFloat;
+    env.parseInt = window.parseInt;
+    env.isNaN = window.isNaN;
     return metaes.evaluate(scr.toString(), env);
   } catch (e) {
     console.error("\t" + e);
-    console.debug("Form._maskedEval.script:" + scr);
-    console.debug("Form._maskedEval.env:" + env);
+    console.debug("Form._maskedEval.script:", scr);
+    console.debug("Form._maskedEval.env:", env);
+  }
+  return def;
+}, _maskedEvalNoError:function(scr, env, def) {
+  try {
+    env._ = _;
+    env.moment = moment;
+    env.accounting = accounting;
+    env.Math = Math;
+    env.form = this;
+    env.tr = window.tr;
+    env.parseFloat = window.parseFloat;
+    env.parseInt = window.parseInt;
+    env.isNaN = window.isNaN;
+    return metaes.evaluate(scr.toString(), env);
+  } catch (e) {
   }
   return def;
 }, _whenFieldsReady:function(done) {
@@ -35005,7 +35111,14 @@ FormBehavior = {_valueChanged:function(e) {
       env = simpl4.util.Merge.merge(true, data, env);
       fieldData = this._maskedEval(field.expressionIn, env);
     }
-    field.setValue(fieldData || field.defaultvalue || null);
+    var defValue = field.defaultvalue;
+    if (fieldData == null) {
+      defValue = this._maskedEvalNoError(defValue, {}, defValue);
+      field.setValue(defValue);
+    } else {
+      field.setValue(fieldData);
+    }
+    field.withoutCheck = false;
   }, this);
   this._valueChanged();
 }, clearData:function() {
@@ -35218,6 +35331,7 @@ FormBehavior = {_valueChanged:function(e) {
     this._buildShapeMap(this.shapes[0]);
     this.async(function() {
       this.fields = this._filterToArray("[field]", this.$.formdiv, true, true);
+      this.groups = this._filterToArray("simpl-group", this.$.formdiv, true, true);
       this.fieldsMap = this._toMap(this.fields);
       this.fields.forEach(function(field) {
         field.setForm(this);
@@ -35240,6 +35354,7 @@ FormBehavior = {_valueChanged:function(e) {
     this._buildShapeMap(this.shapes[0]);
     this.async(function() {
       this.fields = this._filterToArray("[field]", this.$.formdiv, true, true);
+      this.groups = this._filterToArray("simpl-group", this.$.formdiv, true, true);
       this.fields.forEach(function(field) {
         field.setForm(this);
       }, this);
@@ -35416,8 +35531,13 @@ FormBehavior = {_valueChanged:function(e) {
         if (col.type == "selection") {
           col.id = "Enumselect";
           try {
-            col.items = JSONPath({json:this._selectionLists, path:col.parameter, callback:function() {
-            }})[0];
+            if (col.parameter && col.parameter.startsWith("enumeration")) {
+              var si = simpl4FormManager.createSelectableItems(this.namespace, this.formName, props.xf_id, col.parameter);
+              col.items = si.getItems();
+            } else {
+              col.items = JSONPath({json:this._selectionLists, path:col.parameter, callback:function() {
+              }})[0];
+            }
           } catch (e) {
             console.error("JSONPath:", e);
           }
@@ -37021,6 +37141,9 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
     var name = col.colname;
     var val = line[name];
     e.getGridField().withoutCheck = true;
+    if (val == null && col.xf_default) {
+      val = col.xf_default;
+    }
     e.setValue(val);
   }
 }, getLineValues:function(i) {
@@ -43191,6 +43314,1063 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   }
   return {columns:columns};
 }, ready:function() {
+}});
+Polymer({is:"te-undo", behaviors:[TranslationsBehavior], attached:function() {
+  if (this.undoStack == null) {
+    this.facade = {update:this.update.bind(this)};
+    this.reset();
+    var subscription = channel.subscribe("executeCommand", function(data) {
+      this.handleExecuteCommand(data);
+    }.bind(this));
+    var subscription = channel.subscribe("doUndo", function(data) {
+      this.doUndo();
+    }.bind(this));
+    var subscription = channel.subscribe("doRedo", function(data) {
+      this.doRedo();
+    }.bind(this));
+    var subscription = channel.subscribe("resetUndo", function(data) {
+      this.reset(data);
+    }.bind(this));
+  }
+}, update:function() {
+}, reset:function() {
+  this.undoStack = new Array;
+  this.redoStack = new Array;
+}, handleExecuteCommand:function(data) {
+  if (!data.command) {
+    return;
+  }
+  this.undoStack.push(data.command);
+  this.redoStack = [];
+  data.command.execute();
+  this.publishState();
+}, doUndo:function() {
+  var lastCommand = this.undoStack.pop();
+  if (lastCommand) {
+    this.redoStack.push(lastCommand);
+    lastCommand.rollback();
+  }
+  this.publishState();
+}, doRedo:function() {
+  var lastCommand = this.redoStack.pop();
+  if (lastCommand) {
+    this.undoStack.push(lastCommand);
+    lastCommand.execute();
+  }
+  this.publishState();
+}, publishState:function() {
+  channel.publish("undoState", {canUndo:this.undoStack.length > 0, canRedo:this.redoStack.length > 0});
+}});
+ExecuteBehavior = {executeCommand:function(command) {
+  channel.publish("executeCommand", {command:command});
+}, redo:function(command) {
+  channel.publish("doRedo", {});
+}, undo:function(command) {
+  channel.publish("doUndo", {});
+}};
+Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, positionAbsolute:{type:Boolean, value:true}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
+  $(this.$.allId).hover(this.focus.bind(this), this.blur.bind(this));
+}, attached:function() {
+  this.getMdFields("customer");
+  this.getMdFields("company");
+  this.leftSide = this.querySelector("#leftSide");
+  this.rightSide = this.querySelector("#rightSide");
+}, getColStyle:function(w, a) {
+  return "width:" + w + ";text-align:" + a + ";";
+}, isTableBlock:function(type) {
+  return this.blocktype == "table_block";
+}, isImageBlock:function(type) {
+  return this.blocktype == "image_block";
+}, setBlockType:function(type) {
+  this.blocktype = type;
+  if (type == "table_block") {
+    this.tableColumns = this.$.tableEditDialog.getState().columns;
+  }
+}, setState:function(state) {
+  this.blocktype = state.blocktype;
+  if (this.blocktype == "table_block") {
+    this.$.tableEditDialog.setState(state);
+    this.tableColumns = state.columns;
+  } else {
+    if (this.blocktype == "image_block") {
+      this.async(function() {
+        this.$.imageEditDialog.setState(state);
+        var img = this.querySelector("#imageId");
+        img.src = state.croppedImage;
+      }, 100);
+    } else {
+      if (this.mde == null) {
+        this.mde = this.createMde();
+      }
+      this.mde.value(state.markdown);
+      this.$.contentId.innerHTML = this.mde.markdown(this.mde.value());
+      this.positionAbsolute = state.positionAbsolute;
+      this.rightAlign = state.textAlign == "right";
+      $(this.$.contentId).css({textAlign:state.textAlign});
+    }
+  }
+}, getState:function() {
+  var state = {};
+  if (this.blocktype == "table_block") {
+    state = this.$.tableEditDialog.getState();
+  } else {
+    if (this.blocktype == "image_block") {
+      state = this.$.imageEditDialog.getState();
+    } else {
+      if (this.mde) {
+        state.markdown = this.mde.value();
+        state.html = this.mde.markdown(this.mde.value());
+        state.textAlign = this.rightAlign ? "right" : "left";
+        state.positionAbsolute = this.positionAbsolute;
+      }
+    }
+  }
+  var boundingBox = {};
+  console.log("block:", this.offsetTop + "/" + this.offsetHeight);
+  boundingBox.left = this.offsetLeft;
+  boundingBox.right = this.offsetLeft + this.offsetWidth;
+  boundingBox.bottom = this.offsetTop + this.offsetHeight;
+  boundingBox.top = this.offsetTop;
+  boundingBox.width = this.offsetWidth;
+  boundingBox.height = this.offsetHeight;
+  state.boundingBox = boundingBox;
+  state.blocktype = this.blocktype;
+  return state;
+}, closeMdeNOK:function() {
+  this.mde.value(this.oldText);
+  this.rightAlign = this.oldRightAlign;
+  this.positionAbsolute = this.oldPositionAbsolute;
+  this.closeDialog(this.$.mdeDialog);
+}, closeMdeOK:function() {
+  this.closeDialog(this.$.mdeDialog);
+  this.$.contentId.innerHTML = this.mde.markdown(this.mde.value());
+  var self = this;
+  var newText = clone(this.mde.value());
+  var oldText = clone(this.oldText);
+  var oldTextAlign = this.oldRightAlign ? "right" : "left";
+  var newTextAlign = this.rightAlign ? "right" : "left";
+  this.executeCommand({execute:function() {
+    console.log("execute:", newText);
+    console.log("executeMD:", self.mde.markdown(newText));
+    self.mde.value(newText);
+    self.$.contentId.innerHTML = self.mde.markdown(newText);
+    $(self.$.contentId).css({textAlign:newTextAlign});
+  }, rollback:function() {
+    console.log("rollback:", oldText);
+    console.log("rollbackMD:", self.mde.markdown(oldText));
+    self.mde.value(oldText);
+    self.$.contentId.innerHTML = self.mde.markdown(oldText);
+    $(self.$.contentId).css({textAlign:oldTextAlign});
+  }});
+}, closeTableEdit:function(e) {
+  var self = this;
+  var newState = clone(e.detail.state);
+  var oldState = clone(self.oldTableState);
+  this.executeCommand({execute:function() {
+    self.$.tableEditDialog.setState(newState);
+    self.tableColumns = newState.columns;
+  }, rollback:function() {
+    self.$.tableEditDialog.setState(oldState);
+    self.tableColumns = oldState.columns;
+  }});
+}, closeImageEdit:function(e) {
+  var self = this;
+  var newState = clone(e.detail.state);
+  var oldState = clone(self.oldImageState);
+  var img = self.querySelector("#imageId");
+  var paperBB = self.parentNode.getBoundingClientRect();
+  this.executeCommand({execute:function() {
+    self.$.imageEditDialog.setState(newState);
+    img.src = newState.croppedImage;
+    var ratio = newState.croppedHeight / newState.croppedWidth;
+    var height = $(self).width() * ratio;
+    $(self).height(height);
+    self.setDim(paperBB, self.getBoundingClientRect(), ratio);
+  }, rollback:function() {
+    self.$.imageEditDialog.setState(oldState);
+    img.src = oldState.croppedImage;
+    var ratio = oldState.croppedHeight / oldState.croppedWidth;
+    var height = $(self).width() * ratio;
+    $(self).height(height);
+  }});
+}, setDim:function(pBB, bBB, ratio) {
+  console.log("pBB:", clone(pBB));
+  console.log("bBB:", clone(bBB));
+  var right = bBB.right - pBB.left;
+  var bottom = bBB.bottom - pBB.top;
+  var over = right - pBB.width;
+  console.log("overWidth:", over);
+  if (over > 0) {
+    var newWidth = bBB.width - over;
+    var newHeight = newWidth * ratio;
+    $(this).width(newWidth);
+    $(this).height(newHeight);
+  }
+  var over = bottom - pBB.height;
+  console.log("overHeight:", over);
+  if (over > 0) {
+    var newHeight = bBB.height - over;
+    var newWidth = newHeight / ratio;
+    $(this).width(newWidth);
+    $(this).height(newHeight);
+  }
+}, getMdFields:function(name) {
+  var params = {service:"simpl4", method:"mdm.getMdFields", parameter:{"entityName":name, "lang":Simpl4.Cache.getItem("lang")}, async:true, context:this, failed:function(e) {
+    console.error("failed:", e);
+    if (e == null) {
+      return;
+    }
+  }, completed:function(ret) {
+    console.debug("getMdFields(" + name + "):", ret);
+    if (name == "customer") {
+    }
+    this[name + "MetaList"] = ret;
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, tabSelected:function() {
+}, close:function() {
+  this.fire("blockclose", {id:this.id});
+}, edit:function() {
+  if (this.blocktype == "table_block") {
+    this.tedit();
+  } else {
+    if (this.blocktype == "image_block") {
+      this.iedit();
+    } else {
+      this.medit();
+    }
+  }
+}, tedit:function() {
+  this.oldTableState = this.$.tableEditDialog.getState();
+  this.$.tableEditDialog.open();
+}, iedit:function() {
+  this.$.imageEditDialog.open();
+  this.async(function() {
+    this.oldImageState = this.$.imageEditDialog.getOldState();
+  }, 1000);
+}, insertText:function(evt) {
+  var text = evt.currentTarget.dataset.name;
+  var cm = this.mde.codemirror;
+  if (cm.somethingSelected()) {
+    cm.replaceSelection(text);
+  } else {
+    cm.replaceRange("${" + text + "}", cm.getCursor());
+  }
+}, medit:function() {
+  if (this.mde == null) {
+    this.mde = this.createMde();
+  }
+  this.oldText = clone(this.mde.value());
+  this.oldRightAlign = this.rightAlign;
+  this.oldPositionAbsolute = this.positionAbsolute;
+  console.log("oldText:", this.oldText);
+  this.openDialog(this.$.mdeDialog);
+  this.async(function() {
+    this.mde.value(this.oldText);
+    this.splitDialog();
+  }, 100);
+}, createMde:function() {
+  this.mde = new SimpleMDE({shortcuts:{drawTable:"Cmd-Alt-T"}, hideIcons:["link", "image", "side-by-side", "fullscreen"], showIcons:["undo", "redo", "table", "horizontal-rule"], insertTexts:{horizontalRule:["", "\n-----\n"], image:["![](http://", ")"], link:["[", "](http://)"], table:["", "\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n"]}, spellChecker:false, element:this.$.mdeId});
+  this.mde.codemirror.on("change", function() {
+  }.bind(this));
+  return this.mde;
+}, splitDialog:function() {
+  Split([this.leftSide, this.rightSide], {gutterSize:7, sizes:[60, 40], minSize:[300, 100]});
+}, focus:function() {
+  console.log("focus");
+  $(this.$.handleId).show();
+}, blur:function() {
+  console.log("blur");
+  $(this.$.handleId).hide();
+}});
+Polymer({is:"te-table", properties:{}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], observers:[], getId:function(cmd, index) {
+  return cmd + index;
+}, ready:function() {
+  this.columns = [{id:"position", text:tr("te.position"), header1:tr("te.position.header"), header2:"", enabled:true, width:"11%", align:"left"}, {id:"articleId", text:tr("te.articleId"), header1:tr("te.articleId.header"), header2:"", width:"11%", enabled:true, align:"left"}, {id:"name", text:tr("te.name"), header1:tr("te.name.header"), header2:"", width:"34%", enabled:false, align:"left"}, {id:"description", text:tr("te.description"), header1:tr("te.description.header"), header2:"", width:"34%", 
+  enabled:true, align:"left"}, {id:"amount", text:tr("te.amount"), header1:tr("te.amount.header"), header2:"", width:"11%", enabled:true, align:"left"}, {id:"unit", text:tr("te.unit"), header1:tr("te.unit.header"), header2:"", width:"11%", enabled:true, align:"left"}, {id:"retailPrice", text:tr("te.retailPrice"), header1:tr("te.retailPrice.header"), header2:"", width:"11%", enabled:true, align:"left"}, {id:"total", text:tr("te.total"), header1:tr("te.total.header"), header2:"", width:"11%", enabled:true, 
+  align:"left"}, {id:"vat", text:tr("te.vat"), header1:tr("te.vat.header"), header2:"", width:"8%", enabled:true, align:"left"}];
+  this.filterEnabledColumns();
+}, onTapColumnAdd:function(e) {
+  var ind = e.target.dataCol;
+  var id = e.target.dataId;
+  var index = this.getColumnIndex(this.columns, id, ind);
+  console.log("id(" + id + "):", index);
+  this.$.columnDialogId.open(index);
+}, onTapColumnDel:function(e) {
+  var ind = e.target.dataCol;
+  var id = e.target.dataId;
+  var index = this.getColumnIndex(this.columns, id, ind);
+  this.splice("columns", index, 1);
+  this.filterEnabledColumns();
+}, columnAdd:function(e) {
+  console.log("columnAdd:", e.detail);
+  var index = e.detail.index;
+  var data = clone(e.detail.data);
+  data.enabled = true;
+  data.align = "left";
+  data.width = "10%";
+  data.header2 = "";
+  this.splice("columns", index + 1, 0, data);
+  this.filterEnabledColumns();
+}, closeNOK:function() {
+  this.destroyDialog(this.$.tableDialog);
+  this.columns = this.oldColumns;
+  this.dataref = this.oldDataref;
+  this.filterEnabledColumns();
+}, closeOK:function() {
+  this.destroyDialog(this.$.tableDialog);
+  console.log("closeOK:", this.columns);
+  this.fire("close-tableedit", {state:{columns:clone(this.columns)}});
+}, getColStyle:function(w, a) {
+  return "width:" + w + ";text-align:" + a + ";";
+}, filterEnabledColumns:function() {
+  var enabledColumns = this.columns.filter(function(col) {
+    return col.enabled;
+  });
+  this.enabledColumns = [];
+  this.async(function() {
+    this.enabledColumns = clone(enabledColumns);
+    console.log("enabledColumns:", this.enabledColumns);
+  });
+}, datarefChanged:function(event) {
+  this.dataref = event.target.value;
+}, header1Changed:function(event) {
+  var id = event.target.dataId;
+  this.columns.forEach(function(elem) {
+    if (elem.id == id) {
+      elem.header1 = event.target.value;
+    }
+  });
+  $(this.$.edittableHeaderId).children("th").each(function(i) {
+    if (this.dataId == id) {
+      this.querySelector("#h1").innerHTML = event.target.value;
+    }
+  });
+}, header2Changed:function(event) {
+  var id = event.target.dataId;
+  this.columns.forEach(function(elem) {
+    if (elem.id == id) {
+      elem.header2 = event.target.value;
+    }
+  });
+  $(this.$.edittableHeaderId).children("th").each(function(i) {
+    if (this.dataId == id) {
+      this.querySelector("#h2").innerHTML = event.target.value;
+    }
+  });
+}, alignChanged:function(event) {
+  var id = event.target.dataId;
+  this.columns.forEach(function(elem) {
+    if (elem.id == id) {
+      elem.align = event.target.value;
+    }
+  });
+  this.filterEnabledColumns();
+  this.refreshResize();
+}, checkboxChanged:function(event) {
+  var id = event.target.dataId;
+  this.columns.forEach(function(elem) {
+    if (elem.id == id) {
+      elem.enabled = event.target.checked == true;
+    }
+  });
+  this.filterEnabledColumns();
+  this.refreshResize();
+}, refreshResize:function() {
+  $(".rc-handle-container", $(this.$.tableDialog)).remove();
+  this.async(function() {
+    $(this.$.edittableId).resizableColumns({stop:this.storeWidth.bind(this)});
+  }, 100);
+}, moveToIndex:function(newInd, id) {
+  var oldInd = this.columns.findIndex(function(element) {
+    return element.id == id;
+  });
+  if (newInd == oldInd) {
+    return;
+  }
+  var cols = this.columns;
+  var tmp = cols[newInd];
+  cols[newInd] = cols[oldInd];
+  cols[oldInd] = tmp;
+}, storeWidth:function(event) {
+  var self = this;
+  $(this.$.edittableHeaderId).children("th").each(function(i) {
+    var col = self.getColumn(self.columns, this.dataId);
+    col.width = this.style.width;
+  });
+}, getColumn:function(columns, id) {
+  for (var i = 0; i < columns.length; i++) {
+    if (columns[i].id == id) {
+      return columns[i];
+    }
+  }
+  return null;
+}, getColumnIndex:function(columns, id, ind) {
+  for (var i = 0; i < columns.length; i++) {
+    if (columns[i].id == id) {
+      return i;
+    }
+  }
+  return ind;
+}, getState:function() {
+  return {meta:{dataref:this.dataref}, columns:clone(this.columns)};
+}, setState:function(state) {
+  if (state.meta) {
+    this.dataref = state.meta.dataref;
+  }
+  this.columns = state.columns || this.columns;
+  this.filterEnabledColumns();
+}, open:function(state) {
+  this.filterEnabledColumns();
+  this.oldColumns = clone(this.columns);
+  this.oldDataref = clone(this.dataref);
+  this.openDialog(this.$.tableDialog);
+  var self = this;
+  var elem = this.$.edittableId;
+  $(elem).dragtable({placeholder:"placeholder", helperCells:":not(.footerrow td)", stop:function() {
+    var newList = [];
+    $(self.$.edittableHeaderId).children("th").each(function(i, x, y) {
+      self.moveToIndex(i, this.dataId);
+    });
+    self.filterEnabledColumns();
+    self.refreshResize();
+  }});
+  this.refreshResize();
+}});
+Polymer({is:"te-image", properties:{}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], observers:[], ready:function() {
+}, closeNOK:function() {
+  console.log("closeNOK(old:", this.oldState);
+  this.setState(this.oldState);
+  this.async(function() {
+    this.closeDialog(this.$.imageDialog);
+    this.isOpen = false;
+  }, 250);
+}, closeOK:function() {
+  this.closeDialog(this.$.imageDialog);
+  this.fire("close-imageedit", {state:this.getState()});
+  this.isOpen = false;
+}, setCropperData:function(state) {
+  var img = this.$.cropBoxId.getImage();
+  if (state.imageData.width == null) {
+    this.$.cropBoxId.reset();
+    return;
+  }
+  img.cropper("setCropBoxData", state.cropBoxData);
+  img.cropper("setCanvasData", state.canvasData);
+  img.cropper("setImageData", state.imageData);
+  console.debug("setCropperData.state:", state);
+}, refreshState:function() {
+  var img = this.$.cropBoxId.getImage();
+  if (this.currentState == null) {
+    this.currentState = {};
+  }
+  var canvas = img.cropper("getCroppedCanvas");
+  console.trace("refreshState.canvas:", canvas);
+  if (canvas) {
+    this.currentState.croppedImage = canvas.toDataURL();
+    this.currentState.croppedWidth = canvas.width;
+    this.currentState.croppedHeight = canvas.height;
+  }
+  this.currentState.cropBoxData = img.cropper("getCropBoxData");
+  this.currentState.canvasData = img.cropper("getCanvasData");
+  this.currentState.imageData = img.cropper("getImageData");
+  this.currentState.containerData = img.cropper("getContainerData");
+  console.debug("refreshState.currentState:", this.currentState);
+  return this.currentState;
+}, cropperReady:function(e) {
+  this.currentState.file = e.detail.event.target.src;
+  this.currentState.fileId = e.detail.fileId;
+  console.log("Ready.currentFileId:", this.currentState.fileId);
+}, getState:function() {
+  if (this.notAppliedState) {
+    return this.notAppliedState;
+  }
+  this.$.cropBoxId.gotoEditTab();
+  return this.refreshState();
+}, setState:function(state) {
+  if (this.isOpen) {
+    this._setState(state);
+  } else {
+    this.notAppliedState = state;
+  }
+}, _setState:function(state) {
+  if (this.currentState == null) {
+    this.currentState = {};
+  }
+  if (state.file) {
+    console.log("stateFile:", state.file.toString().substring(0, 64));
+    this.$.cropBoxId.replaceImage(state.fileId, state.file);
+    this.currentState.fileId = state.fileId;
+    this.currentState.file = state.file;
+  }
+  this.async(function() {
+    if (state.file) {
+      this.setCropperData(state);
+    }
+  }, 150);
+}, getOldState:function() {
+  return this.oldState;
+}, open:function(state) {
+  this.isOpen = true;
+  this.openDialog(this.$.imageDialog);
+  console.log("ImageDialog.open");
+  this.async(function() {
+    if (this.notAppliedState) {
+      this._setState(this.notAppliedState);
+      this.notAppliedState = null;
+    }
+    this.async(function() {
+      this.oldState = clone(this.getState());
+    }, 200);
+  }, 200);
+}});
+Polymer({is:"te-columndialog", behaviors:[DialogBehavior, TranslationsBehavior], onTap:function() {
+  if (this.$.formId.validate()) {
+    var data = this.$.formId.getData();
+    this.fire("columndialog-ok", {index:this.index, data:data});
+    this.destroyDialog(this.$.dialogId);
+  }
+}, close:function(msg) {
+  this.sd.parent().css("z-index", "inherit");
+  this.destroyDialog(this.$.dialogId);
+}, open:function(index) {
+  this.index = index;
+  this.$.formId.setData({});
+  var sd = this.openDialog(this.$.dialogId, "inherit");
+  sd.parent().css("z-index", "555112");
+  this.sd = sd;
+}});
+Polymer({is:"te-paperarea", listeners:{"blockclose":"blockclose"}, properties:{mainTabId:{type:String}, paperWidth:{type:String}, paperHeight:{type:String}, paperName:{type:String}}, behaviors:[TranslationsBehavior, ExecuteBehavior], _createBlockFromState:function(block) {
+  console.log("paperarea.setState(" + this.paperName + "," + i + "):", block);
+  var bb = block.boundingBox;
+  var b = this.createBlockFromState(block.blocktype, bb.left, bb.top, bb.width, bb.height);
+  b.setState(block);
+}, setState:function(state) {
+  var absoluteBlocks = state["absolute"] || state["static"];
+  var flowBlocks = state["flow"] || [];
+  for (var i = 0; i < absoluteBlocks.length; i++) {
+    this._createBlockFromState(absoluteBlocks[i]);
+  }
+  for (var i = 0; i < flowBlocks.length; i++) {
+    this._createBlockFromState(flowBlocks[i]);
+  }
+}, getState:function() {
+  var canvas = this.$.canvasId;
+  var blocks = canvas.querySelectorAll("te-block");
+  var blockListAbsolute = [];
+  var blockListFlow = [];
+  for (var i = 0; i < blocks.length; i++) {
+    var block = blocks[i];
+    var bstate = block.getState();
+    if (bstate.positionAbsolute === false || bstate.blocktype == "table_block" || this.paperName == "additionalContent") {
+      blockListFlow.push(bstate);
+    } else {
+      blockListAbsolute.push(bstate);
+    }
+  }
+  blockListFlow.sort(function(a, b) {
+    return a.boundingBox.top - b.boundingBox.top;
+  });
+  console.log("blockListFlow:", blockListFlow);
+  return {flow:blockListFlow, "absolute":blockListAbsolute};
+}, clear:function() {
+  var canvas = this.$.canvasId;
+  var blocks = canvas.querySelectorAll("te-block");
+  for (var i = 0; i < blocks.length; i++) {
+    blocks[i].remove();
+  }
+}, setPaperSize:function() {
+  if (this.dataPage1Form == null) {
+    return;
+  }
+  var canvasId = this.$.canvasId;
+  var height = null;
+  var width = null;
+  if (this.paperName == "page1Content") {
+    height = this.paperHeight - (this.dataPage1Form.topMargin + this.dataPage1Form.bottomMargin + this.dataPage1Form.headerHeight + this.dataPage1Form.footerHeight);
+    width = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin);
+  }
+  if (this.paperName == "additionalContent") {
+    height = this.paperHeight - (this.dataPage1Form.topMargin + this.dataPage1Form.bottomMargin + this.dataPage1Form.headerHeight + this.dataPage1Form.footerHeight);
+    width = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin);
+  }
+  if (this.paperName == "page1Header") {
+    height = this.dataPage1Form.headerHeight;
+    width = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin);
+  }
+  if (this.paperName == "page1Footer") {
+    height = this.dataPage1Form.footerHeight;
+    width = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin);
+  }
+  if (this.paperName == "page2Header") {
+    height = this.dataPage2Form.headerHeight;
+    width = this.paperWidth - (this.dataPage2Form.leftMargin + this.dataPage2Form.rightMargin);
+  }
+  if (this.paperName == "page2Footer") {
+    height = this.dataPage2Form.footerHeight;
+    width = this.paperWidth - (this.dataPage2Form.leftMargin + this.dataPage2Form.rightMargin);
+  }
+  canvasId.style.height = height + "px";
+  canvasId.style.width = width + "px";
+}, moveBlocksInto:function() {
+  var canvas = this.$.canvasId;
+  var blocks = canvas.querySelectorAll("te-block");
+  var cbb = canvas.getBoundingClientRect();
+  for (var i = 0; i < blocks.length; i++) {
+    var block = blocks[i];
+    var bb = block.getBoundingClientRect();
+    var right = bb.right - cbb.left;
+    var bottom = bb.bottom - cbb.top;
+    var over = right - cbb.width;
+    if (over > 0) {
+      var off = $(block).offset();
+      $(block).offset({left:off.left - over, top:off.top});
+    }
+    var over = bottom - cbb.height;
+    if (over > 0) {
+      var off = $(block).offset();
+      $(block).offset({left:off.left, top:off.top - (over + 2)});
+    }
+  }
+}, closeMenu:function() {
+  this.$.blockMenuId.close();
+  var e = new MouseEvent("mouseup", {view:window, bubbles:true, cancelable:true});
+  this.$.canvasId.dispatchEvent(e);
+}, attached:function() {
+  if (this.atta) {
+    return;
+  }
+  this.atta = true;
+  channel.subscribe("globalSetupPage1", function(data) {
+    this.dataPage1Form = data.setup;
+  }.bind(this));
+  channel.subscribe("globalSetupPage2", function(data) {
+    this.dataPage2Form = data.setup;
+  }.bind(this));
+  channel.subscribe("mainTabChanged", function(data) {
+    this.async(function() {
+      this.setPaperSize();
+      this.moveBlocksInto();
+    }, 250);
+  }.bind(this));
+  channel.subscribe("scrollOffset", function(data) {
+    if (this.paperName != "page1Content" && this.paperName != "additionalContent") {
+      return;
+    }
+    var y = data.offset.y;
+    this.debounce("xxx", function() {
+      var off = $(this.$.toolbarId).offset();
+      this.$.toolbarId.style.top = y + "px";
+    }, 10);
+  }.bind(this));
+  this.zoom = 1;
+  this.setZoom();
+  var self = this;
+  this.async(function() {
+    this.rect = this.$.canvasId.getBoundingClientRect();
+  }, 100);
+  $(".draggable").drag({"start":function(evt) {
+    self.rect = self.$.canvasId.getBoundingClientRect();
+    evt.dataTransfer.effectAllowed = $.dnd.EFFECT_ALL;
+    $(this).addClass("active");
+    console.log("start:", evt.currentTarget.dataset.block);
+    evt.dataTransfer.setData("text", evt.currentTarget.dataset.block);
+  }, "end":function(evt) {
+    console.log("end:", evt);
+    $(this).removeClass("active");
+    self.fire("enddrag", {});
+    self.closeMenu();
+  }});
+  $(".droppable", this).drop({"drop":function(evt) {
+    var blocktype = evt.dataTransfer.getData("text");
+    $(this).removeClass("active");
+    self.createBlock(blocktype, evt.originalEvent.clientY, evt.originalEvent.clientX);
+  }, "over":function(evt) {
+    evt.dataTransfer.dropEffect = $.dnd.EFFECT_COPY;
+  }, "enter":function(evt) {
+    console.log("enter:", evt);
+  }, "leave":function(evt) {
+    console.log("leave:", evt);
+  }});
+}, blockclose:function(e) {
+  console.log("close:", e);
+  var self = this;
+  var element = $("#" + e.detail.id, this);
+  this.executeCommand({execute:function() {
+    element.detach();
+    self.makeBlockDraggable();
+  }, rollback:function() {
+    element.appendTo(self.$.canvasId, self);
+    self.makeBlockDraggable();
+  }});
+}, createBlockFromState:function(blocktype, x, y, w, h) {
+  var newBlock = document.createElement("te-block");
+  newBlock.id = "blockId" + this.getId();
+  newBlock.className += "block";
+  newBlock.setBlockType(blocktype);
+  $("#canvasId", this).append(newBlock);
+  $(newBlock).css({top:y, left:x, height:h + "px", width:w + "px"});
+  this.makeBlockDraggable();
+  return newBlock;
+}, createBlock:function(blocktype, y, x) {
+  var newBlock = document.createElement("te-block");
+  newBlock.id = "blockId" + this.getId();
+  newBlock.className += "block";
+  newBlock.setBlockType(blocktype);
+  var left = (x - 75 - this.rect.left) / this.zoom;
+  if (left < 0) {
+    left = 0;
+  }
+  var width = "150px";
+  if (blocktype == "table_block") {
+    left = 0;
+    width = "100%";
+  }
+  this.async(function() {
+    $(newBlock).css({top:(y - this.rect.top) / this.zoom, left:left, height:"70px", width:width});
+    this.makeBlockDraggable();
+    this.moveBlocksInto();
+  }, 10);
+  var self = this;
+  this.executeCommand({execute:function() {
+    $("#canvasId", self).append(newBlock);
+  }, rollback:function() {
+    $(newBlock).detach();
+  }});
+}, makeBlockDraggable:function() {
+  var self = this;
+  $(".block", this).draggable({start:function(e, ui) {
+    console.log("start:", ui);
+  }, stop:function(e, ui) {
+    console.log("stop:", ui);
+    var startPos = clone(ui.originalPosition);
+    var stopPos = clone(ui.position);
+    var id = ui.helper.attr("id");
+    self.executeCommand({execute:function() {
+      $("#" + id, self).css({top:stopPos.top, left:stopPos.left});
+    }, rollback:function() {
+      $("#" + id, self).css({top:startPos.top, left:startPos.left});
+    }});
+  }, containment:this.$.canvasId, handle:this.$.contentId, drag:function(event, ui) {
+  }.bind(this), scroll:false});
+  $(".block", this).resizable({start:function(e, ui) {
+    console.log("start:", ui);
+  }, stop:function(e, ui) {
+    console.log("resizable:", ui);
+    var startSize = clone(ui.originalSize);
+    var stopSize = clone(ui.size);
+    var id = ui.element.attr("id");
+    self.executeCommand({execute:function() {
+      $("#" + id, self).css({height:stopSize.height, width:stopSize.width});
+    }, rollback:function() {
+      $("#" + id, self).css({height:startSize.height, width:startSize.width});
+    }});
+  }, minHeight:30, minWidth:60, containment:this.$.canvasId});
+}, getId:function() {
+  if (this.idCounter == null) {
+    this.idCounter = 1;
+  } else {
+    this.idCounter++;
+  }
+  return this.idCounter;
+}, zoomOutAction:function() {
+  this.zoom -= 0.1;
+  if (this.zoom < 0.4) {
+    this.zoom = 0.4;
+  }
+  this.setZoom();
+}, zoomInAction:function() {
+  this.zoom += 0.1;
+  if (this.zoom > 2) {
+    this.zoom = 2;
+  }
+  this.setZoom();
+}, zoom100Action:function() {
+  this.zoom = 1;
+  this.setZoom();
+}, setZoom:function() {
+  this.zoom = Number(this.zoom.toFixed(2));
+  console.log("zoom:", this.zoom);
+  this.$.canvasId.setAttribute("style", "zoom:" + this.zoom);
+  this.setPaperSize();
+  channel.publish("zoom", {name:this.paperName});
+}});
+Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String, value:"0"}}, behaviors:[TranslationsBehavior, LobiboxBehavior, ExecuteBehavior], isAddContent:function(num) {
+  return num == "1";
+}, setState:function(state) {
+  console.log("te-editor.setState:", state);
+  this.lockValueChangeEvent = true;
+  var mainTabId = this.mainTabId;
+  this.mainTabId = "0";
+  this.page1FormId.setData(state.page1);
+  this.page2FormId.setData(state.page2);
+  this.$.headerAsPage1.checked = state.headerAsPage1;
+  this.$.footerAsPage1.checked = state.footerAsPage1;
+  this.$.paramAsPage1.checked = state.paramAsPage1;
+  channel.publish("globalSetupPage1", {setup:clone(state.page1)});
+  channel.publish("globalSetupPage2", {setup:clone(state.page2)});
+  Object.keys(state.areas).forEach(function(key) {
+    var paper = this.querySelector("te-paperarea#" + key);
+    this.mainTabId = paper.parentNode.getAttribute("main-item-id");
+    if (state.headerAsPage1 == true && key == "page2Header") {
+      return;
+    } else {
+      if (state.footerAsPage1 == true && key == "page2Footer") {
+        return;
+      }
+    }
+    paper.setState(state.areas[key]);
+    paper.setPaperSize();
+  }.bind(this));
+  this.mainTabId = mainTabId;
+  this.lockValueChangeEvent = false;
+}, getState:function() {
+  var mainTabId = this.mainTabId;
+  var state = {};
+  state.areas = {};
+  var papers = this.querySelectorAll("te-paperarea");
+  for (var i = 0; i < papers.length; i++) {
+    var paper = papers[i];
+    this.mainTabId = paper.parentNode.getAttribute("main-item-id");
+    var id = paper.id;
+    state.areas[id] = paper.getState();
+  }
+  if (this.$.headerAsPage1.checked) {
+    state.areas["page2Header"] = state.areas["page1Header"];
+  }
+  if (this.$.footerAsPage1.checked) {
+    state.areas["page2Footer"] = state.areas["page1Footer"];
+  }
+  state["page1"] = this.page1FormId.getData();
+  if (this.$.paramAsPage1.checked) {
+    state["page2"] = state["page1"];
+  } else {
+    state["page2"] = this.page2FormId.getData();
+  }
+  this.mainTabId = mainTabId;
+  state.headerAsPage1 = this.$.headerAsPage1.checked;
+  state.footerAsPage1 = this.$.footerAsPage1.checked;
+  state.paramAsPage1 = this.$.paramAsPage1.checked;
+  console.log("te-editor.getState:", state);
+  return state;
+}, clear:function() {
+  this.lockValueChangeEvent = true;
+  var papers = this.querySelectorAll("te-paperarea");
+  for (var i = 0; i < papers.length; i++) {
+    var paper = papers[i];
+    paper.clear();
+  }
+  this.setDefaultPaperSize(false);
+  this.lockValueChangeEvent = false;
+}, onTapClear:function() {
+  var self = this;
+  var state = clone(this.getState());
+  this.executeCommand({execute:function() {
+    self.clear();
+  }, rollback:function() {
+    self.setState(state);
+  }});
+}, getFo:function(state) {
+  var params = {service:"simpl4", method:"dashboard.getBillPdf", parameter:{"wawidoc":JSON.stringify(state)}, async:true, context:this, failed:function(e) {
+    console.error("getFo.failed:", e);
+    if (e == null) {
+      return;
+    }
+  }, completed:function(ret) {
+    console.debug("getFo:", ret);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, mainTabSelected:function(e) {
+  var src = e.srcElement || e.target;
+  channel.publish("mainTabChanged", {selectedTab:src.selected});
+  this.async(function() {
+    this.updateScrollbar();
+  }, 100);
+}, attached:function() {
+  this.page1FormId = this.querySelector("#page1FormId");
+  this.page2FormId = this.querySelector("#page2FormId");
+  window.addEventListener("resize", this.setScrollAreaHeight.bind(this));
+  this._initScrollbar();
+  this.canRedo = false;
+  this.canUndo = false;
+  this.currentTemplateName = null;
+  channel.subscribe("undoState", function(data) {
+    this.canUndo = data.canUndo;
+    this.canRedo = data.canRedo;
+  }.bind(this));
+  channel.subscribe("zoom", function(data) {
+    this.updateScrollbar();
+  }.bind(this));
+  this.setDefaultPaperSize(true);
+}, setDefaultPaperSize:function(async) {
+  this.dataPage1Form = {leftMargin:28, rightMargin:28, topMargin:28, bottomMargin:28, headerHeight:100, footerHeight:100};
+  this.dataPage2Form = {leftMargin:28, rightMargin:28, topMargin:28, bottomMargin:28, headerHeight:100, footerHeight:100};
+  this.$.headerAsPage1.checked = true;
+  this.$.footerAsPage1.checked = true;
+  this.$.paramAsPage1.checked = true;
+  if (async) {
+    this.async(function() {
+      channel.publish("globalSetupPage1", {setup:clone(this.dataPage1Form)});
+      channel.publish("globalSetupPage2", {setup:clone(this.dataPage1Form)});
+      this.async(function() {
+        this.$.page1Content.setPaperSize();
+        this.$.additionalContent.setPaperSize();
+      }, 100);
+    }, 100);
+  } else {
+    channel.publish("globalSetupPage1", {setup:clone(this.dataPage1Form)});
+    channel.publish("globalSetupPage2", {setup:clone(this.dataPage1Form)});
+    this.$.page1Content.setPaperSize();
+    this.$.additionalContent.setPaperSize();
+  }
+}, updateScrollbar:function() {
+  this.setScrollAreaHeight();
+  this.async(function() {
+    this._scrollbar.scrollTo(0, 0);
+    this._scrollbar.update(true);
+  }, 100);
+}, onSetup1ValueChanged:function(e) {
+  if (this.lockValueChangeEvent || !this.page1FormId.validate()) {
+    return;
+  }
+  this.debounce("onSetup1ValueChanged", function() {
+    var fieldName = e.detail.name;
+    var currentFormData = this.page1FormId.getData();
+    var oldData = clone(this.dataPage1Form);
+    var oldValue = this.dataPage1Form[fieldName];
+    var newValue = currentFormData[fieldName];
+    this.dataPage1Form[fieldName] = currentFormData[fieldName];
+    var newData = clone(this.dataPage1Form);
+    var self = this;
+    this.executeCommand({execute:function() {
+      channel.publish("globalSetupPage1", {setup:newData});
+      self.updateFormFieldWithLock(self.page1FormId, fieldName, newValue);
+    }, rollback:function() {
+      channel.publish("globalSetupPage1", {setup:oldData});
+      self.updateFormFieldWithLock(self.page1FormId, fieldName, oldValue);
+    }});
+  }, 1000);
+}, onSetup2ValueChanged:function(e) {
+  if (this.lockValueChangeEvent || !this.page2FormId.validate()) {
+    return;
+  }
+  this.debounce("onSetup2ValueChanged", function() {
+    var fieldName = e.detail.name;
+    var oldData = clone(this.dataPage1Form);
+    var currentFormData = this.page2FormId.getData();
+    var oldValue = this.dataPage2Form[fieldName];
+    var newValue = currentFormData[fieldName];
+    this.dataPage2Form[fieldName] = currentFormData[fieldName];
+    var newData = clone(this.dataPage1Form);
+    var self = this;
+    this.executeCommand({execute:function() {
+      channel.publish("globalSetupPage2", {setup:newData});
+      self.updateFormFieldWithLock(self.page2FormId, fieldName, newValue);
+    }, rollback:function() {
+      channel.publish("globalSetupPage2", {setup:oldData});
+      self.updateFormFieldWithLock(self.page2FormId, fieldName, oldValue);
+    }});
+  }, 1000);
+}, updateFormFieldWithLock:function(formid, fieldName, value) {
+  var data = [];
+  data[fieldName] = value;
+  this.lockValueChangeEvent = true;
+  formid.updateData(data, true);
+  this.lockValueChangeEvent = false;
+}, setScrollAreaHeight:function() {
+  var formPanelHeight = 105;
+  var winHeight = window.innerHeight;
+  var height = winHeight - (formPanelHeight + 64 + 24);
+  this.$.scrollId.style.height = height + 30 + "px";
+  return height;
+}, _initScrollbar:function() {
+  var isTouch = "ontouchstart" in window || navigator.msMaxTouchPoints > 0;
+  this._scrollbar = window.Scrollbar.init(this.$.scrollId, {speed:isTouch ? 1 : 4, damping:isTouch ? 0.1 : 0.05, renderByPixels:true, overscrollEffect:"bounce", alwaysShowTracks:true, overscrollEffectColor:"#87ceeb", thumbMinSize:10});
+  this.setScrollAreaHeight();
+  this.async(function() {
+    this._scrollbar.update(true);
+  }, 100);
+  this._scrollbar.addListener(function(e) {
+    channel.publish("scrollOffset", {offset:e.offset});
+  }.bind(this));
+}, redoAction:function() {
+  this.redo();
+}, undoAction:function() {
+  this.undo();
+}, onTapSave:function() {
+  this.debounce("onTapSave", function() {
+    this._onTapSave();
+  }, 250);
+}, _onTapSave:function() {
+  this.saveState(this.currentTemplateName);
+}, onTapSaveUnder:function() {
+  var json = this.getState();
+  var prompt = Lobibox.prompt("text", {height:200, title:tr("te.enter_name"), attrs:{pattern:"[A-Za-z0-9]{3,}", value:this.currentTemplateName}, callback:function($this, type, ev) {
+    console.log("callback:", prompt.getValue());
+    if (!_.isEmpty(prompt.getValue())) {
+      this.saveState(prompt.getValue());
+    }
+  }.bind(this)});
+}, saveState:function(name) {
+  var json = this.getState();
+  this.currentTemplateName = name;
+  var params = {service:"registry", method:"set", parameter:{key:"/dashboard/template/" + name, attributes:{subject:"template"}, value:JSON.stringify(json)}, async:true, context:this, failed:function(e) {
+    console.error("saveTemplate:", e);
+    if (e == null) {
+      return;
+    }
+    this.notify(tr("error"), "error", 8000);
+  }, completed:function(ret) {
+    this.notify(tr("te.template_saved"), "success", 8000);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
+}, selectFromList:function(menu, valueList, nameList) {
+  var win = Lobibox.window({title:tr("te.select_template"), width:300, height:400, modal:true, content:function() {
+    return $(menu);
+  }, buttons:{select:{text:tr("button.select")}, close:{text:tr("button.cancel"), closeOnClick:true}}, callback:function($this, type, ev) {
+    if (type === "select") {
+      var selected = $this.$el[0].querySelector("#templateMenuId").selected;
+      if (selected == null) {
+        return;
+      }
+      var oldState = clone(this.getState());
+      this.currentTemplateName = nameList[selected];
+      var state = clone(JSON.parse(valueList[selected]));
+      var self = this;
+      this.executeCommand({execute:function() {
+        self.clear();
+        self.setState(state);
+      }, rollback:function() {
+        self.clear();
+        self.setState(oldState);
+      }});
+      win.destroy();
+    }
+  }.bind(this)});
+}, onTapLoad:function() {
+  this.debounce("onTapLoad", function() {
+    this._onTapLoad();
+  }, 250);
+}, _onTapLoad:function() {
+  var params = {service:"registry", method:"getAll", parameter:{attributes:{subject:"template"}}, async:true, context:this, failed:function(e) {
+    console.error("getTemplates:", e);
+    this.notify(tr("error"), "error", 8000);
+  }, completed:function(ret) {
+    console.log("getTemplates.ret:", ret);
+    var menu = '<paper-menu id="templateMenuId">';
+    var valueList = [];
+    var nameList = [];
+    for (var i in ret) {
+      var key = ret[i].key;
+      var name = key.substring(key.lastIndexOf("/") + 1);
+      menu += '<paper-item style="min-height:24px; font-size:14px;">' + name + "</paper-item>";
+      valueList.push(ret[i].value);
+      nameList.push(name);
+    }
+    menu += "</paper-menu>";
+    this.selectFromList(menu, valueList, nameList);
+  }};
+  simpl4.util.Rpc.rpcAsync(params);
 }});
 (function() {
   Polymer({is:"paper-collapse-item", properties:{header:String, icon:String, src:String, opened:Boolean, _toggleIcon:{type:String, computed:"_computeToggleIcon(opened)"}}, _toggleOpened:function(e) {

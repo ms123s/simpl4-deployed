@@ -16440,6 +16440,9 @@ div.dtr-modal div.dtr-modal-background {
 		:host #input {
 			font-size: 12px;
 		}
+		:host /deep/ .underline{
+			display:none;
+		}
 		.error {
 			color: #d34336;
 		}
@@ -16512,7 +16515,7 @@ div.dtr-modal div.dtr-modal-background {
 	</style>
 	<template>
 		<div class="vertical layout">
-			<paper-checkbox checked="{{value}}">
+			<paper-checkbox disabled$="[[disabled]]" checked="{{value}}">
 				<label id="label" hidden$="[[!label]]">[[label]]</label>
 			  <paper-tooltip for="" position="bottom" xffset="0">[[help]]</paper-tooltip>
 			</paper-checkbox>
@@ -17370,9 +17373,28 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			max-height: inherit !important;
 			padding: 0 10px;
 		}
+		:host /deep/ select-field.gridinput div.input-content.paper-input-container{
+			max-height: 22px !important;
+		}
+		:host /deep/ select-field.gridinput label{
+			padding-bottom: 0px !important;
+		}
+		:host /deep/ select-field.gridinput div.selectize-control{
+			line-height: 15px !important;
+		}
+
+		:host /deep/ select-field.gridinput div.item{
+			height: 16px;
+			margin-top: 6px;
+		}
+
 		div.line {
 			margin-bottom: 15px;
 		}
+		paper-icon-button /deep/ iron-icon{
+			pointer-events: none;
+		}
+
 		@media screen and (max-width: 1200px) {
 			div.line {
 				margin-bottom: 20px;
@@ -17952,7 +17974,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<input-field gridfield="" class="flex" type="{{item.xf_type}}" enabled-expr$="{{item.xf_enabled}}" readonly$="{{item.readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" data-constraints$="{{item.regulaConstraints}}" name$="{{item.xf_id}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></input-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isEnumSelect(item.id)}}">
-			<select-field gridfield="" class="flex" name$="{{item.xf_id}}" items="{{item.items}}" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly$="{{item.readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" combobox="{{item.xf_combobox}}" defaultvalue="{{item.xf_default}}" label="{{item.label}}" raised="">
+			<select-field gridfield="" class="gridinput flex" name$="{{item.xf_id}}" items="{{item.items}}" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly$="{{item.readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" combobox="{{item.xf_combobox}}" defaultvalue="{{item.xf_default}}" label="{{item.label}}" raised="">
 			</select-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isUpload(item.id)}}">
@@ -18041,7 +18063,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<custom-field field="" class="flex" type="{{item.xf_type}}" url="[[item.xf_url]]" elementname="[[item.xf_elementname]]" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" name$="{{item.xf_id}}" help$="{{item.help}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></custom-field>
 		</template>
 		<template is="dom-if" if="{{isGroup(item.id)}}">
-			<simpl-group id$="[[item.xf_id]]" class="group layout vertical">
+			<simpl-group id$="[[item.xf_id]]" class="group layout vertical" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}">
 				<label for=".group">{{item.label}}</label>
 				<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
 			</form-element-selector></simpl-group>
@@ -18124,7 +18146,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</form-tab-renderer></template>
 
 			<template is="dom-if" if="{{isGroup(item.id)}}">
-				<simpl-group id$="[[item.xf_id]]" class="flex layout vertical group">
+				<simpl-group id$="[[item.xf_id]]" class="flex layout vertical group" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}">
 					<label for=".group">{{item.label}}</label>
 					<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
 				</form-element-selector></simpl-group>
@@ -18549,29 +18571,20 @@ img.jssocials-share-logo {
 			width: 100%;
 			text-transform: uppercase;
 			font-weight: 500;
-			max-height: 300px;
 			overflow-y: auto;
 			border-radius: 3px;
 			display: inline-block;
-			border: 1px dashed #c10618;
-      height: 200px;
-		}
-		#UploadBorder.simpl-upload {
-			border: 1px dashed #303e45 !important;
+			border: 1px dashed #303e45;
 		}
 		#dropArea {
 			text-align: center;
       width: 100%;
-      height: 100%;
 		}
 		.content.paper-button {
 			padding: 0.5em 0.57em;
 		}
 		paper-button {
-			margin-bottom: 4px;
-			margin-left: 60px;
 			border: 1px solid;
-			margin-right: 20px !important
 		}
 		.file {
 			//padding: 10px 0px;
@@ -18604,14 +18617,14 @@ img.jssocials-share-logo {
 	</style>
 
 	<template>
-		<div style="height:200px;" class="layout horizontal">
-			<paper-button id="button" style="padding:0px;margin:0px;" icon="file-upload" class="button button_secondary" on-click="_fileClick">
-				<iron-icon icon="file-upload"></iron-icon>
+		<div class="layout horizontal">
+			<paper-button id="button" style="padding:0px;margin:0px;" icon="file-upload" class="upload button button_secondary" on-click="_fileClick">
+				<iron-icon icon="vaadin-icons:upload"></iron-icon>
 				<content></content>
 			</paper-button>
-			<div style="height:24px;margin-top:85px;margin-right:20px;">[[tr('import.or')]]</div>
+			<div style="padding-top:8px;margin-left:10px;margin-right:10px;">[[tr('import.or')]]</div>
 			<paper-material class="button button_secondary" elevation="1" id="UploadBorder">
-				<div id="dropArea" style="position:relative;height:24px;top:80px;" hidden$="{{!_shownDropText}}">{{dropText}}</div>
+				<div id="dropArea" style="position:relative;" hidden$="{{!_shownDropText}}"><iron-icon class="upload" icon="vaadin-icons:arrow-forward"></iron-icon>{{dropText}}</div>
 				<template is="dom-repeat" items="{{files}}">
 					<div class="file">
 						<div class="name">
@@ -20270,6 +20283,681 @@ Use the Help button for an technical overview.
 		<dmn-testdialog id="dmnTestDialogId"></dmn-testdialog>
 	</template>
 	</dom-module>
+<div>
+	<dom-module id="te-undo" assetpath="src/template-editor/">
+		<template>
+		</template>
+		</dom-module>
+</div>
+<style>
+	.gutter.gutter-horizontal {
+		height: auto !important;
+	}
+
+</style>
+<dom-module id="te-block" assetpath="src/template-editor/">
+	<template>
+		<style>
+			#panelId {
+				height: 100%;
+				box-shadow: 10px 10px 15px -6px rgba(96, 125, 139, 0.67) !important;
+			}
+			#headerId {
+				height: 20px;
+				width: 100%;
+				background: #607d8b;
+			}
+			#titleId {
+				color: white;
+				padding-left: 20px;
+			}
+			#handleId {
+				color: white;
+				background: #607d8b;
+				position: absolute;
+				left: 2px;
+				width: calc(100% - 4px);
+				height: 20px;
+				top: -20px;
+				border: 4px solid #607d8b;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+			}
+			#allId {
+				height: 100%;
+				width: 100%;
+			}
+			#contentId {
+				cursor: move;
+				background: white;
+				overflow: auto;
+				padding-left: 2px;
+				height: 100%;
+				width: 100%;
+				position: relative;
+			}
+			#contentId /deep/ table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			#contentId /deep/ table th {
+				border-bottom: 1px solid black;
+				background-color: #FFFFFF;
+				font-size: 8pt;
+				padding: 2px;
+				font-weight: 600;
+				color: #303e45;
+			}
+			.icon {
+				vertical-align: top;
+				top: -2px;
+				height: 16px;
+				cursor: pointer;
+			}
+			paper-item.button {
+				cursor: pointer;
+				min-height: initial;
+			}
+			paper-dialog {
+				margin: 0px;
+				padding: 0px !important;
+			}
+			paper-dialog /deep/ paper-dialog-scrollable {
+				margin: 0px !important;
+			}
+			paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+				padding: 0 12px !important;
+			}
+			paper-dialog /deep/ .CodeMirror,
+			paper-dialog /deep/ .CodeMirror-scroll {
+				max-height: 400px;
+				height: 400px;
+			}
+			table.edittable {
+				font-family: arial;
+				background-color: white;
+				font-size: 8pt;
+				width: 100%;
+				table-layout: fixed;
+				text-align: left;
+			}
+			table.edittable thead tr th,
+			table.edittable tfoot tr th {
+				background-color: #e6EEEE;
+				font-size: 7pt;
+				padding: 2px;
+				font-weight: 400;
+			}
+			#leftSide,
+			#rightSide {
+				padding: 5px;
+			}
+			#leftSide {
+				max-width: calc(66.4273% - 40px);
+			}
+			:host /deep/ b,
+			:host /deep/ strong {
+				font-size: 12px !important;
+				font-weight: 500;
+				line-height: 15px !important;
+			}
+			:host /deep/ #contentId.te-block {
+				font-size: 90%;
+				overflow: hidden;
+			}
+			:host /deep/ p {
+				line-height: 15px;
+				margin-top: 0;
+				margin-left: 0;
+			}
+
+		</style>
+		<div id="allId" class="layout vertical horizontal">
+			<div id="handleId" class="layout horizontal">
+				<iron-icon on-click="edit" class="icon" icon="editor:mode-edit"></iron-icon>
+				<div id="placeholderId" class="flex"></div>
+				<iron-icon on-click="close" class="icon" icon="close"></iron-icon>
+			</div>
+			<div id="panelId" class="flex">
+				<div id="contentId">
+					<template is="dom-if" if="[[isTableBlock(blocktype)]]">
+						<table id="edittableId" class="edittable">
+							<thead>
+								<tr id="edittableHeaderId">
+									<template is="dom-repeat" items="[[tableColumns]]">
+										<template is="dom-if" if="[[item.enabled]]">
+											<th style="[[getColStyle(item.width,item.align)]]" data-id="[[item.id]]">
+												<div class="layout vertical">
+													<div style="overflow:hidden;text-overflow:ellipsis;" id="h1">[[item.header1]]</div>
+													<div style="overflow:hidden;text-overflow:ellipsis;" id="h2">[[item.header2]]</div>
+												</div>
+											</th>
+										</template>
+									</template>
+								</tr>
+							</thead>
+						</table>
+					</template>
+					<template is="dom-if" if="[[isImageBlock(blocktype)]]">
+						<img style="width:100%;height:100%;" id="imageId">
+					</template>
+				</div>
+			</div>
+		</div>
+
+		<paper-dialog id="mdeDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<div class="layout horizontal wrap">
+					<div id="leftSide" class="flex">
+						<textarea id="mdeId"></textarea>
+					</div>
+					<div style="" id="rightSide">
+						<paper-tabs class="flex" selected="{{helpTabId}}" selectables="paper-tab" on-iron-select="tabSelected" attr-for-selected="help-item-id" scrollable="">
+							<paper-tab class="menu__item_secondary" help-item-id="0">[[tr('te.owndata')]]</paper-tab>
+							<paper-tab class="menu__item_secondary" help-item-id="1">[[tr('te.customer')]]</paper-tab>
+						</paper-tabs>
+
+						<div id="decoId">
+							<neon-animated-pages selected="{{helpTabId}}" attr-for-selected="help-item-id" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+
+								<neon-animatable style="position:relative;" help-item-id="0">
+									<div style="max-height:450px;overflow:auto;">
+										<paper-listbox>
+											<template is="dom-repeat" items="[[companyMetaList]]">
+												<paper-item class="button" on-tap="insertText" data-name$="[[item.name]]">
+													<span>[[item.title]]</span>
+												</paper-item>
+											</template>
+										</paper-listbox>
+									</div>
+								</neon-animatable>
+								<neon-animatable style="position:relative;" help-item-id="1">
+									<div style="max-height:430px;overflow:auto;">
+										<paper-listbox>
+											<template is="dom-repeat" items="[[customerMetaList]]">
+												<paper-item class="button" style="max-height:initial;" on-tap="insertText" data-name$="[[item.name]]">
+													<span>[[item.title]]</span>
+												</paper-item>
+											</template>
+										</paper-listbox>
+									</div>
+								</neon-animatable>
+
+							</neon-animated-pages>
+						</div>
+
+					</div>
+				</div>
+				<div class="layout horizontal">
+					<label class="header" for="aligment">[[tr('te.right_align')]]</label>
+					<paper-checkbox class="" id="aligment" style="margin-left:2px;" checked="{{rightAlign}}"></paper-checkbox>
+					<label class="header" for="flow">[[tr('te.absolute')]]</label>
+					<paper-checkbox class="" id="flow" style="margin-left:2px;" checked="{{positionAbsolute}}"></paper-checkbox>
+				</div>
+				<div>
+					<paper-button on-tap="closeMdeOK">
+						<iron-icon icon="check"></iron-icon>[[tr("save")]]</paper-button>
+					<paper-button on-tap="closeMdeNOK">
+						<iron-icon icon="clear"></iron-icon>[[tr("Cancel")]]</paper-button>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+
+		<te-table on-close-tableedit="closeTableEdit" id="tableEditDialog"></te-table>
+		<te-image on-close-imageedit="closeImageEdit" id="imageEditDialog"></te-image>
+	</template>
+	</dom-module>
+<dom-module id="te-table" assetpath="src/template-editor/">
+	<style>
+		input {
+			width: 100%;
+			margin-bottom: 1px;
+			font-size: 10px;
+		}
+		select {
+			width: 100%;
+			box-shadow: 1px 1px 0 #ccc, 0 -1px #fff;
+			background: #ffffff;
+			color: #555e63;
+		}
+		paper-checkbox /deep/ #checkbox.checked.paper-checkbox {
+			background-color: #555e63;
+			border-color: #555e63;
+		}
+		b {
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: .1px;
+			text-decoration: underline;
+			line-height: 24px;
+		}
+		table.edittable {
+			font-family: arial;
+			background-color: white;
+			//margin:10px 0pt 15px;
+			font-size: 8pt;
+			width: 100%;
+			table-layout: fixed;
+			text-align: left;
+		}
+		table.edittable thead tr th,
+		table.edittable tfoot tr th {
+			background-color: #e6EEEE;
+			//			border: 1px solid #FFF;
+			font-size: 8pt;
+			padding: 4px;
+			cursor: pointer;
+		}
+		table.edittable tbody td {
+			color: #3D3D3D;
+			padding: 4px;
+			background-color: #FFF;
+			vertical-align: top;
+		}
+		paper-dialog {
+			margin: 0px;
+			padding: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable {
+			margin: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+			padding: 0 12px !important;
+		}
+		.coledit /deep/ iron-icon {
+			pointer-events: none;
+		}
+
+		paper-input /deep/ .floated-label-placeholder.paper-input-container{
+			display:none;
+		}
+		paper-input /deep/ paper-input-container{
+			padding:0;
+		}
+		paper-input /deep/ input {
+			line-height:16px !important;
+			font-size:13px !important;
+		}
+		#datarefId b{
+			font-size: 13px;
+			text-decoration: initial;
+		}
+
+	</style>
+	<template>
+		<paper-dialog id="tableDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<div style="margin-bottom:3px;" class="layout horizontal">
+					<span id="datarefId" style="width:100px;"><b>[[tr("te.dataref")]]</b></span>
+					<paper-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="width:250px;" allowed-pattern="[a-zA-Z0-9]+" pattern="[a-z][a-zA-Z0-9]+" auto-validate="true" on-input="datarefChanged" type="text" value="[[dataref]]">
+				</paper-input></div>
+				<div>[[tr("te.fields_show")]]</div>
+				<table>
+					<tbody><tr>
+						<template is="dom-repeat" items="{{columns}}">
+							<td>
+								<paper-checkbox data-id="[[item.id]]" on-change="checkboxChanged" checked$="[[item.enabled]]">[[item.text]]</paper-checkbox>
+							</td>
+						</template>
+					</tr>
+				</tbody></table>
+				<br>
+				<br>
+				<table id="edittableId" class="edittable">
+					<thead>
+						<tr id="edittableHeaderId">
+							<template is="dom-repeat" items="[[enabledColumns]]">
+								<th style="[[getColStyle(item.width,item.align)]]" data-id="[[item.id]]">
+									<div class="layout vertical">
+										<div id="h1">[[item.header1]]</div>
+										<div id="h2">[[item.header2]]</div>
+									</div>
+								</th>
+							</template>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<template is="dom-repeat" items="[[enabledColumns]]">
+								<td>
+									<div class="layout vertical">
+										<span><b>[[tr("te.title")]]</b></span>
+										<input on-input="header1Changed" data-id="[[item.id]]" type="text" value="[[item.header1]]">
+										<input on-input="header2Changed" data-id="[[item.id]]" type="text" value="[[item.header2]]">
+									</div>
+							</td></template>
+							
+						</tr>
+						<tr>
+							<template is="dom-repeat" items="[[enabledColumns]]">
+								<td>
+									<span><b>[[tr("te.align")]]</b></span>
+									<div class="layout vertical">
+										<select on-input="alignChanged" data-id="[[item.id]]" value="[[item.align]]">
+											<option value="left">[[tr("te.left")]]</option>
+											<option value="right">[[tr("te.right")]]</option>
+											<option value="center">[[tr("te.center")]]</option>
+										</select>
+									</div>
+								</td>
+							</template>
+						</tr>
+						<tr>
+							<template is="dom-repeat" indexas="index" items="[[enabledColumns]]">
+								<td>
+									<paper-icon-button class="coledit" id="[[getId('add',index)]]" data-id="[[item.id]]" data-col="[[index]]" style="width:36px;" slot="top" icon="vaadin-icons:plus-square-o" on-tap="onTapColumnAdd"></paper-icon-button>
+									<paper-tooltip for="[[getId('add',index)]]" position="top">[[tr('button.new')]]</paper-tooltip>
+									<paper-icon-button class="coledit" id="[[getId('del',index)]]" data-id="[[item.id]]" data-col="[[index]]" style="width:36px;" slot="top" icon="vaadin-icons:minus-square-o" on-tap="onTapColumnDel"></paper-icon-button>
+									<paper-tooltip for="[[getId('del',index)]]" position="top">[[tr('button.del')]]</paper-tooltip>
+								</td>
+							</template>
+						</tr>
+					</tbody>
+				</table>
+				<div>
+					<paper-button on-tap="closeOK">
+						<iron-icon icon="check"></iron-icon>[[tr("save")]]</paper-button>
+					<paper-button on-tap="closeNOK">
+						<iron-icon icon="clear"></iron-icon>[[tr("Cancel")]]</paper-button>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+		<te-columndialog on-columndialog-ok="columnAdd" id="columnDialogId"></te-columndialog>
+	</template>
+	</dom-module>
+<style>
+	[aria-describedby="imageDialog"] {
+		max-width: 800px;
+	}
+
+</style>
+
+<dom-module id="te-image" assetpath="src/template-editor/">
+	<style>
+		paper-dialog {
+			margin: 0px;
+			padding: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable {
+			margin: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+			padding: 0 12px !important;
+		}
+
+	</style>
+	<template>
+		<paper-dialog id="imageDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+				<simpl-cropper id="cropBoxId" on-cropper-ready="cropperReady"></simpl-cropper>
+				<div>
+					<paper-button on-tap="closeOK">
+						<iron-icon icon="check"></iron-icon>[[tr("save")]]</paper-button>
+					<paper-button on-tap="closeNOK">
+						<iron-icon icon="clear"></iron-icon>[[tr("Cancel")]]</paper-button>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+	</template>
+	</dom-module>
+<dom-module id="te-columndialog" assetpath="src/template-editor/">
+	<style>
+		:host {
+			pointer-events: all;
+		}
+		paper-button[dialog] {
+			color: black !important;
+		}
+		iron-icon.error-big {
+			color: #c00418;
+			height: 64px;
+			width: 64px;
+		}
+		paper-dialog {
+			min-height: 250px;
+			min-width: 300px;
+			max-width: 300px;
+			color: #727272 !important;
+			position: relative;
+		}
+		paper-dialog {
+			margin: 0px;
+			padding: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable {
+			margin: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+			padding: 0 12px !important;
+		}
+		.titlelabel {
+			font-size: 16px;
+			font-weight: 600;
+			padding-left: 20px;
+			padding-top: 20px;
+		}
+
+	</style>
+	<template>
+		<paper-dialog xith-backdrop="" id="dialogId">
+			<div class="layout vertical flex">
+				<div class="layout horizontal flex">
+					<iron-icon class="error-big" icon="vaadin-icons:grid-h"></iron-icon>
+					<label class="titlelabel" for="formId">[[tr('te.new_column')]]</label>
+				</div>
+				<simpl-form id="formId" namespace="global" on-xaction="onTap" data="[[data]]" form-name="teNewColumn.form"></simpl-form>
+			</div>
+			<div class="buttons">
+				<paper-button raised="" dialog="" on-tap="onTap">
+					<iron-icon icon="check"></iron-icon>Ok</paper-button>
+				<paper-button raised="" dialog="" on-tap="close">
+					<iron-icon icon="cancel"></iron-icon>[[tr('button.cancel')]]</paper-button>
+			</div>
+		</paper-dialog>
+	</template>
+	</dom-module>
+<dom-module id="te-paperarea" assetpath="src/template-editor/">
+	<template>
+		<style>
+			#canvasId {
+				position: relative;
+				border: 1px solid #303e45;
+				background: #DFE5E7;
+			}
+			#toolbarId {
+				z-index: 1;
+				width: 200px;
+				position: relative;
+				top: 0px;
+				left: 0px;
+				height: 32px;
+				color: black;
+				background: transparent;
+			}
+			:host /deep/ te-block {
+				z-index: 0;
+			}
+			:host /deep/ #topBar {
+				height: 32px;
+			}
+			:host /deep/ .draggable {
+				cursor: move;
+			}
+			:host /deep/ .block {
+				display: block;
+				position: absolute;
+			}
+
+		</style>
+		<paper-toolbar id="toolbarId">
+			<paper-icon-button id="zoomInId" slot="top" icon="zoom-in" on-tap="zoomInAction"></paper-icon-button>
+			<paper-tooltip for="zoomInId" position="bottom">[[tr('Zoom in')]]</paper-tooltip>
+			<paper-icon-button id="zoomOutId" slot="top" icon="zoom-out" on-tap="zoomOutAction"></paper-icon-button>
+			<paper-tooltip for="zoomOutId" position="bottom">[[tr('Zoom in')]]</paper-tooltip>
+			<paper-icon-button id="zoom100Id" slot="top" icon="maps:zoom-out-map" on-tap="zoom100Action"></paper-icon-button>
+			<paper-tooltip for="zoom100Id" position="bottom">[[tr('Zoom 100%')]]</paper-tooltip>
+			<paper-menu-button id="blockMenuId">
+				<paper-icon-button icon="vaadin-icons:lines" style="height:36px;" class="dropdown-trigger"></paper-icon-button>
+				<paper-listbox style="color:black;" class="dropdown-content">
+
+					<paper-item data-block="text_block" class="draggable">
+						<iron-icon icon="vaadin-icons:file-text-o"></iron-icon>
+						<div class="flex">[[tr('te.text_block')]]</div>
+					</paper-item>
+
+					<paper-item data-block="table_block" class="draggable">
+						<iron-icon icon="vaadin-icons:file-table"></iron-icon>
+						<div class="flex">[[tr('te.table_block')]]</div>
+					</paper-item>
+
+					<paper-item data-block="image_block" class="draggable">
+						<iron-icon icon="vaadin-icons:file-picture"></iron-icon>
+						<div class="flex">[[tr('te.image_block')]]</div>
+					</paper-item>
+				</paper-listbox>
+			</paper-menu-button>
+		</paper-toolbar>
+
+		<div class="horizontal layout">
+			<div class="xrid droppable" id="canvasId">
+			</div>
+			<div class="flex"></div>
+		</div>
+		
+
+	</template>
+	</dom-module>
+<div>
+	<dom-module id="template-editor" assetpath="src/template-editor/">
+		<template>
+			<style>
+				#toolbarId {
+					width: 100%;
+					position: relative;
+					top: 2px;
+					left: 2px;
+					height: 32px;
+					background: #607d8b;
+				}
+				#scrollId {
+					//width: calc(100% - 30px);
+					overflow: auto;
+					display: inline-block;
+					background: white;
+					margin-top: 6px;
+				}
+				:host /deep/ .scrollbar-thumb-x {
+					display: initial !important;
+					height: 4px !important;
+				}
+				#page1FormId,
+				#page2FormId {
+					width: 595px;
+				}
+				label.header {
+					margin-left: 200px;
+					font-size: 18px;
+					color: #303e45;
+					margin-top: 20px;
+					display: block;
+				}
+				:host /deep/ #topBar {
+					height: 32px;
+				}
+				:host /deep/ #dropdown {
+					top: 40px !important;
+				}
+				:host /deep/ #checkbox.checked.paper-checkbox {
+					background-color: #303e45 !important;
+					border-color: #303e45 !important;
+				}
+				:host /deep/ .scrollbar-track-x {
+					display: none !important;
+				}
+				paper-icon-button {
+					height: 32px;
+				}
+
+			</style>
+			<paper-toolbar id="toolbarId">
+				<paper-icon-button id="redoId" disabled="[[!canRedo]]" slot="top" icon="vaadin-icons:share" on-tap="redoAction"></paper-icon-button>
+				<paper-tooltip for="redoId" position="bottom">[[tr('Redo')]]</paper-tooltip>
+				<paper-icon-button id="undoId" disabled="[[!canUndo]]" slot="top" icon="vaadin-icons:reply" on-tap="undoAction"></paper-icon-button>
+				<paper-tooltip for="undoId" position="bottom">[[tr('Undo')]]</paper-tooltip>
+
+				<paper-icon-button id="clearId" slot="top" icon="vaadin-icons:refresh" on-tap="onTapClear"></paper-icon-button>
+				<paper-tooltip for="clearId" position="bottom">[[tr('te.clear')]]</paper-tooltip>
+
+				<paper-icon-button id="saveId" disabled="[[!currentTemplateName]]" slot="top" icon="vaadin-icons:upload-alt" on-tap="onTapSave"></paper-icon-button>
+				<paper-tooltip for="saveId" position="bottom">[[tr('te.save')]]</paper-tooltip>
+
+				<paper-icon-button id="saveUnderId" slot="top" icon="vaadin-icons:upload" on-tap="onTapSaveUnder"></paper-icon-button>
+				<paper-tooltip for="saveUnderId" position="bottom">[[tr('te.save_under')]]</paper-tooltip>
+
+				<paper-icon-button id="loadId" slot="top" icon="vaadin-icons:download" on-tap="onTapLoad"></paper-icon-button>
+				<paper-tooltip for="loadId" position="bottom">[[tr('te.load')]]</paper-tooltip>
+
+				<div id="placeholderId" style="max-width:200px;" class="flex"></div>
+
+
+			</paper-toolbar>
+
+			<paper-tabs class="flex" selected="{{mainTabId}}" selectables="paper-tab" on-iron-select="mainTabSelected" attr-for-selected="main-item-id" scrollable="">
+				<paper-tab class="menu__item_secondary" main-item-id="0">[[tr('te.page1_content')]]</paper-tab>
+				<paper-tab class="menu__item_secondary" main-item-id="1">[[tr('te.additional_content')]]</paper-tab>
+				<paper-tab class="menu__item_secondary" main-item-id="2">[[tr('te.page1_header')]]</paper-tab>
+				<paper-tab class="menu__item_secondary" main-item-id="3">[[tr('te.page2_header')]]</paper-tab>
+				<paper-tab class="menu__item_secondary" main-item-id="4">[[tr('te.setup')]]</paper-tab>
+			</paper-tabs>
+
+			<template is="dom-if" if="[[isAddContent(mainTabId)]]">
+				<div style="margin-top:30px;">
+					<label class="" for="additionalContent">[[tr('te.additional_content_help')]]</label>
+				</div>
+			</template>
+			<div scrollbar="" style="" id="scrollId">
+
+				<neon-animated-pages selected="{{mainTabId}}" attr-for-selected="main-item-id" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+
+					<neon-animatable style="position:relative;" main-item-id="0">
+						<te-paperarea id="page1Content" main-tab-id="0" paper-width="595" paper-height="842" paper-name="page1Content"></te-paperarea>
+					</neon-animatable>
+					<neon-animatable style="position:relative;" main-item-id="1">
+						<te-paperarea id="additionalContent" main-tab-id="0" paper-width="595" paper-height="842" paper-name="additionalContent"></te-paperarea>
+					</neon-animatable>
+					<neon-animatable style="position:relative;" main-item-id="2">
+						<label class="header" for="page1Header">[[tr('te.header')]]</label>
+						<te-paperarea id="page1Header" main-tab-id="1" paper-width="595" paper-name="page1Header"></te-paperarea>
+						<label class="header" for="page1Footer">[[tr('te.footer')]]</label>
+						<te-paperarea id="page1Footer" main-tab-id="1" paper-width="595" paper-name="page1Footer"></te-paperarea>
+					</neon-animatable>
+					<neon-animatable style="position:relative;" main-item-id="3">
+						<label class="header" for="page2Header">[[tr('te.header')]]</label>
+						<paper-checkbox class="" id="headerAsPage1" checked="{{headerAsPage1}}">[[tr('te.as_page_one')]]</paper-checkbox>
+						<te-paperarea hidden$="[[headerAsPage1]]" id="page2Header" main-tab-id="1" paper-width="595" paper-name="page2Header"></te-paperarea>
+						<label class="header" for="page2Footer">[[tr('te.footer')]]</label>
+						<paper-checkbox class="" id="footerAsPage1" checked="{{footerAsPage1}}">[[tr('te.as_page_one')]]</paper-checkbox>
+						<te-paperarea hidden$="[[footerAsPage1]]" id="page2Footer" main-tab-id="1" paper-width="595" paper-name="page2Footer"></te-paperarea>
+					</neon-animatable>
+					<neon-animatable style="position:relative;" main-item-id="4">
+						<label class="header" for="page1FormId">[[tr('te.page1')]]</label>
+						<simpl-form id="page1FormId" namespace="global" on-value-changed="onSetup1ValueChanged" on-xaction="onTapPage1Setup" data="[[dataPage1Form]]" form-name="documentSetup.form"></simpl-form>
+						<br>
+						<label class="header" for="page2FormId">[[tr('te.page2')]]</label>
+						<paper-checkbox class="" id="paramAsPage1" checked="{{paramAsPage1}}">[[tr('te.as_page_one')]]</paper-checkbox>
+						<simpl-form hidden$="[[paramAsPage1]]" id="page2FormId" namespace="global" on-value-changed="onSetup2ValueChanged" on-xaction="onTapPage2Setup" data="[[dataPage2Form]]" form-name="documentSetup.form"></simpl-form>
+					</neon-animatable>
+
+				</neon-animated-pages>
+
+			</div>
+
+
+			<te-undo></te-undo>
+		</template>
+		</dom-module>
+	<template-editor></template-editor>
+</div>
 <dom-module id="paper-collapse-item" assetpath="src/paper-collapse-item/">
 	<template>
 		<style>
