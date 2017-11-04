@@ -43371,7 +43371,7 @@ ExecuteBehavior = {executeCommand:function(command) {
 }, undo:function(command) {
   channel.publish("doUndo", {});
 }};
-Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, positionAbsolute:{type:Boolean, value:true}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
+Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, positionAbsolute:{type:Boolean, value:true}, whiteSpacesPreserve:{type:Boolean, value:true}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
   $(this.$.allId).hover(this.focus.bind(this), this.blur.bind(this));
 }, attached:function() {
   this.getMdFields("customer");
@@ -43408,6 +43408,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
       this.mde.value(state.markdown);
       this.$.contentId.innerHTML = this.mde.markdown(this.mde.value());
       this.positionAbsolute = state.positionAbsolute;
+      this.whiteSpacesPreserve = state.whiteSpacesPreserve == null || state.whiteSpacesPreserve == "preserve";
       this.rightAlign = state.textAlign == "right";
       $(this.$.contentId).css({textAlign:state.textAlign});
     }
@@ -43425,6 +43426,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
         state.html = this.mde.markdown(this.mde.value());
         state.textAlign = this.rightAlign ? "right" : "left";
         state.positionAbsolute = this.positionAbsolute;
+        state.whiteSpacesPreserve = this.whiteSpacesPreserve ? "preserve" : "ignore-if-surrounding-linefeed";
       }
     }
   }
@@ -43442,6 +43444,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
   this.mde.value(this.oldText);
   this.rightAlign = this.oldRightAlign;
   this.positionAbsolute = this.oldPositionAbsolute;
+  this.whiteSpacesPreserve = this.oldWhiteSpacesPreserve;
   this.destroyDialog(this.$.mdeDialog);
 }, closeMdeOK:function() {
   this.destroyDialog(this.$.mdeDialog);
@@ -43566,6 +43569,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
   this.oldText = clone(this.mde.value());
   this.oldRightAlign = this.rightAlign;
   this.oldPositionAbsolute = this.positionAbsolute;
+  this.oldWhiteSpacesPreserve = this.whiteSpacesPreserve;
   console.log("oldText:", this.oldText);
   var gutter = this.querySelector(".gutter");
   this.openDialog(this.$.mdeDialog);
@@ -44071,7 +44075,7 @@ Polymer({is:"te-paperarea", listeners:{"blockclose":"blockclose"}, properties:{m
     }, rollback:function() {
       $("#" + id, self).css({height:startSize.height, width:startSize.width});
     }});
-  }, minHeight:30, minWidth:60, containment:this.$.canvasId});
+  }, minHeight:15, minWidth:60, containment:this.$.canvasId});
 }, getId:function() {
   if (this.idCounter == null) {
     this.idCounter = 1;
