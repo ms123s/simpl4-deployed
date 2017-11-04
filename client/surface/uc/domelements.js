@@ -9986,9 +9986,9 @@ Polymer.IronOverlayManager = new Polymer.IronOverlayManagerClass;
     this.style.display = "";
     this.scrollTop = this.scrollTop;
   }, _applyFocus:function() {
-    console.trace("_applyFocus:", this.opened + "/" + this.noAutoFocus);
     if (this.opened) {
       if (!this.noAutoFocus) {
+        this._focusNode.focus();
       }
     } else {
       this._focusNode.blur();
@@ -15558,7 +15558,10 @@ DialogBehavior = {closeDialog:function(dia) {
   var sd = $(dia).dialog({open:function(event, ui) {
     $(dia).hide();
     $(dia).fadeIn(1000);
-  }, resizable:true, draggable:true, closeText:"", title:"", height:height || "auto", width:width, modal:true});
+  }, resizable:true, draggable:true, closeText:"", close:function() {
+    console.log("close");
+    this.destroyDialog(dia);
+  }.bind(this), title:"", height:height || "auto", width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
 }};
@@ -43426,7 +43429,6 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
     }
   }
   var boundingBox = {};
-  console.log("block:", this.offsetTop + "/" + this.offsetHeight);
   boundingBox.left = this.offsetLeft;
   boundingBox.right = this.offsetLeft + this.offsetWidth;
   boundingBox.bottom = this.offsetTop + this.offsetHeight;
@@ -43440,9 +43442,9 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
   this.mde.value(this.oldText);
   this.rightAlign = this.oldRightAlign;
   this.positionAbsolute = this.oldPositionAbsolute;
-  this.closeDialog(this.$.mdeDialog);
+  this.destroyDialog(this.$.mdeDialog);
 }, closeMdeOK:function() {
-  this.closeDialog(this.$.mdeDialog);
+  this.destroyDialog(this.$.mdeDialog);
   this.$.contentId.innerHTML = this.mde.markdown(this.mde.value());
   var self = this;
   var newText = clone(this.mde.value());
@@ -43515,6 +43517,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
     $(this).height(newHeight);
   }
 }, getMdFields:function(name) {
+  return;
   var params = {service:"simpl4", method:"mdm.getMdFields", parameter:{"entityName":name, "lang":Simpl4.Cache.getItem("lang")}, async:true, context:this, failed:function(e) {
     console.error("failed:", e);
     if (e == null) {
@@ -43564,10 +43567,13 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, posi
   this.oldRightAlign = this.rightAlign;
   this.oldPositionAbsolute = this.positionAbsolute;
   console.log("oldText:", this.oldText);
+  var gutter = this.querySelector(".gutter");
   this.openDialog(this.$.mdeDialog);
   this.async(function() {
     this.mde.value(this.oldText);
-    this.splitDialog();
+    if (gutter == null) {
+      this.splitDialog();
+    }
   }, 100);
 }, createMde:function() {
   this.mde = new SimpleMDE({shortcuts:{drawTable:"Cmd-Alt-T"}, hideIcons:["link", "image", "side-by-side", "fullscreen"], showIcons:["undo", "redo", "table", "horizontal-rule"], insertTexts:{horizontalRule:["", "\n-----\n"], image:["![](http://", ")"], link:["[", "](http://)"], table:["", "\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n"]}, spellChecker:false, element:this.$.mdeId});
