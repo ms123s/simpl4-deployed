@@ -44312,18 +44312,20 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
     this._onTapSave();
   }, 250);
 }, _onTapSave:function() {
-  this.saveState(this.currentTemplateName);
+  this.saveState(this.currentTemplateName, null);
 }, onTapSaveUnder:function() {
   var json = this.getState();
   var prompt = Lobibox.prompt("text", {height:200, title:tr("te.enter_name"), attrs:{pattern:"[A-Za-z0-9]{3,}", value:this.currentTemplateName}, callback:function($this, type, ev) {
     console.log("callback:", prompt.getValue());
     if (!_.isEmpty(prompt.getValue())) {
-      this.saveState(prompt.getValue());
+      this.saveState(prompt.getValue(), null);
     }
   }.bind(this)});
-}, saveState:function(name) {
-  var json = this.getState();
-  this.currentTemplateName = name;
+}, saveState:function(name, state) {
+  var json = state || this.getState();
+  if (state == null) {
+    this.currentTemplateName = name;
+  }
   var params = {service:"registry", method:"set", parameter:{key:"/dashboard/template/" + name, attributes:{subject:"template"}, value:JSON.stringify(json)}, async:true, context:this, failed:function(e) {
     console.error("saveTemplate:", e);
     if (e == null) {
@@ -44334,7 +44336,7 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
     this.notify(tr("te.template_saved"), "success", 8000);
   }};
   simpl4.util.Rpc.rpcAsync(params);
-}, selectFromList:function(menu, valueList, nameList) {
+}, selectFromList:function(menu, valueList, nameList, callback) {
   var win = Lobibox.window({title:tr("te.select_template"), width:300, height:400, modal:true, content:function() {
     return $(menu);
   }, buttons:{select:{text:tr("button.select")}, close:{text:tr("button.cancel"), closeOnClick:true}}, callback:function($this, type, ev) {
@@ -44346,22 +44348,27 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
       var oldState = clone(this.getState());
       this.currentTemplateName = nameList[selected];
       var state = clone(JSON.parse(valueList[selected]));
-      var self = this;
-      this.executeCommand({execute:function() {
-        self.clear();
-        self.setState(state);
-      }, rollback:function() {
-        self.clear();
-        self.setState(oldState);
-      }});
+      if (callback) {
+        state.name = this.currentTemplateName;
+        callback(state);
+      } else {
+        var self = this;
+        this.executeCommand({execute:function() {
+          self.clear();
+          self.setState(state);
+        }, rollback:function() {
+          self.clear();
+          self.setState(oldState);
+        }});
+      }
       win.destroy();
     }
   }.bind(this)});
 }, onTapLoad:function() {
   this.debounce("onTapLoad", function() {
-    this._onTapLoad();
+    this._onTapLoad(null);
   }, 250);
-}, _onTapLoad:function() {
+}, _onTapLoad:function(callback) {
   var params = {service:"registry", method:"getAll", parameter:{attributes:{subject:"template"}}, async:true, context:this, failed:function(e) {
     console.error("getTemplates:", e);
     this.notify(tr("error"), "error", 8000);
@@ -44378,9 +44385,49 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
       nameList.push(name);
     }
     menu += "</paper-menu>";
-    this.selectFromList(menu, valueList, nameList);
+    this.selectFromList(menu, valueList, nameList, callback);
   }};
   simpl4.util.Rpc.rpcAsync(params);
+}, onTapExport:function() {
+  this._onTapLoad(function(state) {
+    console.log("onTapExport:", state);
+    var input = this.querySelector('input[type="file"]');
+    input.defaultValue = "abc";
+    input.onchange = function(e) {
+      var file = e.target.files[0];
+      console.log("file:", file);
+      var blob = new Blob([JSON.stringify(state, null, 2)], {type:"text/json"});
+      saveAs(blob, file.name);
+    }.bind(this);
+    $(input).trigger("click");
+  }.bind(this));
+}, onTapImport:function() {
+  var self = this;
+  function handleFileSelect(evt) {
+    var files = evt.target.files;
+    console.log("files:", evt);
+    var reader = new FileReader;
+    reader.onload = function(f) {
+      return function(e) {
+        var basename = null;
+        var li = f.name.lastIndexOf(".");
+        if (li == -1) {
+          basename = f.name;
+        } else {
+          basename = f.name.substring(0, f.name.lastIndexOf("."));
+        }
+        var content = reader.result;
+        var state = JSON.parse(content);
+        console.log("basename:", basename);
+        console.log("state:", state);
+        self.saveState(basename, state);
+      };
+    }(files[0]);
+    reader.readAsBinaryString(files[0]);
+  }
+  var input = this.querySelector('input[type="file"]');
+  input.onchange = handleFileSelect.bind(this);
+  $(input).trigger("click");
 }});
 (function() {
   Polymer({is:"paper-collapse-item", properties:{header:String, icon:String, src:String, opened:Boolean, _toggleIcon:{type:String, computed:"_computeToggleIcon(opened)"}}, _toggleOpened:function(e) {

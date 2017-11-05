@@ -20913,6 +20913,12 @@ Use the Help button for an technical overview.
 				<paper-icon-button id="loadId" slot="top" icon="vaadin-icons:download" on-tap="onTapLoad"></paper-icon-button>
 				<paper-tooltip for="loadId" position="bottom">[[tr('te.load')]]</paper-tooltip>
 
+				<paper-icon-button id="exportId" slot="top" icon="vaadin-icons:cloud-download-o" on-tap="onTapExport"></paper-icon-button>
+				<paper-tooltip for="exportId" position="bottom">[[tr('te.export')]]</paper-tooltip>
+
+				<paper-icon-button id="importId" slot="top" icon="vaadin-icons:cloud-upload-o" on-tap="onTapImport"></paper-icon-button>
+				<paper-tooltip for="importId" position="bottom">[[tr('te.import')]]</paper-tooltip>
+
 				<div id="placeholderId" style="max-width:200px;" class="flex"></div>
 
 
@@ -20970,6 +20976,7 @@ Use the Help button for an technical overview.
 
 
 			<te-undo></te-undo>
+			<input type="file" name="filedef" style="display:none;">
 		</template>
 		</dom-module>
 	<template-editor></template-editor>
