@@ -15561,7 +15561,7 @@ DialogBehavior = {closeDialog:function(dia) {
   }, resizable:true, draggable:true, closeText:"", close:function() {
     console.log("close");
     this.destroyDialog(dia);
-  }.bind(this), title:"", height:height || "auto", width:width, modal:true});
+  }.bind(this), title:"", height:"auto", maxHeight:height, width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
 }};
@@ -34772,6 +34772,9 @@ FormBehavior = {_valueChanged:function(e) {
       f.setValue(e);
     }
   }
+  if (this.groups == null) {
+    this.groups = [];
+  }
   for (var i = 0, l = this.groups.length; i < l; i++) {
     var g = this.groups[i];
     var enabledExpr = g.getAttribute("enabled-expr");
@@ -43373,6 +43376,7 @@ ExecuteBehavior = {executeCommand:function(command) {
 }};
 Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:false}, positionAbsolute:{type:Boolean, value:true}, whiteSpacesPreserve:{type:Boolean, value:true}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
   $(this.$.allId).hover(this.focus.bind(this), this.blur.bind(this));
+  this.blur();
 }, attached:function() {
   this.getMdFields("customer");
   this.getMdFields("company");
@@ -44392,7 +44396,6 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
   this._onTapLoad(function(state) {
     console.log("onTapExport:", state);
     var input = this.querySelector('input[type="file"]');
-    input.defaultValue = "abc";
     input.onchange = function(e) {
       var file = e.target.files[0];
       console.log("file:", file);
