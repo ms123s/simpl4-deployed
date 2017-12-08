@@ -20434,7 +20434,7 @@ Use the Help button for an technical overview.
 				<div id="placeholderId" class="flex"></div>
 				<iron-icon on-click="close" class="icon" icon="close"></iron-icon>
 			</div>
-			<div id="panelId" on-click="edit" class="flex">
+			<div id="panelId" xn-click="edit" class="flex">
 				<div id="contentId">
 					<template is="dom-if" if="[[isTableBlock(blocktype)]]">
 						<table id="edittableId" class="edittable">
@@ -20981,7 +20981,7 @@ Use the Help button for an technical overview.
 
 
 			<te-undo></te-undo>
-			<input type="file" name="filedef" style="display:none;">
+			<input type="file" id="tempId" name="filedef" style="display:none;">
 		</template>
 		</dom-module>
 	<template-editor></template-editor>

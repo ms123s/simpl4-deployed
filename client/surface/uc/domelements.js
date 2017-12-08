@@ -44395,8 +44395,10 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
 }, onTapExport:function() {
   this._onTapLoad(function(state) {
     console.log("onTapExport:", state);
-    var input = this.querySelector('input[type="file"]');
+    var input = this.querySelector('input#tempId[type="file"]');
     input.onchange = function(e) {
+      console.log("target:", e.target);
+      console.log("target:", e);
       var file = e.target.files[0];
       console.log("file:", file);
       var blob = new Blob([JSON.stringify(state, null, 2)], {type:"text/json"});
