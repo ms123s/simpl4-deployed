@@ -18014,6 +18014,7 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
       this._createMenu();
       this.setStyleScope(this._mainmenu, "style-scope", this.tagName.toLowerCase());
       document.querySelector("#dispatcherId").initListener();
+      this.fire("menu-update", {});
     }, 200);
   }.bind(this));
   this.fire("menu-ready", {});
