@@ -14612,6 +14612,28 @@ dd.rules-group-body{
 		</paper-dialog>
 	</template>
 	</dom-module>
+&lt;                                       !--
+/**
+ * This file is part of SIMPL4(http://simpl4.org).
+ *
+ * 	Copyright [2014] [Manfred Sattler] <manfred@ms123.org>
+ *
+ * SIMPL4 is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SIMPL4 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with SIMPL4.  If not, see <http: www.gnu.org="" licenses="">.
+ */
+--&gt;
+
+
 <dom-module id="simpl-crud" flex="" relative="" assetpath="src/simpl-crud/">
 	<style>
 		:host {
@@ -14685,7 +14707,7 @@ dd.rules-group-body{
 					<template is="dom-if" if="[[withPanel]]">
 						<div style="height:1px;padding-right:20px;line-height:initial;color:#303e45;" class="layout horizontal">
 							<div class="flex">&nbsp;</div>
-							<div class="" style="font-size:11px;top:40px;position: relative;z-index: 111;">[[getHelp()]]</div>
+							<div class="" style="font-size:11px;top:50px;position: relative;z-index: 111;">[[getHelp()]]</div>
 						</div>
 						<simpl-panel id="panel2" heading="[[panelHeaderCrudTable]]">
 							<simpl-crudtable id="crudTableId" disable-spinner="" on-error="onError" namespace="[[namespace]]" on-rows-selected="rowsSelected" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
@@ -14766,7 +14788,7 @@ dd.rules-group-body{
 		</iron-pages>
 	</template>
 	</dom-module>
-<dom-module id="simpl-crud2" flex="" relative="" assetpath="src/simpl-crud/">
+</http:></manfred@ms123.org><dom-module id="simpl-crud2" flex="" relative="" assetpath="src/simpl-crud/">
 	<template>
 	  <style is="custom-style" include="simpl-crud-shared-styles"></style>
 		<style>
