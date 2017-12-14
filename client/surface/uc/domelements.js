@@ -15550,7 +15550,7 @@ DialogBehavior = {closeDialog:function(dia) {
   $(dia).fadeOut({duration:400, complete:function() {
     $(dia).dialog("destroy");
   }});
-}, openDialog:function(dia, _width, height) {
+}, openDialog:function(dia, _width, height, title) {
   var width = _width || "80%";
   if (window.matchMedia("(max-width: 480px)").matches) {
     width = "95%";
@@ -15561,7 +15561,7 @@ DialogBehavior = {closeDialog:function(dia) {
   }, resizable:true, draggable:true, closeText:"", close:function() {
     console.log("close");
     this.destroyDialog(dia);
-  }.bind(this), title:"", height:"auto", maxHeight:height, width:width, modal:true});
+  }.bind(this), title:title || "", height:"auto", maxHeight:height, width:width, modal:true});
   sd.parent().css("z-index", "555111");
   return sd;
 }};
@@ -16077,6 +16077,8 @@ type:String}, useKeyboard:{value:false, type:Boolean}, waitOnPages:{value:2}, ta
   this.pagesReady();
 }, onMenuReady:function() {
   this.pagesReady();
+}, onMenuUpdate:function() {
+  this.allPages = this._getPages();
 }, pagesReady:function() {
   this.waitOnPages--;
   if (this.waitOnPages === 0) {
@@ -16304,11 +16306,15 @@ type:String}, useKeyboard:{value:false, type:Boolean}, waitOnPages:{value:2}, ta
 }, _buildUrl:function(page) {
   var url = page.url;
   var hasRpc = url.indexOf("?rpc=") > 0 || url.indexOf("&rpc=") > 0;
-  if (hasRpc) {
+  if (hasRpc || page.roles && page.roles.length > 0) {
     var password = simpl4.util.BaseManager.getPassword();
     var username = simpl4.util.BaseManager.getUser();
     var credentials = simpl4.util.Base64.encode(username + ":" + password);
-    url += "&credentials=" + credentials;
+    if (url.indexOf("?") > 0) {
+      url += "&credentials=" + credentials;
+    } else {
+      url += "?credentials=" + credentials;
+    }
   }
   if (_.isEmpty(page.appendix)) {
     return url;
@@ -44397,8 +44403,6 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
     console.log("onTapExport:", state);
     var input = this.querySelector('input#tempId[type="file"]');
     input.onchange = function(e) {
-      console.log("target:", e.target);
-      console.log("target:", e);
       var file = e.target.files[0];
       console.log("file:", file);
       var blob = new Blob([JSON.stringify(state, null, 2)], {type:"text/json"});
@@ -44430,7 +44434,7 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
     }(files[0]);
     reader.readAsBinaryString(files[0]);
   }
-  var input = this.querySelector('input[type="file"]');
+  var input = this.querySelector('input#tempId[type="file"]');
   input.onchange = handleFileSelect.bind(this);
   $(input).trigger("click");
 }});
