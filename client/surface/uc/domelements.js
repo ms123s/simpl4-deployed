@@ -18014,7 +18014,6 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
       this._createMenu();
       this.setStyleScope(this._mainmenu, "style-scope", this.tagName.toLowerCase());
       document.querySelector("#dispatcherId").initListener();
-      this.fire("menu-update", {});
     }, 200);
   }.bind(this));
   this.fire("menu-ready", {});
@@ -18062,17 +18061,21 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
       continue;
     }
     var node = nodes[i];
-    if (this._isNodeDisabled(node) || !this._hasNeededRoles(node)) {
+    if (this._isNodeDisabled(node)) {
       continue;
     }
+    var disabled = false;
+    if (!this._hasNeededRoles(node)) {
+      disabled = true;
+    }
     if (!this._hasNodeChildren(node)) {
-      this._createLeaf(ul, node, firstLevel);
+      this._createLeaf(ul, node, firstLevel, disabled);
     } else {
-      var ul2 = this._createNode(ul, node, firstLevel);
+      var ul2 = this._createNode(ul, node, firstLevel, disabled);
       this._createNodeList(ul2, node.children, false);
     }
   }
-}, _createNode:function(parent, node, firstLevel) {
+}, _createNode:function(parent, node, firstLevel, disabled) {
   var icon = this._createIcon(node);
   var li = document.createElement("li");
   var ul = document.createElement("ul");
@@ -18090,8 +18093,11 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
   if (firstLevel) {
     Polymer.dom(li).classList.add("firstLevel");
   }
+  if (disabled) {
+    Polymer.dom(li).setAttribute("style", "display:none");
+  }
   return ul;
-}, _createLeaf:function(parent, node, firstLevel) {
+}, _createLeaf:function(parent, node, firstLevel, disabled) {
   var icon = this._createIcon(node);
   var li = document.createElement("li");
   var a = document.createElement("a");
@@ -18114,6 +18120,9 @@ Polymer({is:"simpl-mmenu", properties:{name:String, classes:String, slidingSubme
   Polymer.dom(li).setAttribute("id", "x" + node.hash);
   if (firstLevel) {
     Polymer.dom(li).classList.add("firstLevel");
+  }
+  if (disabled) {
+    Polymer.dom(li).setAttribute("style", "display:none");
   }
   a.page = node;
   node.provider = this;
