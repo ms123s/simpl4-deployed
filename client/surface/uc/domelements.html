@@ -14707,7 +14707,7 @@ dd.rules-group-body{
 					<template is="dom-if" if="[[withPanel]]">
 						<div style="height:1px;padding-right:20px;line-height:initial;color:#303e45;" class="layout horizontal">
 							<div class="flex">&nbsp;</div>
-							<div class="" style="font-size:11px;top:50px;position: relative;z-index: 111;">[[getHelp()]]</div>
+							<div class="help" style="font-size:11px;top:50px;position: relative;z-index: 111;">[[getHelp()]]</div>
 						</div>
 						<simpl-panel id="panel2" heading="[[panelHeaderCrudTable]]">
 							<simpl-crudtable id="crudTableId" disable-spinner="" on-error="onError" namespace="[[namespace]]" on-rows-selected="rowsSelected" buttons="[[buttonList]]" dt-options="[[dtOptions]]" on-add-action="addAction" on-copy-action="copyAction" on-del-action="delAction" on-refresh-action="refreshAction" on-detail-action="detailAction" on-edit-action="editAction" filter="{{filter}}"></simpl-crudtable>
