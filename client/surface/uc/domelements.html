@@ -16494,7 +16494,7 @@ div.dtr-modal div.dtr-modal-background {
 				<div hidden$="[[!label]]" style="width:3%;">
 					<label class="label-text">{{label}}</label>
 				</div>
-				<simpl-upload id="input" multi="{{multi}}" class="paper-input-input" drop-text="[[tr('import.drop_file2')]]" droppable="true" raised="true">[[tr('import.select_file')]]</simpl-upload>
+				<simpl-upload id="input" maxsize="{{maxsize}}" multi="{{multi}}" class="paper-input-input" drop-text="[[tr('import.drop_file2')]]" droppable="true" raised="true">[[tr('import.select_file')]]</simpl-upload>
 			</div>
 			<template is="dom-if" if="[[errorMessage]]">
 				<paper-input-error>[[errorMessage]]</paper-input-error>
@@ -18048,7 +18048,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</tree-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isUpload(item.id)}}">
-			<upload-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" multi="[[item.xf_multi]]" required="[[item.xf_required]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" default-vvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			<upload-field field="" class="flex" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" enabled-expr$="{{item.xf_enabled}}" multi="[[item.xf_multi]]" maxsize="[[item.xf_maxsize]]" required="[[item.xf_required]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" default-vvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</upload-field>
 		</template>
 		<template is="dom-if" if="{{isTableSelect(item.id)}}">

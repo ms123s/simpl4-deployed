@@ -36491,7 +36491,7 @@ Polymer({is:"multiline-field", behaviors:[Polymer.IronFormElementBehavior, Polym
 }, setValue:function(v) {
   this.editValue = v;
 }});
-Polymer({is:"upload-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], listeners:{"upload-complete":"valueChanged"}, properties:{required:{value:"", type:String}, value:{type:Object}, multi:{type:Boolean, value:true}}, ready:function() {
+Polymer({is:"upload-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], listeners:{"upload-complete":"valueChanged"}, properties:{required:{value:"", type:String}, value:{type:Object}, maxsize:{value:0}, multi:{type:Boolean, value:true}}, ready:function() {
   this.isInvalid = false;
 }, valueChanged:function(e) {
   var f = this.form._getField("filename");
@@ -37926,7 +37926,7 @@ ScrollbarBehavior = {attached:function() {
     }, 100);
   }});
 })();
-Polymer({is:"simpl-upload", properties:{target:{type:String, value:""}, progressHidden:{type:Boolean, value:false}, droppable:{type:Boolean, value:false}, dropText:{type:String, value:"Drop Files Here"}, multi:{type:Boolean, value:false}, files:{type:Array, value:function() {
+Polymer({is:"simpl-upload", properties:{target:{type:String, value:""}, progressHidden:{type:Boolean, value:false}, droppable:{type:Boolean, value:false}, dropText:{type:String, value:"Drop Files Here"}, multi:{type:Boolean, value:false}, maxsize:{value:0}, files:{type:Array, value:function() {
   return [];
 }}, method:{type:String, value:"PUT"}, raised:{type:Boolean, value:false}, noink:{type:Boolean, value:false}, headers:{type:Object, value:{}}, retryText:{type:String, value:"Retry Upload"}, removeText:{type:String, value:"Remove"}, successText:{type:String, value:"Success"}, errorText:{type:String, value:"Error uploading file..."}, _shownDropText:{type:Boolean, value:false}}, behaviors:[TranslationsBehavior], clear:function() {
   $(this.$.fileInput).val(null);
@@ -37967,6 +37967,12 @@ Polymer({is:"simpl-upload", properties:{target:{type:String, value:""}, progress
       if (this.multi == false) {
         this.clear();
       }
+      console.log("maxsize:", this.maxsize);
+      if (this.maxsize != 0 && file.size > this.maxsize) {
+        console.log("too large");
+        this.fire("upload-maxsize", {file:file});
+        continue;
+      }
       this.push("files", file);
       this.uploadFile(file);
     }
@@ -37987,6 +37993,12 @@ Polymer({is:"simpl-upload", properties:{target:{type:String, value:""}, progress
     file.complete = false;
     if (this.multi == false) {
       this.clear();
+    }
+    console.log("maxsize:", this.maxsize);
+    if (this.maxsize != 0 && file.size > this.maxsize) {
+      console.log("too large");
+      this.fire("upload-maxsize", {file:file});
+      continue;
     }
     this.push("files", file);
     this.uploadFile(file);
