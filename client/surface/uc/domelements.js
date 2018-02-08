@@ -11874,7 +11874,7 @@ type:String}, useKeyboard:{value:!1, type:Boolean}, waitOnPages:{value:2}, targe
   window.location.reload();
 }, setSelected:function(a) {
 }, _createToolbarEntry:function(a, b) {
-  var c = this._createIcon(b), d = document.createElement("li"), e = document.createElement("a"), f = document.createElement("paper-ripple"), g = document.createTextNode(b.name);
+  var c = this._createIcon(b), d = document.createElement("li"), e = document.createElement("a"), f = document.createElement("paper-ripple"), g = document.createTextNode(b.name ? b.name : "");
   Polymer.dom(a).appendChild(d);
   Polymer.dom(d).appendChild(e);
   ("ie" != browser.name || "9" != browser.major && "10" != browser.major) && Polymer.dom(a).appendChild(f);
@@ -13864,6 +13864,7 @@ Polymer({is:"simpl-lobipanel", properties:{minimize:{type:Boolean, value:!0}}, b
 }, init:function() {
   var a = {_reload:{icon:"fa fa-refresh"}, _editTitle:{icon:"fa fa-edit", icon2:"fa fa-save"}, _unpin:{icon:"fa fa-arrows"}, minimize:{icon:"fa fa-chevron-up", icon2:"fa fa-chevron-down"}, _close:{icon:"fa fa-times-circle"}, expand:{icon:"fa fa-expand", icon2:"fa fa-compress"}, sortable:!0, reload:!1, unpin:!1, close:!1, editTitle:!1};
   !1 === this.minimize && (a.minimize = !1);
+  !1 === this.expand && (a.expand = !1);
   $(".panel").lobiPanel(a);
   $(".panel").on("beforeMaximize.lobiPanel", function(a, c) {
     this.fire("lp-maximize", a);
@@ -23391,7 +23392,6 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:!1}, selectio
   b.forEach(function(a, b) {
     a.__control = "";
   }.bind(this));
-  console.trace("options:", b);
   this._api = e.DataTable(jQuery.extend({initComplete:function(a, b) {
     d.fire("init-complete", {settings:a, json:b});
   }, language:this._getLang(), paging:!0, pagingType:"two_button", bSort:!1, bFilter:!0, bDestroy:!0, bLengthChange:!0, stateSave:!1, _columnDefs:[{className:"control", orderable:!1, targets:0}], data:b, columns:a}, c));
@@ -23792,10 +23792,12 @@ FormBehavior = {_valueChanged:function(a) {
     });
   }));
   for (var c = this._filterToArray("gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedlist-field,tree-field,select-field", this.$.formdiv, !0, !0), d = 0; d < c.length; d++) {
-    var e = c[d].isInvalid;
-    c[d].checkConstraints();
-    c[d].isInvalid && b.push("Error");
-    !0 === a && c[d].setInvalid(e);
+    if ("SELECT-FIELD" != c[d].tagName || null == c[d].getAttribute("gridfield")) {
+      var e = c[d].isInvalid;
+      c[d].checkConstraints();
+      c[d].isInvalid && b.push("Error");
+      !0 === a && c[d].setInvalid(e);
+    }
   }
   this._validateLocal(b);
   this._validateService(b);
@@ -24834,8 +24836,16 @@ lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:{type:Boolean,
 }, isEmpty:function(a) {
   return Array.isArray(a) ? 0 == a.length : null == a || "" == a ? !0 : !1;
 }, checkConstraints:function() {
-  this.setInvalid(!1);
-  this.isRequired() && this.isEmpty(this.value) && (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
+  var a = this.getAttribute("data-constraints");
+  null != a && 0 < a.length ? this._checkConstraints(a) : (this.setInvalid(!1), this.isRequired() && this.isEmpty(this.value) && (this.setInvalid(!0), this.setErrorMessage(tr("This field is required"))));
+}, _checkConstraints:function(a) {
+  var b = [this];
+  regula.bind({elements:b});
+  this.async(function() {
+    var a = regula.validate({elements:b});
+    this.setInvalid(0 < a.length);
+    0 < a.length ? this.setErrorMessage(a[0].message) : this.setErrorMessage(null);
+  });
 }, setErrorMessage:function(a) {
   this.errorMessage = a;
 }, setInvalid:function(a) {
@@ -24988,6 +24998,7 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
 }, clearLines:function() {
   this.splice("lines", 0, this.lines.length);
   this.push("lines", {});
+  this.setDefaultValue(0);
 }, _valueChanged:function(a) {
   for (var b = a.target.parentNode.dataset.lid, c = {}, d = {}, e = 0; e < this.columns.length; e++) {
     a = this.querySelector("#id" + b + "_" + e);
@@ -25049,7 +25060,7 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
 }, columnsChanged:function() {
   var a = {};
   this.columns.each(function(b) {
-    b.regulaConstraints = this._constructRegulaConstraints(b.constraints);
+    b.regulaConstraints = this._constructRegulaConstraints(b.constraints, b.errormsg);
     b.label = b.display;
     "Enumselect" != b.id && (b.id = "Input");
     b.xf_type = b.type;
@@ -30577,9 +30588,9 @@ readOnly:!0}, _optionalText:{type:Boolean, readOnly:!0}, _attrForPrimaryButtonTe
 }});
 "use strict";
 Polymer({is:"paper-stepper", behaviors:[Polymer.IronMenuBehavior, Polymer.NeonAnimationRunnerBehavior, Polymer.IronResizableBehavior], properties:{opened:{type:Boolean, computed:"_computeOpened(_selectedIndex)", observer:"_openedChanged", notify:!0, reflectToAttribute:!0}, alternativeLabel:{type:Boolean, value:!1}, vertical:{type:Boolean, value:!1, notify:!0, reflectToAttribute:!0}, backText:{type:String, value:"BACK"}, finishText:{type:String, value:"FINISH"}, continueText:{type:String, value:"CONTINUE"}, 
-skipText:{type:String, value:"SKIP"}, optionalText:{type:String, value:"Optional"}, updateText:{type:String, value:"UPDATE"}, linear:{type:Boolean, value:!1}, completed:{type:Boolean, value:!1, notify:!0, computed:"_computeCompleted(stepNumber, savedStepNumber)"}, hasSkipButton:{type:Boolean, value:!1}, hasBackButton:{type:Boolean, value:!1}, stepNumber:{type:Number, notify:!0, computed:"_computeStepNumber(items.length)"}, savedStepNumber:{type:Number, notify:!0, readOnly:!0}, selectedAttribute:{value:"opened", 
-readOnly:!0}, selectable:{value:"paper-step"}, mutli:{value:!1, readOnly:!0}, responsiveCheckFrequence:{type:Number, value:200}, animateInitialSelection:{type:Boolean, value:!1}, horizontalHigherEntryAnimation:{type:String, value:"fade-in-slide-from-right-animation"}, horizontalHigherExitAnimation:{type:String, value:"fade-out-slide-right-animation"}, horizontalLowerEntryAnimation:{type:String, value:"fade-in-slide-from-left-animation"}, horizontalLowerExitAnimation:{type:String, value:"fade-out-slide-left-animation"}, 
-_skipStepIndex:{type:Number, computed:"_compute_skipStepIndex(_selectedIndex)"}, _canSkip:{type:Boolean, notify:!0, computed:"_isntNull(_skipStepIndex)"}, _backStepIndex:{type:Number, computed:"_compute_backStepIndex(_selectedIndex)"}, _hasBackStep:{type:Boolean, computed:"_isntNull(_backStepIndex)"}, _selectedIndex:{type:Number, observer:"_selectedIndexChanged", readOnly:!0, value:-1}, _attrForSelectedStepPrimaryButtonText:{type:String, computed:"_compute__attrForSelectedStepPrimaryButtonText(_selectedIndex, stepNumber)"}}, 
+skipText:{type:String, value:"SKIP"}, optionalText:{type:String, value:"Optional"}, updateText:{type:String, value:"UPDATE"}, linear:{type:Boolean, value:!1}, completed:{type:Boolean, value:!1, notify:!0, computed:"_computeCompleted(stepNumber, savedStepNumber)"}, hasSkipButton:{type:Boolean, value:!1}, hasBackButton:{type:Boolean, value:!1}, hasFinishButton:{type:Boolean, value:!1}, stepNumber:{type:Number, notify:!0, computed:"_computeStepNumber(items.length)"}, savedStepNumber:{type:Number, notify:!0, 
+readOnly:!0}, selectedAttribute:{value:"opened", readOnly:!0}, selectable:{value:"paper-step"}, mutli:{value:!1, readOnly:!0}, responsiveCheckFrequence:{type:Number, value:200}, animateInitialSelection:{type:Boolean, value:!1}, horizontalHigherEntryAnimation:{type:String, value:"fade-in-slide-from-right-animation"}, horizontalHigherExitAnimation:{type:String, value:"fade-out-slide-right-animation"}, horizontalLowerEntryAnimation:{type:String, value:"fade-in-slide-from-left-animation"}, horizontalLowerExitAnimation:{type:String, 
+value:"fade-out-slide-left-animation"}, _skipStepIndex:{type:Number, computed:"_compute_skipStepIndex(_selectedIndex)"}, _canSkip:{type:Boolean, notify:!0, computed:"_isntNull(_skipStepIndex)"}, _backStepIndex:{type:Number, computed:"_compute_backStepIndex(_selectedIndex)"}, _hasBackStep:{type:Boolean, computed:"_isntNull(_backStepIndex)"}, _selectedIndex:{type:Number, observer:"_selectedIndexChanged", readOnly:!0, value:-1}, _attrForSelectedStepPrimaryButtonText:{type:String, computed:"_compute__attrForSelectedStepPrimaryButtonText(_selectedIndex, stepNumber)"}}, 
 _previousAnimatedStep:null, _previousSelected:null, keyBindings:{left:"_onLeftKey", right:"_onRightKey"}, listeners:{"iron-items-changed":"_initializeSteps", "paper-step-saved":"_stepSaved", transitionend:"_transitionEnd", "step-horizontal-label-resize":"_updateStepperClosedMaxHeight", "iron-resize":"_resizeHandler", "neon-animation-finish":"_onNeonAnimationFinish"}, observers:["_forwardCanSkip(_canSkip, selectedItem)", "_forwardHasBackStep(_hasBackStep, selectedItem)", "_forwardVertical(vertical)", 
 "_forwardAlternativeLabel(alternativeLabel)", "_forwardStepperData(linear, backText, optionalText, finishText, continueText, skipText, updateText, hasSkipButton, hasBackButton)"], attached:function() {
   this._responsiveCheck();
@@ -30684,8 +30695,8 @@ _previousAnimatedStep:null, _previousSelected:null, keyBindings:{left:"_onLeftKe
   a = this.selectedItem.saved ? "updateText" : 1 == this.stepNumber - this.savedStepNumber ? "finishText" : "continueText";
   this.selectedItem._set_attrForPrimaryButtonText(a);
   return a;
-}, _isLastStep:function(a, b) {
-  return 1 == this.stepNumber - this.savedStepNumber && a == b;
+}, _isLastStep:function(a, b, c) {
+  return c ? !1 : 1 == this.stepNumber - this.savedStepNumber && a == b;
 }, _initializeSteps:function() {
   var a = 0, b = {linear:this.linear, backText:this.backText, optionalText:this.optionalText, finishText:this.finishText, continueText:this.continueText, skipText:this.skipText, updateText:this.updateText, hasSkipButton:this.hasSkipButton, hasBackButton:this.hasBackButton, stepNumber:this.stepNumber};
   this.items.map(function(c, d) {
