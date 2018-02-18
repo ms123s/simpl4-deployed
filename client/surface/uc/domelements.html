@@ -20478,6 +20478,12 @@ Use the Help button for an technical overview.
 					<template is="dom-if" if="[[isImageBlock(blocktype)]]">
 						<img style="width:100%;height:100%;" id="imageId">
 					</template>
+					<template is="dom-if" if="[[isMacroBlock(blocktype)]]">
+						<center>
+							<iron-icon icon="vaadin-icons:curly-brackets"></iron-icon>
+							<div>[[macroTitle]]</div>
+						</center>
+					</template>
 				</div>
 			</div>
 		</div>
@@ -20547,6 +20553,7 @@ Use the Help button for an technical overview.
 
 		<te-table on-close-tableedit="closeTableEdit" id="tableEditDialog"></te-table>
 		<te-image on-close-imageedit="closeImageEdit" id="imageEditDialog"></te-image>
+		<te-macro on-close-macroedit="closeMacroEdit" id="macroEditDialog"></te-macro>
 	</template>
 	</dom-module>
 <dom-module id="te-table" assetpath="src/template-editor/">
@@ -20742,6 +20749,41 @@ Use the Help button for an technical overview.
 		</paper-dialog>
 	</template>
 	</dom-module>
+<style>
+	[aria-describedby="macroDialog"] {
+		max-width: 500px;
+	}
+
+</style>
+
+<dom-module id="te-macro" assetpath="src/template-editor/">
+	<style>
+		paper-dialog {
+			margin: 0px;
+			padding: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable {
+			margin: 0px !important;
+		}
+		paper-dialog /deep/ paper-dialog-scrollable .scrollable {
+			padding: 0 12px !important;
+		}
+
+	</style>
+	<template>
+		<paper-dialog id="macroDialog" no-cancel-on-outside-click="" with-backdrop="">
+			<paper-dialog-scrollable>
+			  <simpl-form id="formId" namespace="global" data="[[data]]" form-name="macroEdit.form"></simpl-form>
+				<div style="margin-top:30px;">
+					<paper-button on-tap="closeOK">
+						<iron-icon icon="check"></iron-icon>[[tr("save")]]</paper-button>
+					<paper-button on-tap="closeNOK">
+						<iron-icon icon="clear"></iron-icon>[[tr("Cancel")]]</paper-button>
+				</div>
+			</paper-dialog-scrollable>
+		</paper-dialog>
+	</template>
+	</dom-module>
 <dom-module id="te-columndialog" assetpath="src/template-editor/">
 	<style>
 		:host {
@@ -20856,6 +20898,11 @@ Use the Help button for an technical overview.
 						<iron-icon icon="vaadin-icons:file-picture"></iron-icon>
 						<div class="flex">[[tr('te.image_block')]]</div>
 					</paper-item>
+
+					<paper-item data-block="macro_block" class="draggable">
+						<iron-icon icon="vaadin-icons:curly-brackets"></iron-icon>
+						<div class="flex">[[tr('te.macro_block')]]</div>
+					</paper-item>
 				</paper-listbox>
 			</paper-menu-button>
 		</paper-toolbar>
@@ -20956,6 +21003,7 @@ Use the Help button for an technical overview.
 				<paper-tab class="menu__item_secondary" main-item-id="2">[[tr('te.page1_header')]]</paper-tab>
 				<paper-tab class="menu__item_secondary" main-item-id="3">[[tr('te.page2_header')]]</paper-tab>
 				<paper-tab class="menu__item_secondary" main-item-id="4">[[tr('te.setup')]]</paper-tab>
+				<paper-tab class="menu__item_secondary" main-item-id="5">[[tr('te.macros')]]</paper-tab>
 			</paper-tabs>
 
 			<template is="dom-if" if="[[isAddContent(mainTabId)]]">
@@ -20994,6 +21042,17 @@ Use the Help button for an technical overview.
 						<label class="header" for="page2FormId">[[tr('te.page2')]]</label>
 						<paper-checkbox class="" id="paramAsPage1" checked="{{paramAsPage1}}">[[tr('te.as_page_one')]]</paper-checkbox>
 						<simpl-form hidden$="[[paramAsPage1]]" id="page2FormId" namespace="global" on-value-changed="onSetup2ValueChanged" on-xaction="onTapPage2Setup" data="[[dataPage2Form]]" form-name="documentSetup.form"></simpl-form>
+					</neon-animatable>
+					<neon-animatable style="position:relative;" main-item-id="5">
+						<label class="header" for="macro1">[[tr('te.macro1')]]</label>
+						<paper-checkbox class="" id="macro1Enabled" checked="{{macro1Enabled}}">[[tr('te.macroEnabled')]]</paper-checkbox>
+						<te-paperarea hidden$="[[!macro1Enabled]]" id="macro1" main-tab-id="1" paper-height="400" paper-width="595" paper-name="macro1"></te-paperarea>
+						<label class="header" for="macro2">[[tr('te.macro2')]]</label>
+						<paper-checkbox class="" id="macro2Enabled" checked="{{macro2Enabled}}">[[tr('te.macroEnabled')]]</paper-checkbox>
+						<te-paperarea hidden$="[[!macro2Enabled]]" id="macro2" main-tab-id="1" paper-height="400" paper-width="595" paper-name="macro2"></te-paperarea>
+						<label class="header" for="macro3">[[tr('te.macro3')]]</label>
+						<paper-checkbox class="" id="macro3Enabled" checked="{{macro3Enabled}}">[[tr('te.macroEnabled')]]</paper-checkbox>
+						<te-paperarea hidden$="[[!macro3Enabled]]" id="macro3" main-tab-id="1" paper-height="400" paper-width="595" paper-name="macro3"></te-paperarea>
 					</neon-animatable>
 
 				</neon-animated-pages>

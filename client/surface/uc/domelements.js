@@ -29712,6 +29712,8 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   this.rightSide = this.querySelector("#rightSide");
 }, getColStyle:function(a, b) {
   return "width:" + a + ";text-align:" + b + ";";
+}, isMacroBlock:function(a) {
+  return "macro_block" == this.blocktype;
 }, isTableBlock:function(a) {
   return "table_block" == this.blocktype;
 }, isImageBlock:function(a) {
@@ -29719,15 +29721,19 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
 }, setBlockType:function(a) {
   this.blocktype = a;
   "table_block" == a && (this.tableColumns = this.$.tableEditDialog.getState().columns);
+  "macro_block" == a && this.async(function() {
+    var a = this.$.macroEditDialog.getState();
+    null == a.macroNum && (a.macroNum = 1, this.macroTitle = "Macro1", this.$.macroEditDialog.setState(a));
+  }, 200);
 }, setState:function(a) {
   this.blocktype = a.blocktype;
-  "table_block" == this.blocktype ? (this.$.tableEditDialog.setState(a), this.tableColumns = a.columns) : "image_block" == this.blocktype ? this.async(function() {
+  "table_block" == this.blocktype ? (this.$.tableEditDialog.setState(a), this.tableColumns = a.columns) : "macro_block" == this.blocktype ? (this.macroTitle = "Macro" + a.macroNum, this.$.macroEditDialog.setState(a)) : "image_block" == this.blocktype ? this.async(function() {
     this.$.imageEditDialog.setState(a);
     this.querySelector("#imageId").src = a.croppedImage;
   }, 100) : (null == this.mde && (this.mde = this.createMde()), this.mde.value(a.markdown), this.$.contentId.innerHTML = this.mde.markdown(this.mde.value()), this.positionAbsolute = a.positionAbsolute, this.whiteSpacesPreserve = null == a.whiteSpacesPreserve || "preserve" == a.whiteSpacesPreserve, this.rightAlign = "right" == a.textAlign, $(this.$.contentId).css({textAlign:a.textAlign}));
 }, getState:function() {
   var a = {};
-  "table_block" == this.blocktype ? a = this.$.tableEditDialog.getState() : "image_block" == this.blocktype ? a = this.$.imageEditDialog.getState() : this.mde && (a.markdown = this.mde.value(), a.html = this.mde.markdown(this.mde.value()), a.textAlign = this.rightAlign ? "right" : "left", a.positionAbsolute = this.positionAbsolute, a.whiteSpacesPreserve = this.whiteSpacesPreserve ? "preserve" : "ignore-if-surrounding-linefeed");
+  "table_block" == this.blocktype ? a = this.$.tableEditDialog.getState() : "macro_block" == this.blocktype ? a = this.$.macroEditDialog.getState() : "image_block" == this.blocktype ? a = this.$.imageEditDialog.getState() : this.mde && (a.markdown = this.mde.value(), a.html = this.mde.markdown(this.mde.value()), a.textAlign = this.rightAlign ? "right" : "left", a.positionAbsolute = this.positionAbsolute, a.whiteSpacesPreserve = this.whiteSpacesPreserve ? "preserve" : "ignore-if-surrounding-linefeed");
   var b = {};
   b.left = this.offsetLeft;
   b.right = this.offsetLeft + this.offsetWidth;
@@ -29770,6 +29776,9 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
     b.$.tableEditDialog.setState(d);
     b.tableColumns = d.columns;
   }});
+}, closeMacroEdit:function(a) {
+  console.log("data:", a.detail.state);
+  this.macroTitle = "Macro" + a.detail.state.macroNum;
 }, closeImageEdit:function(a) {
   var b = this, c = clone(a.detail.state), d = clone(b.oldImageState), e = b.querySelector("#imageId"), f = b.parentNode.getBoundingClientRect();
   this.executeCommand({execute:function() {
@@ -29804,7 +29813,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
 }, close:function() {
   this.fire("blockclose", {id:this.id});
 }, edit:function() {
-  "table_block" == this.blocktype ? this.tedit() : "image_block" == this.blocktype ? this.iedit() : this.medit();
+  "table_block" == this.blocktype ? this.tedit() : "image_block" == this.blocktype ? this.iedit() : "macro_block" == this.blocktype ? this.macroedit() : this.medit();
 }, tedit:function() {
   this.oldTableState = this.$.tableEditDialog.getState();
   this.$.tableEditDialog.open();
@@ -29812,6 +29821,11 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   this.$.imageEditDialog.open();
   this.async(function() {
     this.oldImageState = this.$.imageEditDialog.getOldState();
+  }, 1000);
+}, macroedit:function() {
+  this.$.macroEditDialog.open();
+  this.async(function() {
+    this.oldMacroState = this.$.macroEditDialog.getOldState();
   }, 1000);
 }, insertText:function(a) {
   a = a.currentTarget.dataset.name;
@@ -30034,6 +30048,33 @@ Polymer({is:"te-image", properties:{}, behaviors:[DialogBehavior, ExecuteBehavio
     }, 200);
   }, 200);
 }});
+Polymer({is:"te-macro", properties:{}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], observers:[], ready:function() {
+  this.data = {};
+}, closeNOK:function() {
+  console.log("closeNOK(old:", this.oldState);
+  this.setState(this.oldState);
+  this.async(function() {
+    this.closeDialog(this.$.macroDialog);
+    this.isOpen = !1;
+  }, 250);
+}, closeOK:function() {
+  this.closeDialog(this.$.macroDialog);
+  this.fire("close-macroedit", {state:this.getState()});
+  this.isOpen = !1;
+}, getState:function() {
+  return this.$.formId.getData();
+}, setState:function(a) {
+  return this.$.formId.setData(a);
+}, getOldState:function() {
+  return this.oldState;
+}, onMacroChanged:function(a) {
+  console.log(this.$.macroMenu.selectedItem);
+}, open:function(a) {
+  this.isOpen = !0;
+  this.openDialog(this.$.macroDialog, 500);
+  console.log("macroDialog.open");
+  this.oldState = clone(this.getState());
+}});
 Polymer({is:"te-columndialog", behaviors:[DialogBehavior, TranslationsBehavior], onTap:function() {
   if (this.$.formId.validate()) {
     var a = this.$.formId.getData();
@@ -30066,7 +30107,7 @@ Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mai
 }, getState:function() {
   for (var a = this.$.canvasId.querySelectorAll("te-block"), b = [], c = [], d = 0; d < a.length; d++) {
     var e = a[d].getState();
-    !1 === e.positionAbsolute || "table_block" == e.blocktype || "additionalContent" == this.paperName ? c.push(e) : b.push(e);
+    !1 === e.positionAbsolute || "table_block" == e.blocktype || "additionalContent" == this.paperName || this.paperName.startsWith("macro") ? c.push(e) : b.push(e);
   }
   c.sort(function(a, b) {
     return a.boundingBox.top - b.boundingBox.top;
@@ -30082,6 +30123,9 @@ Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mai
     var a = this.$.canvasId, b = null, c = null;
     "page1Content" == this.paperName && (b = this.paperHeight - (this.dataPage1Form.topMargin + this.dataPage1Form.bottomMargin + this.dataPage1Form.headerHeight + this.dataPage1Form.footerHeight), c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
     "additionalContent" == this.paperName && (b = this.paperHeight - (this.dataPage1Form.topMargin + this.dataPage1Form.bottomMargin + this.dataPage1Form.headerHeight + this.dataPage1Form.footerHeight), c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
+    "macro1" == this.paperName && (b = this.paperHeight, c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
+    "macro2" == this.paperName && (b = this.paperHeight, c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
+    "macro3" == this.paperName && (b = this.paperHeight, c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
     "page1Header" == this.paperName && (b = this.dataPage1Form.headerHeight, c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
     "page1Footer" == this.paperName && (b = this.dataPage1Form.footerHeight, c = this.paperWidth - (this.dataPage1Form.leftMargin + this.dataPage1Form.rightMargin));
     "page2Header" == this.paperName && (b = this.dataPage2Form.headerHeight, c = this.paperWidth - (this.dataPage2Form.leftMargin + this.dataPage2Form.rightMargin));
@@ -30184,6 +30228,7 @@ Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mai
   0 > e && (e = 0);
   var f = "150px";
   "table_block" == a && (e = 0, f = "100%");
+  "macro_block" == a && (e = 0, f = "100%");
   this.async(function() {
     $(d).css({top:(b - this.rect.top) / this.zoom, left:e, height:"70px", width:f});
     this.makeBlockDraggable();
@@ -30250,6 +30295,9 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
   this.mainTabId = "0";
   this.page1FormId.setData(a.page1);
   this.page2FormId.setData(a.page2);
+  this.$.macro1Enabled.checked = a.macro1Enabled;
+  this.$.macro2Enabled.checked = a.macro2Enabled;
+  this.$.macro3Enabled.checked = a.macro3Enabled;
   this.$.headerAsPage1.checked = a.headerAsPage1;
   this.$.footerAsPage1.checked = a.footerAsPage1;
   this.$.paramAsPage1.checked = a.paramAsPage1;
@@ -30277,6 +30325,9 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
   b.page1 = this.page1FormId.getData();
   b.page2 = this.$.paramAsPage1.checked ? b.page1 : this.page2FormId.getData();
   this.mainTabId = a;
+  b.macro1Enabled = this.$.macro1Enabled.checked;
+  b.macro2Enabled = this.$.macro2Enabled.checked;
+  b.macro3Enabled = this.$.macro3Enabled.checked;
   b.headerAsPage1 = this.$.headerAsPage1.checked;
   b.footerAsPage1 = this.$.footerAsPage1.checked;
   b.paramAsPage1 = this.$.paramAsPage1.checked;
@@ -30329,6 +30380,9 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
   this.$.headerAsPage1.checked = !0;
   this.$.footerAsPage1.checked = !0;
   this.$.paramAsPage1.checked = !0;
+  this.$.macro1Enabled.checked = !1;
+  this.$.macro2Enabled.checked = !1;
+  this.$.macro2Enabled.checked = !1;
   a ? this.async(function() {
     channel.publish("globalSetupPage1", {setup:clone(this.dataPage1Form)});
     channel.publish("globalSetupPage2", {setup:clone(this.dataPage1Form)});
