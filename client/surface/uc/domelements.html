@@ -20538,6 +20538,11 @@ Use the Help button for an technical overview.
 					<label class="header" for="flow">[[tr('te.absolute')]]</label>
 					<paper-checkbox class="" id="flow" style="margin-left:2px;" checked="{{positionAbsolute}}"></paper-checkbox>
 					<paper-tooltip for="flow" position="bottom">[[tr('te.absolute')]]</paper-tooltip>
+
+					<label class="header" for="useHeight">[[tr('te.useHeight')]]</label>
+					<paper-checkbox class="" id="useHeight" style="margin-left:2px;" checked="{{useHeight}}"></paper-checkbox>
+					<paper-tooltip for="useHeight" position="bottom">[[tr('te.useHeight')]]</paper-tooltip>
+
 					<label class="header" for="spaces">[[tr('te.whiteSpacesPreserve')]]</label>
 					<paper-checkbox class="" id="spaces" style="margin-left:2px;" checked="{{whiteSpacesPreserve}}"></paper-checkbox>
 					<paper-tooltip for="spaces" position="bottom">[[tr('te.whiteSpacesPreserve')]]</paper-tooltip>
@@ -20899,10 +20904,12 @@ Use the Help button for an technical overview.
 						<div class="flex">[[tr('te.image_block')]]</div>
 					</paper-item>
 
-					<paper-item data-block="macro_block" class="draggable">
-						<iron-icon icon="vaadin-icons:curly-brackets"></iron-icon>
-						<div class="flex">[[tr('te.macro_block')]]</div>
-					</paper-item>
+					<template is="dom-if" if="[[isNotMacroPage(paperName)]]">
+						<paper-item data-block="macro_block" class="draggable">
+							<iron-icon icon="vaadin-icons:curly-brackets"></iron-icon>
+							<div class="flex">[[tr('te.macro_block')]]</div>
+						</paper-item>
+					</template>
 				</paper-listbox>
 			</paper-menu-button>
 		</paper-toolbar>

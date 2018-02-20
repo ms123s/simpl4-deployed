@@ -29702,7 +29702,7 @@ ExecuteBehavior = {executeCommand:function(a) {
 }, undo:function(a) {
   channel.publish("doUndo", {});
 }};
-Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positionAbsolute:{type:Boolean, value:!0}, whiteSpacesPreserve:{type:Boolean, value:!0}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
+Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positionAbsolute:{type:Boolean, value:!1}, useHeight:{type:Boolean, value:!1}, whiteSpacesPreserve:{type:Boolean, value:!0}, helpTabId:{type:String, value:"0"}}, behaviors:[DialogBehavior, ExecuteBehavior, TranslationsBehavior], ready:function() {
   $(this.$.allId).hover(this.focus.bind(this), this.blur.bind(this));
   this.blur();
 }, attached:function() {
@@ -29730,10 +29730,11 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   "table_block" == this.blocktype ? (this.$.tableEditDialog.setState(a), this.tableColumns = a.columns) : "macro_block" == this.blocktype ? (this.macroTitle = "Macro" + a.macroNum, this.$.macroEditDialog.setState(a)) : "image_block" == this.blocktype ? this.async(function() {
     this.$.imageEditDialog.setState(a);
     this.querySelector("#imageId").src = a.croppedImage;
-  }, 100) : (null == this.mde && (this.mde = this.createMde()), this.mde.value(a.markdown), this.$.contentId.innerHTML = this.mde.markdown(this.mde.value()), this.positionAbsolute = a.positionAbsolute, this.whiteSpacesPreserve = null == a.whiteSpacesPreserve || "preserve" == a.whiteSpacesPreserve, this.rightAlign = "right" == a.textAlign, $(this.$.contentId).css({textAlign:a.textAlign}));
+  }, 100) : (null == this.mde && (this.mde = this.createMde()), this.mde.value(a.markdown), this.$.contentId.innerHTML = this.mde.markdown(this.mde.value()), this.positionAbsolute = a.positionAbsolute, this.useHeight = a.useHeight, this.whiteSpacesPreserve = null == a.whiteSpacesPreserve || "preserve" == a.whiteSpacesPreserve, this.rightAlign = "right" == a.textAlign, $(this.$.contentId).css({textAlign:a.textAlign}));
 }, getState:function() {
   var a = {};
-  "table_block" == this.blocktype ? a = this.$.tableEditDialog.getState() : "macro_block" == this.blocktype ? a = this.$.macroEditDialog.getState() : "image_block" == this.blocktype ? a = this.$.imageEditDialog.getState() : this.mde && (a.markdown = this.mde.value(), a.html = this.mde.markdown(this.mde.value()), a.textAlign = this.rightAlign ? "right" : "left", a.positionAbsolute = this.positionAbsolute, a.whiteSpacesPreserve = this.whiteSpacesPreserve ? "preserve" : "ignore-if-surrounding-linefeed");
+  "table_block" == this.blocktype ? a = this.$.tableEditDialog.getState() : "macro_block" == this.blocktype ? a = this.$.macroEditDialog.getState() : "image_block" == this.blocktype ? a = this.$.imageEditDialog.getState() : this.mde && (a.markdown = this.mde.value(), a.html = this.mde.markdown(this.mde.value()), a.textAlign = this.rightAlign ? "right" : "left", a.positionAbsolute = this.positionAbsolute, a.useHeight = this.useHeight, a.whiteSpacesPreserve = this.whiteSpacesPreserve ? "preserve" : 
+  "ignore-if-surrounding-linefeed");
   var b = {};
   b.left = this.offsetLeft;
   b.right = this.offsetLeft + this.offsetWidth;
@@ -29748,6 +29749,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   this.mde.value(this.oldText);
   this.rightAlign = this.oldRightAlign;
   this.positionAbsolute = this.oldPositionAbsolute;
+  this.useHeight = this.oldUseHeight;
   this.whiteSpacesPreserve = this.oldWhiteSpacesPreserve;
   this.destroyDialog(this.$.mdeDialog);
 }, closeMdeOK:function() {
@@ -29836,6 +29838,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   this.oldText = clone(this.mde.value());
   this.oldRightAlign = this.rightAlign;
   this.oldPositionAbsolute = this.positionAbsolute;
+  this.oldUseHeight = this.useHeight;
   this.oldWhiteSpacesPreserve = this.whiteSpacesPreserve;
   console.log("oldText:", this.oldText);
   var a = this.querySelector(".gutter");
@@ -30091,7 +30094,9 @@ Polymer({is:"te-columndialog", behaviors:[DialogBehavior, TranslationsBehavior],
   a.parent().css("z-index", "555112");
   this.sd = a;
 }});
-Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mainTabId:{type:String}, paperWidth:{type:String}, paperHeight:{type:String}, paperName:{type:String}}, behaviors:[TranslationsBehavior, ExecuteBehavior], _createBlockFromState:function(a) {
+Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mainTabId:{type:String}, paperWidth:{type:String}, paperHeight:{type:String}, paperName:{type:String}}, behaviors:[TranslationsBehavior, ExecuteBehavior], isNotMacroPage:function(a) {
+  return !a.startsWith("macro");
+}, _createBlockFromState:function(a) {
   console.log("paperarea.setState(" + this.paperName + "," + i + "):", a);
   var b = a.boundingBox;
   this.createBlockFromState(a.blocktype, b.left, b.top, b.width, b.height).setState(a);
@@ -30176,29 +30181,31 @@ Polymer({is:"te-paperarea", listeners:{blockclose:"blockclose"}, properties:{mai
     this.async(function() {
       this.rect = this.$.canvasId.getBoundingClientRect();
     }, 100);
-    $(".draggable").drag({start:function(b) {
-      a.rect = a.$.canvasId.getBoundingClientRect();
-      b.dataTransfer.effectAllowed = $.dnd.EFFECT_ALL;
-      $(this).addClass("active");
-      console.log("start:", b.currentTarget.dataset.block);
-      b.dataTransfer.setData("text", b.currentTarget.dataset.block);
-    }, end:function(b) {
-      console.log("end:", b);
-      $(this).removeClass("active");
-      a.fire("enddrag", {});
-      a.closeMenu();
-    }});
-    $(".droppable", this).drop({drop:function(b) {
-      var c = b.dataTransfer.getData("text");
-      $(this).removeClass("active");
-      a.createBlock(c, b.originalEvent.clientY, b.originalEvent.clientX);
-    }, over:function(a) {
-      a.dataTransfer.dropEffect = $.dnd.EFFECT_COPY;
-    }, enter:function(a) {
-      console.log("enter:", a);
-    }, leave:function(a) {
-      console.log("leave:", a);
-    }});
+    this.async(function() {
+      $(".draggable").drag({start:function(b) {
+        a.rect = a.$.canvasId.getBoundingClientRect();
+        b.dataTransfer.effectAllowed = $.dnd.EFFECT_ALL;
+        $(this).addClass("active");
+        console.log("start:", b.currentTarget.dataset.block);
+        b.dataTransfer.setData("text", b.currentTarget.dataset.block);
+      }, end:function(b) {
+        console.log("end:", b);
+        $(this).removeClass("active");
+        a.fire("enddrag", {});
+        a.closeMenu();
+      }});
+      $(".droppable", this).drop({drop:function(b) {
+        var c = b.dataTransfer.getData("text");
+        $(this).removeClass("active");
+        a.createBlock(c, b.originalEvent.clientY, b.originalEvent.clientX);
+      }, over:function(a) {
+        a.dataTransfer.dropEffect = $.dnd.EFFECT_COPY;
+      }, enter:function(a) {
+        console.log("enter:", a);
+      }, leave:function(a) {
+        console.log("leave:", a);
+      }});
+    }, 100);
   }
 }, blockclose:function(a) {
   console.log("close:", a);
