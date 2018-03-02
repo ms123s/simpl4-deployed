@@ -17181,6 +17181,7 @@ Polymer({is:"simpl-dispatcher", properties:{selected:{observer:"selectedChanged"
     for (var f = base = e.hash, g = 0; this._hashExists(c, f);) {
       f = base + g, g++;
     }
+    "noop" == e.uri && (e.uri = "");
     0 < g && e.uri && (e.hash = f, f = 0 <= e.uri.indexOf("?"), e.uri += (f ? "&" : "?") + "dummy=" + d);
     e.url = e.uri || e.url;
     e.url && -1 != e.url.indexOf("%l") && (e.url = e.url.replace("%l", simpl4Globals.get("lang")));
