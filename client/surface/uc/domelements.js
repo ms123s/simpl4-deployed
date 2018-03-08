@@ -17299,7 +17299,7 @@ LobiboxBehavior = {notify:function(a, b, c, d) {
   var e = "vaadin-icons:info-circle-o";
   "success" == b ? e = "vaadin-icons:check-circle-o" : "warning" == b ? e = "vaadin-icons:warning" : "error" == b && (e = "vaadin-icons:exclamation");
   d = $.extend({}, {delay:c, icon:e, msg:a}, d);
-  Lobibox.notify(b, d);
+  return Lobibox.notify(b, d);
 }};
 Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, method:{type:String}, url:{observer:"urlChanged", type:String}}, behaviors:[StyleScopeBehavior], observers:["dataChanged(data,method)"], urlChanged:function(a) {
   null != this.url && (a = "?", 0 < this.url.indexOf("?") && (a = "&"), a = this.url + a + "time=" + (new Date).getTime(), this.importHref(a, this.onResponse.bind(this)));
@@ -24756,6 +24756,8 @@ lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:{type:Boolean,
   }, 20);
 }, jsonItemsChanged:function(a) {
   this.items = JSON.parse(this.jsonItems);
+}, setItems:function(a) {
+  this.items = a;
 }, itemsChanged:function() {
   if (null != this.form || _.isEmpty(this.parentName)) {
     for (var a = this.$.select; a.firstChild;) {
