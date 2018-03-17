@@ -11548,6 +11548,8 @@ CSSImportBehavior = {convertSheetsToStyles:function(a) {
     d.appendChild(e);
   }
   window.is_chromium = -1 < navigator.userAgent.toLowerCase().indexOf("chrome");
+  window.is_edge = 0 <= Detectizr.browser.userAgent.indexOf("edge/");
+  console.log("is_edge:", is_edge);
   simpl4.util.BaseManager.setNamespace(b);
   window.startPage = a("page");
   b = a("theme");
@@ -24592,7 +24594,8 @@ isAuthorizedType:function() {
   b = b || 2;
   return a.toString().length < b ? this.lpad("0" + a, b) : a;
 }, validateAttributes:function() {
-  this.input && ("text" == this.type || this.isAuthorizedType() || (this._origType = this.type, "double" == this.type || "decimal" == this.type ? (this.step = "0.01", this.type = "number") : "integer" == this.type ? (this.step = "1", this.type = "number") : this.type = "text"), this.isDateTime() && this.hasDate ? this.input.setAttribute("type", "datetime-local") : this.isDateYearMonth() && this.hasDate ? this.input.setAttribute("type", "date") : this.input.setAttribute("type", this.type));
+  this.input && ("text" == this.type || this.isAuthorizedType() || (this._origType = this.type, "double" == this.type || "decimal" == this.type ? (this.step = "0.01", this.type = "number") : "integer" == this.type ? (this.step = "1", this.type = "number") : this.type = "text"), is_edge && "number" == this.type && (this.type = "text"), this.isDateTime() && this.hasDate ? this.input.setAttribute("type", "datetime-local") : this.isDateYearMonth() && this.hasDate ? this.input.setAttribute("type", "date") : 
+  this.input.setAttribute("type", this.type));
 }, committedValueChanged:function() {
 }, editValueChanged:function() {
   null != this.type && (this.isDate() && !this.hasDate ? this.value = this._i18nToIso(this.editValue) : this.value = this.editValue, this.fire("value-changed", this));
@@ -24809,7 +24812,7 @@ lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:{type:Boolean,
   this.value = a;
   this.selectize ? this.selectize.setValue(a) : this.__value = a;
 }, getValue:function() {
-  return !0 !== this.multiple && this.value && Array.isArray(this.value) && 0 < this.value.length ? this.value[0] : this.value;
+  return !0 !== this.multiple && this.value && Array.isArray(this.value) && 0 < this.value.length ? null == this.value[0] && this.convertNullToEmpty ? "" : this.value[0] : null == this.value && this.convertNullToEmpty ? "" : this.value;
 }, onFocus:function(a) {
 }, onCreate:function(a) {
   return this.combobox ? {value:a, text:a} : !1;
@@ -24879,6 +24882,7 @@ lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:{type:Boolean,
   return !1;
 }, setForm:function(a) {
   this.form = a;
+  this.convertNullToEmpty = !0 === a._form.xf_string_null_in_empty;
   !this.isParentDest(this.name) && _.isEmpty(this.parentName) || this.itemsChanged();
   null == this.getValue() && this.setValue(this.defaultvalue);
 }, isRequired:function() {
