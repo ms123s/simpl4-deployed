@@ -7666,12 +7666,12 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       });
       a = !0;
       for (var h = -(1 / 0), l = 0; l < g.length; l++) {
-        var n = g[l].offset;
-        if (null != n) {
-          if (h > n) {
+        var p = g[l].offset;
+        if (null != p) {
+          if (h > p) {
             throw {code:DOMException.INVALID_MODIFICATION_ERR, name:"InvalidModificationError", message:"Keyframes are not loosely sorted by offset. Sort or specify offsets."};
           }
-          h = n;
+          h = p;
         } else {
           a = !1;
         }
@@ -7727,9 +7727,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         var d = [], e;
         for (e in c) {
           for (var f = c[e], g = 0; g < f.length - 1; g++) {
-            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, n = f[g + 1].value, p = f[g].easing;
-            h == m && (1 == m ? l = n : n = l);
-            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(p ? p : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, n)});
+            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, p = f[g + 1].value, n = f[g].easing;
+            h == m && (1 == m ? l = p : p = l);
+            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(n ? n : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, p)});
           }
         }
         return d.sort(function(a, b) {
@@ -7780,9 +7780,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         for (m = 0; c && m < c.length; m++) {
           var l = c[m][0](g), r = c[m][0](h);
           if (void 0 !== l && void 0 !== r && (l = c[m][1](l, r))) {
-            var n = b.Interpolation.apply(null, l);
+            var p = b.Interpolation.apply(null, l);
             return function(a) {
-              return 0 == a ? g : 1 == a ? h : n(a);
+              return 0 == a ? g : 1 == a ? h : p(a);
             };
           }
         }
@@ -8157,9 +8157,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         function f(a) {
           return {inset:a, color:[0, 0, 0, 0], lengths:[{px:0}, {px:0}, {px:0}, {px:0}]};
         }
-        for (var g = [], h = [], m = 0; m < d.length || m < e.length; m++) {
-          var l = d[m] || f(e[m].inset), r = e[m] || f(d[m].inset);
-          g.push(l);
+        for (var g = [], h = [], l = 0; l < d.length || l < e.length; l++) {
+          var m = d[l] || f(e[l].inset), r = e[l] || f(d[l].inset);
+          g.push(m);
           h.push(r);
         }
         return a.mergeNestedRepeated(b, c, g, h);
@@ -11554,6 +11554,17 @@ CSSImportBehavior = {convertSheetsToStyles:function(a) {
   window.startPage = a("page");
   b = a("theme");
   e = a("lang");
+  (function(a, b) {
+    var c = document.location.search;
+    if (c) {
+      var d = null != b ? a + "=" + b : "", e = location.hash, f = new RegExp("([?&])" + a + "[^&]*");
+      a = new RegExp("([?&])" + a + "=[^&;]+[&;]?");
+      "undefined" == typeof b || null == b || "" == b ? (b = c.replace(a, "$1"), b = b.replace(/[&;]$/, "")) : b = null !== c.match(f) ? c.replace(f, "$1" + d) : c + "&" + d;
+      "?" == b && (b = "");
+      c = [location.protocol, "//", location.host, location.pathname].join("");
+      window.history.replaceState({}, document.title, c + b + e);
+    }
+  })("lang", null);
   d = Simpl4.Cache.getItem("lang");
   e ? (simpl4.util.BaseManager.setLanguage(e), simpl4.util.Globals.set("lang", e)) : (e = window.defaultLang || "en", simpl4.util.BaseManager.setLanguage(d ? d : e), simpl4.util.Globals.set("lang", d ? d : e));
   Simpl4.Cache.setItem("lang", simpl4.util.BaseManager.getLanguage());
@@ -19847,27 +19858,27 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function H(b, c, e, f) {
-    var g, h, t, w = b.aoColumns;
+    var g, h, t, l = b.aoColumns;
     if (c) {
       for (g = c.length - 1; 0 <= g; g--) {
-        var l = c[g];
-        var G = l.targets !== d ? l.targets : l.aTargets;
+        var w = c[g];
+        var G = w.targets !== d ? w.targets : w.aTargets;
         a.isArray(G) || (G = [G]);
         var n = 0;
         for (h = G.length; n < h; n++) {
           if ("number" === typeof G[n] && 0 <= G[n]) {
-            for (; w.length <= G[n];) {
+            for (; l.length <= G[n];) {
               q(b);
             }
-            f(G[n], l);
+            f(G[n], w);
           } else {
             if ("number" === typeof G[n] && 0 > G[n]) {
-              f(w.length + G[n], l);
+              f(l.length + G[n], w);
             } else {
               if ("string" === typeof G[n]) {
                 var aa = 0;
-                for (t = w.length; aa < t; aa++) {
-                  ("_all" == G[n] || a(w[aa].nTh).hasClass(G[n])) && f(aa, l);
+                for (t = l.length; aa < t; aa++) {
+                  ("_all" == G[n] || a(l[aa].nTh).hasClass(G[n])) && f(aa, w);
                 }
               }
             }
@@ -20701,9 +20712,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     e || d.fnInit(b, c, f);
     g.p || (c.id = b.sTableId + "_paginate", b.aoDrawCallback.push({fn:function(a) {
       if (e) {
-        var b = a._iDisplayStart, c = a._iDisplayLength, h = a.fnRecordsDisplay(), t = -1 === c, b = t ? 0 : Math.ceil(b / c), c = t ? 1 : Math.ceil(h / c), h = d(b, c), l, t = 0;
-        for (l = g.p.length; t < l; t++) {
-          Na(a, "pageButton")(a, g.p[t], t, h, b, c);
+        var b = a._iDisplayStart, c = a._iDisplayLength, h = a.fnRecordsDisplay(), l = -1 === c, b = l ? 0 : Math.ceil(b / c), c = l ? 1 : Math.ceil(h / c), h = d(b, c), t, l = 0;
+        for (t = g.p.length; l < t; l++) {
+          Na(a, "pageButton")(a, g.p[l], l, h, b, c);
         }
       } else {
         d.fnUpdate(a, f);
@@ -21597,22 +21608,22 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, iterator:function(a, b, c, e) {
     var f = [], g, h, l = this.context, n, t = this.selector;
     "string" === typeof a && (e = c, c = b, b = a, a = !1);
-    var m = 0;
-    for (g = l.length; m < g; m++) {
-      var p = new J(l[m]);
+    var p = 0;
+    for (g = l.length; p < g; p++) {
+      var m = new J(l[p]);
       if ("table" === b) {
-        var q = c.call(p, l[m], m);
+        var q = c.call(m, l[p], p);
         q !== d && f.push(q);
       } else {
         if ("columns" === b || "rows" === b) {
-          q = c.call(p, l[m], this[m], m), q !== d && f.push(q);
+          q = c.call(m, l[p], this[p], p), q !== d && f.push(q);
         } else {
           if ("column" === b || "column-rows" === b || "row" === b || "cell" === b) {
-            var w = this[m];
-            "column-rows" === b && (n = Ja(l[m], t.opts));
+            var w = this[p];
+            "column-rows" === b && (n = Ja(l[p], t.opts));
             var r = 0;
             for (h = w.length; r < h; r++) {
-              q = w[r], q = "cell" === b ? c.call(p, l[m], q.row, q.column, m, r) : c.call(p, l[m], q, m, r, n), q !== d && f.push(q);
+              q = w[r], q = "cell" === b ? c.call(m, l[p], q.row, q.column, p, r) : c.call(m, l[p], q, p, r, n), q !== d && f.push(q);
             }
           }
         }
@@ -21826,21 +21837,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
   });
   var Ya = function(b, c, e, f, g) {
-    var h = [], l, n, m;
-    var p = typeof c;
-    c && "string" !== p && "function" !== p && c.length !== d || (c = [c]);
-    p = 0;
-    for (n = c.length; p < n; p++) {
-      var t = c[p] && c[p].split ? c[p].split(",") : [c[p]];
+    var h = [], l, n, p;
+    var m = typeof c;
+    c && "string" !== m && "function" !== m && c.length !== d || (c = [c]);
+    m = 0;
+    for (n = c.length; m < n; m++) {
+      var t = c[m] && c[m].split ? c[m].split(",") : [c[m]];
       var q = 0;
-      for (m = t.length; q < m; q++) {
+      for (p = t.length; q < p; q++) {
         (l = e("string" === typeof t[q] ? a.trim(t[q]) : t[q])) && l.length && (h = h.concat(l));
       }
     }
     b = N.selector[b];
     if (b.length) {
-      for (p = 0, n = b.length; p < n; p++) {
-        h = b[p](f, g, h);
+      for (m = 0, n = b.length; m < n; m++) {
+        h = b[m](f, g, h);
       }
     }
     return Aa(h);
@@ -21970,12 +21981,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       f.splice(c, 1);
       var n = 0;
       for (h = f.length; n < h; n++) {
-        var m = f[n];
-        var p = m.anCells;
-        null !== m.nTr && (m.nTr._DT_RowIndex = n);
-        if (null !== p) {
-          for (m = 0, l = p.length; m < l; m++) {
-            p[m]._DT_CellIndex.row = n;
+        var p = f[n];
+        var m = p.anCells;
+        null !== p.nTr && (p.nTr._DT_RowIndex = n);
+        if (null !== m) {
+          for (p = 0, l = m.length; p < l; p++) {
+            m[p]._DT_CellIndex.row = n;
           }
         }
       }
@@ -22126,10 +22137,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           case "visible":
             h = parseInt(n[1], 10);
             if (0 > h) {
-              var m = a.map(e, function(a, b) {
+              var p = a.map(e, function(a, b) {
                 return a.bVisible ? b : null;
               });
-              return [m[m.length + h]];
+              return [p[p.length + h]];
             }
             return [u(b, h)];
           case "name":
@@ -22200,11 +22211,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       if (b !== d && g.bVisible !== b) {
         if (b) {
           var n = a.inArray(!0, X(f, "bVisible"), e + 1);
-          var m = 0;
-          for (l = h.length; m < l; m++) {
-            var p = h[m].nTr;
-            f = h[m].anCells;
-            p && p.insertBefore(f[e], f[n] || null);
+          var p = 0;
+          for (l = h.length; p < l; p++) {
+            var m = h[p].nTr;
+            f = h[p].anCells;
+            m && m.insertBefore(f[e], f[n] || null);
           }
         } else {
           a(X(c.aoData, "anCells", e)).detach();
@@ -22245,18 +22256,18 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return $a(this.columns(a, b));
   });
   var $b = function(b, c, e) {
-    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, m = b.aoColumns.length, p, q, t, r, w, u;
+    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, p = b.aoColumns.length, m, q, t, r, w, u;
     return Ya("cell", c, function(c) {
       var e = "function" === typeof c;
       if (null === c || c === d || e) {
-        p = [];
+        m = [];
         q = 0;
         for (t = g.length; q < t; q++) {
-          for (n = g[q], r = 0; r < m; r++) {
-            w = {row:n, column:r}, e ? (u = f[n], c(w, F(b, n, r), u.anCells ? u.anCells[r] : null) && p.push(w)) : p.push(w);
+          for (n = g[q], r = 0; r < p; r++) {
+            w = {row:n, column:r}, e ? (u = f[n], c(w, F(b, n, r), u.anCells ? u.anCells[r] : null) && m.push(w)) : m.push(w);
           }
         }
-        return p;
+        return m;
       }
       if (a.isPlainObject(c)) {
         return [c];
@@ -22279,12 +22290,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         return $b(a, b, Za(e));
       });
     }
-    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, m, p, q = this.iterator("table", function(a, b) {
+    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, p, m, q = this.iterator("table", function(a, b) {
       h = [];
       l = 0;
       for (n = g[b].length; l < n; l++) {
-        for (m = 0, p = f[b].length; m < p; m++) {
-          h.push({row:g[b][l], column:f[b][m]});
+        for (p = 0, m = f[b].length; p < m; p++) {
+          h.push({row:g[b][l], column:f[b][p]});
         }
       }
       return h;
@@ -22466,16 +22477,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   E("destroy()", function(c) {
     c = c || !1;
     return this.iterator("table", function(d) {
-      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, m = a(g), h = a(h), p = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
+      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, p = a(g), h = a(h), m = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
         return a.nTr;
       }), r;
       d.bDestroying = !0;
       M(d, "aoDestroyCallback", "destroy", [d]);
       c || (new J(d)).columns().visible(!0);
-      p.unbind(".DT").find(":not(tbody *)").unbind(".DT");
+      m.unbind(".DT").find(":not(tbody *)").unbind(".DT");
       a(b).unbind(".DT-" + d.sInstance);
-      g != l.parentNode && (m.children("thead").detach(), m.append(l));
-      n && g != n.parentNode && (m.children("tfoot").detach(), m.append(n));
+      g != l.parentNode && (p.children("thead").detach(), p.append(l));
+      n && g != n.parentNode && (p.children("tfoot").detach(), p.append(n));
       d.aaSorting = [];
       d.aaSortingFixed = [];
       Da(d);
@@ -22489,9 +22500,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       h.children().detach();
       h.append(q);
       l = c ? "remove" : "detach";
-      m[l]();
       p[l]();
-      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), m.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
+      m[l]();
+      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), p.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
         a(this).addClass(d.asDestroyStripes[b % r]);
       }));
       e = a.inArray(d, x.settings);
@@ -22569,7 +22580,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return ["first", "previous", Ga(a, b), "next", "last"];
   }, _numbers:Ga, numbers_length:7});
   a.extend(!0, x.ext.renderer, {pageButton:{_:function(b, d, e, f, g, h) {
-    var l = b.oClasses, n = b.oLanguage.oPaginate, m = b.oLanguage.oAria.paginate || {}, p, q, r = 0, t = function(c, d) {
+    var l = b.oClasses, n = b.oLanguage.oPaginate, p = b.oLanguage.oAria.paginate || {}, m, q, r = 0, t = function(c, d) {
       var f, u = function(a) {
         Sa(b, a.data.action, !0);
       };
@@ -22580,32 +22591,32 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           var x = a("<" + (v.DT_el || "div") + "/>").appendTo(c);
           t(x, v);
         } else {
-          p = null;
+          m = null;
           q = "";
           switch(v) {
             case "ellipsis":
               c.append('<span class="ellipsis">&#x2026;</span>');
               break;
             case "first":
-              p = n.sFirst;
+              m = n.sFirst;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "previous":
-              p = n.sPrevious;
+              m = n.sPrevious;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "next":
-              p = n.sNext;
+              m = n.sNext;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             case "last":
-              p = n.sLast;
+              m = n.sLast;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             default:
-              p = v + 1, q = g === v ? l.sPageButtonActive : "";
+              m = v + 1, q = g === v ? l.sPageButtonActive : "";
           }
-          null !== p && (x = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":m[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(p).appendTo(c), Ua(x, {action:v}, u), r++);
+          null !== m && (x = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":p[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(m).appendTo(c), Ua(x, {action:v}, u), r++);
         }
       }
     };
