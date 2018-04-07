@@ -1568,7 +1568,7 @@
 
 /*!
  * Pikaday
- * Copyright ?? 2014 David Bushell | BSD & MIT license | http://dbushell.com/
+ * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/
  */
 
 .pika-single {
@@ -4437,11 +4437,11 @@ span.CodeMirror-selectedtext { background: none; }
 }
 
 .editor-toolbar a.fa-header-bigger:after {
-    content: "???";
+    content: "▲";
 }
 
 .editor-toolbar a.fa-header-smaller:after {
-    content: "???";
+    content: "▼";
 }
 
 .editor-toolbar.disabled-for-preview a:not(.no-disable) {
