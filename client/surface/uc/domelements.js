@@ -4636,7 +4636,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
       g = h;
     }
     g || (g = c.keyCode, h = "", Number(g) && (h = 65 <= g && 90 >= g ? String.fromCharCode(32 + g) : 112 <= g && 123 >= g ? "f" + (g - 112) : 48 <= g && 57 >= g ? String(g - 48) : 96 <= g && 105 >= g ? String(g - 96) : f[g]), g = h);
-    return (g || a(c.detail.key, d) || "") === b.key && (!b.hasModifiers || !!c.shiftKey === !!b.shiftKey && !!c.ctrlKey === !!b.ctrlKey && !!c.altKey === !!b.altKey && !!c.metaKey === !!b.metaKey);
+    return (g || a(c.key, d) || "") === b.key && (!b.hasModifiers || !!c.shiftKey === !!b.shiftKey && !!c.ctrlKey === !!b.ctrlKey && !!c.altKey === !!b.altKey && !!c.metaKey === !!b.metaKey);
   }
   function c(a) {
     return 1 === a.length ? {combo:a, key:a, event:"keydown"} : a.split("+").reduce(function(a, b) {
@@ -24624,7 +24624,7 @@ isAuthorizedType:function() {
   }
   if ("bootstrap" == this.pickerType) {
     a = simpl4.util.BaseManager.getDateFormat() + (a ? " HH:mm" : "");
-    b = this.isDateYearMonth() ? "years" : "days";
+    b = this.isDateYearMonth() ? "months" : "days";
     var c = "MYd", c = this.isDateYearMonth() ? "MY" : this.isDateTime() ? "MYdhm" : "MYd", d = this["tooltips_" + simpl4.util.BaseManager.getLanguage()], e = simpl4.util.BaseManager.getLanguage();
     a = $(this.$.input).datetimepicker({locale:e, viewMode:b, showComponents:c, ignoreReadonly:!0, tooltips:d, focusOnShow:!1, format:a, showTodayButton:!0, showClear:!1, showClose:!0});
     var f = this;
