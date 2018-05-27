@@ -7666,12 +7666,12 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       });
       a = !0;
       for (var h = -(1 / 0), l = 0; l < g.length; l++) {
-        var p = g[l].offset;
-        if (null != p) {
-          if (h > p) {
+        var n = g[l].offset;
+        if (null != n) {
+          if (h > n) {
             throw {code:DOMException.INVALID_MODIFICATION_ERR, name:"InvalidModificationError", message:"Keyframes are not loosely sorted by offset. Sort or specify offsets."};
           }
-          h = p;
+          h = n;
         } else {
           a = !1;
         }
@@ -7727,9 +7727,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         var d = [], e;
         for (e in c) {
           for (var f = c[e], g = 0; g < f.length - 1; g++) {
-            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, p = f[g + 1].value, n = f[g].easing;
-            h == m && (1 == m ? l = p : p = l);
-            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(n ? n : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, p)});
+            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, n = f[g + 1].value, p = f[g].easing;
+            h == m && (1 == m ? l = n : n = l);
+            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(p ? p : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, n)});
           }
         }
         return d.sort(function(a, b) {
@@ -7780,9 +7780,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         for (m = 0; c && m < c.length; m++) {
           var l = c[m][0](g), r = c[m][0](h);
           if (void 0 !== l && void 0 !== r && (l = c[m][1](l, r))) {
-            var p = b.Interpolation.apply(null, l);
+            var n = b.Interpolation.apply(null, l);
             return function(a) {
-              return 0 == a ? g : 1 == a ? h : p(a);
+              return 0 == a ? g : 1 == a ? h : n(a);
             };
           }
         }
@@ -8157,9 +8157,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         function f(a) {
           return {inset:a, color:[0, 0, 0, 0], lengths:[{px:0}, {px:0}, {px:0}, {px:0}]};
         }
-        for (var g = [], h = [], l = 0; l < d.length || l < e.length; l++) {
-          var m = d[l] || f(e[l].inset), r = e[l] || f(d[l].inset);
-          g.push(m);
+        for (var g = [], h = [], m = 0; m < d.length || m < e.length; m++) {
+          var l = d[m] || f(e[m].inset), r = e[m] || f(d[m].inset);
+          g.push(l);
           h.push(r);
         }
         return a.mergeNestedRepeated(b, c, g, h);
@@ -8402,14 +8402,14 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           if (h.length < c.length) {
             break;
           }
-          for (var m = [], r = 0; r < h.length; r++) {
-            var n, p = c[r], q = h[r];
-            if (n = p ? {A:function(b) {
+          for (var m = [], n = 0; n < h.length; n++) {
+            var r, p = c[n], q = h[n];
+            if (r = p ? {A:function(b) {
               return "0" == b.trim() ? A : a.parseAngle(b);
-            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](p) : {a:A, n:m[0], t:l}[q], void 0 === n) {
+            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](p) : {a:A, n:m[0], t:l}[q], void 0 === r) {
               return;
             }
-            m.push(n);
+            m.push(r);
           }
           if (e.push({t:g, d:m}), d.lastIndex == b.length) {
             return e;
@@ -8421,27 +8421,27 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           b.length || (e = !0, b = c, c = []);
           for (var h = 0; h < b.length; h++) {
             var l = b[h].t;
-            var m = b[h].d, r = "scale" == l.substr(0, 5) ? 1 : 0;
+            var m = b[h].d, n = "scale" == l.substr(0, 5) ? 1 : 0;
             c.push({t:l, d:m.map(function(a) {
               if ("number" == typeof a) {
-                return r;
+                return n;
               }
               var b = {}, c;
               for (c in a) {
-                b[c] = r;
+                b[c] = n;
               }
               return b;
             })});
           }
         }
-        var m = [], n = [], p = [];
+        var m = [], r = [], p = [];
         if (b.length != c.length) {
           if (!d) {
             return;
           }
           var q = f(b, c);
           m = [q[0]];
-          n = [q[1]];
+          r = [q[1]];
           p = [["matrix", [q[2]]]];
         } else {
           for (h = 0; h < b.length; h++) {
@@ -8455,7 +8455,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
               }
               q = f([b[h]], [c[h]]);
               m.push(q[0]);
-              n.push(q[1]);
+              r.push(q[1]);
               p.push(["matrix", [q[2]]]);
             } else {
               if (l != u) {
@@ -8468,7 +8468,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
                     }
                     q = f(b, c);
                     m = [q[0]];
-                    n = [q[1]];
+                    r = [q[1]];
                     p = [["matrix", [q[2]]]];
                     break;
                   }
@@ -8481,13 +8481,13 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
                 q = ("number" == typeof v[U] ? a.mergeNumbers : a.mergeDimensions)(v[U], A[U]), L[U] = q[0], u[U] = q[1], da.push(q[2]);
               }
               m.push(L);
-              n.push(u);
+              r.push(u);
               p.push([l, da]);
             }
           }
         }
-        e && (n = m = n);
-        return [m, n, function(a) {
+        e && (r = m = r);
+        return [m, r, function(a) {
           return a.map(function(a, b) {
             a = a.map(function(a, c) {
               return p[b][1][c](a);
@@ -16181,11 +16181,12 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
 }, {}], 13:[function(a, b, c) {
   b.exports = "1.3.7";
 }, {}]}, {}, [11]);
-Polymer({is:"simpl-jqtree", properties:{multiselect:{type:Boolean, value:!1}, selection:{type:Array, notify:!0}, data:{observer:"dataChanged", type:Object}, selectedItem:{notify:!0, type:Object}, jqtree:{notify:!0, type:Object}, cmnode:{notify:!0, type:Object}, contextmenu:{type:Array}, options:{type:String}}, observers:[], behaviors:[StyleScopeBehavior], ready:function() {
+Polymer({is:"simpl-jqtree", properties:{multiselect:{type:Boolean, value:!1}, saveState:{type:Boolean, value:!0}, selection:{type:Array, notify:!0}, data:{observer:"dataChanged", type:Object}, selectedItem:{notify:!0, type:Object}, jqtree:{notify:!0, type:Object}, cmnode:{notify:!0, type:Object}, contextmenu:{type:Array}, options:{type:String}}, observers:[], behaviors:[StyleScopeBehavior], ready:function() {
 }, _createTree:function() {
   var a = clone(this._parseOptions(this.options));
   a.data = this.data;
   this.contextmenu && (a.useContextMenu = !0);
+  a.saveState = this.saveState ? !0 : !1;
   this.jqtree = $(this.$.jqtree).tree(a);
   this.multiselect && this.jqtree.bind("tree.click", this._multiSelection.bind(this));
   this.jqtree.bind("tree.select", this._itemSelected.bind(this));
@@ -17739,9 +17740,9 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
       Array.isArray(b) || (b = b.split(this.delimiter));
       for (var c in a) {
         if (a.hasOwnProperty(c)) {
-          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), l = typeof a[d], m = "" === g[0] || !this._methods[g[0]], r = m ? "on" : f;
-          m && (f = f.slice((f.match(new RegExp("^" + this.delimiter)) || [""])[0].length), g.shift());
-          m && "object" === l && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (m && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(r, e, a[d]));
+          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), m = typeof a[d], l = "" === g[0] || !this._methods[g[0]], r = l ? "on" : f;
+          l && (f = f.slice((f.match(new RegExp("^" + this.delimiter)) || [""])[0].length), g.shift());
+          l && "object" === m && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (l && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(r, e, a[d]));
         }
       }
     }
@@ -19696,7 +19697,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
   }
   function g(a) {
-    var b = x.defaults.oLanguage, c = a.sZeroRecords;
+    var b = w.defaults.oLanguage, c = a.sZeroRecords;
     !a.sEmptyTable && c && "No data available in table" === b.sEmptyTable && ca(a, a, "sZeroRecords", "sEmptyTable");
     !a.sLoadingRecords && c && "Loading..." === b.sLoadingRecords && ca(a, a, "sZeroRecords", "sLoadingRecords");
     a.sInfoThousands && (a.sThousands = a.sInfoThousands);
@@ -19717,7 +19718,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     "boolean" === typeof a.scrollX && (a.scrollX = a.scrollX ? "100%" : "");
     if (a = a.aoSearchCols) {
       for (var b = 0, c = a.length; b < c; b++) {
-        a[b] && f(x.models.oSearch, a[b]);
+        a[b] && f(w.models.oSearch, a[b]);
       }
     }
   }
@@ -19730,9 +19731,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     c && !a.isArray(c) && (b.aDataSort = [c]);
   }
   function n(b) {
-    if (!x.__browser) {
+    if (!w.__browser) {
       var c = {};
-      x.__browser = c;
+      w.__browser = c;
       var d = a("<div/>").css({position:"fixed", top:0, left:0, height:1, width:1, overflow:"hidden"}).append(a("<div/>").css({position:"absolute", top:1, left:1, width:100, overflow:"scroll"}).append(a("<div/>").css({width:"100%", height:10}))).appendTo("body"), e = d.children(), f = e.children();
       c.barWidth = e[0].offsetWidth - e[0].clientWidth;
       c.bScrollOversize = 100 === f[0].offsetWidth && 100 !== e[0].clientWidth;
@@ -19740,8 +19741,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       c.bBounding = d[0].getBoundingClientRect().width ? !0 : !1;
       d.remove();
     }
-    a.extend(b.oBrowser, x.__browser);
-    b.oScroll.iBarWidth = x.__browser.barWidth;
+    a.extend(b.oBrowser, w.__browser);
+    b.oScroll.iBarWidth = w.__browser.barWidth;
   }
   function p(a, b, c, e, f, g) {
     var t = !1;
@@ -19755,10 +19756,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return h;
   }
   function q(b, d) {
-    var e = x.defaults.column, f = b.aoColumns.length, e = a.extend({}, x.models.oColumn, e, {nTh:d ? d : c.createElement("th"), sTitle:e.sTitle ? e.sTitle : d ? d.innerHTML : "", aDataSort:e.aDataSort ? e.aDataSort : [f], mData:e.mData ? e.mData : f, idx:f});
+    var e = w.defaults.column, f = b.aoColumns.length, e = a.extend({}, w.models.oColumn, e, {nTh:d ? d : c.createElement("th"), sTitle:e.sTitle ? e.sTitle : d ? d.innerHTML : "", aDataSort:e.aDataSort ? e.aDataSort : [f], mData:e.mData ? e.mData : f, idx:f});
     b.aoColumns.push(e);
     e = b.aoPreSearchCols;
-    e[f] = a.extend({}, x.models.oSearch, e[f]);
+    e[f] = a.extend({}, w.models.oSearch, e[f]);
     m(b, f, a(d).data());
   }
   function m(b, c, e) {
@@ -19769,21 +19770,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       var h = (t.attr("style") || "").match(/width:\s*(\d+[pxem%]+)/);
       h && (c.sWidthOrig = h[1]);
     }
-    e !== d && null !== e && (l(e), f(x.defaults.column, e), e.mDataProp === d || e.mData || (e.mData = e.mDataProp), e.sType && (c._sManualType = e.sType), e.className && !e.sClass && (e.sClass = e.className), a.extend(c, e), ca(c, e, "sWidth", "sWidthOrig"), e.iDataSort !== d && (c.aDataSort = [e.iDataSort]), ca(c, e, "aDataSort"));
-    var w = c.mData, G = W(w), n = c.mRender ? W(c.mRender) : null;
+    e !== d && null !== e && (l(e), f(w.defaults.column, e), e.mDataProp === d || e.mData || (e.mData = e.mDataProp), e.sType && (c._sManualType = e.sType), e.className && !e.sClass && (e.sClass = e.className), a.extend(c, e), ca(c, e, "sWidth", "sWidthOrig"), e.iDataSort !== d && (c.aDataSort = [e.iDataSort]), ca(c, e, "aDataSort"));
+    var x = c.mData, G = W(x), n = c.mRender ? W(c.mRender) : null;
     e = function(a) {
       return "string" === typeof a && -1 !== a.indexOf("@");
     };
-    c._bAttrSrc = a.isPlainObject(w) && (e(w.sort) || e(w.type) || e(w.filter));
+    c._bAttrSrc = a.isPlainObject(x) && (e(x.sort) || e(x.type) || e(x.filter));
     c._setter = null;
     c.fnGetData = function(a, b, c) {
       var e = G(a, b, d, c);
       return n && b ? n(e, b, a, c) : e;
     };
     c.fnSetData = function(a, b, c) {
-      return Z(w)(a, b, c);
+      return Z(x)(a, b, c);
     };
-    "number" !== typeof w && (b._rowReadObject = !0);
+    "number" !== typeof x && (b._rowReadObject = !0);
     b.oFeatures.bSort || (c.bSortable = !1, t.addClass(g.sSortableNone));
     b = -1 !== a.inArray("asc", c.asSorting);
     e = -1 !== a.inArray("desc", c.asSorting);
@@ -19825,7 +19826,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return d;
   }
   function B(a) {
-    var b = a.aoColumns, c = a.aoData, e = x.ext.type.detect, f, g, h;
+    var b = a.aoColumns, c = a.aoData, e = w.ext.type.detect, f, g, h;
     var t = 0;
     for (f = b.length; t < f; t++) {
       var l = b[t];
@@ -19861,8 +19862,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var g, h, t, l = b.aoColumns;
     if (c) {
       for (g = c.length - 1; 0 <= g; g--) {
-        var w = c[g];
-        var G = w.targets !== d ? w.targets : w.aTargets;
+        var x = c[g];
+        var G = x.targets !== d ? x.targets : x.aTargets;
         a.isArray(G) || (G = [G]);
         var n = 0;
         for (h = G.length; n < h; n++) {
@@ -19870,15 +19871,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
             for (; l.length <= G[n];) {
               q(b);
             }
-            f(G[n], w);
+            f(G[n], x);
           } else {
             if ("number" === typeof G[n] && 0 > G[n]) {
-              f(l.length + G[n], w);
+              f(l.length + G[n], x);
             } else {
               if ("string" === typeof G[n]) {
                 var aa = 0;
                 for (t = l.length; aa < t; aa++) {
-                  ("_all" == G[n] || a(l[aa].nTh).hasClass(G[n])) && f(aa, w);
+                  ("_all" == G[n] || a(l[aa].nTh).hasClass(G[n])) && f(aa, x);
                 }
               }
             }
@@ -19893,10 +19894,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function z(b, c, e, f) {
-    var g = b.aoData.length, h = a.extend(!0, {}, x.models.oRow, {src:e ? "dom" : "data", idx:g});
+    var g = b.aoData.length, h = a.extend(!0, {}, w.models.oRow, {src:e ? "dom" : "data", idx:g});
     h._aData = c;
     b.aoData.push(h);
-    for (var t = b.aoColumns, l = 0, w = t.length; l < w; l++) {
+    for (var t = b.aoColumns, l = 0, x = t.length; l < x; l++) {
       t[l].sType = null;
     }
     b.aiDisplayMaster.push(g);
@@ -20021,7 +20022,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var c = function(b, e, f) {
       f = I(f);
       var g = f[f.length - 1];
-      for (var h, t, l = 0, w = f.length - 1; l < w; l++) {
+      for (var h, t, l = 0, x = f.length - 1; l < x; l++) {
         h = f[l].match(ta);
         t = f[l].match(ma);
         if (h) {
@@ -20031,7 +20032,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           g.splice(0, l + 1);
           h = g.join(".");
           if (a.isArray(e)) {
-            for (t = 0, w = e.length; t < w; t++) {
+            for (t = 0, x = e.length; t < x; t++) {
               g = {}, c(g, e[t], h), b[f[l]].push(g);
             }
           } else {
@@ -20105,7 +20106,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function pa(b, c, e, f) {
-    var g = [], h = c.firstChild, t, l = 0, w, n = b.aoColumns, G = b._rowReadObject;
+    var g = [], h = c.firstChild, t, l = 0, x, n = b.aoColumns, G = b._rowReadObject;
     f = f !== d ? f : G ? {} : [];
     var m = function(a, b) {
       if ("string" === typeof a) {
@@ -20114,7 +20115,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }, p = function(b) {
       if (e === d || e === l) {
-        t = n[l], w = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, w), m(t.mData.sort, b), m(t.mData.type, b), m(t.mData.filter, b)) : G ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, w)) : f[l] = w;
+        t = n[l], x = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, x), m(t.mData.sort, b), m(t.mData.type, b), m(t.mData.filter, b)) : G ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, x)) : f[l] = x;
       }
       l++;
     };
@@ -20137,10 +20138,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function L(b, d, e, f) {
     var g = b.aoData[d], h = g._aData, t = [], l;
     if (null === g.nTr) {
-      var w = e || c.createElement("tr");
-      g.nTr = w;
+      var x = e || c.createElement("tr");
+      g.nTr = x;
       g.anCells = t;
-      w._DT_RowIndex = d;
+      x._DT_RowIndex = d;
       da(b, g);
       var n = 0;
       for (l = b.aoColumns.length; n < l; n++) {
@@ -20150,10 +20151,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         t.push(m);
         e && !G.mRender && G.mData === n || a.isPlainObject(G.mData) && G.mData._ === n + ".display" || (m.innerHTML = F(b, d, n, "display"));
         G.sClass && (m.className += " " + G.sClass);
-        G.bVisible && !e ? w.appendChild(m) : !G.bVisible && e && m.parentNode.removeChild(m);
+        G.bVisible && !e ? x.appendChild(m) : !G.bVisible && e && m.parentNode.removeChild(m);
         G.fnCreatedCell && G.fnCreatedCell.call(b.oInstance, m, F(b, d, n), h, d, n);
       }
-      M(b, "aoRowCreatedCallback", null, [w, h, d]);
+      M(b, "aoRowCreatedCallback", null, [x, h, d]);
     }
     g.nTr.setAttribute("role", "row");
   }
@@ -20194,37 +20195,37 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var f, g, h = [], t = [], l = b.aoColumns.length;
     if (c) {
       e === d && (e = !1);
-      var w = 0;
-      for (f = c.length; w < f; w++) {
-        h[w] = c[w].slice();
-        h[w].nTr = c[w].nTr;
+      var x = 0;
+      for (f = c.length; x < f; x++) {
+        h[x] = c[x].slice();
+        h[x].nTr = c[x].nTr;
         for (g = l - 1; 0 <= g; g--) {
-          b.aoColumns[g].bVisible || e || h[w].splice(g, 1);
+          b.aoColumns[g].bVisible || e || h[x].splice(g, 1);
         }
         t.push([]);
       }
-      w = 0;
-      for (f = h.length; w < f; w++) {
-        if (b = h[w].nTr) {
+      x = 0;
+      for (f = h.length; x < f; x++) {
+        if (b = h[x].nTr) {
           for (; g = b.firstChild;) {
             b.removeChild(g);
           }
         }
         g = 0;
-        for (c = h[w].length; g < c; g++) {
+        for (c = h[x].length; g < c; g++) {
           var n = l = 1;
-          if (t[w][g] === d) {
-            b.appendChild(h[w][g].cell);
-            for (t[w][g] = 1; h[w + l] !== d && h[w][g].cell == h[w + l][g].cell;) {
-              t[w + l][g] = 1, l++;
+          if (t[x][g] === d) {
+            b.appendChild(h[x][g].cell);
+            for (t[x][g] = 1; h[x + l] !== d && h[x][g].cell == h[x + l][g].cell;) {
+              t[x + l][g] = 1, l++;
             }
-            for (; h[w][g + n] !== d && h[w][g].cell == h[w][g + n].cell;) {
+            for (; h[x][g + n] !== d && h[x][g].cell == h[x][g + n].cell;) {
               for (e = 0; e < l; e++) {
-                t[w + e][g + n] = 1;
+                t[x + e][g + n] = 1;
               }
               n++;
             }
-            a(h[w][g].cell).attr("rowspan", l).attr("colspan", n);
+            a(h[x][g].cell).attr("rowspan", l).attr("colspan", n);
           }
         }
       }
@@ -20330,8 +20331,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
                     if ("p" == t && e.bPaginate) {
                       h = sb(b);
                     } else {
-                      if (0 !== x.ext.feature.length) {
-                        for (l = x.ext.feature, p = 0, n = l.length; p < n; p++) {
+                      if (0 !== w.ext.feature.length) {
+                        for (l = w.ext.feature, p = 0, n = l.length; p < n; p++) {
                           if (t == l[p].cFeature) {
                             h = l[p].fnInit(b);
                             break;
@@ -20368,15 +20369,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           var l = 1 * d.getAttribute("rowspan");
           t = t && 0 !== t && 1 !== t ? t : 1;
           l = l && 0 !== l && 1 !== l ? l : 1;
-          var w = 0;
-          for (e = b[g]; e[w];) {
-            w++;
+          var x = 0;
+          for (e = b[g]; e[x];) {
+            x++;
           }
-          var n = w;
+          var n = x;
           var m = 1 === t ? !0 : !1;
           for (e = 0; e < t; e++) {
-            for (w = 0; w < l; w++) {
-              b[g + w][n + e] = {cell:d, unique:m}, b[g + w].nTr = h;
+            for (x = 0; x < l; x++) {
+              b[g + x][n + e] = {cell:d, unique:m}, b[g + x].nTr = h;
             }
           }
         }
@@ -20410,11 +20411,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     };
     if (a.isPlainObject(g) && g.data) {
       var l = g.data;
-      var w = a.isFunction(l) ? l(c, b) : l;
-      c = a.isFunction(l) && w ? w : a.extend(!0, c, w);
+      var x = a.isFunction(l) ? l(c, b) : l;
+      c = a.isFunction(l) && x ? x : a.extend(!0, c, x);
       delete g.data;
     }
-    w = {data:c, success:function(a) {
+    x = {data:c, success:function(a) {
       var c = a.error || a.sError;
       c && fa(b, 0, c);
       b.json = a;
@@ -20428,7 +20429,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     M(b, null, "preXhr", [b, c]);
     b.fnServerData ? b.fnServerData.call(h, b.sAjaxSource, a.map(c, function(a, b) {
       return {name:b, value:a};
-    }), t, b) : b.sAjaxSource || "string" === typeof g ? b.jqXHR = a.ajax(a.extend(w, {url:g || b.sAjaxSource})) : a.isFunction(g) ? b.jqXHR = g.call(h, c, t, b) : (b.jqXHR = a.ajax(a.extend(w, g)), g.data = l);
+    }), t, b) : b.sAjaxSource || "string" === typeof g ? b.jqXHR = a.ajax(a.extend(x, {url:g || b.sAjaxSource})) : a.isFunction(g) ? b.jqXHR = g.call(h, c, t, b) : (b.jqXHR = a.ajax(a.extend(x, g)), g.data = l);
   }
   function cb(a) {
     return a.bAjaxDataGet ? (a.iDraw++, Y(a, !0), xa(a, db(a), function(b) {
@@ -20463,7 +20464,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       m("iSortCol_" + a, b.col);
       m("sSortDir_" + a, b.dir);
     }), m("iSortingCols", t.length));
-    c = x.ext.legacy.ajax;
+    c = w.ext.legacy.ajax;
     return null === c ? b.sAjaxSource ? h : p : c ? h : p;
   }
   function eb(a, b) {
@@ -20537,7 +20538,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     M(a, null, "search", [a]);
   }
   function gb(b) {
-    for (var c = x.ext.search, d = b.aiDisplay, e, f, g = 0, h = c.length; g < h; g++) {
+    for (var c = w.ext.search, d = b.aiDisplay, e, f, g = 0, h = c.length; g < h; g++) {
       for (var t = [], l = 0, n = d.length; l < n; l++) {
         f = d[l], e = b.aoData[f], c[g](b, e._aFilterData, f, e._aData, l) && t.push(f);
       }
@@ -20558,7 +20559,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     d = Ka(b, d, e, f);
     e = a.oPreviousSearch.sSearch;
     f = a.aiDisplayMaster;
-    0 !== x.ext.search.length && (c = !0);
+    0 !== w.ext.search.length && (c = !0);
     var g = jb(a);
     if (0 >= b.length) {
       a.aiDisplay = f.slice();
@@ -20584,7 +20585,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return new RegExp(b, e ? "i" : "");
   }
   function jb(a) {
-    var b = a.aoColumns, c, d, e = x.ext.type.search;
+    var b = a.aoColumns, c, d, e = w.ext.type.search;
     var f = !1;
     var g = 0;
     for (c = a.aoData.length; g < c; g++) {
@@ -20706,15 +20707,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return l[0];
   }
   function sb(b) {
-    var c = b.sPaginationType, d = x.ext.pager[c], e = "function" === typeof d, f = function(a) {
+    var c = b.sPaginationType, d = w.ext.pager[c], e = "function" === typeof d, f = function(a) {
       ia(a);
     }, c = a("<div/>").addClass(b.oClasses.sPaging + c)[0], g = b.aanFeatures;
     e || d.fnInit(b, c, f);
     g.p || (c.id = b.sTableId + "_paginate", b.aoDrawCallback.push({fn:function(a) {
       if (e) {
-        var b = a._iDisplayStart, c = a._iDisplayLength, h = a.fnRecordsDisplay(), l = -1 === c, b = l ? 0 : Math.ceil(b / c), c = l ? 1 : Math.ceil(h / c), h = d(b, c), t, l = 0;
-        for (t = g.p.length; l < t; l++) {
-          Na(a, "pageButton")(a, g.p[l], l, h, b, c);
+        var b = a._iDisplayStart, c = a._iDisplayLength, h = a.fnRecordsDisplay(), t = -1 === c, b = t ? 0 : Math.ceil(b / c), c = t ? 1 : Math.ceil(h / c), h = d(b, c), l, t = 0;
+        for (l = g.p.length; t < l; t++) {
+          Na(a, "pageButton")(a, g.p[t], t, h, b, c);
         }
       } else {
         d.fnUpdate(a, f);
@@ -20765,7 +20766,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return t[0];
   }
   function za(b) {
-    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), n = t[0].style, m = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), A = v.children("table"), y = a(b.nTHead), x = a(b.nTable), z = x[0], B = z.style, C = b.nTFoot ? a(b.nTFoot) : null, D = b.oBrowser, F = D.bScrollOversize, E = X(b.aoColumns, "nTh"), H = [], I = [], J = [], L = [], M, O = function(a) {
+    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), n = t[0].style, m = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), A = v.children("table"), y = a(b.nTHead), w = a(b.nTable), z = w[0], B = z.style, C = b.nTFoot ? a(b.nTFoot) : null, D = b.oBrowser, F = D.bScrollOversize, E = X(b.aoColumns, "nTh"), H = [], I = [], J = [], L = [], M, O = function(a) {
       a = a.style;
       a.paddingTop = "0";
       a.paddingBottom = "0";
@@ -20778,13 +20779,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       b.scrollBarVis = K, r(b);
     } else {
       b.scrollBarVis = K;
-      x.children("thead, tfoot").remove();
+      w.children("thead, tfoot").remove();
       if (C) {
-        var N = C.clone().prependTo(x);
+        var N = C.clone().prependTo(w);
         var P = C.find("tr");
         N = N.find("tr");
       }
-      var R = y.clone().prependTo(x);
+      var R = y.clone().prependTo(w);
       y = y.find("tr");
       K = R.find("tr");
       R.find("th, td").removeAttr("tabindex");
@@ -20796,8 +20797,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       C && ea(function(a) {
         a.style.width = "";
       }, N);
-      h = x.outerWidth();
-      "" === e ? (B.width = "100%", F && (x.find("tbody").height() > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(x.outerWidth() - c)), h = x.outerWidth()) : "" !== f && (B.width = Q(f), h = x.outerWidth());
+      h = w.outerWidth();
+      "" === e ? (B.width = "100%", F && (w.find("tbody").height() > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(w.outerWidth() - c)), h = w.outerWidth()) : "" !== f && (B.width = Q(f), h = w.outerWidth());
       ea(O, K);
       ea(function(b) {
         J.push(b.innerHTML);
@@ -20821,19 +20822,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + L[b] + "</div>";
         a.style.width = I[b];
       }, N);
-      x.outerWidth() < h ? (P = t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y") ? h + c : h, F && (t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(P - c)), "" !== e && "" === f || fa(b, 1, "Possible column misalignment", 6)) : P = "100%";
+      w.outerWidth() < h ? (P = t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y") ? h + c : h, F && (t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(P - c)), "" !== e && "" === f || fa(b, 1, "Possible column misalignment", 6)) : P = "100%";
       q.width = Q(P);
       l.width = Q(P);
       C && (b.nScrollFoot.style.width = Q(P));
       !g && F && (q.height = Q(z.offsetHeight + c));
-      e = x.outerWidth();
+      e = w.outerWidth();
       m[0].style.width = Q(e);
       n.width = Q(e);
-      f = x.height() > t.clientHeight || "scroll" == p.css("overflow-y");
+      f = w.height() > t.clientHeight || "scroll" == p.css("overflow-y");
       g = "padding" + (D.bScrollbarLeft ? "Left" : "Right");
       n[g] = f ? c + "px" : "0px";
       C && (A[0].style.width = Q(e), v[0].style.width = Q(e), v[0].style[g] = f ? c + "px" : "0px");
-      x.children("colgroup").insertBefore(x.children("thead"));
+      w.children("colgroup").insertBefore(w.children("thead"));
       p.scroll();
       !b.bSorted && !b.bFiltered || b._drawHold || (t.scrollTop = 0);
     }
@@ -20848,15 +20849,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function La(c) {
-    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, n = C(c, "bVisible"), m = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, x, y = c.oBrowser, f = y.bScrollOversize;
-    (x = d.style.width) && -1 !== x.indexOf("%") && (p = x);
-    for (x = 0; x < n.length; x++) {
-      var z = e[n[x]];
+    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, n = C(c, "bVisible"), m = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, w, y = c.oBrowser, f = y.bScrollOversize;
+    (w = d.style.width) && -1 !== w.indexOf("%") && (p = w);
+    for (w = 0; w < n.length; w++) {
+      var z = e[n[w]];
       null !== z.sWidth && (z.sWidth = vb(z.sWidthOrig, q), v = !0);
     }
     if (f || !v && !h && !g && t == A(c) && t == m.length) {
-      for (x = 0; x < t; x++) {
-        n = u(c, x), null !== n && (e[n].sWidth = Q(m.eq(x).width()));
+      for (w = 0; w < t; w++) {
+        n = u(c, w), null !== n && (e[n].sWidth = Q(m.eq(w).width()));
       }
     } else {
       t = a(d).clone().css("visibility", "hidden").removeAttr("id");
@@ -20866,19 +20867,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       t.append(a(c.nTHead).clone()).append(a(c.nTFoot).clone());
       t.find("tfoot th, tfoot td").css("width", "");
       m = wa(c, t.find("thead")[0]);
-      for (x = 0; x < n.length; x++) {
-        z = e[n[x]], m[x].style.width = null !== z.sWidthOrig && "" !== z.sWidthOrig ? Q(z.sWidthOrig) : "", z.sWidthOrig && h && a(m[x]).append(a("<div/>").css({width:z.sWidthOrig, margin:0, padding:0, border:0, height:1}));
+      for (w = 0; w < n.length; w++) {
+        z = e[n[w]], m[w].style.width = null !== z.sWidthOrig && "" !== z.sWidthOrig ? Q(z.sWidthOrig) : "", z.sWidthOrig && h && a(m[w]).append(a("<div/>").css({width:z.sWidthOrig, margin:0, padding:0, border:0, height:1}));
       }
       if (c.aoData.length) {
-        for (x = 0; x < n.length; x++) {
-          v = n[x], z = e[v], a(wb(c, v)).clone(!1).append(z.sContentPadding).appendTo(B);
+        for (w = 0; w < n.length; w++) {
+          v = n[w], z = e[v], a(wb(c, v)).clone(!1).append(z.sContentPadding).appendTo(B);
         }
       }
       a("[name]", t).removeAttr("name");
       z = a("<div/>").css(h || g ? {position:"absolute", top:0, left:0, height:1, right:0, overflow:"hidden"} : {}).append(t).appendTo(q);
       h && l ? t.width(l) : h ? (t.css("width", "auto"), t.removeAttr("width"), t.width() < q.clientWidth && p && t.width(q.clientWidth)) : g ? t.width(q.clientWidth) : p && t.width(p);
-      for (x = g = 0; x < n.length; x++) {
-        q = a(m[x]), l = q.outerWidth() - q.width(), q = y.bBounding ? Math.ceil(m[x].getBoundingClientRect().width) : q.outerWidth(), g += q, e[n[x]].sWidth = Q(q - l);
+      for (w = g = 0; w < n.length; w++) {
+        q = a(m[w]), l = q.outerWidth() - q.width(), q = y.bBounding ? Math.ceil(m[w].getBoundingClientRect().width) : q.outerWidth(), g += q, e[n[w]].sWidth = Q(q - l);
       }
       d.style.width = Q(g);
       z.remove();
@@ -20936,13 +20937,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var n = l[f];
         var m = e[n].sType || "string";
         h[b]._idx === d && (h[b]._idx = a.inArray(h[b][1], e[n].asSorting));
-        c.push({src:t, col:n, dir:h[b][1], index:h[b]._idx, type:m, formatter:x.ext.type.order[m + "-pre"]});
+        c.push({src:t, col:n, dir:h[b][1], index:h[b]._idx, type:m, formatter:w.ext.type.order[m + "-pre"]});
       }
     }
     return c;
   }
   function ob(a) {
-    var b, c = [], d = x.ext.type.order, e = a.aoData, f = 0, g = a.aiDisplayMaster;
+    var b, c = [], d = w.ext.type.order, e = a.aoData, f = 0, g = a.aiDisplayMaster;
     B(a);
     var h = na(a);
     var l = 0;
@@ -20961,30 +20962,30 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         for (d = 0; d < f; d++) {
           var t = h[d];
           var n = g[t.col];
-          var w = l[t.col];
-          n = n < w ? -1 : n > w ? 1 : 0;
+          var m = l[t.col];
+          n = n < m ? -1 : n > m ? 1 : 0;
           if (0 !== n) {
             return "asc" === t.dir ? n : -n;
           }
         }
         n = c[a];
-        w = c[b];
-        return n < w ? -1 : n > w ? 1 : 0;
+        m = c[b];
+        return n < m ? -1 : n > m ? 1 : 0;
       }) : g.sort(function(a, b) {
         var f, g = h.length, l = e[a]._aSortData, t = e[b]._aSortData;
         for (f = 0; f < g; f++) {
           var n = h[f];
-          var w = l[n.col];
-          var m = t[n.col];
+          var m = l[n.col];
+          var x = t[n.col];
           n = d[n.type + "-" + n.dir] || d["string-" + n.dir];
-          w = n(w, m);
-          if (0 !== w) {
-            return w;
+          m = n(m, x);
+          if (0 !== m) {
+            return m;
           }
         }
-        w = c[a];
-        m = c[b];
-        return w < m ? -1 : w > m ? 1 : 0;
+        m = c[a];
+        x = c[b];
+        return m < x ? -1 : m > x ? 1 : 0;
       });
     }
     a.bSorted = !0;
@@ -21038,9 +21039,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b.aLastSort = e;
   }
   function yb(a, b) {
-    var c = a.aoColumns[b], d = x.ext.order[c.sSortDataType], e;
+    var c = a.aoColumns[b], d = w.ext.order[c.sSortDataType], e;
     d && (e = d.call(a.oInstance, a, b, v(a, b)));
-    for (var f, g = x.ext.type.order[c.sType + "-pre"], h = 0, l = a.aoData.length; h < l; h++) {
+    for (var f, g = w.ext.type.order[c.sType + "-pre"], h = 0, l = a.aoData.length; h < l; h++) {
       if (c = a.aoData[h], c._aSortData || (c._aSortData = []), !c._aSortData[b] || d) {
         f = d ? e[h] : F(a, h, b, "sort"), c._aSortData[b] = g ? g(f) : f;
       }
@@ -21079,7 +21080,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function Fa(b) {
-    var c = x.settings;
+    var c = w.settings;
     b = a.inArray(b, X(c, "nTable"));
     return -1 !== b ? c[b] : null;
   }
@@ -21089,7 +21090,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     if (c) {
       b.console && console.log && console.log(d);
     } else {
-      if (c = x.ext, c = c.sErrMode || c.errMode, a && M(a, null, "error", [a, e, d]), "alert" == c) {
+      if (c = w.ext, c = c.sErrMode || c.errMode, a && M(a, null, "error", [a, e, d]), "alert" == c) {
         alert(d);
       } else {
         if ("throw" == c) {
@@ -21146,7 +21147,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function Na(b, c) {
     b = b.renderer;
-    var d = x.ext.renderer[c];
+    var d = w.ext.renderer[c];
     return a.isPlainObject(b) && b[c] ? d[b[c]] || d._ : "string" === typeof b ? d[b] || d._ : d._;
   }
   function S(a) {
@@ -21174,11 +21175,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function Db(a) {
     return function() {
-      var b = [Fa(this[x.ext.iApiIndex])].concat(Array.prototype.slice.call(arguments));
-      return x.ext.internal[a].apply(this, b);
+      var b = [Fa(this[w.ext.iApiIndex])].concat(Array.prototype.slice.call(arguments));
+      return w.ext.internal[a].apply(this, b);
     };
   }
-  var x = function(b) {
+  var w = function(b) {
     this.$ = function(a, b) {
       return this.api(!0).$(a, b);
     };
@@ -21275,11 +21276,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var c = this, e = b === d, t = this.length;
     e && (b = {});
     this.oApi = this.internal = N.internal;
-    for (var p in x.ext.internal) {
+    for (var p in w.ext.internal) {
       p && (this[p] = Db(p));
     }
     this.each(function() {
-      var p = {}, p = 1 < t ? Bb(p, b, !0) : b, w = 0, r, G = this.getAttribute("id"), aa = !1, u = x.defaults, ba = a(this);
+      var p = {}, p = 1 < t ? Bb(p, b, !0) : b, x = 0, r, G = this.getAttribute("id"), aa = !1, u = w.defaults, ba = a(this);
       if ("table" != this.nodeName.toLowerCase()) {
         fa(null, 0, "Non-table node initialisation (" + this.nodeName + ")", 2);
       } else {
@@ -21288,12 +21289,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         f(u, u, !0);
         f(u.column, u.column, !0);
         f(u, a.extend(p, ba.data()));
-        var v = x.settings, w = 0;
-        for (r = v.length; w < r; w++) {
-          var A = v[w];
+        var v = w.settings, x = 0;
+        for (r = v.length; x < r; x++) {
+          var A = v[x];
           if (A.nTable == this || A.nTHead.parentNode == this || A.nTFoot && A.nTFoot.parentNode == this) {
-            w = p.bRetrieve !== d ? p.bRetrieve : u.bRetrieve;
-            if (e || w) {
+            x = p.bRetrieve !== d ? p.bRetrieve : u.bRetrieve;
+            if (e || x) {
               return A.oInstance;
             }
             if (p.bDestroy !== d ? p.bDestroy : u.bDestroy) {
@@ -21305,14 +21306,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
             }
           }
           if (A.sTableId == this.id) {
-            v.splice(w, 1);
+            v.splice(x, 1);
             break;
           }
         }
         if (null === G || "" === G) {
-          this.id = G = "DataTables_Table_" + x.ext._unique++;
+          this.id = G = "DataTables_Table_" + w.ext._unique++;
         }
-        var y = a.extend(!0, {}, x.models.oSettings, {sDestroyWidth:ba[0].style.width, sInstance:G, sTableId:G});
+        var y = a.extend(!0, {}, w.models.oSettings, {sDestroyWidth:ba[0].style.width, sInstance:G, sTableId:G});
         y.nTable = this;
         y.oApi = c.internal;
         y.oInit = p;
@@ -21340,10 +21341,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         y.rowIdFn = W(p.rowId);
         n(y);
         G = y.oClasses;
-        p.bJQueryUI ? (a.extend(G, x.ext.oJUIClasses, p.oClasses), p.sDom === u.sDom && "lfrtip" === u.sDom && (y.sDom = '<"H"lfr>t<"F"ip>'), y.renderer) ? a.isPlainObject(y.renderer) && !y.renderer.header && (y.renderer.header = "jqueryui") : y.renderer = "jqueryui" : a.extend(G, x.ext.classes, p.oClasses);
+        p.bJQueryUI ? (a.extend(G, w.ext.oJUIClasses, p.oClasses), p.sDom === u.sDom && "lfrtip" === u.sDom && (y.sDom = '<"H"lfr>t<"F"ip>'), y.renderer) ? a.isPlainObject(y.renderer) && !y.renderer.header && (y.renderer.header = "jqueryui") : y.renderer = "jqueryui" : a.extend(G, w.ext.classes, p.oClasses);
         ba.addClass(G.sTable);
         y.iInitDisplayStart === d && (y.iInitDisplayStart = p.iDisplayStart, y._iDisplayStart = p.iDisplayStart);
-        null !== p.iDeferLoading && (y.bDeferLoading = !0, w = a.isArray(p.iDeferLoading), y._iRecordsDisplay = w ? p.iDeferLoading[0] : p.iDeferLoading, y._iRecordsTotal = w ? p.iDeferLoading[1] : p.iDeferLoading);
+        null !== p.iDeferLoading && (y.bDeferLoading = !0, x = a.isArray(p.iDeferLoading), y._iRecordsDisplay = x ? p.iDeferLoading[0] : p.iDeferLoading, y._iRecordsTotal = x ? p.iDeferLoading[1] : p.iDeferLoading);
         var B = y.oLanguage;
         a.extend(!0, B, p.oLanguage);
         "" !== B.sUrl && (a.ajax({dataType:"json", url:B.sUrl, success:function(b) {
@@ -21355,23 +21356,23 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           ua(y);
         }}), aa = !0);
         null === p.asStripeClasses && (y.asStripeClasses = [G.sStripeOdd, G.sStripeEven]);
-        var w = y.asStripeClasses, C = ba.children("tbody").find("tr").eq(0);
-        -1 !== a.inArray(!0, a.map(w, function(a, b) {
+        var x = y.asStripeClasses, C = ba.children("tbody").find("tr").eq(0);
+        -1 !== a.inArray(!0, a.map(x, function(a, b) {
           return C.hasClass(a);
-        })) && (a("tbody tr", this).removeClass(w.join(" ")), y.asDestroyStripes = w.slice());
+        })) && (a("tbody tr", this).removeClass(x.join(" ")), y.asDestroyStripes = x.slice());
         v = [];
-        w = this.getElementsByTagName("thead");
-        0 !== w.length && (ra(y.aoHeader, w[0]), v = wa(y));
+        x = this.getElementsByTagName("thead");
+        0 !== x.length && (ra(y.aoHeader, x[0]), v = wa(y));
         if (null === p.aoColumns) {
-          for (A = [], w = 0, r = v.length; w < r; w++) {
+          for (A = [], x = 0, r = v.length; x < r; x++) {
             A.push(null);
           }
         } else {
           A = p.aoColumns;
         }
-        w = 0;
-        for (r = A.length; w < r; w++) {
-          q(y, v ? v[w] : null);
+        x = 0;
+        for (r = A.length; x < r; x++) {
+          q(y, v ? v[x] : null);
         }
         H(y, p.aoColumnDefs, A, function(a, b) {
           m(y, a, b);
@@ -21394,8 +21395,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var E = y.oFeatures;
         p.bStateSave && (E.bStateSave = !0, Ab(y, p), T(y, "aoDrawCallback", Ea, "state_save"));
         if (p.aaSorting === d) {
-          for (v = y.aaSorting, w = 0, r = v.length; w < r; w++) {
-            v[w][1] = y.aoColumns[w].asSorting[0];
+          for (v = y.aaSorting, x = 0, r = v.length; x < r; x++) {
+            v[x][1] = y.aoColumns[x].asSorting[0];
           }
         }
         Da(y);
@@ -21412,7 +21413,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         T(y, "aoDrawCallback", function() {
           (y.bSorted || "ssp" === S(y) || E.bDeferRender) && Da(y);
         }, "sc");
-        w = ba.children("caption").each(function() {
+        x = ba.children("caption").each(function() {
           this._captionSide = ba.css("caption-side");
         });
         r = ba.children("thead");
@@ -21422,11 +21423,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         0 === r.length && (r = a("<tbody/>").appendTo(this));
         y.nTBody = r[0];
         r = ba.children("tfoot");
-        0 === r.length && 0 < w.length && ("" !== y.oScroll.sX || "" !== y.oScroll.sY) && (r = a("<tfoot/>").appendTo(this));
+        0 === r.length && 0 < x.length && ("" !== y.oScroll.sX || "" !== y.oScroll.sY) && (r = a("<tfoot/>").appendTo(this));
         0 === r.length || 0 === r.children().length ? ba.addClass(G.sNoFooter) : 0 < r.length && (y.nTFoot = r[0], ra(y.aoFooter, y.nTFoot));
         if (p.aaData) {
-          for (w = 0; w < p.aaData.length; w++) {
-            z(y, p.aaData[w]);
+          for (x = 0; x < p.aaData.length; x++) {
+            z(y, p.aaData[x]);
           }
         } else {
           (y.bDeferLoading || "dom" == S(y)) && D(y, a(y.nTBody).children("tr"));
@@ -21512,7 +21513,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return b;
   };
-  x.util = {throttle:function(a, b) {
+  w.util = {throttle:function(a, b) {
     var c = b !== d ? b : 200, e, f;
     return function() {
       var b = this, g = +new Date, h = arguments;
@@ -21526,8 +21527,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }};
   var V = function(a, b, c) {
     a[b] !== d && (a[c] = a[b]);
-  }, ta = /\[.*?\]$/, ma = /\(\)$/, Pa = x.util.escapeRegex, Ca = a("<div>")[0], Ob = Ca.textContent !== d, Pb = /<.*?>/g, Oa = x.util.throttle, Jb = [], P = Array.prototype, Tb = function(b) {
-    var c, d = x.settings, e = a.map(d, function(a, b) {
+  }, ta = /\[.*?\]$/, ma = /\(\)$/, Pa = w.util.escapeRegex, Ca = a("<div>")[0], Ob = Ca.textContent !== d, Pb = /<.*?>/g, Oa = w.util.throttle, Jb = [], P = Array.prototype, Tb = function(b) {
+    var c, d = w.settings, e = a.map(d, function(a, b) {
       return a.nTable;
     });
     if (b) {
@@ -21571,7 +21572,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     this.selector = {rows:null, cols:null, opts:null};
     J.extend(this, this, Jb);
   };
-  x.Api = J;
+  w.Api = J;
   a.extend(J.prototype, {any:function() {
     return 0 !== this.count();
   }, concat:P.concat, context:[], count:function() {
@@ -21608,22 +21609,22 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, iterator:function(a, b, c, e) {
     var f = [], g, h, l = this.context, n, t = this.selector;
     "string" === typeof a && (e = c, c = b, b = a, a = !1);
-    var p = 0;
-    for (g = l.length; p < g; p++) {
-      var m = new J(l[p]);
+    var m = 0;
+    for (g = l.length; m < g; m++) {
+      var p = new J(l[m]);
       if ("table" === b) {
-        var q = c.call(m, l[p], p);
+        var q = c.call(p, l[m], m);
         q !== d && f.push(q);
       } else {
         if ("columns" === b || "rows" === b) {
-          q = c.call(m, l[p], this[p], p), q !== d && f.push(q);
+          q = c.call(p, l[m], this[m], m), q !== d && f.push(q);
         } else {
           if ("column" === b || "column-rows" === b || "row" === b || "cell" === b) {
-            var w = this[p];
-            "column-rows" === b && (n = Ja(l[p], t.opts));
+            var x = this[m];
+            "column-rows" === b && (n = Ja(l[m], t.opts));
             var r = 0;
-            for (h = w.length; r < h; r++) {
-              q = w[r], q = "cell" === b ? c.call(m, l[p], q.row, q.column, p, r) : c.call(m, l[p], q, p, r, n), q !== d && f.push(q);
+            for (h = x.length; r < h; r++) {
+              q = x[r], q = "cell" === b ? c.call(p, l[m], q.row, q.column, m, r) : c.call(p, l[m], q, m, r, n), q !== d && f.push(q);
             }
           }
         }
@@ -21837,21 +21838,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
   });
   var Ya = function(b, c, e, f, g) {
-    var h = [], l, n, p;
-    var m = typeof c;
-    c && "string" !== m && "function" !== m && c.length !== d || (c = [c]);
-    m = 0;
-    for (n = c.length; m < n; m++) {
-      var t = c[m] && c[m].split ? c[m].split(",") : [c[m]];
+    var h = [], l, n, m;
+    var p = typeof c;
+    c && "string" !== p && "function" !== p && c.length !== d || (c = [c]);
+    p = 0;
+    for (n = c.length; p < n; p++) {
+      var t = c[p] && c[p].split ? c[p].split(",") : [c[p]];
       var q = 0;
-      for (p = t.length; q < p; q++) {
+      for (m = t.length; q < m; q++) {
         (l = e("string" === typeof t[q] ? a.trim(t[q]) : t[q])) && l.length && (h = h.concat(l));
       }
     }
     b = N.selector[b];
     if (b.length) {
-      for (m = 0, n = b.length; m < n; m++) {
-        h = b[m](f, g, h);
+      for (p = 0, n = b.length; p < n; p++) {
+        h = b[p](f, g, h);
       }
     }
     return Aa(h);
@@ -21981,12 +21982,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       f.splice(c, 1);
       var n = 0;
       for (h = f.length; n < h; n++) {
-        var p = f[n];
-        var m = p.anCells;
-        null !== p.nTr && (p.nTr._DT_RowIndex = n);
-        if (null !== m) {
-          for (p = 0, l = m.length; p < l; p++) {
-            m[p]._DT_CellIndex.row = n;
+        var m = f[n];
+        var p = m.anCells;
+        null !== m.nTr && (m.nTr._DT_RowIndex = n);
+        if (null !== p) {
+          for (m = 0, l = p.length; m < l; m++) {
+            p[m]._DT_CellIndex.row = n;
           }
         }
       }
@@ -22137,10 +22138,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           case "visible":
             h = parseInt(n[1], 10);
             if (0 > h) {
-              var p = a.map(e, function(a, b) {
+              var m = a.map(e, function(a, b) {
                 return a.bVisible ? b : null;
               });
-              return [p[p.length + h]];
+              return [m[m.length + h]];
             }
             return [u(b, h)];
           case "name":
@@ -22211,11 +22212,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       if (b !== d && g.bVisible !== b) {
         if (b) {
           var n = a.inArray(!0, X(f, "bVisible"), e + 1);
-          var p = 0;
-          for (l = h.length; p < l; p++) {
-            var m = h[p].nTr;
-            f = h[p].anCells;
-            m && m.insertBefore(f[e], f[n] || null);
+          var m = 0;
+          for (l = h.length; m < l; m++) {
+            var p = h[m].nTr;
+            f = h[m].anCells;
+            p && p.insertBefore(f[e], f[n] || null);
           }
         } else {
           a(X(c.aoData, "anCells", e)).detach();
@@ -22256,18 +22257,18 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return $a(this.columns(a, b));
   });
   var $b = function(b, c, e) {
-    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, p = b.aoColumns.length, m, q, t, r, w, u;
+    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, m = b.aoColumns.length, p, q, t, r, x, u;
     return Ya("cell", c, function(c) {
       var e = "function" === typeof c;
       if (null === c || c === d || e) {
-        m = [];
+        p = [];
         q = 0;
         for (t = g.length; q < t; q++) {
-          for (n = g[q], r = 0; r < p; r++) {
-            w = {row:n, column:r}, e ? (u = f[n], c(w, F(b, n, r), u.anCells ? u.anCells[r] : null) && m.push(w)) : m.push(w);
+          for (n = g[q], r = 0; r < m; r++) {
+            x = {row:n, column:r}, e ? (u = f[n], c(x, F(b, n, r), u.anCells ? u.anCells[r] : null) && p.push(x)) : p.push(x);
           }
         }
-        return m;
+        return p;
       }
       if (a.isPlainObject(c)) {
         return [c];
@@ -22290,12 +22291,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         return $b(a, b, Za(e));
       });
     }
-    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, p, m, q = this.iterator("table", function(a, b) {
+    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, m, p, q = this.iterator("table", function(a, b) {
       h = [];
       l = 0;
       for (n = g[b].length; l < n; l++) {
-        for (p = 0, m = f[b].length; p < m; p++) {
-          h.push({row:g[b][l], column:f[b][p]});
+        for (m = 0, p = f[b].length; m < p; m++) {
+          h.push({row:g[b][l], column:f[b][m]});
         }
       }
       return h;
@@ -22411,8 +22412,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       Ea(a);
     });
   });
-  x.versionCheck = x.fnVersionCheck = function(a) {
-    var b = x.version.split(".");
+  w.versionCheck = w.fnVersionCheck = function(a) {
+    var b = w.version.split(".");
     a = a.split(".");
     for (var c, d, e = 0, f = a.length; e < f; e++) {
       if (c = parseInt(b[e], 10) || 0, d = parseInt(a[e], 10) || 0, c !== d) {
@@ -22421,9 +22422,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return !0;
   };
-  x.isDataTable = x.fnIsDataTable = function(b) {
+  w.isDataTable = w.fnIsDataTable = function(b) {
     var c = a(b).get(0), d = !1;
-    a.each(x.settings, function(b, e) {
+    a.each(w.settings, function(b, e) {
       b = e.nScrollHead ? a("table", e.nScrollHead)[0] : null;
       var f = e.nScrollFoot ? a("table", e.nScrollFoot)[0] : null;
       if (e.nTable === c || b === c || f === c) {
@@ -22432,17 +22433,17 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
     return d;
   };
-  x.tables = x.fnTables = function(b) {
+  w.tables = w.fnTables = function(b) {
     var c = !1;
     a.isPlainObject(b) && (c = b.api, b = b.visible);
-    var d = a.map(x.settings, function(c) {
+    var d = a.map(w.settings, function(c) {
       if (!b || b && a(c.nTable).is(":visible")) {
         return c.nTable;
       }
     });
     return c ? new J(d) : d;
   };
-  x.camelToHungarian = f;
+  w.camelToHungarian = f;
   E("$()", function(b, c) {
     c = this.rows(c).nodes();
     c = a(c);
@@ -22477,16 +22478,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   E("destroy()", function(c) {
     c = c || !1;
     return this.iterator("table", function(d) {
-      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, p = a(g), h = a(h), m = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
+      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, m = a(g), h = a(h), p = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
         return a.nTr;
       }), r;
       d.bDestroying = !0;
       M(d, "aoDestroyCallback", "destroy", [d]);
       c || (new J(d)).columns().visible(!0);
-      m.unbind(".DT").find(":not(tbody *)").unbind(".DT");
+      p.unbind(".DT").find(":not(tbody *)").unbind(".DT");
       a(b).unbind(".DT-" + d.sInstance);
-      g != l.parentNode && (p.children("thead").detach(), p.append(l));
-      n && g != n.parentNode && (p.children("tfoot").detach(), p.append(n));
+      g != l.parentNode && (m.children("thead").detach(), m.append(l));
+      n && g != n.parentNode && (m.children("tfoot").detach(), m.append(n));
       d.aaSorting = [];
       d.aaSortingFixed = [];
       Da(d);
@@ -22500,13 +22501,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       h.children().detach();
       h.append(q);
       l = c ? "remove" : "detach";
-      p[l]();
       m[l]();
-      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), p.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
+      p[l]();
+      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), m.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
         a(this).addClass(d.asDestroyStripes[b % r]);
       }));
-      e = a.inArray(d, x.settings);
-      -1 !== e && x.settings.splice(e, 1);
+      e = a.inArray(d, w.settings);
+      -1 !== e && w.settings.splice(e, 1);
     });
   });
   a.each(["column", "row", "cell"], function(a, b) {
@@ -22524,19 +22525,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     e !== d && a.isPlainObject(b) && (b = b[e] !== d ? b[e] : b._);
     return b.replace("%d", e);
   });
-  x.version = "1.10.12";
-  x.settings = [];
-  x.models = {};
-  x.models.oSearch = {bCaseInsensitive:!0, sSearch:"", bRegex:!1, bSmart:!0};
-  x.models.oRow = {nTr:null, anCells:null, _aData:[], _aSortData:null, _aFilterData:null, _sFilterRow:null, _sRowStripe:"", src:null, idx:-1};
-  x.models.oColumn = {idx:null, aDataSort:null, asSorting:null, bSearchable:null, bSortable:null, bVisible:null, _sManualType:null, _bAttrSrc:!1, fnCreatedCell:null, fnGetData:null, fnSetData:null, mData:null, mRender:null, nTh:null, nTf:null, sClass:null, sContentPadding:null, sDefaultContent:null, sName:null, sSortDataType:"std", sSortingClass:null, sSortingClassJUI:null, sTitle:null, sType:null, sWidth:null, sWidthOrig:null};
-  x.defaults = {aaData:null, aaSorting:[[0, "asc"]], aaSortingFixed:[], ajax:null, aLengthMenu:[10, 25, 50, 100], aoColumns:null, aoColumnDefs:null, aoSearchCols:[], asStripeClasses:null, bAutoWidth:!0, bDeferRender:!1, bDestroy:!1, bFilter:!0, bInfo:!0, bJQueryUI:!1, bLengthChange:!0, bPaginate:!0, bProcessing:!1, bRetrieve:!1, bScrollCollapse:!1, bServerSide:!1, bSort:!0, bSortMulti:!0, bSortCellsTop:!1, bSortClasses:!0, bStateSave:!1, fnCreatedRow:null, fnDrawCallback:null, fnFooterCallback:null, 
+  w.version = "1.10.12";
+  w.settings = [];
+  w.models = {};
+  w.models.oSearch = {bCaseInsensitive:!0, sSearch:"", bRegex:!1, bSmart:!0};
+  w.models.oRow = {nTr:null, anCells:null, _aData:[], _aSortData:null, _aFilterData:null, _sFilterRow:null, _sRowStripe:"", src:null, idx:-1};
+  w.models.oColumn = {idx:null, aDataSort:null, asSorting:null, bSearchable:null, bSortable:null, bVisible:null, _sManualType:null, _bAttrSrc:!1, fnCreatedCell:null, fnGetData:null, fnSetData:null, mData:null, mRender:null, nTh:null, nTf:null, sClass:null, sContentPadding:null, sDefaultContent:null, sName:null, sSortDataType:"std", sSortingClass:null, sSortingClassJUI:null, sTitle:null, sType:null, sWidth:null, sWidthOrig:null};
+  w.defaults = {aaData:null, aaSorting:[[0, "asc"]], aaSortingFixed:[], ajax:null, aLengthMenu:[10, 25, 50, 100], aoColumns:null, aoColumnDefs:null, aoSearchCols:[], asStripeClasses:null, bAutoWidth:!0, bDeferRender:!1, bDestroy:!1, bFilter:!0, bInfo:!0, bJQueryUI:!1, bLengthChange:!0, bPaginate:!0, bProcessing:!1, bRetrieve:!1, bScrollCollapse:!1, bServerSide:!1, bSort:!0, bSortMulti:!0, bSortCellsTop:!1, bSortClasses:!0, bStateSave:!1, fnCreatedRow:null, fnDrawCallback:null, fnFooterCallback:null, 
   fnFormatNumber:function(a) {
     return a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, this.oLanguage.sThousands);
   }, fnHeaderCallback:null, fnInfoCallback:null, fnInitComplete:null, fnPreDrawCallback:null, fnRowCallback:null, fnServerData:null, fnServerParams:null, fnStateLoadCallback:function(a) {
     try {
       return JSON.parse((-1 === a.iStateDuration ? sessionStorage : localStorage).getItem("DataTables_" + a.sInstance + "_" + location.pathname));
-    } catch (w) {
+    } catch (x) {
     }
   }, fnStateLoadParams:null, fnStateLoaded:null, fnStateSaveCallback:function(a, b) {
     try {
@@ -22544,11 +22545,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     } catch (G) {
     }
   }, fnStateSaveParams:null, iStateDuration:7200, iDeferLoading:null, iDisplayLength:10, iDisplayStart:0, iTabIndex:0, oClasses:{}, oLanguage:{oAria:{sSortAscending:": activate to sort column ascending", sSortDescending:": activate to sort column descending"}, oPaginate:{sFirst:"First", sLast:"Last", sNext:"Next", sPrevious:"Previous"}, sEmptyTable:"No data available in table", sInfo:"Showing _START_ to _END_ of _TOTAL_ entries", sInfoEmpty:"Showing 0 to 0 of 0 entries", sInfoFiltered:"(filtered from _MAX_ total entries)", 
-  sInfoPostFix:"", sDecimal:"", sThousands:",", sLengthMenu:"Show _MENU_ entries", sLoadingRecords:"Loading...", sProcessing:"Processing...", sSearch:"Search:", sSearchPlaceholder:"", sUrl:"", sZeroRecords:"No matching records found"}, oSearch:a.extend({}, x.models.oSearch), sAjaxDataProp:"data", sAjaxSource:null, sDom:"lfrtip", searchDelay:null, sPaginationType:"simple_numbers", sScrollX:"", sScrollXInner:"", sScrollY:"", sServerMethod:"GET", renderer:null, rowId:"DT_RowId"};
-  e(x.defaults);
-  x.defaults.column = {aDataSort:null, iDataSort:-1, asSorting:["asc", "desc"], bSearchable:!0, bSortable:!0, bVisible:!0, fnCreatedCell:null, mData:null, mRender:null, sCellType:"td", sClass:"", sContentPadding:"", sDefaultContent:null, sName:"", sSortDataType:"std", sTitle:null, sType:null, sWidth:null};
-  e(x.defaults.column);
-  x.models.oSettings = {oFeatures:{bAutoWidth:null, bDeferRender:null, bFilter:null, bInfo:null, bLengthChange:null, bPaginate:null, bProcessing:null, bServerSide:null, bSort:null, bSortMulti:null, bSortClasses:null, bStateSave:null}, oScroll:{bCollapse:null, iBarWidth:0, sX:null, sXInner:null, sY:null}, oLanguage:{fnInfoCallback:null}, oBrowser:{bScrollOversize:!1, bScrollbarLeft:!1, bBounding:!1, barWidth:0}, ajax:null, aanFeatures:[], aoData:[], aiDisplay:[], aiDisplayMaster:[], aIds:{}, aoColumns:[], 
+  sInfoPostFix:"", sDecimal:"", sThousands:",", sLengthMenu:"Show _MENU_ entries", sLoadingRecords:"Loading...", sProcessing:"Processing...", sSearch:"Search:", sSearchPlaceholder:"", sUrl:"", sZeroRecords:"No matching records found"}, oSearch:a.extend({}, w.models.oSearch), sAjaxDataProp:"data", sAjaxSource:null, sDom:"lfrtip", searchDelay:null, sPaginationType:"simple_numbers", sScrollX:"", sScrollXInner:"", sScrollY:"", sServerMethod:"GET", renderer:null, rowId:"DT_RowId"};
+  e(w.defaults);
+  w.defaults.column = {aDataSort:null, iDataSort:-1, asSorting:["asc", "desc"], bSearchable:!0, bSortable:!0, bVisible:!0, fnCreatedCell:null, mData:null, mRender:null, sCellType:"td", sClass:"", sContentPadding:"", sDefaultContent:null, sName:"", sSortDataType:"std", sTitle:null, sType:null, sWidth:null};
+  e(w.defaults.column);
+  w.models.oSettings = {oFeatures:{bAutoWidth:null, bDeferRender:null, bFilter:null, bInfo:null, bLengthChange:null, bPaginate:null, bProcessing:null, bServerSide:null, bSort:null, bSortMulti:null, bSortClasses:null, bStateSave:null}, oScroll:{bCollapse:null, iBarWidth:0, sX:null, sXInner:null, sY:null}, oLanguage:{fnInfoCallback:null}, oBrowser:{bScrollOversize:!1, bScrollbarLeft:!1, bBounding:!1, barWidth:0}, ajax:null, aanFeatures:[], aoData:[], aiDisplay:[], aiDisplayMaster:[], aIds:{}, aoColumns:[], 
   aoHeader:[], aoFooter:[], oPreviousSearch:{}, aoPreSearchCols:[], aaSorting:null, aaSortingFixed:[], asStripeClasses:null, asDestroyStripes:[], sDestroyWidth:0, aoRowCallback:[], aoHeaderCallback:[], aoFooterCallback:[], aoDrawCallback:[], aoRowCreatedCallback:[], aoPreDrawCallback:[], aoInitComplete:[], aoStateSaveParams:[], aoStateLoadParams:[], aoStateLoaded:[], sTableId:"", nTable:null, nTHead:null, nTFoot:null, nTBody:null, nTableWrapper:null, bDeferLoading:!1, bInitialised:!1, aoOpenRows:[], 
   sDom:null, searchDelay:null, sPaginationType:"two_button", iStateDuration:0, aoStateSave:[], aoStateLoad:[], oSavedState:null, oLoadedState:null, sAjaxSource:null, sAjaxDataProp:null, bAjaxDataGet:!0, jqXHR:null, json:d, oAjaxData:d, fnServerData:null, aoServerParams:[], sServerMethod:null, fnFormatNumber:null, aLengthMenu:null, iDraw:0, bDrawing:!1, iDrawError:-1, _iDisplayLength:10, _iDisplayStart:0, _iRecordsTotal:0, _iRecordsDisplay:0, bJUI:null, oClasses:{}, bFiltered:!1, bSorted:!1, bSortCellsTop:null, 
   oInit:null, aoDestroyCallback:[], fnRecordsTotal:function() {
@@ -22559,15 +22560,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var a = this._iDisplayLength, b = this._iDisplayStart, c = b + a, d = this.aiDisplay.length, e = this.oFeatures, f = e.bPaginate;
     return e.bServerSide ? !1 === f || -1 === a ? b + d : Math.min(b + a, this._iRecordsDisplay) : !f || c > d || -1 === a ? d : c;
   }, oInstance:null, sInstance:null, iTabIndex:0, nScrollHead:null, nScrollFoot:null, aLastSort:[], oPlugins:{}, rowIdFn:null, rowId:null};
-  x.ext = N = {buttons:{}, classes:{}, builder:"-source-", errMode:"window.console.error", feature:[], search:[], selector:{cell:[], column:[], row:[]}, internal:{}, legacy:{ajax:null}, pager:{}, renderer:{pageButton:{}, header:{}}, order:{}, type:{detect:[], search:{}, order:{}}, _unique:0, fnVersionCheck:x.fnVersionCheck, iApiIndex:0, oJUIClasses:{}, sVersion:x.version};
+  w.ext = N = {buttons:{}, classes:{}, builder:"-source-", errMode:"window.console.error", feature:[], search:[], selector:{cell:[], column:[], row:[]}, internal:{}, legacy:{ajax:null}, pager:{}, renderer:{pageButton:{}, header:{}}, order:{}, type:{detect:[], search:{}, order:{}}, _unique:0, fnVersionCheck:w.fnVersionCheck, iApiIndex:0, oJUIClasses:{}, sVersion:w.version};
   a.extend(N, {afnFiltering:N.search, aTypes:N.type.detect, ofnSearch:N.type.search, oSort:N.type.order, afnSortData:N.order, aoFeatures:N.feature, oApi:N.internal, oStdClasses:N.classes, oPagination:N.pager});
-  a.extend(x.ext.classes, {sTable:"dataTable", sNoFooter:"no-footer", sPageButton:"paginate_button", sPageButtonActive:"current", sPageButtonDisabled:"disabled", sStripeOdd:"odd", sStripeEven:"even", sRowEmpty:"dataTables_empty", sWrapper:"dataTables_wrapper", sFilter:"dataTables_filter", sInfo:"dataTables_info", sPaging:"dataTables_paginate paging_", sLength:"dataTables_length", sProcessing:"dataTables_processing", sSortAsc:"sorting_asc", sSortDesc:"sorting_desc", sSortable:"sorting", sSortableAsc:"sorting_asc_disabled", 
+  a.extend(w.ext.classes, {sTable:"dataTable", sNoFooter:"no-footer", sPageButton:"paginate_button", sPageButtonActive:"current", sPageButtonDisabled:"disabled", sStripeOdd:"odd", sStripeEven:"even", sRowEmpty:"dataTables_empty", sWrapper:"dataTables_wrapper", sFilter:"dataTables_filter", sInfo:"dataTables_info", sPaging:"dataTables_paginate paging_", sLength:"dataTables_length", sProcessing:"dataTables_processing", sSortAsc:"sorting_asc", sSortDesc:"sorting_desc", sSortable:"sorting", sSortableAsc:"sorting_asc_disabled", 
   sSortableDesc:"sorting_desc_disabled", sSortableNone:"sorting_disabled", sSortColumn:"sorting_", sFilterInput:"", sLengthSelect:"", sScrollWrapper:"dataTables_scroll", sScrollHead:"dataTables_scrollHead", sScrollHeadInner:"dataTables_scrollHeadInner", sScrollBody:"dataTables_scrollBody", sScrollFoot:"dataTables_scrollFoot", sScrollFootInner:"dataTables_scrollFootInner", sHeaderTH:"", sFooterTH:"", sSortJUIAsc:"", sSortJUIDesc:"", sSortJUI:"", sSortJUIAscAllowed:"", sSortJUIDescAllowed:"", sSortJUIWrapper:"", 
   sSortIcon:"", sJUIHeader:"", sJUIFooter:""});
-  a.extend(x.ext.oJUIClasses, x.ext.classes, {sPageButton:"fg-button ui-button ui-state-default", sPageButtonActive:"ui-state-disabled", sPageButtonDisabled:"ui-state-disabled", sPaging:"dataTables_paginate fg-buttonset ui-buttonset fg-buttonset-multi ui-buttonset-multi paging_", sSortAsc:"ui-state-default sorting_asc", sSortDesc:"ui-state-default sorting_desc", sSortable:"ui-state-default sorting", sSortableAsc:"ui-state-default sorting_asc_disabled", sSortableDesc:"ui-state-default sorting_desc_disabled", 
+  a.extend(w.ext.oJUIClasses, w.ext.classes, {sPageButton:"fg-button ui-button ui-state-default", sPageButtonActive:"ui-state-disabled", sPageButtonDisabled:"ui-state-disabled", sPaging:"dataTables_paginate fg-buttonset ui-buttonset fg-buttonset-multi ui-buttonset-multi paging_", sSortAsc:"ui-state-default sorting_asc", sSortDesc:"ui-state-default sorting_desc", sSortable:"ui-state-default sorting", sSortableAsc:"ui-state-default sorting_asc_disabled", sSortableDesc:"ui-state-default sorting_desc_disabled", 
   sSortableNone:"ui-state-default sorting_disabled", sSortJUIAsc:"css_right ui-icon ui-icon-triangle-1-n", sSortJUIDesc:"css_right ui-icon ui-icon-triangle-1-s", sSortJUI:"css_right ui-icon ui-icon-carat-2-n-s", sSortJUIAscAllowed:"css_right ui-icon ui-icon-carat-1-n", sSortJUIDescAllowed:"css_right ui-icon ui-icon-carat-1-s", sSortJUIWrapper:"DataTables_sort_wrapper", sSortIcon:"DataTables_sort_icon", sScrollHead:"dataTables_scrollHead ui-state-default", sScrollFoot:"dataTables_scrollFoot ui-state-default", 
   sHeaderTH:"ui-state-default", sFooterTH:"ui-state-default", sJUIHeader:"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr", sJUIFooter:"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"});
-  var Cb = x.ext.pager;
+  var Cb = w.ext.pager;
   a.extend(Cb, {simple:function(a, b) {
     return ["previous", "next"];
   }, full:function(a, b) {
@@ -22579,44 +22580,44 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, full_numbers:function(a, b) {
     return ["first", "previous", Ga(a, b), "next", "last"];
   }, _numbers:Ga, numbers_length:7});
-  a.extend(!0, x.ext.renderer, {pageButton:{_:function(b, d, e, f, g, h) {
-    var l = b.oClasses, n = b.oLanguage.oPaginate, p = b.oLanguage.oAria.paginate || {}, m, q, r = 0, t = function(c, d) {
+  a.extend(!0, w.ext.renderer, {pageButton:{_:function(b, d, e, f, g, h) {
+    var l = b.oClasses, n = b.oLanguage.oPaginate, m = b.oLanguage.oAria.paginate || {}, p, q, r = 0, t = function(c, d) {
       var f, u = function(a) {
         Sa(b, a.data.action, !0);
       };
-      var w = 0;
-      for (f = d.length; w < f; w++) {
-        var v = d[w];
+      var x = 0;
+      for (f = d.length; x < f; x++) {
+        var v = d[x];
         if (a.isArray(v)) {
-          var x = a("<" + (v.DT_el || "div") + "/>").appendTo(c);
-          t(x, v);
+          var w = a("<" + (v.DT_el || "div") + "/>").appendTo(c);
+          t(w, v);
         } else {
-          m = null;
+          p = null;
           q = "";
           switch(v) {
             case "ellipsis":
               c.append('<span class="ellipsis">&#x2026;</span>');
               break;
             case "first":
-              m = n.sFirst;
+              p = n.sFirst;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "previous":
-              m = n.sPrevious;
+              p = n.sPrevious;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "next":
-              m = n.sNext;
+              p = n.sNext;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             case "last":
-              m = n.sLast;
+              p = n.sLast;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             default:
-              m = v + 1, q = g === v ? l.sPageButtonActive : "";
+              p = v + 1, q = g === v ? l.sPageButtonActive : "";
           }
-          null !== m && (x = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":p[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(m).appendTo(c), Ua(x, {action:v}, u), r++);
+          null !== p && (w = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":m[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(p).appendTo(c), Ua(w, {action:v}, u), r++);
         }
       }
     };
@@ -22627,7 +22628,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     t(a(d).empty(), f);
     u && a(d).find("[data-dt-idx=" + u + "]").focus();
   }}});
-  a.extend(x.ext.type.detect, [function(a, b) {
+  a.extend(w.ext.type.detect, [function(a, b) {
     b = b.oLanguage.sDecimal;
     return Xa(a, b) ? "num" + b : null;
   }, function(a, b) {
@@ -22648,7 +22649,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, function(a, b) {
     return ga(a) || "string" === typeof a && -1 !== a.indexOf("<") ? "html" : null;
   }]);
-  a.extend(x.ext.type.search, {html:function(a) {
+  a.extend(w.ext.type.search, {html:function(a) {
     return ga(a) ? a : "string" === typeof a ? a.replace(Eb, " ").replace(Ia, "") : "";
   }, string:function(a) {
     return ga(a) ? a : "string" === typeof a ? a.replace(Eb, " ") : a;
@@ -22673,7 +22674,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return a < b ? 1 : a > b ? -1 : 0;
   }});
   nb("");
-  a.extend(!0, x.ext.renderer, {header:{_:function(b, c, d, e) {
+  a.extend(!0, w.ext.renderer, {header:{_:function(b, c, d, e) {
     a(b.nTable).on("order.dt.DT", function(a, f, g, h) {
       b === f && (a = d.idx, c.removeClass(d.sSortingClass + " " + e.sSortAsc + " " + e.sSortDesc).addClass("asc" == h[a] ? e.sSortAsc : "desc" == h[a] ? e.sSortDesc : d.sSortingClass));
     });
@@ -22686,7 +22687,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   var Nb = function(a) {
     return "string" === typeof a ? a.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;") : a;
   };
-  x.render = {number:function(a, b, c, d, e) {
+  w.render = {number:function(a, b, c, d, e) {
     return {display:function(f) {
       if ("number" !== typeof f && "string" !== typeof f) {
         return f;
@@ -22703,7 +22704,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, text:function() {
     return {display:Nb};
   }};
-  a.extend(x.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:m, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:A, _fnGetColumns:C, _fnColumnTypes:B, _fnApplyColumnDefs:H, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:n, _fnAddData:z, _fnAddTr:D, _fnNodeToDataIndex:function(a, b) {
+  a.extend(w.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:m, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:A, _fnGetColumns:C, _fnColumnTypes:B, _fnApplyColumnDefs:H, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:n, _fnAddData:z, _fnAddTr:D, _fnNodeToDataIndex:function(a, b) {
     return b._DT_RowIndex !== d ? b._DT_RowIndex : null;
   }, _fnNodeToColumnIndex:function(b, c, d) {
     return a.inArray(d, b.aoData[c].anCells);
@@ -22711,14 +22712,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   _fnFeatureHtmlInfo:mb, _fnUpdateInfo:tb, _fnInfoMacros:ub, _fnInitialise:ua, _fnInitComplete:Ba, _fnLengthChange:Qa, _fnFeatureHtmlLength:pb, _fnFeatureHtmlPaginate:sb, _fnPageChange:Sa, _fnFeatureHtmlProcessing:qb, _fnProcessingDisplay:Y, _fnFeatureHtmlTable:rb, _fnScrollDraw:za, _fnApplyToChildren:ea, _fnCalculateColumnWidths:La, _fnThrottle:Oa, _fnConvertToWidth:vb, _fnGetWidestNode:wb, _fnGetMaxLenString:xb, _fnStringToCss:Q, _fnSortFlatten:na, _fnSort:ob, _fnSortAria:zb, _fnSortListener:Ta, 
   _fnSortAttachListener:Ma, _fnSortingClasses:Da, _fnSortData:yb, _fnSaveState:Ea, _fnLoadState:Ab, _fnSettingsFromNode:Fa, _fnLog:fa, _fnMap:ca, _fnBindAction:Ua, _fnCallbackReg:T, _fnCallbackFire:M, _fnLengthOverflow:Ra, _fnRenderer:Na, _fnDataSource:S, _fnRowAttributes:da, _fnCalculateEnd:function() {
   }});
-  a.fn.dataTable = x;
-  x.$ = a;
-  a.fn.dataTableSettings = x.settings;
-  a.fn.dataTableExt = x.ext;
+  a.fn.dataTable = w;
+  w.$ = a;
+  a.fn.dataTableSettings = w.settings;
+  a.fn.dataTableExt = w.ext;
   a.fn.DataTable = function(b) {
     return a(this).dataTable(b).api();
   };
-  a.each(x, function(b, c) {
+  a.each(w, function(b, c) {
     a.fn.DataTable[b] = c;
   });
   return a.fn.dataTable;
@@ -23805,7 +23806,7 @@ FormBehavior = {_valueChanged:function(a) {
       c.setErrorMessage(1 != a ? b.message : null);
     });
   }));
-  for (var c = this._filterToArray("gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedlist-field,tree-field,select-field", this.$.formdiv, !0, !0), d = 0; d < c.length; d++) {
+  for (var c = this._filterToArray("gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedprimitivecollection-field,embeddedlist-field,tree-field,select-field", this.$.formdiv, !0, !0), d = 0; d < c.length; d++) {
     if ("SELECT-FIELD" != c[d].tagName || null == c[d].getAttribute("gridfield")) {
       var e = c[d].isInvalid;
       c[d].checkConstraints();
@@ -23872,9 +23873,11 @@ FormBehavior = {_valueChanged:function(a) {
   !0 === c && (e = this._getExcludes(a));
   var f = [];
   $(a, b).each(function(a) {
-    a = this.getAttribute("data-constraints");
-    if (d || null != a && 0 < a.length) {
-      e ? 0 > e.indexOf(this) && f.push(this) : f.push(this);
+    a = this.getAttribute("hidden");
+    if (d || null == a) {
+      if (a = this.getAttribute("data-constraints"), d || null != a && 0 < a.length) {
+        e ? 0 > e.indexOf(this) && f.push(this) : f.push(this);
+      }
     }
   });
   return f;
@@ -24180,8 +24183,8 @@ FormBehavior = {_valueChanged:function(a) {
   }
   return a;
 }, _cleanShape:function(a) {
-  if ("input" == a.stencil.id.toLowerCase() || "textarea" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "upload" == a.stencil.id.toLowerCase() || "embeddedlist" == a.stencil.id.toLowerCase() || "linkedlist" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "embeddedobj" == a.stencil.id.toLowerCase() || "moduleselector" == a.stencil.id.toLowerCase() || "enumselect" == a.stencil.id.toLowerCase() || "treeselect" == a.stencil.id.toLowerCase() || 
-  "tableselect" == a.stencil.id.toLowerCase() || "gridinput" == a.stencil.id.toLowerCase() || "checkbox" == a.stencil.id.toLowerCase() || "custom" == a.stencil.id.toLowerCase() || "page" == a.stencil.id.toLowerCase() || "group" == a.stencil.id.toLowerCase()) {
+  if ("input" == a.stencil.id.toLowerCase() || "textarea" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "upload" == a.stencil.id.toLowerCase() || "embeddedlist" == a.stencil.id.toLowerCase() || "linkedlist" == a.stencil.id.toLowerCase() || "embeddedprimitivecollection" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "embeddedobj" == a.stencil.id.toLowerCase() || "moduleselector" == a.stencil.id.toLowerCase() || "enumselect" == a.stencil.id.toLowerCase() || 
+  "treeselect" == a.stencil.id.toLowerCase() || "tableselect" == a.stencil.id.toLowerCase() || "gridinput" == a.stencil.id.toLowerCase() || "checkbox" == a.stencil.id.toLowerCase() || "custom" == a.stencil.id.toLowerCase() || "page" == a.stencil.id.toLowerCase() || "group" == a.stencil.id.toLowerCase()) {
     var b = this._getLabelShape(a.childShapes);
     null != b ? (a.properties.label = b.properties.xf_text, null != a.properties.xf_id && "" != a.properties.xf_id || !a.properties.label || (a.properties.xf_id = a.properties.label.toLowerCase().replace(/\s/g, "")), 1 == a.childShapes.length && (a.childShapes = []), (b = a.properties.label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)))) : a.properties.label = "";
     b = this._getHelpShape(a.childShapes);
@@ -24190,28 +24193,36 @@ FormBehavior = {_valueChanged:function(a) {
     _.isEmpty(a.properties.xf_required) && (a.properties.xf_required = "false");
     "textarea" == a.stencil.id.toLowerCase() && null == a.properties.xf_rows && (a.properties.xf_rows = 3);
     "moduleselector" == a.stencil.id.toLowerCase() && (a.properties.xf_namespace = this.namespace);
+    if ("embeddedprimitivecollection" == a.stencil.id.toLowerCase()) {
+      var c = [];
+      "map" == a.properties.xf_collectiontype && (b = {id:"Input", type:"text", colname:"key"}, b.display = a.properties.xf_keylabel, b.display && b.display.match(/^[@%]/) && (b.display = tr(b.display.substring(1))), b.regulaConstraints = '@NotBlank(message="darf nicht leer sein")', c.push(b));
+      b = {id:"Input", colname:"value"};
+      b.type = a.properties.xf_type;
+      b.display = a.properties.xf_valuelabel;
+      b.display && b.display.match(/^[@%]/) && (b.display = tr(b.display.substring(1)));
+      b.regulaConstraints = this._constructRegulaConstraints(a.properties["xf_constraint_" + this._convertType(a.properties.xf_type)], a.properties.xf_errormsg);
+      c.push(b);
+      a.properties.columns = c;
+    }
     if ("embeddedlist" == a.stencil.id.toLowerCase() || "linkedlist" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "embeddedobj" == a.stencil.id.toLowerCase()) {
       a.properties.xf_namespace = this.namespace, b = a.bounds, a.properties.height = b.lowerRight.y - b.upperLeft.y;
     }
     if ("gridinput" == a.stencil.id.toLowerCase()) {
-      var c = a.properties;
+      c = a.properties;
       c.columns = c.xf_columns.items;
-      for (b = 0; b < c.columns.length; b++) {
-        var d = c.columns[b];
-        d.display && d.display.match(/^[@%]/) && (d.display = tr(d.display.substring(1)));
-        d.label && d.label.match(/^[@%]/) && (d.label = tr(d.label.substring(1)));
-        if ("selection" == d.type) {
-          d.id = "Enumselect";
+      for (var d = 0; d < c.columns.length; d++) {
+        if (b = c.columns[d], b.display && b.display.match(/^[@%]/) && (b.display = tr(b.display.substring(1))), b.label && b.label.match(/^[@%]/) && (b.label = tr(b.label.substring(1))), "selection" == b.type) {
+          b.id = "Enumselect";
           try {
-            if (d.parameter && d.parameter.startsWith("enumeration")) {
-              var e = simpl4FormManager.createSelectableItems(this.namespace, this.formName, c.xf_id, d.parameter);
-              d.items = e.getItems();
+            if (b.parameter && b.parameter.startsWith("enumeration")) {
+              var e = simpl4FormManager.createSelectableItems(this.namespace, this.formName, c.xf_id, b.parameter);
+              b.items = e.getItems();
             } else {
-              d.items = JSONPath({json:this._selectionLists, path:d.parameter, callback:function() {
+              b.items = JSONPath({json:this._selectionLists, path:b.parameter, callback:function() {
               }})[0];
             }
-          } catch (r) {
-            console.error("JSONPath:", r);
+          } catch (f) {
+            console.error("JSONPath:", f);
           }
         }
       }
@@ -24220,44 +24231,19 @@ FormBehavior = {_valueChanged:function(a) {
       c.height = b.lowerRight.y - b.upperLeft.y;
     }
     "page" == a.stencil.id.toLowerCase() && (b = a.properties.xf_label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)));
-    if ("enumselect" == a.stencil.id.toLowerCase() || "tableselect" == a.stencil.id.toLowerCase() || "treeselect" == a.stencil.id.toLowerCase()) {
-      var f = "tableselect" == a.stencil.id.toLowerCase(), g = "treeselect" == a.stencil.id.toLowerCase();
-      c = a.properties;
-      var h = c.xf_enumembed, l = c.xf_enum, n = c.xf_service, p = c.xf_filter, q = c.xf_jsonpath;
-      e = c.xf_parammapping;
-      b = c.xf_resultmapping;
-      var m = c.xf_varname, d = c.xf_namespace;
-      d && "-" != d || (d = this.namespace);
-      this._isEmpty(m) ? this._isEmpty(q) ? !g && !f && h && 0 < h.totalCount ? (e = simpl4FormManager.createSelectableItems(d, this.formName, c.xf_id, h), c.items = e.getItems()) : !g && !f && l && 0 < l.totalCount ? (e = simpl4FormManager.createSelectableItems(d, this.formName, c.xf_id, JSON.stringify(c.xf_enum)), c.items = e.getItems()) : g || this._isEmpty(p) ? this._isEmpty(n) ? (e = simpl4FormManager.createSelectableItems(d, this.formName, c.xf_id, JSON.stringify(c.xf_enum)), c.items = e.getItems()) : 
-      (f = {totalCount:1, enumDescription:"sw.service:" + n, items:[]}, f.params = this._doParameterMapping(e), e = simpl4FormManager.createSelectableItems(d, this.formName, c.xf_id, JSON.stringify(f)), c.items = this._doResultMapping(e.getItems(), b)) : (f = {totalCount:1, enumDescription:"sw.filter:" + p, items:[]}, f.params = this._doParameterMapping(e), f.checkParams = !0, e = simpl4FormManager.createSelectableItems(d, this.formName, c.xf_id, JSON.stringify(f)), d = e.getItems(), e.getMissingParamList() ? 
-      (console.error("Filter:", f), console.error("Filter.misingParameters:", e.getMissingParamList())) : c.items = this._doResultMapping(d, b)) : (e = JSONPath({json:this._selectionLists, path:q, callback:function() {
-      }}), c.items = null == e || 0 == e.length ? [] : e[0], c.items = this._doResultMapping(c.items, b)) : (c.items = this.variables[m], g || (c.items = this._doResultMapping(c.items, b)));
-      "tableselect" == a.stencil.id.toLowerCase() && (null == c.items && (c.items = []), b = (b = c.xf_columns) ? b.items : [], c.meta = [], b.forEach(function(a, b) {
-        var d = b = a.display;
-        d && d.match(/^[@%]/) && (b = tr(d.substring(1)));
-        null == b && (b = xf_id + "." + a.colname);
-        c.meta.push({title:b, data:a.colname});
-      }, this), b = a.bounds, c.height = b.lowerRight.y - b.upperLeft.y, 75 > c.height && (c.height = 75));
-      if (0 < c.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
-        try {
-          a.properties.xf_default = c.items[parseInt(a.properties.xf_default.substring(1))].value;
-        } catch (r) {
-          console.error("set xf_default(" + a.properties.xf_id + "):", r);
-        }
-      }
-    }
+    "enumselect" != a.stencil.id.toLowerCase() && "tableselect" != a.stencil.id.toLowerCase() && "treeselect" != a.stencil.id.toLowerCase() || this._handleSelectionLists(a);
   } else {
     if ("actionbutton" == a.stencil.id.toLowerCase()) {
-      b = a.properties.xf_iconname;
-      e = a.properties.xf_action;
-      d = a.properties.xf_enter;
-      if (null == b || "" == b) {
-        a.properties.xf_iconname = "execute" == e ? "check" : "clear";
+      e = a.properties.xf_iconname;
+      b = a.properties.xf_action;
+      c = a.properties.xf_enter;
+      if (null == e || "" == e) {
+        a.properties.xf_iconname = "execute" == b ? "check" : "clear";
       }
-      null == this.enterAction && !0 === d && (this.enterAction = e);
+      null == this.enterAction && !0 === c && (this.enterAction = b);
       (b = a.properties.xf_label) && b.match(/^[@%]/) && (a.properties.xf_label = tr(b.substring(1)));
     } else {
-      "alert" == a.stencil.id.toLowerCase() ? (b = simpl4.util.BaseManager.getLanguage(), a.properties.xf_message = a.properties["xf_message_" + b] ? this._expandString(a.properties["xf_message_" + b], this.variables) : this._expandString(a.properties.xf_message, this.variables)) : a.properties.label = "";
+      "alert" == a.stencil.id.toLowerCase() ? (e = simpl4.util.BaseManager.getLanguage(), a.properties.xf_message = a.properties["xf_message_" + e] ? this._expandString(a.properties["xf_message_" + e], this.variables) : this._expandString(a.properties.xf_message, this.variables)) : a.properties.label = "";
     }
   }
   null == a.properties.xf_type && (a.properties.xf_type = "noop");
@@ -24280,6 +24266,28 @@ FormBehavior = {_valueChanged:function(a) {
   var c = !1;
   a.bounds.upperLeft.y != b.bounds.upperLeft.y && (c = !0);
   return c;
+}, _handleSelectionLists:function(a) {
+  var b = "tableselect" == a.stencil.id.toLowerCase(), c = "treeselect" == a.stencil.id.toLowerCase(), d = a.properties, e = d.xf_enumembed, f = d.xf_enum, g = d.xf_service, h = d.xf_filter, l = d.xf_jsonpath;
+  var n = d.xf_parammapping;
+  var p = d.xf_resultmapping, q = d.xf_varname, m = d.xf_namespace;
+  m && "-" != m || (m = this.namespace);
+  this._isEmpty(q) ? this._isEmpty(l) ? !c && !b && e && 0 < e.totalCount ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, e), d.items = n.getItems()) : !c && !b && f && 0 < f.totalCount ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(d.xf_enum)), d.items = n.getItems()) : c || this._isEmpty(h) ? this._isEmpty(g) ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(d.xf_enum)), d.items = n.getItems()) : 
+  (b = {totalCount:1, enumDescription:"sw.service:" + g, items:[]}, b.params = this._doParameterMapping(n), n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(b)), d.items = this._doResultMapping(n.getItems(), p)) : (b = {totalCount:1, enumDescription:"sw.filter:" + h, items:[]}, b.params = this._doParameterMapping(n), b.checkParams = !0, n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(b)), m = n.getItems(), n.getMissingParamList() ? 
+  (console.error("Filter:", b), console.error("Filter.misingParameters:", n.getMissingParamList())) : d.items = this._doResultMapping(m, p)) : (n = JSONPath({json:this._selectionLists, path:l, callback:function() {
+  }}), d.items = null == n || 0 == n.length ? [] : n[0], d.items = this._doResultMapping(d.items, p)) : (d.items = this.variables[q], c || (d.items = this._doResultMapping(d.items, p)));
+  "tableselect" == a.stencil.id.toLowerCase() && (null == d.items && (d.items = []), p = (p = d.xf_columns) ? p.items : [], d.meta = [], p.forEach(function(a, b) {
+    var c = b = a.display;
+    c && c.match(/^[@%]/) && (b = tr(c.substring(1)));
+    null == b && (b = xf_id + "." + a.colname);
+    d.meta.push({title:b, data:a.colname});
+  }, this), p = a.bounds, d.height = p.lowerRight.y - p.upperLeft.y, 75 > d.height && (d.height = 75));
+  if (0 < d.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
+    try {
+      a.properties.xf_default = d.items[parseInt(a.properties.xf_default.substring(1))].value;
+    } catch (r) {
+      console.error("set xf_default(" + a.properties.xf_id + "):", r);
+    }
+  }
 }, _doParameterMapping:function(a) {
   var b = {};
   if (!a) {
@@ -24562,6 +24570,8 @@ Polymer({is:"input-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.P
 }, typeChanged:function() {
   this.type && this.type.match(/^date/) && (this._origType = this.type, this.hasDate || (this.type = "text", this.$.input.setAttribute("type", "text")));
   this.type && this.type.match(/^password/) && (this.autocomplete = "new-password");
+}, isText:function() {
+  return this.type && this.type.match(/^text/) ? !0 : !1;
 }, isNumber:function() {
   return this.type && this.type.match(/^number$/) && !this.isDecimal() ? !0 : !1;
 }, isDecimal:function() {
@@ -24616,7 +24626,7 @@ isAuthorizedType:function() {
   this.isDate() && (a = this.hasDate ? this._toIso(a) : this._convertDate(a));
   this.editValue = a;
 }, getValue:function() {
-  return this.isDate() && "string" === typeof this.value && !this._isIsoDate(this.value) ? null : this.isNumber() && null != this.value ? parseInt(this.value) : this.isDecimal() && null != this.value ? ("string" === typeof this.value && 0 <= this.value.indexOf(",") && (this.value = this.value.replace(/,/, ".")), parseFloat(this.value)) : null == this.value && this.convertNullToEmpty ? "" : this.value;
+  return this.isDate() && "string" === typeof this.value && !this._isIsoDate(this.value) ? null : this.isNumber() && null != this.value ? parseInt(this.value) : this.isDecimal() && null != this.value ? ("string" === typeof this.value && 0 <= this.value.indexOf(",") && (this.value = this.value.replace(/,/, ".")), parseFloat(this.value)) : null == this.value && this.isText() && this.convertNullToEmpty ? "" : this.value;
 }, getDatePicker:function(a, b) {
   if ("pikaday" == this.pickerType) {
     return a = new Pikaday({field:this.$.input, trigger:this.$.input, onSelect:function(a) {
@@ -24733,6 +24743,7 @@ Polymer({is:"custom-field", behaviors:[FieldBehavior], properties:{elementname:{
 Polymer({is:"checkbox-field", behaviors:[FieldBehavior], properties:{compact:{value:!1, type:Boolean}}, observers:["valueChanged(value)"], attached:function() {
   this.compact && jQuery(this).addClass("compact");
 }, setValue:function(a) {
+  null == a && (a = !1);
   this.value = a;
 }, getValue:function() {
   return this.value;
@@ -24924,16 +24935,19 @@ ready:function() {
   1 == this.isDomReady && (this.withoutCheck ? this.withoutCheck = !1 : this.checkConstraints());
 }, setValue:function(a) {
   console.log("tree-field(" + this.name + ").setValue:", a);
-  var b = a;
-  if (_.isString(a)) {
-    try {
-      b = JSON5.parse(a).id;
-    } catch (c) {
+  if (!_.isEmpty(a) && "null" == a.trim()) {
+    a = null;
+  } else {
+    if (_.isString(a)) {
+      try {
+        a = JSON5.parse(a).id;
+      } catch (b) {
+      }
     }
   }
-  _.isEmpty(b) ? (this.jqtree.tree("selectNode", null), this.selectedItem = null, this.$.dropdownId.querySelector("#input").value = "", this.setInvalid(!1)) : (a = this.jqtree.tree("getNodeById", b), this.jqtree.tree("selectNode", a), this.jqtree.tree("scrollToNode", a), this.$.dropdownId.querySelector("#input").value = a.name);
+  _.isEmpty(a) ? (this.jqtree.tree("selectNode", null), this.selectedItem = null, this.$.dropdownId.querySelector("#input").value = "", this.setInvalid(!1)) : (a = this.jqtree.tree("getNodeById", a), this.jqtree.tree("selectNode", a), this.jqtree.tree("scrollToNode", a), this.$.dropdownId.querySelector("#input").value = a.name);
 }, getValue:function() {
-  return JSON.stringify(this.value);
+  return null == this.value ? null : JSON.stringify(this.value);
 }, selectedItemChanged:function(a) {
   console.log("tree-field(" + this.name + ").selectedItemChanged:", this.value + "/val:" + a);
   this.value = a;
@@ -25076,9 +25090,10 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
 }, getHelp:function() {
   return tr("crud2.select_with");
 }, columnsChanged:function() {
+  console.debug("gi.columnsChanged:", this.columns);
   var a = {};
   this.columns.each(function(b) {
-    b.regulaConstraints = this._constructRegulaConstraints(b.constraints, b.errormsg);
+    _.isEmpty(b.regulaConstraints) && (b.regulaConstraints = this._constructRegulaConstraints(b.constraints, b.errormsg));
     b.label = b.display;
     "Enumselect" != b.id && (b.id = "Input");
     b.xf_type = b.type;
@@ -25218,6 +25233,36 @@ Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Po
   this.value = a;
   console.log("setValue(" + this.entity + "," + this.name + "):", this.value);
   this.querySelector("#miniId").setData(a);
+}, getValue:function() {
+  console.log("getValue(" + this.entity + "," + this.name + "):", this.value);
+  return this.value;
+}, setErrorMessage:function(a) {
+  this.error = a;
+}, setInvalid:function(a) {
+  this.isInvalid = a;
+}, heightChanged:function() {
+  this.setInvalid(!1);
+}, isRequired:function() {
+  var a = this.form._getData();
+  return this.form._maskedEval(this.required, a, !1);
+}});
+Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, entity:{value:null, type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["entityChanged(entity,namespace)", "columnsChanged(columns)", "regulaConstraintsChanged(regulaConstraints)"], 
+onChanged:function(a) {
+  console.log("onChanged:", a);
+  this.value = a.detail.data;
+}, regulaConstraintsChanged:function() {
+  console.log("Field.embeddedprimitivecollection-field.regulaConstraintsChanged:", this.regulaConstraintsChanged);
+}, columnsChanged:function() {
+  console.log("Field.embeddedprimitivecollection-field.columnsChanged:", this.columns);
+}, entityChanged:function() {
+  console.log("Field.embeddedprimitivecollection-field.entityChanged:", this.entity + "/" + this.namespace);
+  this.setInvalid(!1);
+}, checkConstraints:function() {
+  this.setInvalid(!1);
+  !this.isRequired() || this.value && 0 < this.value.length || (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
+}, setValue:function(a) {
+  this.value = a;
+  console.log("setValue(" + this.entity + "," + this.name + "):", this.value);
 }, getValue:function() {
   console.log("getValue(" + this.entity + "," + this.name + "):", this.value);
   return this.value;
@@ -25485,6 +25530,8 @@ FormElementSelectorBehavior = {isTabView:function(a) {
   return "Tableselect" == a;
 }, isEmbeddedList:function(a) {
   return "EmbeddedList" == a;
+}, isEmbeddedPrimitiveCollection:function(a) {
+  return "EmbeddedPrimitiveCollection" == a;
 }, isLinkedList:function(a) {
   return "LinkedList" == a;
 }, isEmbeddedObj:function(a) {
@@ -25506,7 +25553,7 @@ FormElementSelectorBehavior = {isTabView:function(a) {
 }, isForm:function(a) {
   return "Form" == a;
 }, isField:function(a) {
-  return "Input" == a || "Tableselect" == a || "Gridinput" == a || "EmbeddedList" == a || "LinkedList" == a || "Enumselect" == a || "Treeselect" == a || "Upload" == a || "Custom" == a || "Textarea" == a || "LinkedObj" == a || "EmbeddedObj" == a || "Moduleselector" == a || "Alert" == a || "break" == a;
+  return "Input" == a || "Tableselect" == a || "Gridinput" == a || "EmbeddedList" == a || "EmbeddedPrimitiveCollection" == a || "LinkedList" == a || "Enumselect" == a || "Treeselect" == a || "Upload" == a || "Custom" == a || "Textarea" == a || "LinkedObj" == a || "EmbeddedObj" == a || "Moduleselector" == a || "Alert" == a || "break" == a;
 }, isInputAndBoolean:function(a, b) {
   return "Input" == a && "boolean" == b;
 }, isInputAndNotBoolean:function(a, b) {
@@ -25636,7 +25683,7 @@ ScrollbarBehavior = {attached:function() {
   b || (c = this._toElementArray(a.querySelectorAll(".dataTables_scrollBody")));
   a = this._toElementArray(a.querySelectorAll(".smooth-scrollbar"));
   c = c.concat(a);
-  console.log("smoothElementArray:", c);
+  console.log("smoothElementArray(" + this.tagName + "):", c);
   for (a = 0; a < c.length; a++) {
     window.Scrollbar.init(c[a], {speed:b ? 1 : 4, damping:b ? 0.1 : 0.05, renderByPixels:!0, overscrollEffect:"bounce", alwaysShowTracks:!0, overscrollEffectColor:"#87ceeb", thumbMinSize:10}), c[a].setAttribute("scrollbar", "");
   }
@@ -30824,6 +30871,93 @@ _previousAnimatedStep:null, _previousSelected:null, keyBindings:{left:"_onLeftKe
 }, _responsiveCheck:function() {
   var a = this.$.verticalResponsiveWidth.clientWidth;
   a && (this.vertical = !(this.clientWidth > a));
+}});
+Polymer({is:"paper-tabs-vertical", behaviors:[Polymer.IronResizableBehavior], properties:{attrForSelected:String, selected:{type:String, notify:!0}, noink:{type:Boolean, value:!1}, nobar:{type:Boolean, value:!1}, noslide:{type:Boolean, value:!1}, scrollable:{type:Boolean, value:!1}, disableDrag:{type:Boolean, value:!1}, hideScrollButton:{type:Boolean, value:!1}, alignBottom:{type:Boolean, value:!1}, step:{value:10}, holdDelay:{value:1}, tab:{observer:"tabChanged"}}, listeners:{"iron-resize":"onResize"}, 
+ready:function() {
+  this.onResize();
+}, computeScrollButtonHidden:function(a, b) {
+  return !this.scrollable || this.hideScrollButton;
+}, computeIconClass:function(a) {
+  if (a) {
+    return "hide";
+  }
+}, computeTabsContentClass:function(a) {
+  return a ? "scrollable" : "";
+}, computeSelectionBarClass:function(a, b) {
+  if (a) {
+    return "hidden";
+  }
+  if (b) {
+    return "align-bottom";
+  }
+}, trackStart:function(a) {
+  if (this.scrollable && !this.disableDrag) {
+    var b = a.target;
+    b && b.cancelRipple && b.cancelRipple();
+    this._startx = this.$.tabsContainer.scrollLeft;
+    a.preventTap();
+  }
+}, trackx:function(a) {
+  this.scrollable && !this.disableDrag && (this.$.tabsContainer.scrollLeft = this._startx - a.dx);
+}, onResize:function() {
+  this.debounce("resizeJob", this.resizeHandler, 10);
+}, resizeHandler:function() {
+  this.scroll();
+  this.tabChanged(this.tab);
+}, scroll:function() {
+  if (this.scrollable) {
+    var a = this.$.tabsContainer, b = a.scrollLeft;
+    this.leftHidden = 0 === b;
+    this.rightHidden = b === Math.max(0, a.scrollWidth - a.clientWidth);
+  }
+}, onLeftScrollButtonDown:function() {
+  this._holdJob = setInterval(this.scrollToLeft.bind(this), this.holdDelay);
+}, onRightScrollButtonDown:function() {
+  this._holdJob = setInterval(this.scrollToRight.bind(this), this.holdDelay);
+}, onScrollButtonUp:function() {
+  clearInterval(this._holdJob);
+  this._holdJob = null;
+}, scrollToLeft:function() {
+  this.$.tabsContainer.scrollLeft -= this.step;
+}, scrollToRight:function() {
+  this.$.tabsContainer.scrollLeft += this.step;
+}, tabChanged:function(a, b) {
+  if (a) {
+    var c = this.$.tabsContent.getBoundingClientRect(), d = c.height, e = a.getBoundingClientRect(), c = e.top - c.top;
+    this._pos = {height:this.calcPercent(e.height, d), top:this.calcPercent(c, d)};
+    if (this.noslide || null == b) {
+      this.positionBar(this._pos.height, this._pos.top);
+    } else {
+      var f = b.getBoundingClientRect();
+      b = this.$.tabsContent.indexOf(b);
+      a = this.$.tabsContent.indexOf(a);
+      this.$.selectionBar.classList.add("expand");
+      b < a ? this.positionBar(this.calcPercent(e.top + e.height - f.top, d) - 5, this._top) : this.positionBar(this.calcPercent(f.top + f.height - e.top, d) - 5, this.calcPercent(c, d) + 5);
+      this.scrollable && this.scrollToSelectedIfNeeded(e.height, c);
+    }
+  } else {
+    this.positionBar(0, 0);
+  }
+}, scrollToSelectedIfNeeded:function(a, b) {
+  b -= this.$.tabsContainer.scrollLeft;
+  0 > b ? this.$.tabsContainer.scrollLeft += b : (b += a - this.$.tabsContainer.offsetWidth, 0 < b && (this.$.tabsContainer.scrollLeft += b));
+}, calcPercent:function(a, b) {
+  return 100 * a / b;
+}, positionBar:function(a, b) {
+  this._height = a;
+  this._top = b;
+  this.transform("translate3d(0, " + b + "%, 0) scaleY(" + a / 100 + ")", this.$.selectionBar);
+}, onBarTransitionEnd:function(a) {
+  a = this.$.selectionBar.classList;
+  a.contains("expand") ? (a.remove("expand"), a.add("contract"), this.positionBar(this._pos.height, this._pos.top)) : a.contains("contract") && a.remove("contract");
+}});
+Polymer({is:"paper-tab-vertical", properties:{noink:{type:Boolean, value:!1}}, listeners:{mousedown:"onDown", mouseup:"onUp"}, onDown:function(a) {
+  var b = Polymer.dom(this).elementParent;
+  this.noink || b && b.noink || this.$.ink.downAction(a);
+}, onUp:function() {
+  this.$.ink.upAction();
+}, cancelRipple:function() {
+  this.$.ink.upAction();
 }});
 (function() {
   function a(a) {

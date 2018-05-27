@@ -17112,7 +17112,9 @@ div.dtr-modal div.dtr-modal-background {
 			padding:0px !important;
 			border-radius:0px !important;
 			line-height:15px;
-			min-height:22px;
+			min-height: 14px;
+    	max-height: 14px;
+    	margin-top: 6px;
 		}
 		:host /deep/ .selectize-input.focus {
 			box-shadow: inset 0 0px !important;
@@ -17634,6 +17636,51 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</template>
 	</dom-module>
 
+<dom-module id="embeddedprimitivecollection-field" assetpath="src/simpl-form/">
+	<style>
+		.error {
+			color: #d34336;
+		}
+		.error-text {
+			font-size: 0.75em;
+			padding: 0.5em 0;
+		}
+		[invisible] {
+			visibility: hidden;
+		}
+		.floatedLabel {
+			font-size: 1.05em;
+			white-space: nowrap;
+			color: #757575;
+			padding:0.4em;
+		}
+		.label-text {
+			display: inline-block;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		:host /deep/ .dataTables_wrapper.no-footer .dataTables_scrollBody {
+			border-bottom: 0px solid #fc0;
+		}
+		simpl-datatables /deep/ #dataTablesId thead tr th,
+		:host /deep/ #dataTablesId tfoot tr th {
+			//background: white;
+		}
+
+	</style>
+	<template>
+		<div class="vertical layout">
+			<gridinput-field field="" class="flex" columns="[[columns]]" data-constraints$="{{regulaConstraints}}" raised=""></gridinput-field>
+			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
+				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
+				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
+				<iron-icon class="error-icon" icon="warning"></iron-icon>
+			</div>
+		</div>
+	</template>
+	</dom-module>
+
 <dom-module id="linkedobj-field" assetpath="src/simpl-form/">
 	<style>
 			:host {
@@ -18062,6 +18109,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template is="dom-if" if="{{isEmbeddedList(item.id)}}">
 			<embeddedlist-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</embeddedlist-field>
+		</template>
+		<template is="dom-if" if="{{isEmbeddedPrimitiveCollection(item.id)}}">
+			<embeddedprimitivecollection-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" columns="[[item.columns]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" required="[[item.xf_required]]" collection-type="[[item.xf_collectiontype]]" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			</embeddedprimitivecollection-field>
 		</template>
 		<template is="dom-if" if="{{isLinkedList(item.id)}}">
 			<linkedlist-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
@@ -21079,7 +21130,6 @@ Use the Help button for an technical overview.
 			<input type="file" id="tempId" name="filedef" style="display:none;">
 		</template>
 		</dom-module>
-	<template-editor></template-editor>
 </div>
 <dom-module id="paper-collapse-item" assetpath="src/paper-collapse-item/">
 	<template>
@@ -21588,6 +21638,184 @@ Use the Help button for an technical overview.
   </template>
 
   </dom-module>
+<iron-iconset-svg name="paper-tabs-vertical" size="24">
+	<svg>
+		<defs>
+			<g id="chevron-left">
+				<path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+			</g>
+			<g id="chevron-right">
+				<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+			</g>
+		</defs>
+	</svg>
+</iron-iconset-svg>
+<dom-module id="paper-tabs-vertical" assetpath="src/paper-tabs-vertical/">
+
+	<template>
+		<style>
+			:host {
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				height: 100%;
+				font-size: 14px;
+				font-weight: 500;
+				overflow: hidden;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				flex-direction: column;
+			}
+			#tabsContainer {
+				position: relative;
+				height: 100%;
+				width: 100%;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+			#tabsContent {
+				display: block;
+				position: relative;
+			}
+			#tabsContent.scrollable {
+				position: absolute;
+				white-space: nowrap;
+			}
+			.scroll-button {
+				width: 24px;
+				padding: 16px;
+			}
+			.scroll-button > .hide {
+				display: inline-block;
+				opacity: 0;
+			}
+			#selectionBar {
+				position: absolute;
+				width: 2px;
+				bottom: 0;
+				top: 0;
+				right: 0;
+				background-color: var(--paper-tabs-selection-bar-color, --paper-yellow-a100);
+				-webkit-transform-origin: center top;
+				transform-origin: center top;
+				-webkit-transform: scale(0);
+				transform: scale(0);
+				transition: -webkit-transform;
+				transition: transform;
+			}
+			#selectionBar.align-bottom {
+				top: 0;
+				bottom: auto;
+			}
+			#selectionBar.expand {
+				transition-duration: 0.15s;
+				transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+			}
+			#selectionBar.contract {
+				transition-duration: 0.18s;
+				transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+			}
+			#tabsContent >::content > *:not(#selectionBar) {
+				/*height: 100%;*/
+			}
+
+		</style>
+		<div hidden$="[[computeScrollButtonHidden(scrollable, hideScrollButton)]]">
+			<iron-icon icon="paper-tabs-vertical:chevron-left" class$="[[computeIconClass(leftHidden)]]" on-mousedown="onLeftScrollButtonDown" on-mouseup="onScrollButtonUp"></iron-icon>
+		</div>
+
+		<div id="tabsContainer" class="flex" on-scroll="scroll" on-trackstart="trackStart">
+
+			<iron-selector id="tabsContent" class$="[[computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{tab}}" attr-for-selected="[[attrForSelected]]" selectable="paper-tab-vertical">
+
+				<content></content>
+
+				<div id="selectionBar" class$="[[computeSelectionBarClass(nobar, alignBottom)]]" on-transitionend="onBarTransitionEnd"></div>
+
+			</iron-selector>
+
+		</div>
+
+		<div hidden$="[[computeScrollButtonHidden(scrollable, hideScrollButton)]]">
+			<iron-icon icon="paper-tabs-vertical:chevron-right" class$="[[computeIconClass(rightHidden)]]" on-mousedown="onRightScrollButtonDown" on-mouseup="onScrollButtonUp"></iron-icon>
+		</div>
+
+	</template>
+
+</dom-module>
+
+<dom-module id="paper-tab-vertical" assetpath="src/paper-tabs-vertical/">
+
+	<template>
+
+		<style>
+			:host {
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-ms-flex: 1;
+				-webkit-flex: 1;
+				flex: 1;
+				position: relative;
+				padding: 0 12px;
+				overflow: hidden;
+				cursor: default;
+			}
+			:host([link]) {
+				padding: 0;
+			}
+			.tab-content {
+				/*height: 100%;*/
+				
+				-webkit-transform: translateZ(0);
+				transform: translateZ(0);
+				transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
+			}
+			:host(:not(.iron-selected)) > .tab-content {
+				opacity: 0.6;
+			}
+			#ink {
+				color: #ffff8d;
+				pointer-events: none;
+			}
+			.tab-content >::content > a {
+				/*height: 100%;*/
+				/* flex */
+				
+				-ms-flex: 1 1 0.000000001px;
+				-webkit-flex: 1;
+				flex: 1;
+				-webkit-flex-basis: 0.000000001px;
+				flex-basis: 0.000000001px;
+			}
+paper-ripple {
+        color: var(--paper-tab-ink, --paper-yellow-a100) !important;
+      }
+
+		</style>
+
+		<div class="tab-content flex auto horizontal layout">
+			<content></content>
+		</div>
+
+		<paper-ripple id="ink" initial-opacity="0.95" opacity-decay-velocity="0.98"></paper-ripple>
+
+	</template>
+
+</dom-module>
+
 <style>
 /**
  * prism.js default theme for JavaScript, CSS and HTML

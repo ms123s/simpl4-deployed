@@ -1910,7 +1910,11 @@ window.CustomElements = window.CustomElements || {
   scope.hasNative = Boolean(document.registerElement);
   scope.isIE = /Trident/.test(navigator.userAgent);
 //@@@MS dont't use native, problem observers in dom-repeat, if parent dom is detached and reattached (moved)
-  scope.useNative = false;//!flags.register && scope.hasNative && !window.ShadowDOMPolyfill && (!window.HTMLImports || window.HTMLImports.useNative);
+	if( window.useShadowDom === true ){
+  	scope.useNative = !flags.register && scope.hasNative && !window.ShadowDOMPolyfill && (!window.HTMLImports || window.HTMLImports.useNative);
+	}else{
+  	scope.useNative = false;
+	}
 })(window.CustomElements);
 
 window.CustomElements.addModule(function(scope) {
