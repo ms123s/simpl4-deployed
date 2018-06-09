@@ -17113,7 +17113,7 @@ div.dtr-modal div.dtr-modal-background {
 			border-radius:0px !important;
 			line-height:15px;
 			min-height: 14px;
-    	max-height: 14px;
+    	//max-height: 14px;
     	margin-top: 6px;
 		}
 		:host /deep/ .selectize-input.focus {
@@ -17406,7 +17406,8 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			padding: 0 10px;
 		}
 		:host /deep/ select-field.gridinput div.input-content.paper-input-container{
-			max-height: 22px !important;
+			//max-height: 22px !important;
+			height: 25px !important;
 		}
 		:host /deep/ select-field.gridinput label{
 			padding-bottom: 0px !important;
@@ -17660,8 +17661,14 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
+		:host /deep/ div.line.gridinput-field{
+			margin-bottom:0px !important;
+		}
 		:host /deep/ .dataTables_wrapper.no-footer .dataTables_scrollBody {
 			border-bottom: 0px solid #fc0;
+		}
+		:host /deep/ .selectize-input {
+    	max-height: 20px !important;
 		}
 		simpl-datatables /deep/ #dataTablesId thead tr th,
 		:host /deep/ #dataTablesId tfoot tr th {
@@ -17671,7 +17678,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</style>
 	<template>
 		<div class="vertical layout">
-			<gridinput-field field="" class="flex" columns="[[columns]]" data-constraints$="{{regulaConstraints}}" raised=""></gridinput-field>
+			<gridinput-field id="inputId" class="flex" columns="[[columns]]" data-constraints$="{{regulaConstraints}}" raised=""></gridinput-field>
 			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
 				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
 				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>

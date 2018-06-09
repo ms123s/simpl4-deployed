@@ -141,7 +141,7 @@ $jscomp.polyfill("WeakMap", function(a) {
       d.delete(b);
       d.set(c, 4);
       return !d.has(b) && 4 == d.get(c);
-    } catch (n) {
+    } catch (p) {
       return !1;
     }
   }()) {
@@ -243,8 +243,8 @@ $jscomp.polyfill("Promise", function(a) {
         delete a[b];
         try {
           c();
-        } catch (n) {
-          this.asyncThrow_(n);
+        } catch (p) {
+          this.asyncThrow_(p);
         }
       }
     }
@@ -339,8 +339,8 @@ $jscomp.polyfill("Promise", function(a) {
     var c = this.createResolveAndReject_();
     try {
       a.call(b, c.resolve, c.reject);
-    } catch (n) {
-      c.reject(n);
+    } catch (p) {
+      c.reject(p);
     }
   };
   e.prototype.then = function(a, b) {
@@ -977,16 +977,16 @@ Polymer.ArraySplice = function() {
     for (var c = Array(h), d = 0; d < h; d++) {
       c[d] = Array(e), c[d][0] = d;
     }
-    for (var p = 0; p < e; p++) {
-      c[0][p] = p;
+    for (var m = 0; m < e; m++) {
+      c[0][m] = m;
     }
     for (d = 1; d < h; d++) {
-      for (p = 1; p < e; p++) {
-        if (this.equals(a[b + p - 1], f[g + d - 1])) {
-          c[d][p] = c[d - 1][p - 1];
+      for (m = 1; m < e; m++) {
+        if (this.equals(a[b + m - 1], f[g + d - 1])) {
+          c[d][m] = c[d - 1][m - 1];
         } else {
-          var q = c[d - 1][p] + 1, m = c[d][p - 1] + 1;
-          c[d][p] = q < m ? q : m;
+          var q = c[d - 1][m] + 1, n = c[d][m - 1] + 1;
+          c[d][m] = q < n ? q : n;
         }
       }
     }
@@ -999,22 +999,22 @@ Polymer.ArraySplice = function() {
         if (0 == c) {
           g.push(3), b--;
         } else {
-          var h = a[b - 1][c - 1], l = a[b - 1][c], n = a[b][c - 1];
-          var p = l < n ? l < h ? l : h : n < h ? n : h;
-          p == h ? (h == f ? g.push(0) : (g.push(1), f = h), b--, c--) : p == l ? (g.push(3), b--, f = l) : (g.push(2), c--, f = n);
+          var h = a[b - 1][c - 1], l = a[b - 1][c], p = a[b][c - 1];
+          var m = l < p ? l < h ? l : h : p < h ? p : h;
+          m == h ? (h == f ? g.push(0) : (g.push(1), f = h), b--, c--) : m == l ? (g.push(3), b--, f = l) : (g.push(2), c--, f = p);
         }
       }
     }
     g.reverse();
     return g;
   }, calcSplices:function(b, d, e, f, g, h) {
-    var c = 0, n = 0, p = Math.min(e - d, h - g);
-    0 == d && 0 == g && (c = this.sharedPrefix(b, f, p));
-    e == b.length && h == f.length && (n = this.sharedSuffix(b, f, p - c));
+    var c = 0, p = 0, m = Math.min(e - d, h - g);
+    0 == d && 0 == g && (c = this.sharedPrefix(b, f, m));
+    e == b.length && h == f.length && (p = this.sharedSuffix(b, f, m - c));
     d += c;
     g += c;
-    e -= n;
-    h -= n;
+    e -= p;
+    h -= p;
     if (0 == e - d && 0 == h - g) {
       return [];
     }
@@ -1097,7 +1097,7 @@ Polymer.domInnerHTML = function() {
   }
   function c(b, l) {
     b instanceof HTMLTemplateElement && (b = b.content);
-    for (var h = "", p = Polymer.dom(b).childNodes, q = 0, m = p.length, r; q < m && (r = p[q]); q++) {
+    for (var h = "", m = Polymer.dom(b).childNodes, q = 0, n = m.length, r; q < n && (r = m[q]); q++) {
       a: {
         var u = r;
         var v = b;
@@ -1279,13 +1279,13 @@ Polymer.DomApi = function() {
     }
     return d;
   }, getEffectiveChildNodes:function() {
-    for (var a = [], b = this.childNodes, c = 0, d = b.length, p; c < d && (p = b[c]); c++) {
-      if (p.localName === e) {
-        for (var q = f(p).getDistributedNodes(), m = 0; m < q.length; m++) {
-          a.push(q[m]);
+    for (var a = [], b = this.childNodes, c = 0, d = b.length, m; c < d && (m = b[c]); c++) {
+      if (m.localName === e) {
+        for (var q = f(m).getDistributedNodes(), n = 0; n < q.length; n++) {
+          a.push(q[n]);
         }
       } else {
-        a.push(p);
+        a.push(m);
       }
     }
     return a;
@@ -1412,11 +1412,11 @@ Polymer.DomApi = function() {
       if (a.nodeType !== Node.DOCUMENT_FRAGMENT_NODE || a.__noContent) {
         a.localName === e && (c.Logical.saveChildNodes(d), c.Logical.saveChildNodes(a), l = !0);
       } else {
-        for (var f = b(a).querySelectorAll(e), g = 0, h, m; g < f.length && (h = f[g]); g++) {
-          m = c.Logical.getParentNode(h);
-          m === a && (m = d);
-          m = this._maybeAddInsertionPoint(h, m);
-          var l = l || m;
+        for (var f = b(a).querySelectorAll(e), g = 0, h, n; g < f.length && (h = f[g]); g++) {
+          n = c.Logical.getParentNode(h);
+          n === a && (n = d);
+          n = this._maybeAddInsertionPoint(h, n);
+          var l = l || n;
         }
       }
       return l;
@@ -1506,8 +1506,8 @@ Polymer.DomApi = function() {
       if (d) {
         a = c.Logical.getChildNodes(a);
         d = b(f);
-        for (var h = 0, m; h < a.length; h++) {
-          m = b(e).importNode(a[h], !0), d.appendChild(m);
+        for (var h = 0, n; h < a.length; h++) {
+          n = b(e).importNode(a[h], !0), d.appendChild(n);
         }
       }
       return f;
@@ -1802,14 +1802,14 @@ Polymer.EventApi = function() {
       return !0;
     }
     for (var c = {target:this.node, addedNodes:[], removedNodes:[]}, d = Polymer.ArraySplice.calculateSplices(b, a._nodes), e = 0, f; e < d.length && (f = d[e]); e++) {
-      for (var p = 0, q; p < f.removed.length && (q = f.removed[p]); p++) {
+      for (var m = 0, q; m < f.removed.length && (q = f.removed[m]); m++) {
         c.removedNodes.push(q);
       }
     }
     e = 0;
     for (f; e < d.length && (f = d[e]); e++) {
-      for (p = f.index; p < f.index + f.addedCount; p++) {
-        c.addedNodes.push(b[p]);
+      for (m = f.index; m < f.index + f.addedCount; m++) {
+        c.addedNodes.push(b[m]);
       }
     }
     a._nodes = b;
@@ -1978,9 +1978,9 @@ Polymer.EventApi = function() {
       if ("content" == c.localName) {
         var e = c._distributedNodes;
         if (e) {
-          for (var n = 0; n < e.length; n++) {
-            var p = e[n]._destinationInsertionPoints;
-            p && p.splice(p.indexOf(c) + 1, p.length);
+          for (var p = 0; p < e.length; p++) {
+            var m = e[p]._destinationInsertionPoints;
+            m && m.splice(m.indexOf(c) + 1, m.length);
           }
         }
       }
@@ -1999,12 +1999,12 @@ Polymer.EventApi = function() {
     a = a._insertionPoints;
     for (var e = 0, f = a.length, g; e < f && (g = a[e]); e++) {
       this._distributeInsertionPoint(g, b);
-      var p = d.Logical.getParentNode(g);
-      p && p.shadyRoot && c.hasInsertionPoint(p.shadyRoot) && p.shadyRoot._distributionClean && (p.shadyRoot._distributionClean = !1, this.shadyRoot._dirtyRoots.push(p));
+      var m = d.Logical.getParentNode(g);
+      m && m.shadyRoot && c.hasInsertionPoint(m.shadyRoot) && m.shadyRoot._distributionClean && (m.shadyRoot._distributionClean = !1, this.shadyRoot._dirtyRoots.push(m));
     }
   }, _distributeInsertionPoint:function(b, c) {
-    for (var e = !1, f = 0, g = c.length, p; f < g; f++) {
-      (p = c[f]) && this._matchesContentSelect(p, b) && (a(p, b), c[f] = void 0, e = !0);
+    for (var e = !1, f = 0, g = c.length, m; f < g; f++) {
+      (m = c[f]) && this._matchesContentSelect(m, b) && (a(m, b), c[f] = void 0, e = !0);
     }
     if (!e) {
       for (c = d.Logical.getChildNodes(b), e = 0; e < c.length; e++) {
@@ -2013,8 +2013,8 @@ Polymer.EventApi = function() {
     }
   }, _composeTree:function() {
     this._updateChildNodes(this, this._composeNode(this));
-    for (var a = this.shadyRoot._insertionPoints, b = 0, c = a.length, e, n; b < c && (e = a[b]); b++) {
-      n = d.Logical.getParentNode(e), n._useContent || n === this || n === this.shadyRoot || this._updateChildNodes(n, this._composeNode(n));
+    for (var a = this.shadyRoot._insertionPoints, b = 0, c = a.length, e, p; b < c && (e = a[b]); b++) {
+      p = d.Logical.getParentNode(e), p._useContent || p === this || p === this.shadyRoot || this._updateChildNodes(p, this._composeNode(p));
     }
   }, _composeNode:function(a) {
     var b = [];
@@ -2022,9 +2022,9 @@ Polymer.EventApi = function() {
     for (var c = 0; c < a.length; c++) {
       var e = a[c];
       if ("content" == e.localName) {
-        for (var f = e._distributedNodes, p = 0; p < f.length; p++) {
-          var q = f[p], m = q._destinationInsertionPoints;
-          m && m[m.length - 1] === e && b.push(q);
+        for (var f = e._distributedNodes, m = 0; m < f.length; m++) {
+          var q = f[m], n = q._destinationInsertionPoints;
+          n && n[n.length - 1] === e && b.push(q);
         }
       } else {
         b.push(e);
@@ -2033,14 +2033,14 @@ Polymer.EventApi = function() {
     return b;
   }, _updateChildNodes:function(a, b) {
     for (var c = d.Composed.getChildNodes(a), e = Polymer.ArraySplice.calculateSplices(b, c), f = 0, g = 0, q; f < e.length && (q = e[f]); f++) {
-      for (var m = 0, r; m < q.removed.length && (r = q.removed[m]); m++) {
+      for (var n = 0, r; n < q.removed.length && (r = q.removed[n]); n++) {
         d.Composed.getParentNode(r) === a && d.Composed.removeChild(a, r), c.splice(q.index + g, 1);
       }
       g -= q.addedCount;
     }
     for (f = 0; f < e.length && (q = e[f]); f++) {
-      for (g = c[q.index], m = q.index, r; m < q.index + q.addedCount; m++) {
-        r = b[m], d.Composed.insertBefore(a, r, g), c.splice(m, 0, r);
+      for (g = c[q.index], n = q.index, r; n < q.index + q.addedCount; n++) {
+        r = b[n], d.Composed.insertBefore(a, r, g), c.splice(n, 0, r);
       }
     }
   }, _matchesContentSelect:function(a, b) {
@@ -2266,7 +2266,7 @@ Polymer.Annotations = {parseAnnotations:function(a) {
   var c, d, e = /(url\()([^)]*)(\))/g, f = {"*":["href", "src", "style", "url"], form:["action"]}, g = /\{\{|\[\[/;
   Polymer.ResolveUrl = {resolveCss:a, resolveAttrs:function(c, d) {
     for (var e in f) {
-      for (var h = f[e], l = 0, m = h.length, r, u, v; l < m && (r = h[l]); l++) {
+      for (var h = f[e], l = 0, n = h.length, r, u, v; l < n && (r = h[l]); l++) {
         ("*" === e || c.localName === e) && (v = (u = c.attributes[r]) && u.value) && 0 > v.search(g) && (u.value = "style" === r ? a(v, d) : b(v, d));
       }
     }
@@ -2310,14 +2310,14 @@ Polymer.Base._addFeature({_prepAnnotations:function() {
 }, _discoverTemplateParentProps:function(a) {
   for (var b = {}, c = 0, d; c < a.length && (d = a[c]); c++) {
     for (var e = 0, f = d.bindings, g; e < f.length && (g = f[e]); e++) {
-      for (var h = 0, l = g.parts, n; h < l.length && (n = l[h]); h++) {
-        if (n.signature) {
-          for (var p = n.signature.args, q = 0; q < p.length; q++) {
-            var m = p[q].model;
-            m && (b[m] = !0);
+      for (var h = 0, l = g.parts, p; h < l.length && (p = l[h]); h++) {
+        if (p.signature) {
+          for (var m = p.signature.args, q = 0; q < m.length; q++) {
+            var n = m[q].model;
+            n && (b[n] = !0);
           }
         } else {
-          n.model && (b[n.model] = !0);
+          p.model && (b[p.model] = !0);
         }
       }
     }
@@ -2427,15 +2427,15 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     }
   }
   function b() {
-    p || (m.mouse.mouseIgnoreJob || a(!0), m.mouse.mouseIgnoreJob = Polymer.Debounce(m.mouse.mouseIgnoreJob, function() {
+    m || (n.mouse.mouseIgnoreJob || a(!0), n.mouse.mouseIgnoreJob = Polymer.Debounce(n.mouse.mouseIgnoreJob, function() {
       a();
-      m.mouse.target = null;
-      m.mouse.mouseIgnoreJob = null;
+      n.mouse.target = null;
+      n.mouse.mouseIgnoreJob = null;
     }, 2500));
   }
   function c(a) {
     var b = a.type;
-    return -1 === h.indexOf(b) ? !1 : "mousemove" === b ? (b = void 0 === a.buttons ? 1 : a.buttons, a instanceof window.MouseEvent && !n && (b = l[a.which] || 0), !!(b & 1)) : 0 === (void 0 === a.button ? 0 : a.button);
+    return -1 === h.indexOf(b) ? !1 : "mousemove" === b ? (b = void 0 === a.buttons ? 1 : a.buttons, a instanceof window.MouseEvent && !p && (b = l[a.which] || 0), !!(b & 1)) : 0 === (void 0 === a.button ? 0 : a.button);
   }
   function d(a, b, c) {
     a.movefn = b;
@@ -2451,22 +2451,22 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
   }
   var f = Polymer.DomApi.wrap, g = "string" === typeof document.head.style.touchAction, h = ["mousedown", "mousemove", "mouseup", "click"], l = [0, 1, 4, 2];
   try {
-    var n = 1 === (new MouseEvent("test", {buttons:1})).buttons;
+    var p = 1 === (new MouseEvent("test", {buttons:1})).buttons;
   } catch (v) {
-    n = !1;
+    p = !1;
   }
-  var p = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/), q = function(a) {
+  var m = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/), q = function(a) {
     a.__polymerGesturesHandled = {skip:!0};
     if ("click" === a.type) {
       for (var b = Polymer.dom(a).path, c = 0; c < b.length; c++) {
-        if (b[c] === m.mouse.target) {
+        if (b[c] === n.mouse.target) {
           return;
         }
       }
       a.preventDefault();
       a.stopPropagation();
     }
-  }, m = {mouse:{target:null, mouseIgnoreJob:null}, touch:{x:0, y:0, id:-1, scrollDecided:!1}}, r = {gestures:{}, recognizers:[], deepTargetFind:function(a, b) {
+  }, n = {mouse:{target:null, mouseIgnoreJob:null}, touch:{x:0, y:0, id:-1, scrollDecided:!1}}, r = {gestures:{}, recognizers:[], deepTargetFind:function(a, b) {
     for (var c = document.elementFromPoint(a, b), d = c; d && d.shadowRoot;) {
       (d = d.shadowRoot.elementFromPoint(a, b)) && (c = d);
     }
@@ -2478,31 +2478,31 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     if (d && (d = d[c])) {
       if (!a.__polymerGesturesHandled && (a.__polymerGesturesHandled = {}, "touch" === c.slice(0, 5))) {
         var e = a.changedTouches[0];
-        "touchstart" === c && 1 === a.touches.length && (m.touch.id = e.identifier);
-        if (m.touch.id !== e.identifier) {
+        "touchstart" === c && 1 === a.touches.length && (n.touch.id = e.identifier);
+        if (n.touch.id !== e.identifier) {
           return;
         }
         g || "touchstart" !== c && "touchmove" !== c || r.handleTouchAction(a);
-        "touchend" !== c || a.__polymerSimulatedTouch || (m.mouse.target = Polymer.dom(a).rootTarget, b(!0));
+        "touchend" !== c || a.__polymerSimulatedTouch || (n.mouse.target = Polymer.dom(a).rootTarget, b(!0));
       }
       e = a.__polymerGesturesHandled;
       if (!e.skip) {
-        for (var h = r.recognizers, l = 0, n; l < h.length; l++) {
-          n = h[l], d[n.name] && !e[n.name] && n.flow && -1 < n.flow.start.indexOf(a.type) && n.reset && n.reset();
+        for (var h = r.recognizers, l = 0, m; l < h.length; l++) {
+          m = h[l], d[m.name] && !e[m.name] && m.flow && -1 < m.flow.start.indexOf(a.type) && m.reset && m.reset();
         }
         l = 0;
-        for (n; l < h.length; l++) {
-          n = h[l], d[n.name] && !e[n.name] && (e[n.name] = !0, n[c](a));
+        for (m; l < h.length; l++) {
+          m = h[l], d[m.name] && !e[m.name] && (e[m.name] = !0, m[c](a));
         }
       }
     }
   }, handleTouchAction:function(a) {
     var b = a.changedTouches[0], c = a.type;
     if ("touchstart" === c) {
-      m.touch.x = b.clientX, m.touch.y = b.clientY, m.touch.scrollDecided = !1;
+      n.touch.x = b.clientX, n.touch.y = b.clientY, n.touch.scrollDecided = !1;
     } else {
-      if ("touchmove" === c && !m.touch.scrollDecided) {
-        m.touch.scrollDecided = !0;
+      if ("touchmove" === c && !n.touch.scrollDecided) {
+        n.touch.scrollDecided = !0;
         for (var c = Polymer.dom(a).path, d = "auto", e = 0, f; e < c.length; e++) {
           if (f = c[e], f.__polymerGesturesTouchAction) {
             d = f.__polymerGesturesTouchAction;
@@ -2511,18 +2511,18 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
         }
         c = d;
         d = !1;
-        e = Math.abs(m.touch.x - b.clientX);
-        b = Math.abs(m.touch.y - b.clientY);
+        e = Math.abs(n.touch.x - b.clientX);
+        b = Math.abs(n.touch.y - b.clientY);
         a.cancelable && ("none" === c ? d = !0 : "pan-x" === c ? d = b > e : "pan-y" === c && (d = e > b));
         d ? a.preventDefault() : r.prevent("track");
       }
     }
   }, add:function(a, b, c) {
     a = f(a);
-    var d = this.gestures[b], e = d.deps, g = d.name, m = a.__polymerGestures;
-    m || (a.__polymerGestures = m = {});
-    for (var l = 0, r, n; l < e.length; l++) {
-      r = e[l], p && -1 < h.indexOf(r) || ((n = m[r]) || (m[r] = n = {_count:0}), 0 === n._count && a.addEventListener(r, this.handleNative), n[g] = (n[g] || 0) + 1, n._count = (n._count || 0) + 1);
+    var d = this.gestures[b], e = d.deps, g = d.name, n = a.__polymerGestures;
+    n || (a.__polymerGestures = n = {});
+    for (var l = 0, r, p; l < e.length; l++) {
+      r = e[l], m && -1 < h.indexOf(r) || ((p = n[r]) || (n[r] = p = {_count:0}), 0 === p._count && a.addEventListener(r, this.handleNative), p[g] = (p[g] || 0) + 1, p._count = (p._count || 0) + 1);
     }
     a.addEventListener(b, c);
     d.touchAction && this.setTouchAction(a, d.touchAction);
@@ -2530,8 +2530,8 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     a = f(a);
     var d = this.gestures[b], e = d.deps, d = d.name, g = a.__polymerGestures;
     if (g) {
-      for (var h = 0, m, l; h < e.length; h++) {
-        m = e[h], (l = g[m]) && l[d] && (l[d] = (l[d] || 1) - 1, l._count = (l._count || 1) - 1, 0 === l._count && a.removeEventListener(m, this.handleNative));
+      for (var h = 0, n, l; h < e.length; h++) {
+        n = e[h], (l = g[n]) && l[d] && (l[d] = (l[d] || 1) - 1, l._count = (l._count || 1) - 1, 0 === l._count && a.removeEventListener(n, this.handleNative));
       }
     }
     a.removeEventListener(b, c);
@@ -2899,12 +2899,12 @@ Polymer.Base.extend(Polymer.Bind, {_shouldAddListener:function(a) {
   }
 }, _marshalArgs:function(a, b, c, d) {
   for (var e = [], f = b.args, g = 1 < f.length || b.dynamicFn, h = 0, l = f.length; h < l; h++) {
-    var n = f[h], p = n.name;
-    var q = n.literal ? n.value : n.structured ? Polymer.Base._get(p, a) : a[p];
+    var p = f[h], m = p.name;
+    var q = p.literal ? p.value : p.structured ? Polymer.Base._get(m, a) : a[m];
     if (g && void 0 === q) {
       return;
     }
-    n.wildcard ? (n = 0 === p.indexOf(c + "."), n = 0 === b.trigger.name.indexOf(p) && !n, e[h] = {path:n ? c : p, value:n ? d : q, base:q}) : e[h] = q;
+    p.wildcard ? (p = 0 === m.indexOf(c + "."), p = 0 === b.trigger.name.indexOf(m) && !p, e[h] = {path:p ? c : m, value:p ? d : q, base:q}) : e[h] = q;
   }
   return e;
 }});
@@ -3078,8 +3078,8 @@ Polymer.Base._addFeature({_addPropertyEffect:function(a, b, c) {
         if (e) {
           for (var f = 0, g = e.length, h; f < g && (h = e[f]); f++) {
             if ("annotation" === h.kind && !h.isCompound) {
-              var l = this._nodes[h.effect.index], n = h.effect.propertyName, p = "attribute" == h.effect.kind, q = l._propertyEffects && l._propertyEffects[n];
-              !l._configValue || !q && p || (q = d === h.effect.value ? a[d] : this._get(h.effect.value, a), p && (q = l.deserialize(this.serialize(q), l._propertyInfo[n].type)), l._configValue(n, q));
+              var l = this._nodes[h.effect.index], p = h.effect.propertyName, m = "attribute" == h.effect.kind, q = l._propertyEffects && l._propertyEffects[p];
+              !l._configValue || !q && m || (q = d === h.effect.value ? a[d] : this._get(h.effect.value, a), m && (q = l.deserialize(this.serialize(q), l._propertyInfo[p].type)), l._configValue(p, q));
             }
           }
         }
@@ -3148,11 +3148,11 @@ Polymer.Base._addFeature({_addPropertyEffect:function(a, b, c) {
         var g = Polymer.Collection.get(h);
         if ("#" == f[0]) {
           var l = f;
-          var n = g.getItem(l);
-          f = h.indexOf(n);
+          var p = g.getItem(l);
+          f = h.indexOf(p);
           g.setItem(l, b);
         } else {
-          parseInt(f, 10) == f && (n = d[f], l = g.getKey(n), e[a] = l, g.setItem(l, b));
+          parseInt(f, 10) == f && (p = d[f], l = g.getKey(p), e[a] = l, g.setItem(l, b));
         }
       }
       d[f] = b;
@@ -3415,8 +3415,8 @@ Polymer.StyleTransformer = function() {
   }, element:function(a, b, c, e) {
     c ? e ? a.removeAttribute(d) : a.setAttribute(d, b) : b && (a.classList ? e ? (a.classList.remove(d), a.classList.remove(b)) : (a.classList.add(d), a.classList.add(b)) : a.getAttribute && (c = a.getAttribute(B), e ? c && a.setAttribute(B, c.replace(d, "").replace(b, "")) : a.setAttribute(B, (c ? c + " " : "") + d + " " + b)));
   }, elementStyles:function(c, d) {
-    for (var e = c._styles, f = "", g = 0, h = e.length, m; g < h && (m = e[g]); g++) {
-      var l = b.rulesForStyle(m), f = f + (a ? b.toCssText(l, d) : this.css(l, c.is, c.extends, d, c._scopeCssViaAttr) + "\n\n");
+    for (var e = c._styles, f = "", g = 0, h = e.length, n; g < h && (n = e[g]); g++) {
+      var l = b.rulesForStyle(n), f = f + (a ? b.toCssText(l, d) : this.css(l, c.is, c.extends, d, c._scopeCssViaAttr) + "\n\n");
     }
     return f.trim();
   }, css:function(a, c, d, e, f) {
@@ -3436,16 +3436,16 @@ Polymer.StyleTransformer = function() {
   }, _transformRule:function(a, c, d, e) {
     var g = a.selector.split(f);
     if (!b.isKeyframesSelector(a)) {
-      for (var h = 0, m = g.length, l; h < m && (l = g[h]); h++) {
+      for (var h = 0, n = g.length, l; h < n && (l = g[h]); h++) {
         g[h] = c.call(this, l, d, e);
       }
     }
     a.selector = a.transformedSelector = g.join(f);
   }, _transformComplexSelector:function(a, b, c) {
-    var d = !1, e = !1, m = this;
+    var d = !1, e = !1, n = this;
     a = a.replace(H, h + " $1");
     a = a.replace(g, function(a, f, g) {
-      d ? g = g.replace(r, " ") : (a = m._transformCompoundSelector(g, f, b, c), d = d || a.stop, e = e || a.hostContext, f = a.combinator, g = a.value);
+      d ? g = g.replace(r, " ") : (a = n._transformCompoundSelector(g, f, b, c), d = d || a.stop, e = e || a.hostContext, f = a.combinator, g = a.value);
       return f + g;
     });
     e && (a = a.replace(q, function(a, b, d, e) {
@@ -3454,10 +3454,10 @@ Polymer.StyleTransformer = function() {
     return a;
   }, _transformCompoundSelector:function(a, b, c, d) {
     var e = a.search(r), f = !1;
-    0 <= a.indexOf(p) ? f = !0 : 0 <= a.indexOf(h) ? (a = a.replace(n, function(a, b, c) {
+    0 <= a.indexOf(m) ? f = !0 : 0 <= a.indexOf(h) ? (a = a.replace(p, function(a, b, c) {
       return d + c;
     }), a = a.replace(h, d)) : 0 !== e && (a = c ? this._transformSimpleSelector(a, c) : a);
-    0 <= a.indexOf(m) && (b = "");
+    0 <= a.indexOf(n) && (b = "");
     if (0 <= e) {
       a = a.replace(r, " ");
       var g = !0;
@@ -3475,7 +3475,7 @@ Polymer.StyleTransformer = function() {
     a.selector === l && (a.selector = "body");
   }, _transformDocumentSelector:function(a) {
     return a.match(r) ? this._transformComplexSelector(a, e) : this._transformSimpleSelector(a.trim(), e);
-  }, SCOPE_NAME:"style-scope"}, d = c.SCOPE_NAME, e = ":not([" + d + "]):not(." + d + ")", f = ",", g = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=\[])+)/g, h = ":host", l = ":root", n = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g, p = ":host-context", q = /(.*)(?::host-context)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))(.*)/, m = "::content", r = /::content|::shadow|\/deep\//, u = ".", v = "[" + d + "~=", A = "]", C = ":", B = "class", H = new RegExp("^(" + m + ")");
+  }, SCOPE_NAME:"style-scope"}, d = c.SCOPE_NAME, e = ":not([" + d + "]):not(." + d + ")", f = ",", g = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=\[])+)/g, h = ":host", l = ":root", p = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g, m = ":host-context", q = /(.*)(?::host-context)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))(.*)/, n = "::content", r = /::content|::shadow|\/deep\//, u = ".", v = "[" + d + "~=", A = "]", C = ":", B = "class", H = new RegExp("^(" + n + ")");
   return c;
 }();
 Polymer.StyleExtends = function() {
@@ -3542,8 +3542,8 @@ Polymer.StyleExtends = function() {
   }, _collectStyles:function() {
     var a = [], b = "", d = this.styleModules;
     if (d) {
-      for (var l = 0, n = d.length, p; l < n && (p = d[l]); l++) {
-        b += c.cssFromModule(p);
+      for (var l = 0, p = d.length, m; l < p && (m = d[l]); l++) {
+        b += c.cssFromModule(m);
       }
     }
     b += c.cssFromModule(this.is);
@@ -3682,16 +3682,16 @@ Polymer.StyleProperties = function() {
     }
     a.cssText = d;
   }, propertyDataFromStyles:function(a, d) {
-    var e = {}, f = this, l = [], n = 0;
+    var e = {}, f = this, l = [], p = 0;
     c.forRulesInStyles(a, function(a) {
       a.propertyInfo || f.decorateRule(a);
       if (d && a.propertyInfo.properties && b.call(d, a.transformedSelector || a.parsedSelector)) {
         f.collectProperties(a, e);
-        a = n;
+        a = p;
         var c = parseInt(a / 32);
         l[c] = (l[c] || 0) | 1 << a % 32;
       }
-      n++;
+      p++;
     });
     return {properties:e, key:l};
   }, scopePropertiesFromStyles:function(a) {
@@ -3713,10 +3713,10 @@ Polymer.StyleProperties = function() {
     });
     return d;
   }, transformStyles:function(b, c, g) {
-    var e = this, f = d._calcHostScope(b.is, b.extends), n = b.extends ? "\\" + f.slice(0, -1) + "\\]" : f, p = new RegExp(this.rx.HOST_PREFIX + n + this.rx.HOST_SUFFIX), q = this._elementKeyframeTransforms(b, g);
+    var e = this, f = d._calcHostScope(b.is, b.extends), p = b.extends ? "\\" + f.slice(0, -1) + "\\]" : f, m = new RegExp(this.rx.HOST_PREFIX + p + this.rx.HOST_SUFFIX), q = this._elementKeyframeTransforms(b, g);
     return d.elementStyles(b, function(d) {
       e.applyProperties(d, c);
-      a || Polymer.StyleUtil.isKeyframesSelector(d) || !d.cssText || (e.applyKeyframeTransforms(d, q), e._scopeSelector(d, p, f, b._scopeCssViaAttr, g));
+      a || Polymer.StyleUtil.isKeyframesSelector(d) || !d.cssText || (e.applyKeyframeTransforms(d, q), e._scopeSelector(d, m, f, b._scopeCssViaAttr, g));
     });
   }, _elementKeyframeTransforms:function(b, c) {
     b = b._styles._keyframes;
@@ -4609,7 +4609,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
   function a(a, b) {
     var c = "";
     if (a) {
-      if (a = a.toLowerCase(), " " === a || p.test(a)) {
+      if (a = a.toLowerCase(), " " === a || m.test(a)) {
         c = "space";
       } else {
         if (q.test(a)) {
@@ -4620,7 +4620,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
               c = a;
             }
           } else {
-            c = n.test(a) ? a.replace("arrow", "") : "multiply" == a ? "*" : a;
+            c = p.test(a) ? a.replace("arrow", "") : "multiply" == a ? "*" : a;
           }
         }
       }
@@ -4652,7 +4652,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
       return c(a);
     });
   }
-  var e = {"U+0008":"backspace", "U+0009":"tab", "U+001B":"esc", "U+0020":"space", "U+007F":"del"}, f = {8:"backspace", 9:"tab", 13:"enter", 27:"esc", 33:"pageup", 34:"pagedown", 35:"end", 36:"home", 32:"space", 37:"left", 38:"up", 39:"right", 40:"down", 46:"del", 106:"*"}, g = {shift:"shiftKey", ctrl:"ctrlKey", alt:"altKey", meta:"metaKey"}, h = /[a-z0-9*]/, l = /U\+/, n = /^arrow/, p = /^space(bar)?/, q = /^escape$/;
+  var e = {"U+0008":"backspace", "U+0009":"tab", "U+001B":"esc", "U+0020":"space", "U+007F":"del"}, f = {8:"backspace", 9:"tab", 13:"enter", 27:"esc", 33:"pageup", 34:"pagedown", 35:"end", 36:"home", 32:"space", 37:"left", 38:"up", 39:"right", 40:"down", 46:"del", 106:"*"}, g = {shift:"shiftKey", ctrl:"ctrlKey", alt:"altKey", meta:"metaKey"}, h = /[a-z0-9*]/, l = /U\+/, p = /^arrow/, m = /^space(bar)?/, q = /^escape$/;
   Polymer.IronA11yKeysBehavior = {properties:{keyEventTarget:{type:Object, value:function() {
     return this;
   }}, stopKeyboardEventPropagation:{type:Boolean, value:!1}, _boundKeyHandlers:{type:Array, value:function() {
@@ -4790,8 +4790,8 @@ function MakePromise(a) {
       this._state = !0;
       this._value = a;
       f.call(this);
-    } catch (n) {
-      e.call(this, n);
+    } catch (p) {
+      e.call(this, p);
     }
   }
   function e(a) {
@@ -5495,12 +5495,12 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
   function a(a) {
     this.tokens = [];
     this.tokens.links = {};
-    this.options = a || n.defaults;
-    this.rules = p.normal;
-    this.options.gfm && (this.rules = this.options.tables ? p.tables : p.gfm);
+    this.options = a || p.defaults;
+    this.rules = m.normal;
+    this.options.gfm && (this.rules = this.options.tables ? m.tables : m.gfm);
   }
   function b(a, b) {
-    this.options = b || n.defaults;
+    this.options = b || p.defaults;
     this.links = a;
     this.rules = q.normal;
     this.renderer = this.options.renderer || new c;
@@ -5516,7 +5516,7 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
   function d(a) {
     this.tokens = [];
     this.token = null;
-    this.options = a || n.defaults;
+    this.options = a || p.defaults;
     this.options.renderer = this.options.renderer || new c;
     this.renderer = this.options.renderer;
     this.renderer.options = this.options;
@@ -5553,23 +5553,23 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
     }
     return a;
   }
-  function n(b, c, f) {
+  function p(b, c, f) {
     if (f || "function" === typeof c) {
       f || (f = c, c = null);
-      c = l({}, n.defaults, c || {});
+      c = l({}, p.defaults, c || {});
       var g = c.highlight, h = 0;
       try {
-        var m = a.lex(b, c);
+        var n = a.lex(b, c);
       } catch (z) {
         return f(z);
       }
-      var r = m.length;
-      var p = function(a) {
+      var r = n.length;
+      var m = function(a) {
         if (a) {
           return c.highlight = g, f(a);
         }
         try {
-          var b = d.parse(m, c);
+          var b = d.parse(n, c);
         } catch (F) {
           a = F;
         }
@@ -5577,52 +5577,52 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
         return a ? f(a) : f(null, b);
       };
       if (!g || 3 > g.length) {
-        return p();
+        return m();
       }
       delete c.highlight;
       if (!r) {
-        return p();
+        return m();
       }
-      for (; h < m.length; h++) {
+      for (; h < n.length; h++) {
         (function(a) {
-          return "code" !== a.type ? --r || p() : g(a.text, a.lang, function(b, c) {
+          return "code" !== a.type ? --r || m() : g(a.text, a.lang, function(b, c) {
             if (b) {
-              return p(b);
+              return m(b);
             }
             if (null == c || c === a.text) {
-              return --r || p();
+              return --r || m();
             }
             a.text = c;
             a.escaped = !0;
-            --r || p();
+            --r || m();
           });
-        })(m[h]);
+        })(n[h]);
       }
     } else {
       try {
-        return c && (c = l({}, n.defaults, c)), d.parse(a.lex(b, c), c);
+        return c && (c = l({}, p.defaults, c)), d.parse(a.lex(b, c), c);
       } catch (z) {
         z.message += "\nPlease report this to https://github.com/chjj/marked.";
-        if ((c || n.defaults).silent) {
+        if ((c || p.defaults).silent) {
           return "<p>An error occured:</p><pre>" + e(z.message + "", !0) + "</pre>";
         }
         throw z;
       }
     }
   }
-  var p = {newline:/^\n+/, code:/^( {4}[^\n]+\n*)+/, fences:h, hr:/^( *[-*_]){3,} *(?:\n+|$)/, heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/, nptable:h, lheading:/^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/, blockquote:/^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/, list:/^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/, html:/^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/, def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/, table:h, paragraph:/^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/, 
+  var m = {newline:/^\n+/, code:/^( {4}[^\n]+\n*)+/, fences:h, hr:/^( *[-*_]){3,} *(?:\n+|$)/, heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/, nptable:h, lheading:/^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/, blockquote:/^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/, list:/^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/, html:/^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/, def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/, table:h, paragraph:/^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/, 
   text:/^[^\n]+/, bullet:/(?:[*+-]|\d+\.)/, item:/^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/};
-  p.item = g(p.item, "gm")(/bull/g, p.bullet)();
-  p.list = g(p.list)(/bull/g, p.bullet)("hr", "\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))")("def", "\\n+(?=" + p.def.source + ")")();
-  p.blockquote = g(p.blockquote)("def", p.def)();
-  p._tag = "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b";
-  p.html = g(p.html)("comment", /\x3c!--[\s\S]*?--\x3e/)("closed", /<(tag)[\s\S]+?<\/\1>/)("closing", /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g, p._tag)();
-  p.paragraph = g(p.paragraph)("hr", p.hr)("heading", p.heading)("lheading", p.lheading)("blockquote", p.blockquote)("tag", "<" + p._tag)("def", p.def)();
-  p.normal = l({}, p);
-  p.gfm = l({}, p.normal, {fences:/^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, paragraph:/^/, heading:/^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/});
-  p.gfm.paragraph = g(p.paragraph)("(?!", "(?!" + p.gfm.fences.source.replace("\\1", "\\2") + "|" + p.list.source.replace("\\1", "\\3") + "|")();
-  p.tables = l({}, p.gfm, {nptable:/^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/, table:/^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/});
-  a.rules = p;
+  m.item = g(m.item, "gm")(/bull/g, m.bullet)();
+  m.list = g(m.list)(/bull/g, m.bullet)("hr", "\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))")("def", "\\n+(?=" + m.def.source + ")")();
+  m.blockquote = g(m.blockquote)("def", m.def)();
+  m._tag = "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b";
+  m.html = g(m.html)("comment", /\x3c!--[\s\S]*?--\x3e/)("closed", /<(tag)[\s\S]+?<\/\1>/)("closing", /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g, m._tag)();
+  m.paragraph = g(m.paragraph)("hr", m.hr)("heading", m.heading)("lheading", m.lheading)("blockquote", m.blockquote)("tag", "<" + m._tag)("def", m.def)();
+  m.normal = l({}, m);
+  m.gfm = l({}, m.normal, {fences:/^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, paragraph:/^/, heading:/^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/});
+  m.gfm.paragraph = g(m.paragraph)("(?!", "(?!" + m.gfm.fences.source.replace("\\1", "\\2") + "|" + m.list.source.replace("\\1", "\\3") + "|")();
+  m.tables = l({}, m.gfm, {nptable:/^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/, table:/^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/});
+  a.rules = m;
   a.lex = function(b, c) {
     return (new a(c)).lex(b);
   };
@@ -5632,7 +5632,7 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
   };
   a.prototype.token = function(a, b, c) {
     a = a.replace(/^ +$/gm, "");
-    for (var d, e, f, g, h, m, l; a;) {
+    for (var d, e, f, g, h, n, l; a;) {
       if (f = this.rules.newline.exec(a)) {
         a = a.substring(f[0].length), 1 < f[0].length && this.tokens.push({type:"space"});
       }
@@ -5648,11 +5648,11 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
             if (b && (f = this.rules.nptable.exec(a))) {
               a = a.substring(f[0].length);
               h = {type:"table", header:f[1].replace(/^ *| *\| *$/g, "").split(/ *\| */), align:f[2].replace(/^ *|\| *$/g, "").split(/ *\| */), cells:f[3].replace(/\n$/, "").split("\n")};
-              for (m = 0; m < h.align.length; m++) {
-                /^ *-+: *$/.test(h.align[m]) ? h.align[m] = "right" : /^ *:-+: *$/.test(h.align[m]) ? h.align[m] = "center" : /^ *:-+ *$/.test(h.align[m]) ? h.align[m] = "left" : h.align[m] = null;
+              for (n = 0; n < h.align.length; n++) {
+                /^ *-+: *$/.test(h.align[n]) ? h.align[n] = "right" : /^ *:-+: *$/.test(h.align[n]) ? h.align[n] = "center" : /^ *:-+ *$/.test(h.align[n]) ? h.align[n] = "left" : h.align[n] = null;
               }
-              for (m = 0; m < h.cells.length; m++) {
-                h.cells[m] = h.cells[m].split(/ *\| */);
+              for (n = 0; n < h.cells.length; n++) {
+                h.cells[n] = h.cells[n].split(/ *\| */);
               }
               this.tokens.push(h);
             } else {
@@ -5672,8 +5672,8 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
                       f = f[0].match(this.rules.item);
                       d = !1;
                       l = f.length;
-                      for (m = 0; m < l; m++) {
-                        h = f[m], e = h.length, h = h.replace(/^ *([*+-]|\d+\.) +/, ""), ~h.indexOf("\n ") && (e -= h.length, h = this.options.pedantic ? h.replace(/^ {1,4}/gm, "") : h.replace(new RegExp("^ {1," + e + "}", "gm"), "")), this.options.smartLists && m !== l - 1 && (e = p.bullet.exec(f[m + 1])[0], g === e || 1 < g.length && 1 < e.length || (a = f.slice(m + 1).join("\n") + a, m = l - 1)), e = d || /\n\n(?!\s*$)/.test(h), m !== l - 1 && (d = "\n" === h.charAt(h.length - 1), e || (e = d)), 
+                      for (n = 0; n < l; n++) {
+                        h = f[n], e = h.length, h = h.replace(/^ *([*+-]|\d+\.) +/, ""), ~h.indexOf("\n ") && (e -= h.length, h = this.options.pedantic ? h.replace(/^ {1,4}/gm, "") : h.replace(new RegExp("^ {1," + e + "}", "gm"), "")), this.options.smartLists && n !== l - 1 && (e = m.bullet.exec(f[n + 1])[0], g === e || 1 < g.length && 1 < e.length || (a = f.slice(n + 1).join("\n") + a, n = l - 1)), e = d || /\n\n(?!\s*$)/.test(h), n !== l - 1 && (d = "\n" === h.charAt(h.length - 1), e || (e = d)), 
                         this.tokens.push({type:e ? "loose_item_start" : "list_item_start"}), this.token(h, !1, c), this.tokens.push({type:"list_item_end"});
                       }
                       this.tokens.push({type:"list_end"});
@@ -5687,11 +5687,11 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
                           if (b && (f = this.rules.table.exec(a))) {
                             a = a.substring(f[0].length);
                             h = {type:"table", header:f[1].replace(/^ *| *\| *$/g, "").split(/ *\| */), align:f[2].replace(/^ *|\| *$/g, "").split(/ *\| */), cells:f[3].replace(/(?: *\| *)?\n$/, "").split("\n")};
-                            for (m = 0; m < h.align.length; m++) {
-                              /^ *-+: *$/.test(h.align[m]) ? h.align[m] = "right" : /^ *:-+: *$/.test(h.align[m]) ? h.align[m] = "center" : /^ *:-+ *$/.test(h.align[m]) ? h.align[m] = "left" : h.align[m] = null;
+                            for (n = 0; n < h.align.length; n++) {
+                              /^ *-+: *$/.test(h.align[n]) ? h.align[n] = "right" : /^ *:-+: *$/.test(h.align[n]) ? h.align[n] = "center" : /^ *:-+ *$/.test(h.align[n]) ? h.align[n] = "left" : h.align[n] = null;
                             }
-                            for (m = 0; m < h.cells.length; m++) {
-                              h.cells[m] = h.cells[m].replace(/^ *\| *| *\| *$/g, "").split(/ *\| */);
+                            for (n = 0; n < h.cells.length; n++) {
+                              h.cells[n] = h.cells[n].replace(/^ *\| *| *\| *$/g, "").split(/ *\| */);
                             }
                             this.tokens.push(h);
                           } else {
@@ -5963,22 +5963,22 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
     }
   };
   h.exec = h;
-  n.options = n.setOptions = function(a) {
-    l(n.defaults, a);
-    return n;
+  p.options = p.setOptions = function(a) {
+    l(p.defaults, a);
+    return p;
   };
-  n.defaults = {gfm:!0, tables:!0, breaks:!1, pedantic:!1, sanitize:!1, sanitizer:null, mangle:!0, smartLists:!1, silent:!1, highlight:null, langPrefix:"lang-", smartypants:!1, headerPrefix:"", renderer:new c, xhtml:!1};
-  n.Parser = d;
-  n.parser = d.parse;
-  n.Renderer = c;
-  n.Lexer = a;
-  n.lexer = a.lex;
-  n.InlineLexer = b;
-  n.inlineLexer = b.output;
-  n.parse = n;
-  "undefined" !== typeof module && "object" === typeof exports ? module.exports = n : "function" === typeof define && define.amd ? define(function() {
-    return n;
-  }) : this.marked = n;
+  p.defaults = {gfm:!0, tables:!0, breaks:!1, pedantic:!1, sanitize:!1, sanitizer:null, mangle:!0, smartLists:!1, silent:!1, highlight:null, langPrefix:"lang-", smartypants:!1, headerPrefix:"", renderer:new c, xhtml:!1};
+  p.Parser = d;
+  p.parser = d.parse;
+  p.Renderer = c;
+  p.Lexer = a;
+  p.lexer = a.lex;
+  p.InlineLexer = b;
+  p.inlineLexer = b.output;
+  p.parse = p;
+  "undefined" !== typeof module && "object" === typeof exports ? module.exports = p : "function" === typeof define && define.amd ? define(function() {
+    return p;
+  }) : this.marked = p;
 }).call(function() {
   return this || ("undefined" !== typeof window ? window : global);
 }());
@@ -6291,15 +6291,15 @@ var _self = "undefined" !== typeof window ? window : "undefined" !== typeof Work
       }
       return f;
     }
-    var h = {}, m;
-    for (m in f) {
-      if (f.hasOwnProperty(m)) {
-        if (m == b) {
+    var h = {}, n;
+    for (n in f) {
+      if (f.hasOwnProperty(n)) {
+        if (n == b) {
           for (g in d) {
             d.hasOwnProperty(g) && (h[g] = d[g]);
           }
         }
-        h[m] = f[m];
+        h[n] = f[n];
       }
     }
     c.languages.DFS(c.languages, function(b, c) {
@@ -6350,19 +6350,19 @@ var _self = "undefined" !== typeof window ? window : "undefined" !== typeof Work
     a: for (g in b) {
       if (b.hasOwnProperty(g) && b[g]) {
         for (var f = b[g], f = "Array" === c.util.type(f) ? f : [f], h = 0; h < f.length; ++h) {
-          for (var m = f[h], r = m.inside, u = !!m.lookbehind, v = !!m.greedy, A = 0, C = m.alias, m = m.pattern || m, B = 0; B < e.length; B++) {
+          for (var n = f[h], r = n.inside, u = !!n.lookbehind, v = !!n.greedy, A = 0, C = n.alias, n = n.pattern || n, B = 0; B < e.length; B++) {
             var H = e[B];
             if (e.length > a.length) {
               break a;
             }
             if (!(H instanceof d)) {
-              m.lastIndex = 0;
-              var z = m.exec(H), D = 1;
+              n.lastIndex = 0;
+              var z = n.exec(H), D = 1;
               if (!z && v && B != e.length - 1) {
                 var D = e[B + 1].matchedStr || e[B + 1], F = H + D;
                 B < e.length - 2 && (F += e[B + 2].matchedStr || e[B + 2]);
-                m.lastIndex = 0;
-                z = m.exec(F);
+                n.lastIndex = 0;
+                z = n.exec(F);
                 if (!z) {
                   continue;
                 }
@@ -6871,9 +6871,9 @@ Polymer.IronFitBehavior = {properties:{sizingTarget:{type:Object, value:function
   var f = [{verticalAlign:"top", horizontalAlign:"left", top:d.top, left:d.left}, {verticalAlign:"top", horizontalAlign:"right", top:d.top, left:d.right - c.width}, {verticalAlign:"bottom", horizontalAlign:"left", top:d.bottom - c.height, left:d.left}, {verticalAlign:"bottom", horizontalAlign:"right", top:d.bottom - c.height, left:d.right - c.width}];
   if (this.noOverlap) {
     for (var g = 0, h = f.length; g < h; g++) {
-      var l = {}, n;
-      for (n in f[g]) {
-        l[n] = f[g][n];
+      var l = {}, p;
+      for (p in f[g]) {
+        l[p] = f[g][p];
       }
       f.push(l);
     }
@@ -6884,26 +6884,26 @@ Polymer.IronFitBehavior = {properties:{sizingTarget:{type:Object, value:function
   }
   b = "auto" === b ? null : b;
   a = "auto" === a ? null : a;
-  for (var p, g = 0; g < f.length; g++) {
+  for (var m, g = 0; g < f.length; g++) {
     d = f[g];
     if (!this.dynamicAlign && !this.noOverlap && d.verticalAlign === b && d.horizontalAlign === a) {
-      p = d;
+      m = d;
       break;
     }
     h = (!b || d.verticalAlign === b) && (!a || d.horizontalAlign === a);
     if (this.dynamicAlign || h) {
-      p = p || d;
+      m = m || d;
       d.croppedArea = this.__getCroppedArea(d, c, e);
-      l = d.croppedArea - p.croppedArea;
+      l = d.croppedArea - m.croppedArea;
       if (0 > l || 0 === l && h) {
-        p = d;
+        m = d;
       }
-      if (0 === p.croppedArea && h) {
+      if (0 === m.croppedArea && h) {
         break;
       }
     }
   }
-  return p;
+  return m;
 }};
 Polymer.IronOverlayManagerClass = function() {
   this._overlays = [];
@@ -7456,11 +7456,11 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           return e;
         }
         for (var f = 0, g = 1;;) {
-          var h = (f + g) / 2, m = 3 * a * (1 - h) * (1 - h) * h + 3 * c * (1 - h) * h * h + h * h * h;
-          if (1e-4 > Math.abs(e - m)) {
+          var h = (f + g) / 2, n = 3 * a * (1 - h) * (1 - h) * h + 3 * c * (1 - h) * h * h + h * h * h;
+          if (1e-4 > Math.abs(e - n)) {
             return 3 * b * (1 - h) * (1 - h) * h + 3 * d * (1 - h) * h * h + h * h * h;
           }
-          e > m ? f = h : g = h;
+          e > n ? f = h : g = h;
         }
       };
     }
@@ -7473,7 +7473,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         return c += b * d, c - c % d;
       };
     }
-    function m(a) {
+    function n(a) {
       D || (D = document.createElement("div").style);
       D.animationTimingFunction = "";
       D.animationTimingFunction = a;
@@ -7525,7 +7525,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     }, get direction() {
       return this._direction;
     }, set easing(a) {
-      this._easingFunction = m(a);
+      this._easingFunction = n(a);
       this._setMember("easing", a);
     }, get easing() {
       return this._easing;
@@ -7594,7 +7594,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       return b * c._easingFunction(("normal" == c.direction || c.direction == (1 <= a % 2 ? "alternate-reverse" : "alternate") ? d : b - d) / b) / c.duration;
     };
     a.calculatePhase = r;
-    a.toTimingFunction = m;
+    a.toTimingFunction = n;
   }(c, null);
   (function(a, b) {
     function c(a) {
@@ -7653,25 +7653,25 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
             }
             g = "" + g;
           }
-          var h = void 0, m = c, l = g, g = b, r = d[m];
+          var h = void 0, n = c, l = g, g = b, r = d[n];
           if (r) {
-            for (h in e.style[m] = l, r) {
-              m = r[h], l = e.style[m], g[m] = m in f ? f[m][l] || l : l;
+            for (h in e.style[n] = l, r) {
+              n = r[h], l = e.style[n], g[n] = n in f ? f[n][l] || l : l;
             }
           } else {
-            g[m] = m in f ? f[m][l] || l : l;
+            g[n] = n in f ? f[n][l] || l : l;
           }
         }
         return void 0 == b.offset && (b.offset = null), b;
       });
       a = !0;
       for (var h = -(1 / 0), l = 0; l < g.length; l++) {
-        var n = g[l].offset;
-        if (null != n) {
-          if (h > n) {
+        var m = g[l].offset;
+        if (null != m) {
+          if (h > m) {
             throw {code:DOMException.INVALID_MODIFICATION_ERR, name:"InvalidModificationError", message:"Keyframes are not loosely sorted by offset. Sort or specify offsets."};
           }
-          h = n;
+          h = m;
         } else {
           a = !1;
         }
@@ -7727,9 +7727,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         var d = [], e;
         for (e in c) {
           for (var f = c[e], g = 0; g < f.length - 1; g++) {
-            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, n = f[g + 1].value, p = f[g].easing;
-            h == m && (1 == m ? l = n : n = l);
-            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(p ? p : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, n)});
+            var h = f[g].offset, n = f[g + 1].offset, l = f[g].value, m = f[g + 1].value, p = f[g].easing;
+            h == n && (1 == n ? l = m : m = l);
+            d.push({startTime:h, endTime:n, easing:a.toTimingFunction(p ? p : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, m)});
           }
         }
         return d.sort(function(a, b) {
@@ -7764,25 +7764,25 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       var e = {};
       b.addPropertiesHandler = function(a, b, c) {
         for (var f = 0; f < c.length; f++) {
-          var g = a, h = b, m = d(c[f]);
-          e[m] = e[m] || [];
-          e[m].push([g, h]);
+          var g = a, h = b, n = d(c[f]);
+          e[n] = e[n] || [];
+          e[n].push([g, h]);
         }
       };
       var f = {backgroundColor:"transparent", backgroundPosition:"0% 0%", borderBottomColor:"currentColor", borderBottomLeftRadius:"0px", borderBottomRightRadius:"0px", borderBottomWidth:"3px", borderLeftColor:"currentColor", borderLeftWidth:"3px", borderRightColor:"currentColor", borderRightWidth:"3px", borderSpacing:"2px", borderTopColor:"currentColor", borderTopLeftRadius:"0px", borderTopRightRadius:"0px", borderTopWidth:"3px", bottom:"auto", clip:"rect(0px, 0px, 0px, 0px)", color:"black", fontSize:"100%", 
       fontWeight:"400", height:"auto", left:"auto", letterSpacing:"normal", lineHeight:"120%", marginBottom:"0px", marginLeft:"0px", marginRight:"0px", marginTop:"0px", maxHeight:"none", maxWidth:"none", minHeight:"0px", minWidth:"0px", opacity:"1.0", outlineColor:"invert", outlineOffset:"0px", outlineWidth:"3px", paddingBottom:"0px", paddingLeft:"0px", paddingRight:"0px", paddingTop:"0px", right:"auto", textIndent:"0px", textShadow:"0px 0px 0px transparent", top:"auto", transform:"", verticalAlign:"0px", 
       visibility:"visible", width:"auto", wordSpacing:"normal", zIndex:"auto"};
       b.propertyInterpolation = function(c, g, h) {
-        var m = c;
-        /-/.test(c) && !a.isDeprecated("Hyphenated property names", "2016-03-22", "Use camelCase instead.", !0) && (m = d(c));
-        "initial" != g && "initial" != h || ("initial" == g && (g = f[m]), "initial" == h && (h = f[m]));
-        c = g == h ? [] : e[m];
-        for (m = 0; c && m < c.length; m++) {
-          var l = c[m][0](g), r = c[m][0](h);
-          if (void 0 !== l && void 0 !== r && (l = c[m][1](l, r))) {
-            var n = b.Interpolation.apply(null, l);
+        var n = c;
+        /-/.test(c) && !a.isDeprecated("Hyphenated property names", "2016-03-22", "Use camelCase instead.", !0) && (n = d(c));
+        "initial" != g && "initial" != h || ("initial" == g && (g = f[n]), "initial" == h && (h = f[n]));
+        c = g == h ? [] : e[n];
+        for (n = 0; c && n < c.length; n++) {
+          var l = c[n][0](g), r = c[n][0](h);
+          if (void 0 !== l && void 0 !== r && (l = c[n][1](l, r))) {
+            var m = b.Interpolation.apply(null, l);
             return function(a) {
-              return 0 == a ? g : 1 == a ? h : n(a);
+              return 0 == a ? g : 1 == a ? h : m(a);
             };
           }
         }
@@ -7802,17 +7802,17 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         }, d;
       }
       b.KeyframeEffect = function(c, e, f, g) {
-        var h, m = d(a.normalizeTimingInput(f)), l = b.convertEffectInput(e);
+        var h, n = d(a.normalizeTimingInput(f)), l = b.convertEffectInput(e);
         e = function() {
           l(c, h);
         };
         return e._update = function(a) {
-          return h = m(a), null !== h;
+          return h = n(a), null !== h;
         }, e._clear = function() {
           l(c, null);
         }, e._hasSameTarget = function(a) {
           return c === a;
-        }, e._isCurrent = m._isCurrent, e._totalDuration = m._totalDuration, e._id = g, e;
+        }, e._isCurrent = n._isCurrent, e._totalDuration = n._totalDuration, e._id = g, e;
       };
       b.NullEffect = function(a) {
         var b = function() {
@@ -7967,8 +7967,8 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     })(c, d, null);
     (function(a, b, c) {
       function d(a) {
-        var b = n;
-        n = [];
+        var b = p;
+        p = [];
         a < D.currentTime && (a = D.currentTime);
         h(a, !0);
         b.forEach(function(b) {
@@ -8010,13 +8010,13 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         B && requestAnimationFrame(function() {
         });
       }
-      var l = window.requestAnimationFrame, n = [], C = 0;
+      var l = window.requestAnimationFrame, p = [], C = 0;
       window.requestAnimationFrame = function(a) {
         var b = C++;
-        return 0 == n.length && l(d), n.push([b, a]), b;
+        return 0 == p.length && l(d), p.push([b, a]), b;
       };
       window.cancelAnimationFrame = function(a) {
-        n.forEach(function(b) {
+        p.forEach(function(b) {
           b[0] == a && (b[1] = function() {
           });
         });
@@ -8054,18 +8054,18 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         return a * b / (c + d);
       }
       function e(a, b, c, e, f) {
-        for (var g = [], h = [], m = [], l = d(e.length, f.length), r = 0; l > r; r++) {
-          var n = b(e[r % e.length], f[r % f.length]);
-          if (!n) {
+        for (var g = [], h = [], n = [], l = d(e.length, f.length), r = 0; l > r; r++) {
+          var m = b(e[r % e.length], f[r % f.length]);
+          if (!m) {
             return;
           }
-          g.push(n[0]);
-          h.push(n[1]);
-          m.push(n[2]);
+          g.push(m[0]);
+          h.push(m[1]);
+          n.push(m[2]);
         }
         return [g, h, function(b) {
           b = b.map(function(a, b) {
-            return m[b](a);
+            return n[b](a);
           }).join(c);
           return a ? a(b) : b;
         }];
@@ -8123,10 +8123,10 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       a.mergeList = function(a, b, c) {
         for (var d = [], e = [], f = [], g = 0, h = 0; h < c.length; h++) {
           if ("function" == typeof c[h]) {
-            var m = c[h](a[g], b[g++]);
-            d.push(m[0]);
-            e.push(m[1]);
-            f.push(m[2]);
+            var n = c[h](a[g], b[g++]);
+            d.push(n[0]);
+            e.push(n[1]);
+            f.push(n[2]);
           } else {
             !function(a) {
               d.push(!1);
@@ -8157,8 +8157,8 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         function f(a) {
           return {inset:a, color:[0, 0, 0, 0], lengths:[{px:0}, {px:0}, {px:0}, {px:0}]};
         }
-        for (var g = [], h = [], m = 0; m < d.length || m < e.length; m++) {
-          var l = d[m] || f(e[m].inset), r = e[m] || f(d[m].inset);
+        for (var g = [], h = [], n = 0; n < d.length || n < e.length; n++) {
+          var l = d[n] || f(e[n].inset), r = e[n] || f(d[n].inset);
           g.push(l);
           h.push(r);
         }
@@ -8402,16 +8402,16 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           if (h.length < c.length) {
             break;
           }
-          for (var m = [], n = 0; n < h.length; n++) {
-            var r, p = c[n], q = h[n];
-            if (r = p ? {A:function(b) {
+          for (var n = [], r = 0; r < h.length; r++) {
+            var m, p = c[r], q = h[r];
+            if (m = p ? {A:function(b) {
               return "0" == b.trim() ? A : a.parseAngle(b);
-            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](p) : {a:A, n:m[0], t:l}[q], void 0 === r) {
+            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](p) : {a:A, n:n[0], t:l}[q], void 0 === m) {
               return;
             }
-            m.push(r);
+            n.push(m);
           }
-          if (e.push({t:g, d:m}), d.lastIndex == b.length) {
+          if (e.push({t:g, d:n}), d.lastIndex == b.length) {
             return e;
           }
         }
@@ -8421,27 +8421,27 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           b.length || (e = !0, b = c, c = []);
           for (var h = 0; h < b.length; h++) {
             var l = b[h].t;
-            var m = b[h].d, n = "scale" == l.substr(0, 5) ? 1 : 0;
-            c.push({t:l, d:m.map(function(a) {
+            var n = b[h].d, r = "scale" == l.substr(0, 5) ? 1 : 0;
+            c.push({t:l, d:n.map(function(a) {
               if ("number" == typeof a) {
-                return n;
+                return r;
               }
               var b = {}, c;
               for (c in a) {
-                b[c] = n;
+                b[c] = r;
               }
               return b;
             })});
           }
         }
-        var m = [], r = [], p = [];
+        var n = [], m = [], p = [];
         if (b.length != c.length) {
           if (!d) {
             return;
           }
           var q = f(b, c);
-          m = [q[0]];
-          r = [q[1]];
+          n = [q[0]];
+          m = [q[1]];
           p = [["matrix", [q[2]]]];
         } else {
           for (h = 0; h < b.length; h++) {
@@ -8454,8 +8454,8 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
                 return;
               }
               q = f([b[h]], [c[h]]);
-              m.push(q[0]);
-              r.push(q[1]);
+              n.push(q[0]);
+              m.push(q[1]);
               p.push(["matrix", [q[2]]]);
             } else {
               if (l != u) {
@@ -8467,8 +8467,8 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
                       return;
                     }
                     q = f(b, c);
-                    m = [q[0]];
-                    r = [q[1]];
+                    n = [q[0]];
+                    m = [q[1]];
                     p = [["matrix", [q[2]]]];
                     break;
                   }
@@ -8480,14 +8480,14 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
               for (var L = [], u = [], da = [], U = 0; U < v.length; U++) {
                 q = ("number" == typeof v[U] ? a.mergeNumbers : a.mergeDimensions)(v[U], A[U]), L[U] = q[0], u[U] = q[1], da.push(q[2]);
               }
-              m.push(L);
-              r.push(u);
+              n.push(L);
+              m.push(u);
               p.push([l, da]);
             }
           }
         }
-        e && (r = m = r);
-        return [m, r, function(a) {
+        e && (m = n = m);
+        return [n, m, function(a) {
           return a.map(function(a, b) {
             a = a.map(function(a, c) {
               return p[b][1][c](a);
@@ -8619,11 +8619,11 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       Object.defineProperty(window.document, "timeline", {configurable:!0, get:function() {
         return g;
       }});
-    } catch (m) {
+    } catch (n) {
     }
     try {
       window.document.timeline = g;
-    } catch (m) {
+    } catch (n) {
     }
   }(c, e, null);
   (function(a, b, c) {
@@ -8934,11 +8934,11 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     b.bindAnimationForCustomEffect = function(b) {
       var c = b.effect.target, e = "function" == typeof b.effect.getFrames();
       var g = e ? b.effect.getFrames() : b.effect._onsample;
-      var h = b.effect.timing, m = null, h = a.normalizeTimingInput(h), l = function() {
+      var h = b.effect.timing, n = null, h = a.normalizeTimingInput(h), l = function() {
         var d = l._animation ? l._animation.currentTime : null;
         null !== d && (d = a.calculateTimeFraction(a.calculateActiveDuration(h), d, h), isNaN(d) && (d = null));
-        d !== m && (e ? g(d, c, b.effect) : g(d, b.effect, b.effect._animation));
-        m = d;
+        d !== n && (e ? g(d, c, b.effect) : g(d, b.effect, b.effect._animation));
+        n = d;
       };
       l._animation = b;
       l._registered = !1;
@@ -9993,8 +9993,8 @@ Polymer({is:"paper-menu-shrink-height-animation", behaviors:[Polymer.NeonAnimati
           this.scroller.scrollTop = a, this._updateScrollState(a);
         } else {
           if (this._currentAnimationId === c) {
-            var n = this.scroller, b = b / 200;
-            n.scrollTop = -f * b * (b - 2) + e;
+            var p = this.scroller, b = b / 200;
+            p.scrollTop = -f * b * (b - 2) + e;
             requestAnimationFrame(h.bind(this));
           }
         }
@@ -10655,8 +10655,8 @@ Promise.all = Promise.all || function() {
         }
         a[f] = h;
         0 === --e && b(a);
-      } catch (n) {
-        c(n);
+      } catch (p) {
+        c(p);
       }
     }
     if (0 === a.length) {
@@ -10870,10 +10870,10 @@ Polymer.AppLayout.scroll = function(a) {
     if (d) {
       c.scroll(a);
     } else {
-      var h = Polymer.AppLayout.scrollTimingFunction, l = Date.now(), n = c === b ? window.pageYOffset : c.scrollTop, p = c === b ? window.pageXOffset : c.scrollLeft, q = e - n, m = f - p;
+      var h = Polymer.AppLayout.scrollTimingFunction, l = Date.now(), p = c === b ? window.pageYOffset : c.scrollTop, m = c === b ? window.pageXOffset : c.scrollLeft, q = e - p, n = f - m;
       (function u() {
         var a = Date.now() - l;
-        300 > a && (g(h(a, p, m, 300), h(a, n, q, 300)), requestAnimationFrame(u.bind(this)));
+        300 > a && (g(h(a, m, n, 300), h(a, p, q, 300)), requestAnimationFrame(u.bind(this)));
       }).call(this);
     }
   } else {
@@ -12119,17 +12119,17 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
           }
         }
         if (!g && h) {
-          var m = e.attr("href");
-          if (1 < m.length && "#" == m.slice(0, 1)) {
+          var n = e.attr("href");
+          if (1 < n.length && "#" == n.slice(0, 1)) {
             try {
-              var r = a(m, b.$menu);
+              var r = a(n, b.$menu);
               r.is("." + c.panel) && (g = !0, b[e.parent().hasClass(c.vertical) ? "togglePanel" : "openPanel"](r));
             } catch (u) {
             }
           }
         }
         g && d.preventDefault();
-        g || !h || !e.is("." + c.listview + " > li > a") || e.is('[rel="external"]') || e.is('[target="_blank"]') || (b.__valueOrFn(b.opts.onClick.setSelected, e) && b.setSelected(a(d.target).parent()), (m = b.__valueOrFn(b.opts.onClick.preventDefault, e, "#" == m.slice(0, 1))) && d.preventDefault(), b.__valueOrFn(b.opts.onClick.blockUI, e, !m) && f.$html.addClass(c.blocking), b.__valueOrFn(b.opts.onClick.close, e, m) && b.close());
+        g || !h || !e.is("." + c.listview + " > li > a") || e.is('[rel="external"]') || e.is('[target="_blank"]') || (b.__valueOrFn(b.opts.onClick.setSelected, e) && b.setSelected(a(d.target).parent()), (n = b.__valueOrFn(b.opts.onClick.preventDefault, e, "#" == n.slice(0, 1))) && d.preventDefault(), b.__valueOrFn(b.opts.onClick.blockUI, e, !n) && f.$html.addClass(c.blocking), b.__valueOrFn(b.opts.onClick.close, e, n) && b.close());
       });
     }, _initAddons:function() {
       for (var b in a.mmenu.addons) {
@@ -12377,25 +12377,25 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
       "object" != typeof f && (f = {});
       f = this.opts.dragOpen = a.extend(!0, {}, a.mmenu.defaults.dragOpen, f);
       if (f.open) {
-        var h = 0, l = !1, n = !1, p = 0, q = 0, m, r, u;
+        var h = 0, l = !1, p = !1, m = 0, q = 0, n, r, u;
         switch(this.opts.offCanvas.position) {
           case "left":
           case "right":
             var v = "panleft panright";
             var A = "x";
             var C = "X";
-            n = "width";
+            p = "width";
             break;
           case "top":
           case "bottom":
-            v = "panup pandown", A = "y", C = "Y", n = "height";
+            v = "panup pandown", A = "y", C = "Y", p = "height";
         }
         switch(this.opts.offCanvas.position) {
           case "right":
           case "bottom":
             var B = !0;
             var H = function(a) {
-              a >= d.$wndw[n]() - f.maxStartPos && (h = 1);
+              a >= d.$wndw[p]() - f.maxStartPos && (h = 1);
             };
             break;
           default:
@@ -12439,11 +12439,11 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
         }).on(v + " panend", function(a) {
           0 < h && a.preventDefault();
         }).on(v, function(a) {
-          m = a["delta" + C];
-          B && (m = -m);
-          m != p && (l = m >= p ? z : D);
-          p = m;
-          if (p > f.threshold && 1 == h) {
+          n = a["delta" + C];
+          B && (n = -n);
+          n != m && (l = n >= m ? z : D);
+          m = n;
+          if (m > f.threshold && 1 == h) {
             if (d.$html.hasClass(c.opened)) {
               return;
             }
@@ -12451,9 +12451,9 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
             e._openSetup();
             e.trigger("opening");
             d.$html.addClass(c.dragging);
-            q = b(d.$wndw[n]() * g[n].perc, g[n].min, g[n].max);
+            q = b(d.$wndw[p]() * g[p].perc, g[p].min, g[p].max);
           }
-          2 == h && (r = b(p, 10, q) - ("front" == e.opts.offCanvas.zposition ? q : 0), B && (r = -r), u = "translate" + C + "(" + r + "px )", d.$slideOutNodes.css({"-webkit-transform":"-webkit-" + u, transform:u}));
+          2 == h && (r = b(m, 10, q) - ("front" == e.opts.offCanvas.zposition ? q : 0), B && (r = -r), u = "translate" + C + "(" + r + "px )", d.$slideOutNodes.css({"-webkit-transform":"-webkit-" + u, transform:u}));
         }).on("panend", function(a) {
           2 == h && (d.$html.removeClass(c.dragging), d.$slideOutNodes.css("transform", ""), e[l == z ? "_openFinish" : "close"]());
           h = 0;
@@ -12538,24 +12538,24 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
         "undefined" == typeof g.content && (g.content = ["prev", "title"]);
         g.content instanceof Array || (g.content = [g.content]);
         g = a.extend(!0, {}, c.opts.navbar, g);
-        var h = g.position, n = g.height;
-        "number" != typeof n && (n = 1);
-        n = Math.min(4, Math.max(1, n));
+        var h = g.position, p = g.height;
+        "number" != typeof p && (p = 1);
+        p = Math.min(4, Math.max(1, p));
         "bottom" != h && (h = "top");
         f[h] || (f[h] = 0);
         f[h]++;
-        var p = a("<div />").addClass(b.navbar + " " + b.navbar + "-" + h + " " + b.navbar + "-" + h + "-" + f[h] + " " + b.navbar + "-size-" + n);
-        f[h] += n - 1;
+        var m = a("<div />").addClass(b.navbar + " " + b.navbar + "-" + h + " " + b.navbar + "-" + h + "-" + f[h] + " " + b.navbar + "-size-" + p);
+        f[h] += p - 1;
         for (var h = 0, q = g.content.length; h < q; h++) {
-          var m = a.mmenu.addons.navbars[g.content[h]] || !1;
-          m ? m.call(c, p, g, e) : (m = g.content[h], m instanceof a || (m = a(g.content[h])), m.each(function() {
-            p.append(a(this));
+          var n = a.mmenu.addons.navbars[g.content[h]] || !1;
+          n ? n.call(c, m, g, e) : (n = g.content[h], n instanceof a || (n = a(g.content[h])), n.each(function() {
+            m.append(a(this));
           }));
         }
-        g = Math.ceil(p.children().not("." + b.btn).length / n);
-        1 < g && p.addClass(b.navbar + "-content-" + g);
-        p.children("." + b.btn).length && p.addClass(b.hasbtns);
-        p.prependTo(c.$menu);
+        g = Math.ceil(m.children().not("." + b.btn).length / p);
+        1 < g && m.addClass(b.navbar + "-content-" + g);
+        m.children("." + b.btn).length && m.addClass(b.hasbtns);
+        m.prependTo(c.$menu);
       });
       for (var g in f) {
         c.$menu.addClass(b.hasnavbar + "-" + g + "-" + f[g]);
@@ -12577,12 +12577,12 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
     b.append('<span class="' + e.breadcrumbs + '"></span>');
     this.bind("init", function(b) {
       b.removeClass(e.hasnavbar).each(function() {
-        for (var b = [], c = a(this), g = a('<span class="' + e.breadcrumbs + '"></span>'), p = a(this).children().first(), q = !0; p && p.length;) {
-          p.is("." + e.panel) || (p = p.closest("." + e.panel));
-          var m = p.children("." + e.navbar).children("." + e.title).text();
-          b.unshift(q ? "<span>" + m + "</span>" : '<a href="#' + p.attr("id") + '">' + m + "</a>");
+        for (var b = [], c = a(this), g = a('<span class="' + e.breadcrumbs + '"></span>'), m = a(this).children().first(), q = !0; m && m.length;) {
+          m.is("." + e.panel) || (m = m.closest("." + e.panel));
+          var n = m.children("." + e.navbar).children("." + e.title).text();
+          b.unshift(q ? "<span>" + n + "</span>" : '<a href="#' + m.attr("id") + '">' + n + "</a>");
           q = !1;
-          p = p.data(f.parent);
+          m = m.data(f.parent);
         }
         g.append(b.join('<span class="' + e.separator + '">' + d.breadcrumbSeparator + "</span>")).appendTo(c.children("." + e.navbar));
       });
@@ -12845,14 +12845,14 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
           }
         });
         f.search && a("." + b.search, this.$menu).each(function() {
-          var g, h = a(this), p = h.closest("." + b.panel).length;
-          if (p) {
+          var g, h = a(this), m = h.closest("." + b.panel).length;
+          if (m) {
             var q = g = h.closest("." + b.panel);
           } else {
             g = a("." + b.panel, e.$menu), q = e.$menu;
           }
-          var m = h.children("input"), h = e.__findAddBack(g, "." + b.listview).children("li"), r = h.filter("." + b.divider), u = e.__filterListItems(h), v = function() {
-            var d = m.val().toLowerCase();
+          var n = h.children("input"), h = e.__findAddBack(g, "." + b.listview).children("li"), r = h.filter("." + b.divider), u = e.__filterListItems(h), v = function() {
+            var d = n.val().toLowerCase();
             g.scrollTop(0);
             u.add(r).addClass(b.hidden).find("." + b.fullsubopensearch).removeClass(b.fullsubopen).removeClass(b.fullsubopensearch);
             u.each(function() {
@@ -12872,14 +12872,14 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
             });
             a(g.get().reverse()).each(function(d) {
               var f = a(this), g = f.data(c.parent);
-              g && (e.__filterListItems(f.find("." + b.listview).children()).length ? (g.hasClass(b.hidden) && g.children("." + b.next).not("." + b.fullsubopen).addClass(b.fullsubopen).addClass(b.fullsubopensearch), g.removeClass(b.hidden).removeClass(b.nosubresults).prevAll("." + b.divider).first().removeClass(b.hidden)) : p || (f.hasClass(b.opened) && setTimeout(function() {
+              g && (e.__filterListItems(f.find("." + b.listview).children()).length ? (g.hasClass(b.hidden) && g.children("." + b.next).not("." + b.fullsubopen).addClass(b.fullsubopen).addClass(b.fullsubopensearch), g.removeClass(b.hidden).removeClass(b.nosubresults).prevAll("." + b.divider).first().removeClass(b.hidden)) : m || (f.hasClass(b.opened) && setTimeout(function() {
                 e.openPanel(g.closest("." + b.panel));
               }, 1.5 * (d + 1) * e.conf.openingInterval), g.addClass(b.nosubresults)));
             });
             q[u.not("." + b.hidden).length ? "removeClass" : "addClass"](b.noresults);
             this.update();
           };
-          m.off(d.keyup + "-searchfield " + d.change + "-searchfield").on(d.keyup + "-searchfield", function(a) {
+          n.off(d.keyup + "-searchfield " + d.change + "-searchfield").on(d.keyup + "-searchfield", function(a) {
             a: {
               switch(a.keyCode) {
                 case 9:
@@ -12934,12 +12934,12 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
       this.$indexer.children().on(c.mouseover + "-sectionindexer " + b.touchstart + "-sectionindexer", function(c) {
         var e = a(this).attr("href").slice(1);
         c = d.$menu.children("." + b.current);
-        var f = c.find("." + b.listview), g = !1, p = c.scrollTop(), q = f.position().top + parseInt(f.css("margin-top"), 10) + parseInt(f.css("padding-top"), 10) + p;
+        var f = c.find("." + b.listview), g = !1, m = c.scrollTop(), q = f.position().top + parseInt(f.css("margin-top"), 10) + parseInt(f.css("padding-top"), 10) + m;
         c.scrollTop(0);
         f.children("." + b.divider).not("." + b.hidden).each(function() {
           !1 === g && e == a(this).text().slice(0, 1).toLowerCase() && (g = a(this).position().top + q);
         });
-        c.scrollTop(!1 !== g ? g : p);
+        c.scrollTop(!1 !== g ? g : m);
       }), f = function(a) {
         d.$menu[(a.hasClass(b.hasindexer) ? "add" : "remove") + "Class"](b.hasindexer);
       }, this.bind("openPanel", f), f.call(this, this.$menu.children("." + b.current)));
@@ -14089,7 +14089,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       var b = h(a.target).offset();
       var c = this.current_item.node;
       c = this.tree_widget.options.autoEscape ? f.html_escape(c.name) : c.name;
-      this.drag_element = new n(c, a.page_x - b.left, a.page_y - b.top, this.tree_widget.element);
+      this.drag_element = new p(c, a.page_x - b.left, a.page_y - b.top, this.tree_widget.element);
       this.is_dragging = !0;
       this.current_item.$element.addClass("jqtree-moving");
       return !0;
@@ -14317,12 +14317,12 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
           var f;
           var g = (d.is_open || !d.element) && d.hasChildren();
           if (d.element) {
-            var m = h(d.element);
-            if (!m.is(":visible")) {
+            var n = h(d.element);
+            if (!n.is(":visible")) {
               return;
             }
-            a && (c.handleFirstNode(d, m), a = !1);
-            d.hasChildren() ? d.is_open ? c.handleOpenFolder(d, m) || (g = !1) : c.handleClosedFolder(d, e, m) : c.handleNode(d, e, m);
+            a && (c.handleFirstNode(d, n), a = !1);
+            d.hasChildren() ? d.is_open ? c.handleOpenFolder(d, n) || (g = !1) : c.handleClosedFolder(d, e, n) : c.handleNode(d, e, n);
           }
           if (g) {
             g = d.children.length;
@@ -14332,7 +14332,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
               r === g - 1 ? b(d.children[r], null) : b(d.children[r], d.children[r + 1]);
             }
             if (d.is_open) {
-              return c.handleAfterOpenFolder(d, e, m);
+              return c.handleAfterOpenFolder(d, e, n);
             }
           }
         };
@@ -14351,7 +14351,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     return a;
   }());
-  var n = function() {
+  var p = function() {
     function a(a, b, c, d) {
       this.offset_x = b;
       this.offset_y = c;
@@ -14367,7 +14367,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     return a;
   }();
-  b.exports = {DragAndDropHandler:a, DragElement:n, HitAreasGenerator:l};
+  b.exports = {DragAndDropHandler:a, DragElement:p, HitAreasGenerator:l};
 }, {"./node":5, "./util":12}], 2:[function(a, b, c) {
   a("./node_element");
   var d = a("./util");
@@ -15256,13 +15256,13 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       var e = function(e) {
         return function() {
           var g, h;
-          var m = [];
+          var n = [];
           var l = 0;
           for (g = a.length; l < g; l++) {
-            var n = a[l];
-            (h = e.tree_widget.getNodeById(n)) ? h.is_loading || (h.load_on_demand ? f(h) : e.tree_widget._openNode(h, !1)) : m.push(n);
+            var m = a[l];
+            (h = e.tree_widget.getNodeById(m)) ? h.is_loading || (h.load_on_demand ? f(h) : e.tree_widget._openNode(h, !1)) : n.push(m);
           }
-          a = m;
+          a = n;
           e._selectInitialNodes(b) && e.tree_widget._refreshElements();
           if (0 === d) {
             return c();
@@ -15493,9 +15493,9 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       var h = function(a, c) {
         var d;
         var h = f();
-        var m = 0;
-        for (d = a.length; m < d; m++) {
-          var l = a[m];
+        var n = 0;
+        for (d = a.length; n < d; n++) {
+          var l = a[n];
           var r = g(l, h);
           r || (r = new b(l, c), e.data(l, h) || e.data(l, h, r), r._init());
         }
@@ -15505,23 +15505,23 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
         var b, c;
         var d = f();
         var h = [];
-        var m = 0;
-        for (b = a.length; m < b; m++) {
-          var l = a[m];
+        var n = 0;
+        for (b = a.length; n < b; n++) {
+          var l = a[n];
           (c = g(l, d)) && c.destroy();
           h.push(e.removeData(l, d));
         }
         return h;
       };
-      var m = function(b, c, d) {
+      var n = function(b, c, d) {
         var g, h;
-        var m = null;
+        var n = null;
         var l = 0;
         for (g = b.length; l < g; l++) {
           var r = b[l];
-          (r = e.data(r, f())) && r instanceof a && (h = r[c]) && "function" === typeof h && (m = h.apply(r, d));
+          (r = e.data(r, f())) && r instanceof a && (h = r[c]) && "function" === typeof h && (n = h.apply(r, d));
         }
-        return m;
+        return n;
       };
       return e.fn[c] = function() {
         var a = arguments[0];
@@ -15530,7 +15530,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
           return h(this, a);
         }
         if ("string" === typeof a && "_" !== a[0]) {
-          return "destroy" === a ? q(this) : "get_widget_class" === a ? b : m(this, a, c);
+          return "destroy" === a ? q(this) : "get_widget_class" === a ? b : n(this, a, c);
         }
       };
     };
@@ -15555,13 +15555,13 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
   var h = a("./elements_renderer");
   var l = a("./key_handler");
   c = a("./mouse.widget");
-  var n = a("./save_state_handler");
-  var p = a("./scroll_handler");
+  var p = a("./save_state_handler");
+  var m = a("./scroll_handler");
   var q = a("./select_node_handler");
   b = a("./simple.widget");
-  var m = a("./node");
-  var r = m.Node;
-  var u = m.Position;
+  var n = a("./node");
+  var r = n.Node;
+  var u = n.Position;
   var v = a("./util");
   var A = v.isFunction;
   a = a("./node_element");
@@ -15585,8 +15585,8 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     b.prototype.GhostDropHint = H;
     b.prototype.HitAreasGenerator = K;
     b.prototype.Node = r;
-    b.prototype.SaveStateHandler = n;
-    b.prototype.ScrollHandler = p;
+    b.prototype.SaveStateHandler = p;
+    b.prototype.ScrollHandler = m;
     b.prototype.SelectNodeHandler = q;
     b.prototype.defaults = {autoOpen:!1, saveState:!1, dragAndDrop:!1, selectable:!0, useContextMenu:!0, onCanSelectNode:null, onSetStateFromStorage:null, onGetStateFromStorage:null, onCreateLi:null, onIsMoveHandle:null, onCanMove:null, onCanMoveTo:null, onLoadFailed:null, autoEscape:!0, dataUrl:null, closedIcon:null, openedIcon:"&#x25bc;", slide:!0, nodeClass:r, dataFilter:null, keyboardSupport:!0, openFolderDelay:500, rtl:null, onDragMove:null, onDragStop:null, buttonLeft:!0, onLoading:null};
     b.prototype.toggle = function(a, b) {
@@ -15684,7 +15684,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
           }
         };
       }(this);
-      var m = function(a) {
+      var n = function(a) {
         return function(b) {
           var c = I.isArray(b) || "object" === typeof b ? b : null != c ? I.parseJSON(b) : [];
           a.options.dataFilter && (c = a.options.dataFilter(c));
@@ -15701,7 +15701,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       }(this);
       var r = function() {
         a = g();
-        return I.ajax(I.extend({}, a, {method:null != a.method ? a.method.toUpperCase() : "GET", cache:!1, dataType:"json", success:m, error:l}));
+        return I.ajax(I.extend({}, a, {method:null != a.method ? a.method.toUpperCase() : "GET", cache:!1, dataType:"json", success:n, error:l}));
       };
       a || (a = this._getDataUrlInfo(b));
       e();
@@ -15916,10 +15916,10 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       this.options.rtl = this._getRtlOption();
       this.options.closedIcon || (this.options.closedIcon = this._getDefaultClosedIcon());
       this.renderer = new h(this);
-      null != n ? this.save_state_handler = new n(this) : this.options.saveState = !1;
+      null != p ? this.save_state_handler = new p(this) : this.options.saveState = !1;
       null != q && (this.select_node_handler = new q(this));
       null != D ? this.dnd_handler = new D(this) : this.options.dragAndDrop = !1;
-      null != p && (this.scroll_handler = new p(this));
+      null != m && (this.scroll_handler = new m(this));
       null != l && null != q && (this.key_handler = new l(this));
       this._initData();
       this.element.click(I.proxy(this._click, this));
@@ -16152,7 +16152,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     return b;
   }(c);
   a.getModule = function(a) {
-    return {node:m, util:v, drag_and_drop_handler:g}[a];
+    return {node:n, util:v, drag_and_drop_handler:g}[a];
   };
   b.register(a, "tree");
 }, {"./drag_and_drop_handler":1, "./elements_renderer":2, "./key_handler":3, "./mouse.widget":4, "./node":5, "./node_element":6, "./save_state_handler":7, "./scroll_handler":8, "./select_node_handler":9, "./simple.widget":10, "./util":12, "./version":13}], 12:[function(a, b, c) {
@@ -16265,7 +16265,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       c.src = a.src;
     }
   }
-  function n(a) {
+  function p(a) {
     var c = [], d = a.translateX, e = a.translateY, f = a.rotate, g = a.scaleX;
     a = a.scaleY;
     b(d) && 0 !== d && c.push("translateX(" + d + "px)");
@@ -16275,31 +16275,31 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     b(a) && 1 !== a && c.push("scaleY(" + a + ")");
     return c.length ? c.join(" ") : "none";
   }
-  function p(a, b) {
+  function m(a, b) {
     var c = Math.abs(a.degree) % 180, d = (90 < c ? 180 - c : c) * Math.PI / 180, c = Math.sin(d), d = Math.cos(d), e = a.width, f = a.height;
     a = a.aspectRatio;
     b ? (b = e / (d + c / a), c = b / a) : (b = e * d + f * c, c = e * c + f * d);
     return {width:b, height:c};
   }
   function q(c, d, e) {
-    var f = a("<canvas>")[0], g = f.getContext("2d"), h = 0, m = 0, l = d.naturalWidth, r = d.naturalHeight, n = d.rotate, u = d.scaleX;
+    var f = a("<canvas>")[0], g = f.getContext("2d"), h = 0, n = 0, l = d.naturalWidth, r = d.naturalHeight, p = d.rotate, u = d.scaleX;
     d = d.scaleY;
-    var q = b(u) && b(d) && (1 !== u || 1 !== d), da = b(n) && 0 !== n, L = da || q, v = l * Math.abs(u || 1), A = r * Math.abs(d || 1), U = void 0, C = void 0;
+    var q = b(u) && b(d) && (1 !== u || 1 !== d), da = b(p) && 0 !== p, L = da || q, v = l * Math.abs(u || 1), A = r * Math.abs(d || 1), U = void 0, C = void 0;
     q && (U = v / 2, C = A / 2);
-    da && (A = p({width:v, height:A, degree:n}), v = A.width, A = A.height, U = v / 2, C = A / 2);
+    da && (A = m({width:v, height:A, degree:p}), v = A.width, A = A.height, U = v / 2, C = A / 2);
     f.width = v;
     f.height = A;
     e.fillColor && (g.fillStyle = e.fillColor, g.fillRect(0, 0, v, A));
-    L && (h = -l / 2, m = -r / 2, g.save(), g.translate(U, C));
-    da && g.rotate(n * Math.PI / 180);
+    L && (h = -l / 2, n = -r / 2, g.save(), g.translate(U, C));
+    da && g.rotate(p * Math.PI / 180);
     q && g.scale(u, d);
     g.imageSmoothingEnabled = !!e.imageSmoothingEnabled;
     e.imageSmoothingQuality && (g.imageSmoothingQuality = e.imageSmoothingQuality);
-    g.drawImage(c, Math.floor(h), Math.floor(m), Math.floor(l), Math.floor(r));
+    g.drawImage(c, Math.floor(h), Math.floor(n), Math.floor(l), Math.floor(r));
     L && g.restore();
     return f;
   }
-  function m(a) {
+  function n(a) {
     a = a.replace(C, "");
     a = atob(a);
     var b = a.length, c = new ArrayBuffer(b), d = new Uint8Array(c), e;
@@ -16404,7 +16404,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       if (b) {
         if (c.url = b, c.image = {}, d.checkOrientation && window.ArrayBuffer) {
           if (ka.test(b)) {
-            la.test(b) ? c.read(m(b)) : c.clone();
+            la.test(b) ? c.read(n(b)) : c.clone();
           } else {
             var f = new XMLHttpRequest;
             f.onerror = f.onabort = a.proxy(function() {
@@ -16426,31 +16426,31 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     }}, {key:"read", value:function(a) {
       var b = this.options;
       var c = new DataView(a);
-      var d = c.byteLength, e = void 0, f, g = void 0, h = f = void 0, m;
+      var d = c.byteLength, e = void 0, f, g = void 0, h = f = void 0, n;
       if (255 === c.getUint8(0) && 216 === c.getUint8(1)) {
-        for (m = 2; m < d;) {
-          if (255 === c.getUint8(m) && 225 === c.getUint8(m + 1)) {
-            f = m;
+        for (n = 2; n < d;) {
+          if (255 === c.getUint8(n) && 225 === c.getUint8(n + 1)) {
+            f = n;
             break;
           }
-          m++;
+          n++;
         }
       }
       if (f) {
         var d = f + 10, l = f + 4;
         f = "";
-        m = l;
-        for (l = 4 + l; m < l; m++) {
-          f += D(c.getUint8(m));
+        n = l;
+        for (l = 4 + l; n < l; n++) {
+          f += D(c.getUint8(n));
         }
         "Exif" === f && (f = c.getUint16(d), !(g = 18761 === f) && 19789 !== f || 42 !== c.getUint16(d + 2, g) || (f = c.getUint32(d + 4, g), 8 <= f && (h = d + f)));
       }
       if (h) {
         for (d = c.getUint16(h, g), f = 0; f < d; f++) {
-          if (m = h + 12 * f + 2, 274 === c.getUint16(m, g)) {
-            m += 8;
-            e = c.getUint16(m, g);
-            z && c.setUint16(m, 1, g);
+          if (n = h + 12 * f + 2, 274 === c.getUint16(n, g)) {
+            n += 8;
+            e = c.getUint16(n, g);
+            z && c.setUint16(n, 1, g);
             break;
           }
         }
@@ -16462,11 +16462,11 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       if (1 < c) {
         a = new Uint8Array(a);
         f = a.length;
-        m = "";
+        n = "";
         for (l = 0; l < f; l++) {
-          m += D(a[l]);
+          n += D(a[l]);
         }
-        this.url = "data:image/jpeg;base64," + btoa(m);
+        this.url = "data:image/jpeg;base64," + btoa(n);
         switch(c) {
           case 2:
             h = -1;
@@ -16558,26 +16558,26 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     b.addClass("cropper-hidden");
     d.removeClass("cropper-hidden");
   }, initCanvas:function() {
-    var b = this.options.viewMode, c = this.container, d = c.width, c = c.height, e = this.image, f = e.naturalWidth, g = e.naturalHeight, h = 90 === Math.abs(e.rotate) % 180, m = h ? g : f, h = h ? f : g, l = m / h, f = d, g = c;
+    var b = this.options.viewMode, c = this.container, d = c.width, c = c.height, e = this.image, f = e.naturalWidth, g = e.naturalHeight, h = 90 === Math.abs(e.rotate) % 180, n = h ? g : f, h = h ? f : g, l = n / h, f = d, g = c;
     c * l > d ? 3 === b ? f = c * l : g = d / l : 3 === b ? g = d / l : f = c * l;
-    m = {naturalWidth:m, naturalHeight:h, aspectRatio:l, width:f, height:g};
-    m.oldLeft = m.left = (d - f) / 2;
-    m.oldTop = m.top = (c - g) / 2;
-    this.canvas = m;
+    n = {naturalWidth:n, naturalHeight:h, aspectRatio:l, width:f, height:g};
+    n.oldLeft = n.left = (d - f) / 2;
+    n.oldTop = n.top = (c - g) / 2;
+    this.canvas = n;
     this.limited = 1 === b || 2 === b;
     this.limitCanvas(!0, !0);
     this.initialImage = a.extend({}, e);
-    this.initialCanvas = a.extend({}, m);
+    this.initialCanvas = a.extend({}, n);
   }, limitCanvas:function(a, b) {
-    var c = this.options, d = c.viewMode, e = this.container, f = e.width, e = e.height, g = this.canvas, h = g.aspectRatio, m = this.cropBox, l = this.cropped && m;
-    a && (a = Number(c.minCanvasWidth) || 0, c = Number(c.minCanvasHeight) || 0, d && (1 < d ? (a = Math.max(a, f), c = Math.max(c, e), 3 === d && (c * h > a ? a = c * h : c = a / h)) : a ? a = Math.max(a, l ? m.width : 0) : c ? c = Math.max(c, l ? m.height : 0) : l && (a = m.width, c = m.height, c * h > a ? a = c * h : c = a / h)), a && c ? c * h > a ? c = a / h : a = c * h : a ? c = a / h : c && (a = c * h), g.minWidth = a, g.minHeight = c, g.maxWidth = Infinity, g.maxHeight = Infinity);
-    b && (d ? (b = f - g.width, c = e - g.height, g.minLeft = Math.min(0, b), g.minTop = Math.min(0, c), g.maxLeft = Math.max(0, b), g.maxTop = Math.max(0, c), l && this.limited && (g.minLeft = Math.min(m.left, m.left + m.width - g.width), g.minTop = Math.min(m.top, m.top + m.height - g.height), g.maxLeft = m.left, g.maxTop = m.top, 2 === d && (g.width >= f && (g.minLeft = Math.min(0, b), g.maxLeft = Math.max(0, b)), g.height >= e && (g.minTop = Math.min(0, c), g.maxTop = Math.max(0, c))))) : (g.minLeft = 
+    var c = this.options, d = c.viewMode, e = this.container, f = e.width, e = e.height, g = this.canvas, h = g.aspectRatio, n = this.cropBox, l = this.cropped && n;
+    a && (a = Number(c.minCanvasWidth) || 0, c = Number(c.minCanvasHeight) || 0, d && (1 < d ? (a = Math.max(a, f), c = Math.max(c, e), 3 === d && (c * h > a ? a = c * h : c = a / h)) : a ? a = Math.max(a, l ? n.width : 0) : c ? c = Math.max(c, l ? n.height : 0) : l && (a = n.width, c = n.height, c * h > a ? a = c * h : c = a / h)), a && c ? c * h > a ? c = a / h : a = c * h : a ? c = a / h : c && (a = c * h), g.minWidth = a, g.minHeight = c, g.maxWidth = Infinity, g.maxHeight = Infinity);
+    b && (d ? (b = f - g.width, c = e - g.height, g.minLeft = Math.min(0, b), g.minTop = Math.min(0, c), g.maxLeft = Math.max(0, b), g.maxTop = Math.max(0, c), l && this.limited && (g.minLeft = Math.min(n.left, n.left + n.width - g.width), g.minTop = Math.min(n.top, n.top + n.height - g.height), g.maxLeft = n.left, g.maxTop = n.top, 2 === d && (g.width >= f && (g.minLeft = Math.min(0, b), g.maxLeft = Math.max(0, b)), g.height >= e && (g.minTop = Math.min(0, c), g.maxTop = Math.max(0, c))))) : (g.minLeft = 
     -g.width, g.minTop = -g.height, g.maxLeft = f, g.maxTop = e));
   }, renderCanvas:function(a) {
     var b = this.canvas, c = this.image, d = c.rotate, e = c.naturalWidth, f = c.naturalHeight;
     if (this.rotated) {
       this.rotated = !1;
-      var g = p({width:c.width, height:c.height, degree:d}), h = g.width / g.height;
+      var g = m({width:c.width, height:c.height, degree:d}), h = g.width / g.height;
       if ((c = 1 === c.aspectRatio) || h !== b.aspectRatio) {
         b.left -= (g.width - b.width) / 2;
         b.top -= (g.height - b.height) / 2;
@@ -16587,7 +16587,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
         b.naturalWidth = e;
         b.naturalHeight = f;
         if (c && d % 90 || d % 180) {
-          d = p({width:e, height:f, degree:d}), b.naturalWidth = d.width, b.naturalHeight = d.height;
+          d = m({width:e, height:f, degree:d}), b.naturalWidth = d.width, b.naturalHeight = d.height;
         }
         this.limitCanvas(!0, !1);
       }
@@ -16603,15 +16603,15 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     this.limitCanvas(!1, !0);
     b.oldLeft = b.left = Math.min(Math.max(b.left, b.minLeft), b.maxLeft);
     b.oldTop = b.top = Math.min(Math.max(b.top, b.minTop), b.maxTop);
-    this.$canvas.css({width:b.width, height:b.height, transform:n({translateX:b.left, translateY:b.top})});
+    this.$canvas.css({width:b.width, height:b.height, transform:p({translateX:b.left, translateY:b.top})});
     this.renderImage();
     this.cropped && this.limited && this.limitCropBox(!0, !0);
     a && this.output();
   }, renderImage:function(b) {
     var c = this.canvas, d = this.image, e = void 0;
-    d.rotate && (e = p({width:c.width, height:c.height, degree:d.rotate, aspectRatio:d.aspectRatio}, !0));
+    d.rotate && (e = m({width:c.width, height:c.height, degree:d.rotate, aspectRatio:d.aspectRatio}, !0));
     a.extend(d, e ? {width:e.width, height:e.height, left:(c.width - e.width) / 2, top:(c.height - e.height) / 2} : {width:c.width, height:c.height, left:0, top:0});
-    this.$clone.css({width:d.width, height:d.height, transform:n(a.extend({translateX:d.left, translateY:d.top}, d))});
+    this.$clone.css({width:d.width, height:d.height, transform:p(a.extend({translateX:d.left, translateY:d.top}, d))});
     b && this.output();
   }, initCropBox:function() {
     var b = this.options, c = this.canvas, d = b.aspectRatio, b = Number(b.autoCropArea) || 0.8, e = {width:c.width, height:c.height};
@@ -16626,10 +16626,10 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     e.oldTop = e.top = c.top + (c.height - e.height) / 2;
     this.initialCropBox = a.extend({}, e);
   }, limitCropBox:function(a, b) {
-    var c = this.options, d = c.aspectRatio, e = this.container, f = e.width, e = e.height, g = this.canvas, h = this.cropBox, m = this.limited;
+    var c = this.options, d = c.aspectRatio, e = this.container, f = e.width, e = e.height, g = this.canvas, h = this.cropBox, n = this.limited;
     if (a) {
       a = Number(c.minCropBoxWidth) || 0;
-      var c = Number(c.minCropBoxHeight) || 0, l = Math.min(f, m ? g.width : f), r = Math.min(e, m ? g.height : e);
+      var c = Number(c.minCropBoxHeight) || 0, l = Math.min(f, n ? g.width : f), r = Math.min(e, n ? g.height : e);
       a = Math.min(a, f);
       c = Math.min(c, e);
       d && (a && c ? c * d > a ? c = a / d : a = c * d : a ? c = a / d : c && (a = c * d), r * d > l ? r = l / d : l = r * d);
@@ -16638,7 +16638,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       h.maxWidth = l;
       h.maxHeight = r;
     }
-    b && (m ? (h.minLeft = Math.max(0, g.left), h.minTop = Math.max(0, g.top), h.maxLeft = Math.min(f, g.left + g.width) - h.width, h.maxTop = Math.min(e, g.top + g.height) - h.height) : (h.minLeft = 0, h.minTop = 0, h.maxLeft = f - h.width, h.maxTop = e - h.height));
+    b && (n ? (h.minLeft = Math.max(0, g.left), h.minTop = Math.max(0, g.top), h.maxLeft = Math.min(f, g.left + g.width) - h.width, h.maxTop = Math.min(e, g.top + g.height) - h.height) : (h.minLeft = 0, h.minTop = 0, h.maxLeft = f - h.width, h.maxTop = e - h.height));
   }, renderCropBox:function() {
     var a = this.options, b = this.container, c = b.width, b = b.height, d = this.cropBox;
     if (d.width > d.maxWidth || d.width < d.minWidth) {
@@ -16653,7 +16653,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     d.oldLeft = d.left = Math.min(Math.max(d.left, d.minLeft), d.maxLeft);
     d.oldTop = d.top = Math.min(Math.max(d.top, d.minTop), d.maxTop);
     a.movable && a.cropBoxMovable && this.$face.data("action", d.width === c && d.height === b ? "move" : "all");
-    this.$cropBox.css({width:d.width, height:d.height, transform:n({translateX:d.left, translateY:d.top})});
+    this.$cropBox.css({width:d.width, height:d.height, transform:p({translateX:d.left, translateY:d.top})});
     this.cropped && this.limited && this.limitCanvas(!0, !0);
     this.disabled || this.output();
   }, output:function() {
@@ -16684,15 +16684,15 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       b.css({width:c.width, height:c.height}).html(c.html).removeData("preview");
     });
   }, preview:function() {
-    var b = this.image, c = this.canvas, d = this.cropBox, e = d.width, f = d.height, g = b.width, h = b.height, m = d.left - c.left - b.left, l = d.top - c.top - b.top;
-    this.cropped && !this.disabled && (this.$clone2.css({width:g, height:h, transform:n(a.extend({translateX:-m, translateY:-l}, b))}), this.$preview.each(function(c, d) {
+    var b = this.image, c = this.canvas, d = this.cropBox, e = d.width, f = d.height, g = b.width, h = b.height, n = d.left - c.left - b.left, l = d.top - c.top - b.top;
+    this.cropped && !this.disabled && (this.$clone2.css({width:g, height:h, transform:p(a.extend({translateX:-n, translateY:-l}, b))}), this.$preview.each(function(c, d) {
       c = a(d);
       var r = c.data("preview");
       d = r.width;
-      var r = r.height, p = d, u = r, q = 1;
+      var r = r.height, m = d, u = r, q = 1;
       e && (q = d / e, u = f * q);
-      f && u > r && (q = r / f, p = e * q, u = r);
-      c.css({width:p, height:u}).find("img").css({width:g * q, height:h * q, transform:n(a.extend({translateX:-m * q, translateY:-l * q}, b))});
+      f && u > r && (q = r / f, m = e * q, u = r);
+      c.css({width:m, height:u}).find("img").css({width:g * q, height:h * q, transform:p(a.extend({translateX:-n * q, translateY:-l * q}, b))});
     }));
   }});
   a.extend(R.prototype, {bind:function() {
@@ -16792,9 +16792,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     }
   }});
   a.extend(R.prototype, {change:function(b) {
-    var c = this.options, d = this.pointers, e = d[f(d)[0]], g = this.container, h = this.canvas, m = this.cropBox, l = this.action, c = c.aspectRatio, r = m.width, n = m.height, p = m.left, q = m.top, v = p + r, A = q + n, C = 0, L = 0, B = g.width, z = g.height, D = !0, H = void 0;
-    !c && b.shiftKey && (c = r && n ? r / n : 1);
-    this.limited && (C = m.minLeft, L = m.minTop, B = C + Math.min(g.width, h.width, h.left + h.width), z = L + Math.min(g.height, h.height, h.top + h.height));
+    var c = this.options, d = this.pointers, e = d[f(d)[0]], g = this.container, h = this.canvas, n = this.cropBox, l = this.action, c = c.aspectRatio, r = n.width, m = n.height, p = n.left, q = n.top, v = p + r, A = q + m, C = 0, L = 0, B = g.width, z = g.height, D = !0, H = void 0;
+    !c && b.shiftKey && (c = r && m ? r / m : 1);
+    this.limited && (C = n.minLeft, L = n.minTop, B = C + Math.min(g.width, h.width, h.left + h.width), z = L + Math.min(g.height, h.height, h.top + h.height));
     var g = e.endX - e.startX, h = e.endY - e.startY;
     if (c) {
       var F = h * c;
@@ -16811,7 +16811,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
           break;
         }
         r += g;
-        c && (n = r / c, q -= K / 2);
+        c && (m = r / c, q -= K / 2);
         0 > r && (l = "w", r = 0);
         break;
       case "n":
@@ -16819,10 +16819,10 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
           D = !1;
           break;
         }
-        n -= h;
+        m -= h;
         q += h;
-        c && (r = n * c, p += F / 2);
-        0 > n && (l = "s", n = 0);
+        c && (r = m * c, p += F / 2);
+        0 > m && (l = "s", m = 0);
         break;
       case "w":
         if (0 >= g && (p <= C || c && (q <= L || A >= z))) {
@@ -16831,7 +16831,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
         }
         r -= g;
         p += g;
-        c && (n = r / c, q += K / 2);
+        c && (m = r / c, q += K / 2);
         0 > r && (l = "e", r = 0);
         break;
       case "s":
@@ -16839,9 +16839,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
           D = !1;
           break;
         }
-        n += h;
-        c && (r = n * c, p -= F / 2);
-        0 > n && (l = "n", n = 0);
+        m += h;
+        c && (r = m * c, p -= F / 2);
+        0 > m && (l = "n", m = 0);
         break;
       case "ne":
         if (c) {
@@ -16849,13 +16849,13 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
             D = !1;
             break;
           }
-          n -= h;
+          m -= h;
           q += h;
-          r = n * c;
+          r = m * c;
         } else {
-          0 <= g ? v < B ? r += g : 0 >= h && q <= L && (D = !1) : r += g, 0 >= h ? q > L && (n -= h, q += h) : (n -= h, q += h);
+          0 <= g ? v < B ? r += g : 0 >= h && q <= L && (D = !1) : r += g, 0 >= h ? q > L && (m -= h, q += h) : (m -= h, q += h);
         }
-        0 > r && 0 > n ? (l = "sw", r = n = 0) : 0 > r ? (l = "nw", r = 0) : 0 > n && (l = "se", n = 0);
+        0 > r && 0 > m ? (l = "sw", r = m = 0) : 0 > r ? (l = "nw", r = 0) : 0 > m && (l = "se", m = 0);
         break;
       case "nw":
         if (c) {
@@ -16863,14 +16863,14 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
             D = !1;
             break;
           }
-          n -= h;
+          m -= h;
           q += h;
-          r = n * c;
+          r = m * c;
           p += F;
         } else {
-          0 >= g ? p > C ? (r -= g, p += g) : 0 >= h && q <= L && (D = !1) : (r -= g, p += g), 0 >= h ? q > L && (n -= h, q += h) : (n -= h, q += h);
+          0 >= g ? p > C ? (r -= g, p += g) : 0 >= h && q <= L && (D = !1) : (r -= g, p += g), 0 >= h ? q > L && (m -= h, q += h) : (m -= h, q += h);
         }
-        0 > r && 0 > n ? (l = "se", r = n = 0) : 0 > r ? (l = "ne", r = 0) : 0 > n && (l = "sw", n = 0);
+        0 > r && 0 > m ? (l = "se", r = m = 0) : 0 > r ? (l = "ne", r = 0) : 0 > m && (l = "sw", m = 0);
         break;
       case "sw":
         if (c) {
@@ -16880,11 +16880,11 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
           }
           r -= g;
           p += g;
-          n = r / c;
+          m = r / c;
         } else {
-          0 >= g ? p > C ? (r -= g, p += g) : 0 <= h && A >= z && (D = !1) : (r -= g, p += g), 0 <= h ? A < z && (n += h) : n += h;
+          0 >= g ? p > C ? (r -= g, p += g) : 0 <= h && A >= z && (D = !1) : (r -= g, p += g), 0 <= h ? A < z && (m += h) : m += h;
         }
-        0 > r && 0 > n ? (l = "ne", r = n = 0) : 0 > r ? (l = "se", r = 0) : 0 > n && (l = "nw", n = 0);
+        0 > r && 0 > m ? (l = "ne", r = m = 0) : 0 > r ? (l = "se", r = 0) : 0 > m && (l = "nw", m = 0);
         break;
       case "se":
         if (c) {
@@ -16893,11 +16893,11 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
             break;
           }
           r += g;
-          n = r / c;
+          m = r / c;
         } else {
-          0 <= g ? v < B ? r += g : 0 <= h && A >= z && (D = !1) : r += g, 0 <= h ? A < z && (n += h) : n += h;
+          0 <= g ? v < B ? r += g : 0 <= h && A >= z && (D = !1) : r += g, 0 <= h ? A < z && (m += h) : m += h;
         }
-        0 > r && 0 > n ? (l = "nw", r = n = 0) : 0 > r ? (l = "sw", r = 0) : 0 > n && (l = "ne", n = 0);
+        0 > r && 0 > m ? (l = "nw", r = m = 0) : 0 > r ? (l = "sw", r = 0) : 0 > m && (l = "ne", m = 0);
         break;
       case "move":
         this.move(g, h);
@@ -16908,9 +16908,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
         D = !1;
         break;
       case "crop":
-        g && h ? (H = this.$cropper.offset(), p = e.startX - H.left, q = e.startY - H.top, r = m.minWidth, n = m.minHeight, 0 < g ? l = 0 < h ? "se" : "ne" : 0 > g && (p -= r, l = 0 < h ? "sw" : "nw"), 0 > h && (q -= n), this.cropped || (this.$cropBox.removeClass("cropper-hidden"), this.cropped = !0, this.limited && this.limitCropBox(!0, !0))) : D = !1;
+        g && h ? (H = this.$cropper.offset(), p = e.startX - H.left, q = e.startY - H.top, r = n.minWidth, m = n.minHeight, 0 < g ? l = 0 < h ? "se" : "ne" : 0 > g && (p -= r, l = 0 < h ? "sw" : "nw"), 0 > h && (q -= m), this.cropped || (this.$cropBox.removeClass("cropper-hidden"), this.cropped = !0, this.limited && this.limitCropBox(!0, !0))) : D = !1;
     }
-    D && (m.width = r, m.height = n, m.left = p, m.top = q, this.action = l, this.renderCropBox());
+    D && (n.width = r, n.height = m, n.left = p, n.top = q, this.action = l, this.renderCropBox());
     a.each(d, function(a, b) {
       b.startX = b.endX;
       b.startY = b.endY;
@@ -16946,10 +16946,10 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     a = Number(a);
     this.zoomTo(c.width * (0 > a ? 1 / (1 - a) : 1 + a) / c.naturalWidth, b);
   }, zoomTo:function(a, b) {
-    var c = this.options, d = this.pointers, e = this.canvas, g = e.width, h = e.height, m = e.naturalWidth, l = e.naturalHeight;
+    var c = this.options, d = this.pointers, e = this.canvas, g = e.width, h = e.height, n = e.naturalWidth, l = e.naturalHeight;
     a = Number(a);
     console.log("ratio:", a);
-    0 <= a && this.ready && !this.disabled && c.zoomable && (c = m * a, a *= l, l = void 0, b && (l = b.originalEvent), this.trigger("zoom", {originalEvent:l, oldRatio:g / m, ratio:c / m}).isDefaultPrevented() || (l ? (m = this.$cropper.offset(), b = d && f(d).length ? v(d) : {pageX:b.pageX || l.pageX || 0, pageY:b.pageY || l.pageY || 0}, e.left -= (b.pageX - m.left - e.left) / g * (c - g), e.top -= (b.pageY - m.top - e.top) / h * (a - h)) : (e.left -= (c - g) / 2, e.top -= (a - h) / 2), e.width = 
+    0 <= a && this.ready && !this.disabled && c.zoomable && (c = n * a, a *= l, l = void 0, b && (l = b.originalEvent), this.trigger("zoom", {originalEvent:l, oldRatio:g / n, ratio:c / n}).isDefaultPrevented() || (l ? (n = this.$cropper.offset(), b = d && f(d).length ? v(d) : {pageX:b.pageX || l.pageX || 0, pageY:b.pageY || l.pageY || 0}, e.left -= (b.pageX - n.left - e.left) / g * (c - g), e.top -= (b.pageY - n.top - e.top) / h * (a - h)) : (e.left -= (c - g) / 2, e.top -= (a - h) / 2), e.width = 
     c, e.height = a, this.renderCanvas(!0)));
   }, rotate:function(a) {
     this.rotateTo((this.image.rotate || 0) + Number(a));
@@ -16978,9 +16978,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     c.scalable && (h.scaleX = d.scaleX || 1, h.scaleY = d.scaleY || 1);
     return h;
   }, setData:function(c) {
-    var d = this.options, e = this.image, f = this.canvas, g = {}, h = void 0, m = void 0;
+    var d = this.options, e = this.image, f = this.canvas, g = {}, h = void 0, n = void 0;
     a.isFunction(c) && (c = c.call(this.element));
-    this.ready && !this.disabled && a.isPlainObject(c) && (d.rotatable && b(c.rotate) && c.rotate !== e.rotate && (e.rotate = c.rotate, this.rotated = h = !0), d.scalable && (b(c.scaleX) && c.scaleX !== e.scaleX && (e.scaleX = c.scaleX, m = !0), b(c.scaleY) && c.scaleY !== e.scaleY && (e.scaleY = c.scaleY, m = !0)), h ? this.renderCanvas() : m && this.renderImage(), d = e.width / e.naturalWidth, b(c.x) && (g.left = c.x * d + f.left), b(c.y) && (g.top = c.y * d + f.top), b(c.width) && (g.width = c.width * 
+    this.ready && !this.disabled && a.isPlainObject(c) && (d.rotatable && b(c.rotate) && c.rotate !== e.rotate && (e.rotate = c.rotate, this.rotated = h = !0), d.scalable && (b(c.scaleX) && c.scaleX !== e.scaleX && (e.scaleX = c.scaleX, n = !0), b(c.scaleY) && c.scaleY !== e.scaleY && (e.scaleY = c.scaleY, n = !0)), h ? this.renderCanvas() : n && this.renderImage(), d = e.width / e.naturalWidth, b(c.x) && (g.left = c.x * d + f.left), b(c.y) && (g.top = c.y * d + f.top), b(c.width) && (g.width = c.width * 
     d), b(c.height) && (g.height = c.height * d), this.setCropBoxData(g));
   }, getContainerData:function() {
     return this.ready ? this.container : {};
@@ -17012,17 +17012,17 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     if (!this.cropped) {
       return q(this.$clone[0], this.image, b);
     }
-    var c = this.getData(), d = c.width, e = c.height, f = d / e, g = void 0, h = void 0, m = void 0;
-    a.isPlainObject(b) && (g = b.width, h = b.height, g ? (h = g / f, m = g / d) : h && (g = h * f, m = h / e));
+    var c = this.getData(), d = c.width, e = c.height, f = d / e, g = void 0, h = void 0, n = void 0;
+    a.isPlainObject(b) && (g = b.width, h = b.height, g ? (h = g / f, n = g / d) : h && (g = h * f, n = h / e));
     var g = Math.floor(g || d), l = Math.floor(h || e), h = a("<canvas>")[0], f = h.getContext("2d");
     h.width = g;
     h.height = l;
     b.fillColor && (f.fillStyle = b.fillColor, f.fillRect(0, 0, g, l));
-    var r = q(this.$clone[0], this.image, b), g = r.width, l = r.height, n = this.canvas, r = [r], p = c.x + n.naturalWidth * (Math.abs(c.scaleX || 1) - 1) / 2, c = c.y + n.naturalHeight * (Math.abs(c.scaleY || 1) - 1) / 2, u = n = void 0, v = void 0, A = void 0, C = void 0, B = void 0;
-    p <= -d || p > g ? p = n = v = C = 0 : 0 >= p ? (v = -p, p = 0, n = C = Math.min(g, d + p)) : p <= g && (v = 0, n = C = Math.min(d, g - p));
-    0 >= n || c <= -e || c > l ? c = u = A = B = 0 : 0 >= c ? (A = -c, c = 0, u = B = Math.min(l, e + c)) : c <= l && (A = 0, u = B = Math.min(e, l - c));
-    r.push(Math.floor(p), Math.floor(c), Math.floor(n), Math.floor(u));
-    m && (v *= m, A *= m, C *= m, B *= m);
+    var r = q(this.$clone[0], this.image, b), g = r.width, l = r.height, m = this.canvas, r = [r], p = c.x + m.naturalWidth * (Math.abs(c.scaleX || 1) - 1) / 2, c = c.y + m.naturalHeight * (Math.abs(c.scaleY || 1) - 1) / 2, u = m = void 0, v = void 0, A = void 0, C = void 0, B = void 0;
+    p <= -d || p > g ? p = m = v = C = 0 : 0 >= p ? (v = -p, p = 0, m = C = Math.min(g, d + p)) : p <= g && (v = 0, m = C = Math.min(d, g - p));
+    0 >= m || c <= -e || c > l ? c = u = A = B = 0 : 0 >= c ? (A = -c, c = 0, u = B = Math.min(l, e + c)) : c <= l && (A = 0, u = B = Math.min(e, l - c));
+    r.push(Math.floor(p), Math.floor(c), Math.floor(m), Math.floor(u));
+    n && (v *= n, A *= n, C *= n, B *= n);
     0 < C && 0 < B && r.push(Math.floor(v), Math.floor(A), Math.floor(C), Math.floor(B));
     f.imageSmoothingEnabled = !!b.imageSmoothingEnabled;
     b.imageSmoothingQuality && (f.imageSmoothingQuality = b.imageSmoothingQuality);
@@ -17423,7 +17423,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }
     return a;
   }
-  var l = document.location, n = {mode:"modern", hash:l.hash, history:!1, check:function() {
+  var l = document.location, p = {mode:"modern", hash:l.hash, history:!1, check:function() {
     var a = l.hash;
     a != this.hash && (this.hash = a, this.onHashChanged());
   }, fire:function() {
@@ -17434,13 +17434,13 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }
   }, init:function(a, b) {
     function c(a) {
-      for (var b = 0, c = p.listeners.length; b < c; b++) {
-        p.listeners[b](a);
+      for (var b = 0, c = m.listeners.length; b < c; b++) {
+        m.listeners[b](a);
       }
     }
     var d = this;
     this.history = b;
-    p.listeners || (p.listeners = []);
+    m.listeners || (m.listeners = []);
     "onhashchange" in window && (void 0 === document.documentMode || 7 < document.documentMode) ? (!0 === this.history ? setTimeout(function() {
       window.onpopstate = c;
     }, 500) : window.onhashchange = c, this.mode = "modern") : (b = document.createElement("iframe"), b.id = "state-frame", b.style.display = "none", document.body.appendChild(b), this.writeFrame(""), "onpropertychange" in document && "attachEvent" in document && document.attachEvent("onpropertychange", function() {
@@ -17448,11 +17448,11 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }), window.setInterval(function() {
       d.check();
     }, 50), this.onHashChanged = c, this.mode = "legacy");
-    p.listeners.push(a);
+    m.listeners.push(a);
     return this.mode;
   }, destroy:function(a) {
-    if (p && p.listeners) {
-      for (var b = p.listeners, c = b.length - 1; 0 <= c; c--) {
+    if (m && m.listeners) {
+      for (var b = m.listeners, c = b.length - 1; 0 <= c; c--) {
         b[c] === a && b.splice(c, 1);
       }
     }
@@ -17470,9 +17470,9 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     a != l.hash && (l.hash = a);
     return this;
   }, onHashChanged:function() {
-  }}, p = a.Router = function(a) {
-    if (!(this instanceof p)) {
-      return new p(a);
+  }}, m = a.Router = function(a) {
+    if (!(this instanceof m)) {
+      return new m(a);
     }
     this.params = {};
     this.routes = {};
@@ -17485,29 +17485,29 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     this.configure();
     this.mount(a || {});
   };
-  p.prototype.init = function(a) {
+  m.prototype.init = function(a) {
     var c = this;
     this.handler = function(a) {
       a = a && a.newURL || window.location.hash;
       a = !0 === c.history ? c.getPath() : a.replace(/.*#/, "");
       c.dispatch("on", "/" === a.charAt(0) ? a : "/" + a);
     };
-    n.init(this.handler, this.history);
+    p.init(this.handler, this.history);
     !1 === this.history ? b() && a ? l.hash = a : b() || c.dispatch("on", "/" + l.hash.replace(/^(#\/|#|\/)/, "")) : (this.convert_hash_in_init ? (a = b() && a ? a : b() ? null : l.hash.replace(/^#/, "")) && window.history.replaceState({}, document.title, a) : a = this.getPath(), (a || !0 === this.run_in_init) && this.handler());
     return this;
   };
-  p.prototype.explode = function() {
+  m.prototype.explode = function() {
     var a = !0 === this.history ? this.getPath() : l.hash;
     "/" === a.charAt(1) && (a = a.slice(1));
     return a.slice(1, a.length).split("/");
   };
-  p.prototype.setRoute = function(a, b, c) {
+  m.prototype.setRoute = function(a, b, c) {
     var d = this.explode();
     "number" === typeof a && "string" === typeof b ? d[a] = b : "string" === typeof c ? d.splice(a, b, s) : d = [a];
-    n.setHash(d.join("/"));
+    p.setHash(d.join("/"));
     return d;
   };
-  p.prototype.insertEx = function(a, b, c, d) {
+  m.prototype.insertEx = function(a, b, c, d) {
     "once" === a && (a = "on", c = function(a) {
       var b = !1;
       return function() {
@@ -17518,20 +17518,20 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }(c));
     return this._insert(a, b, c, d);
   };
-  p.prototype.getRoute = function(a) {
+  m.prototype.getRoute = function(a) {
     return "number" === typeof a ? this.explode()[a] : "string" === typeof a ? this.explode().indexOf(a) : this.explode();
   };
-  p.prototype.destroy = function() {
-    n.destroy(this.handler);
+  m.prototype.destroy = function() {
+    p.destroy(this.handler);
     return this;
   };
-  p.prototype.getPath = function() {
+  m.prototype.getPath = function() {
     var a = window.location.pathname;
     "/" !== a.substr(0, 1) && (a = "/" + a);
     return a;
   };
   var q = /\?.*/;
-  p.prototype.configure = function(a) {
+  m.prototype.configure = function(a) {
     a = a || {};
     for (var b = 0; b < this.methods.length; b++) {
       this._methods[this.methods[b]] = !0;
@@ -17548,7 +17548,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     this.every = {after:a.after || null, before:a.before || null, on:a.on || null};
     return this;
   };
-  p.prototype.param = function(a, b) {
+  m.prototype.param = function(a, b) {
     ":" !== a[0] && (a = ":" + a);
     var c = new RegExp(a, "g");
     this.params[a] = function(a) {
@@ -17556,7 +17556,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     };
     return this;
   };
-  p.prototype.on = p.prototype.route = function(a, b, c) {
+  m.prototype.on = m.prototype.route = function(a, b, c) {
     var d = this;
     c || "function" != typeof b || (c = b, b = a, a = "on");
     if (Array.isArray(b)) {
@@ -17574,7 +17574,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     b = h(b, this.delimiter);
     this.insert(a, this.scope.concat(b), c);
   };
-  p.prototype.path = function(a, b) {
+  m.prototype.path = function(a, b) {
     var c = this.scope.length;
     a.source && (a = a.source.replace(/\\\//ig, "/"));
     a = a.split(new RegExp(this.delimiter));
@@ -17583,7 +17583,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     b.call(this, this);
     this.scope.splice(c, a.length);
   };
-  p.prototype.dispatch = function(a, b, c) {
+  m.prototype.dispatch = function(a, b, c) {
     function d() {
       e.last = f.after;
       e.invoke(e.runlist(f), e, c);
@@ -17600,7 +17600,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     d();
     return !0;
   };
-  p.prototype.invoke = function(a, b, d) {
+  m.prototype.invoke = function(a, b, d) {
     var f = this;
     if (this.async) {
       var g = function(c, d) {
@@ -17624,7 +17624,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
       }, c(a, g);
     }
   };
-  p.prototype.traverse = function(a, b, c, d, e) {
+  m.prototype.traverse = function(a, b, c, d, e) {
     function f(a) {
       function b(a) {
         for (var c = [], d = 0; d < a.length; d++) {
@@ -17649,26 +17649,26 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }
     var g = [], h;
     if (b === this.delimiter && c[a]) {
-      var m = [[c.before, c[a]].filter(Boolean)];
-      m.after = [c.after].filter(Boolean);
-      m.matched = !0;
-      m.captures = [];
-      return f(m);
+      var n = [[c.before, c[a]].filter(Boolean)];
+      n.after = [c.after].filter(Boolean);
+      n.matched = !0;
+      n.captures = [];
+      return f(n);
     }
     for (var l in c) {
-      if (c.hasOwnProperty(l) && (!this._methods[l] || this._methods[l] && "object" === typeof c[l] && !Array.isArray(c[l])) && (m = h = d + this.delimiter + l, this.strict || (h += "[" + this.delimiter + "]?"), h = b.match(new RegExp("^" + h)))) {
+      if (c.hasOwnProperty(l) && (!this._methods[l] || this._methods[l] && "object" === typeof c[l] && !Array.isArray(c[l])) && (n = h = d + this.delimiter + l, this.strict || (h += "[" + this.delimiter + "]?"), h = b.match(new RegExp("^" + h)))) {
         if (h[0] && h[0] == b && c[l][a]) {
-          return m = [[c[l].before, c[l][a]].filter(Boolean)], m.after = [c[l].after].filter(Boolean), m.matched = !0, m.captures = h.slice(1), this.recurse && c === this.routes && (m.push([c.before, c.on].filter(Boolean)), m.after = m.after.concat([c.after].filter(Boolean))), f(m);
+          return n = [[c[l].before, c[l][a]].filter(Boolean)], n.after = [c[l].after].filter(Boolean), n.matched = !0, n.captures = h.slice(1), this.recurse && c === this.routes && (n.push([c.before, c.on].filter(Boolean)), n.after = n.after.concat([c.after].filter(Boolean))), f(n);
         }
-        m = this.traverse(a, b, c[l], m);
-        if (m.matched) {
-          return 0 < m.length && (g = g.concat(m)), this.recurse && (g.push([c[l].before, c[l].on].filter(Boolean)), m.after = m.after.concat([c[l].after].filter(Boolean)), c === this.routes && (g.push([c.before, c.on].filter(Boolean)), m.after = m.after.concat([c.after].filter(Boolean)))), g.matched = !0, g.captures = m.captures, g.after = m.after, f(g);
+        n = this.traverse(a, b, c[l], n);
+        if (n.matched) {
+          return 0 < n.length && (g = g.concat(n)), this.recurse && (g.push([c[l].before, c[l].on].filter(Boolean)), n.after = n.after.concat([c[l].after].filter(Boolean)), c === this.routes && (g.push([c.before, c.on].filter(Boolean)), n.after = n.after.concat([c.after].filter(Boolean)))), g.matched = !0, g.captures = n.captures, g.after = n.after, f(g);
         }
       }
     }
     return !1;
   };
-  p.prototype.insert = function(a, b, c, d) {
+  m.prototype.insert = function(a, b, c, d) {
     b = b.filter(function(a) {
       return a && 0 < a.length;
     });
@@ -17715,7 +17715,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
         d[a] = c;
     }
   };
-  p.prototype.extend = function(a) {
+  m.prototype.extend = function(a) {
     function b(a) {
       c._methods[a] = !0;
       c[a] = function() {
@@ -17727,22 +17727,22 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
       b(a[e]);
     }
   };
-  p.prototype.runlist = function(a) {
+  m.prototype.runlist = function(a) {
     var b = this.every && this.every.before ? [this.every.before].concat(d(a)) : d(a);
     this.every && this.every.on && b.push(this.every.on);
     b.captures = a.captures;
     b.source = a.source;
     return b;
   };
-  p.prototype.mount = function(a, b) {
+  m.prototype.mount = function(a, b) {
     if (a && "object" === typeof a && !Array.isArray(a)) {
       b = b || [];
       Array.isArray(b) || (b = b.split(this.delimiter));
       for (var c in a) {
         if (a.hasOwnProperty(c)) {
-          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), m = typeof a[d], l = "" === g[0] || !this._methods[g[0]], r = l ? "on" : f;
+          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), n = typeof a[d], l = "" === g[0] || !this._methods[g[0]], r = l ? "on" : f;
           l && (f = f.slice((f.match(new RegExp("^" + this.delimiter)) || [""])[0].length), g.shift());
-          l && "object" === m && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (l && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(r, e, a[d]));
+          l && "object" === n && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (l && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(r, e, a[d]));
         }
       }
     }
@@ -17995,7 +17995,7 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
   function l(a, b) {
     b ? jQuery(a).css("display", "") : jQuery(a).css("display", "none");
   }
-  var n = "string integer double date time datetime".split(" "), p = ["text", "radio", "checkbox", "select"], q = function(a, b) {
+  var p = "string integer double date time datetime".split(" "), m = ["text", "radio", "checkbox", "select"], q = function(a, b) {
     console.log("QueryBuilder.construct");
     this.$el = a;
     this.init(b);
@@ -18080,14 +18080,14 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
           if ("-1" == l) {
             return b.triggerValidationError(["no_filter"], h, null, null, null), {};
           }
-          var l = b.getFilterById(l), m = b.getOperatorByType(b.getRuleOperator(h)), n = null;
-          if (0 !== m.accept_values) {
-            var n = b.getRuleValue(h, l, m), r = b.validateValue(h, n, l, m);
+          var l = b.getFilterById(l), n = b.getOperatorByType(b.getRuleOperator(h)), m = null;
+          if (0 !== n.accept_values) {
+            var m = b.getRuleValue(h, l, n), r = b.validateValue(h, m, l, n);
             if (!0 !== r) {
-              return b.triggerValidationError(r, h, n, l, m), {};
+              return b.triggerValidationError(r, h, m, l, n), {};
             }
           }
-          h = {id:l.id, field:l.field, type:l.type, input:l.input, operator:m.type, value:n};
+          h = {id:l.id, field:l.field, type:l.type, input:l.input, operator:n.type, value:m};
         } else {
           if (h = v(h), a.isEmptyObject(h)) {
             return {};
@@ -18138,8 +18138,8 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
       -1 != b.indexOf(e.id) && a.error("Filter already defined: " + e.id);
       b.push(e.id);
       e.type || a.error("Missing filter type: " + e.id);
-      -1 == n.indexOf(e.type) && a.error("Invalid type: " + e.type);
-      e.input ? "function" != typeof e.input && -1 == p.indexOf(e.input) && a.error("Invalid input: " + e.input) : e.input = "text";
+      -1 == p.indexOf(e.type) && a.error("Invalid type: " + e.type);
+      e.input ? "function" != typeof e.input && -1 == m.indexOf(e.input) && a.error("Invalid input: " + e.input) : e.input = "text";
       e.field || (e.field = e.id);
       e.label || (e.label = e.field);
       c.status.has_optgroup |= !!e.optgroup;
@@ -18766,25 +18766,25 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
       if (!d.rules) {
         return "";
       }
-      var n = [];
-      a.each(d.rules, function(d, m) {
-        if (m.rules && 0 < m.rules.length) {
-          n.push("(" + c + H(m) + c + ")" + c);
+      var m = [];
+      a.each(d.rules, function(d, n) {
+        if (n.rules && 0 < n.rules.length) {
+          m.push("(" + c + H(n) + c + ")" + c);
         } else {
-          var p = f.getSqlOperator(m.operator);
-          d = f.getOperatorByType(m.operator);
+          var p = f.getSqlOperator(n.operator);
+          d = f.getOperatorByType(n.operator);
           var q = "";
-          !1 === p && a.error("SQL operation unknown for operator " + m.operator);
-          d.accept_values && (m.value instanceof Array ? !p.list && 1 < m.value.length && a.error("Operator " + m.operator + " cannot accept multiple values") : m.value = [m.value], m.value.forEach(function(a, c) {
+          !1 === p && a.error("SQL operation unknown for operator " + n.operator);
+          d.accept_values && (n.value instanceof Array ? !p.list && 1 < n.value.length && a.error("Operator " + n.operator + " cannot accept multiple values") : n.value = [n.value], n.value.forEach(function(a, c) {
             0 < c && (q += p.sep);
-            "integer" == m.type || "double" == m.type ? a = e(a, m.type) : b || (a = h(a));
+            "integer" == n.type || "double" == n.type ? a = e(a, n.type) : b || (a = h(a));
             p.fn && (a = p.fn(a));
             b ? (q = "question_mark" == b ? q + "?" : q + ("$" + g), l.push(a), g++) : ("string" === typeof a && (a = "'" + a + "'"), q += a);
           }));
-          n.push(m.field + " " + p.op.replace(/\?/, q));
+          m.push(n.field + " " + p.op.replace(/\?/, q));
         }
       });
-      return n.join(" " + d.condition + c);
+      return m.join(" " + d.condition + c);
     }(d);
     return b ? {sql:d, params:l} : {sql:d};
   }, getSqlOperator:function(a) {
@@ -19730,7 +19730,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var c = b.aDataSort;
     c && !a.isArray(c) && (b.aDataSort = [c]);
   }
-  function n(b) {
+  function p(b) {
     if (!w.__browser) {
       var c = {};
       w.__browser = c;
@@ -19744,7 +19744,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a.extend(b.oBrowser, w.__browser);
     b.oScroll.iBarWidth = w.__browser.barWidth;
   }
-  function p(a, b, c, e, f, g) {
+  function m(a, b, c, e, f, g) {
     var t = !1;
     if (c !== d) {
       var h = c;
@@ -19760,9 +19760,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b.aoColumns.push(e);
     e = b.aoPreSearchCols;
     e[f] = a.extend({}, w.models.oSearch, e[f]);
-    m(b, f, a(d).data());
+    n(b, f, a(d).data());
   }
-  function m(b, c, e) {
+  function n(b, c, e) {
     c = b.aoColumns[c];
     var g = b.oClasses, t = a(c.nTh);
     if (!c.sWidthOrig) {
@@ -19771,7 +19771,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       h && (c.sWidthOrig = h[1]);
     }
     e !== d && null !== e && (l(e), f(w.defaults.column, e), e.mDataProp === d || e.mData || (e.mData = e.mDataProp), e.sType && (c._sManualType = e.sType), e.className && !e.sClass && (e.sClass = e.className), a.extend(c, e), ca(c, e, "sWidth", "sWidthOrig"), e.iDataSort !== d && (c.aDataSort = [e.iDataSort]), ca(c, e, "aDataSort"));
-    var x = c.mData, G = W(x), n = c.mRender ? W(c.mRender) : null;
+    var x = c.mData, G = W(x), m = c.mRender ? W(c.mRender) : null;
     e = function(a) {
       return "string" === typeof a && -1 !== a.indexOf("@");
     };
@@ -19779,7 +19779,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     c._setter = null;
     c.fnGetData = function(a, b, c) {
       var e = G(a, b, d, c);
-      return n && b ? n(e, b, a, c) : e;
+      return m && b ? m(e, b, a, c) : e;
     };
     c.fnSetData = function(a, b, c) {
       return Z(x)(a, b, c);
@@ -19830,18 +19830,18 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var t = 0;
     for (f = b.length; t < f; t++) {
       var l = b[t];
-      var n = [];
+      var m = [];
       if (!l.sType && l._sManualType) {
         l.sType = l._sManualType;
       } else {
         if (!l.sType) {
-          var m = 0;
-          for (g = e.length; m < g; m++) {
+          var n = 0;
+          for (g = e.length; n < g; n++) {
             var p = 0;
             for (h = c.length; p < h; p++) {
-              n[p] === d && (n[p] = F(a, p, t, "type"));
-              var q = e[m](n[p], a);
-              if (!q && m !== e.length - 1) {
+              m[p] === d && (m[p] = F(a, p, t, "type"));
+              var q = e[n](m[p], a);
+              if (!q && n !== e.length - 1) {
                 break;
               }
               if ("html" === q) {
@@ -19865,21 +19865,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var x = c[g];
         var G = x.targets !== d ? x.targets : x.aTargets;
         a.isArray(G) || (G = [G]);
-        var n = 0;
-        for (h = G.length; n < h; n++) {
-          if ("number" === typeof G[n] && 0 <= G[n]) {
-            for (; l.length <= G[n];) {
+        var m = 0;
+        for (h = G.length; m < h; m++) {
+          if ("number" === typeof G[m] && 0 <= G[m]) {
+            for (; l.length <= G[m];) {
               q(b);
             }
-            f(G[n], x);
+            f(G[m], x);
           } else {
-            if ("number" === typeof G[n] && 0 > G[n]) {
-              f(l.length + G[n], x);
+            if ("number" === typeof G[m] && 0 > G[m]) {
+              f(l.length + G[m], x);
             } else {
-              if ("string" === typeof G[n]) {
+              if ("string" === typeof G[m]) {
                 var aa = 0;
                 for (t = l.length; aa < t; aa++) {
-                  ("_all" == G[n] || a(l[aa].nTh).hasClass(G[n])) && f(aa, x);
+                  ("_all" == G[m] || a(l[aa].nTh).hasClass(G[m])) && f(aa, x);
                 }
               }
             }
@@ -20106,16 +20106,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function pa(b, c, e, f) {
-    var g = [], h = c.firstChild, t, l = 0, x, n = b.aoColumns, G = b._rowReadObject;
+    var g = [], h = c.firstChild, t, l = 0, x, m = b.aoColumns, G = b._rowReadObject;
     f = f !== d ? f : G ? {} : [];
-    var m = function(a, b) {
+    var n = function(a, b) {
       if ("string" === typeof a) {
         var c = a.indexOf("@");
         -1 !== c && (c = a.substring(c + 1), Z(a)(f, b.getAttribute(c)));
       }
     }, p = function(b) {
       if (e === d || e === l) {
-        t = n[l], x = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, x), m(t.mData.sort, b), m(t.mData.type, b), m(t.mData.filter, b)) : G ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, x)) : f[l] = x;
+        t = m[l], x = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, x), n(t.mData.sort, b), n(t.mData.type, b), n(t.mData.filter, b)) : G ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, x)) : f[l] = x;
       }
       l++;
     };
@@ -20143,16 +20143,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       g.anCells = t;
       x._DT_RowIndex = d;
       da(b, g);
-      var n = 0;
-      for (l = b.aoColumns.length; n < l; n++) {
-        var G = b.aoColumns[n];
-        var m = e ? f[n] : c.createElement(G.sCellType);
-        m._DT_CellIndex = {row:d, column:n};
-        t.push(m);
-        e && !G.mRender && G.mData === n || a.isPlainObject(G.mData) && G.mData._ === n + ".display" || (m.innerHTML = F(b, d, n, "display"));
-        G.sClass && (m.className += " " + G.sClass);
-        G.bVisible && !e ? x.appendChild(m) : !G.bVisible && e && m.parentNode.removeChild(m);
-        G.fnCreatedCell && G.fnCreatedCell.call(b.oInstance, m, F(b, d, n), h, d, n);
+      var m = 0;
+      for (l = b.aoColumns.length; m < l; m++) {
+        var G = b.aoColumns[m];
+        var n = e ? f[m] : c.createElement(G.sCellType);
+        n._DT_CellIndex = {row:d, column:m};
+        t.push(n);
+        e && !G.mRender && G.mData === m || a.isPlainObject(G.mData) && G.mData._ === m + ".display" || (n.innerHTML = F(b, d, m, "display"));
+        G.sClass && (n.className += " " + G.sClass);
+        G.bVisible && !e ? x.appendChild(n) : !G.bVisible && e && n.parentNode.removeChild(n);
+        G.fnCreatedCell && G.fnCreatedCell.call(b.oInstance, n, F(b, d, m), h, d, m);
       }
       M(b, "aoRowCreatedCallback", null, [x, h, d]);
     }
@@ -20174,12 +20174,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     g && (d = a("<tr/>").appendTo(e));
     var l = 0;
     for (c = t.length; l < c; l++) {
-      var n = t[l];
-      var m = a(n.nTh).addClass(n.sClass);
-      g && m.appendTo(d);
-      b.oFeatures.bSort && (m.addClass(n.sSortingClass), !1 !== n.bSortable && (m.attr("tabindex", b.iTabIndex).attr("aria-controls", b.sTableId), Ma(b, n.nTh, l)));
-      n.sTitle != m[0].innerHTML && m.html(n.sTitle);
-      Na(b, "header")(b, m, n, h);
+      var m = t[l];
+      var n = a(m.nTh).addClass(m.sClass);
+      g && n.appendTo(d);
+      b.oFeatures.bSort && (n.addClass(m.sSortingClass), !1 !== m.bSortable && (n.attr("tabindex", b.iTabIndex).attr("aria-controls", b.sTableId), Ma(b, m.nTh, l)));
+      m.sTitle != n[0].innerHTML && n.html(m.sTitle);
+      Na(b, "header")(b, n, m, h);
     }
     g && ra(b.aoHeader, e);
     a(e).find(">tr").attr("role", "row");
@@ -20187,7 +20187,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a(f).find(">tr>th, >tr>td").addClass(h.sFooterTH);
     if (null !== f) {
       for (b = b.aoFooter[0], l = 0, c = b.length; l < c; l++) {
-        n = t[l], n.nTf = b[l].cell, n.sClass && a(n.nTf).addClass(n.sClass);
+        m = t[l], m.nTf = b[l].cell, m.sClass && a(m.nTf).addClass(m.sClass);
       }
     }
   }
@@ -20213,19 +20213,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         }
         g = 0;
         for (c = h[x].length; g < c; g++) {
-          var n = l = 1;
+          var m = l = 1;
           if (t[x][g] === d) {
             b.appendChild(h[x][g].cell);
             for (t[x][g] = 1; h[x + l] !== d && h[x][g].cell == h[x + l][g].cell;) {
               t[x + l][g] = 1, l++;
             }
-            for (; h[x][g + n] !== d && h[x][g].cell == h[x][g + n].cell;) {
+            for (; h[x][g + m] !== d && h[x][g].cell == h[x][g + m].cell;) {
               for (e = 0; e < l; e++) {
-                t[x + e][g + n] = 1;
+                t[x + e][g + m] = 1;
               }
-              n++;
+              m++;
             }
-            a(h[x][g].cell).attr("rowspan", l).attr("colspan", n);
+            a(h[x][g].cell).attr("rowspan", l).attr("colspan", m);
           }
         }
       }
@@ -20236,10 +20236,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     if (-1 !== a.inArray(!1, c)) {
       Y(b, !1);
     } else {
-      var c = [], e = 0, f = b.asStripeClasses, g = f.length, h = b.oLanguage, t = b.iInitDisplayStart, l = "ssp" == S(b), n = b.aiDisplay;
+      var c = [], e = 0, f = b.asStripeClasses, g = f.length, h = b.oLanguage, t = b.iInitDisplayStart, l = "ssp" == S(b), m = b.aiDisplay;
       b.bDrawing = !0;
       t !== d && -1 !== t && (b._iDisplayStart = l ? t : t >= b.fnRecordsDisplay() ? 0 : t, b.iInitDisplayStart = -1);
-      var t = b._iDisplayStart, m = b.fnDisplayEnd();
+      var t = b._iDisplayStart, n = b.fnDisplayEnd();
       if (b.bDeferLoading) {
         b.bDeferLoading = !1, b.iDraw++, Y(b, !1);
       } else {
@@ -20251,9 +20251,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           }
         }
       }
-      if (0 !== n.length) {
-        for (h = l ? b.aoData.length : m, l = l ? 0 : t; l < h; l++) {
-          var p = n[l], q = b.aoData[p];
+      if (0 !== m.length) {
+        for (h = l ? b.aoData.length : n, l = l ? 0 : t; l < h; l++) {
+          var p = m[l], q = b.aoData[p];
           null === q.nTr && L(b, p);
           p = q.nTr;
           if (0 !== g) {
@@ -20267,8 +20267,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       } else {
         e = h.sZeroRecords, 1 == b.iDraw && "ajax" == S(b) ? e = h.sLoadingRecords : h.sEmptyTable && 0 === b.fnRecordsTotal() && (e = h.sEmptyTable), c[0] = a("<tr/>", {"class":g ? f[0] : ""}).append(a("<td />", {valign:"top", colSpan:A(b), "class":b.oClasses.sRowEmpty}).html(e))[0];
       }
-      M(b, "aoHeaderCallback", "header", [a(b.nTHead).children("tr")[0], ha(b), t, m, n]);
-      M(b, "aoFooterCallback", "footer", [a(b.nTFoot).children("tr")[0], ha(b), t, m, n]);
+      M(b, "aoHeaderCallback", "header", [a(b.nTHead).children("tr")[0], ha(b), t, n, m]);
+      M(b, "aoFooterCallback", "footer", [a(b.nTFoot).children("tr")[0], ha(b), t, n, m]);
       f = a(b.nTBody);
       f.children().detach();
       f.append(a(c));
@@ -20292,19 +20292,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b.nHolding = d[0];
     b.nTableWrapper = f[0];
     b.nTableReinsertBefore = b.nTable.nextSibling;
-    for (var g = b.sDom.split(""), h, t, l, n, m, p, q = 0; q < g.length; q++) {
+    for (var g = b.sDom.split(""), h, t, l, m, n, p, q = 0; q < g.length; q++) {
       h = null;
       t = g[q];
       if ("<" == t) {
         l = a("<div/>")[0];
-        n = g[q + 1];
-        if ("'" == n || '"' == n) {
-          m = "";
-          for (p = 2; g[q + p] != n;) {
-            m += g[q + p], p++;
+        m = g[q + 1];
+        if ("'" == m || '"' == m) {
+          n = "";
+          for (p = 2; g[q + p] != m;) {
+            n += g[q + p], p++;
           }
-          "H" == m ? m = c.sJUIHeader : "F" == m && (m = c.sJUIFooter);
-          -1 != m.indexOf(".") ? (n = m.split("."), l.id = n[0].substr(1, n[0].length - 1), l.className = n[1]) : "#" == m.charAt(0) ? l.id = m.substr(1, m.length - 1) : l.className = m;
+          "H" == n ? n = c.sJUIHeader : "F" == n && (n = c.sJUIFooter);
+          -1 != n.indexOf(".") ? (m = n.split("."), l.id = m[0].substr(1, m[0].length - 1), l.className = m[1]) : "#" == n.charAt(0) ? l.id = n.substr(1, n.length - 1) : l.className = n;
           q += p;
         }
         f.append(l);
@@ -20332,7 +20332,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
                       h = sb(b);
                     } else {
                       if (0 !== w.ext.feature.length) {
-                        for (l = w.ext.feature, p = 0, n = l.length; p < n; p++) {
+                        for (l = w.ext.feature, p = 0, m = l.length; p < m; p++) {
                           if (t == l[p].cFeature) {
                             h = l[p].fnInit(b);
                             break;
@@ -20373,11 +20373,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           for (e = b[g]; e[x];) {
             x++;
           }
-          var n = x;
-          var m = 1 === t ? !0 : !1;
+          var m = x;
+          var n = 1 === t ? !0 : !1;
           for (e = 0; e < t; e++) {
             for (x = 0; x < l; x++) {
-              b[g + x][n + e] = {cell:d, unique:m}, b[g + x].nTr = h;
+              b[g + x][m + e] = {cell:d, unique:n}, b[g + x].nTr = h;
             }
           }
         }
@@ -20439,31 +20439,31 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function db(b) {
     var c = b.aoColumns, d = c.length, e = b.oFeatures, f = b.oPreviousSearch, g = b.aoPreSearchCols, h = [], t = na(b);
     var l = b._iDisplayStart;
-    var n = !1 !== e.bPaginate ? b._iDisplayLength : -1;
-    var m = function(a, b) {
+    var m = !1 !== e.bPaginate ? b._iDisplayLength : -1;
+    var n = function(a, b) {
       h.push({name:a, value:b});
     };
-    m("sEcho", b.iDraw);
-    m("iColumns", d);
-    m("sColumns", X(c, "sName").join(","));
-    m("iDisplayStart", l);
-    m("iDisplayLength", n);
-    var p = {draw:b.iDraw, columns:[], order:[], start:l, length:n, search:{value:f.sSearch, regex:f.bRegex}};
+    n("sEcho", b.iDraw);
+    n("iColumns", d);
+    n("sColumns", X(c, "sName").join(","));
+    n("iDisplayStart", l);
+    n("iDisplayLength", m);
+    var p = {draw:b.iDraw, columns:[], order:[], start:l, length:m, search:{value:f.sSearch, regex:f.bRegex}};
     for (l = 0; l < d; l++) {
       var q = c[l];
       var r = g[l];
-      n = "function" == typeof q.mData ? "function" : q.mData;
-      p.columns.push({data:n, name:q.sName, searchable:q.bSearchable, orderable:q.bSortable, search:{value:r.sSearch, regex:r.bRegex}});
-      m("mDataProp_" + l, n);
-      e.bFilter && (m("sSearch_" + l, r.sSearch), m("bRegex_" + l, r.bRegex), m("bSearchable_" + l, q.bSearchable));
-      e.bSort && m("bSortable_" + l, q.bSortable);
+      m = "function" == typeof q.mData ? "function" : q.mData;
+      p.columns.push({data:m, name:q.sName, searchable:q.bSearchable, orderable:q.bSortable, search:{value:r.sSearch, regex:r.bRegex}});
+      n("mDataProp_" + l, m);
+      e.bFilter && (n("sSearch_" + l, r.sSearch), n("bRegex_" + l, r.bRegex), n("bSearchable_" + l, q.bSearchable));
+      e.bSort && n("bSortable_" + l, q.bSortable);
     }
-    e.bFilter && (m("sSearch", f.sSearch), m("bRegex", f.bRegex));
+    e.bFilter && (n("sSearch", f.sSearch), n("bRegex", f.bRegex));
     e.bSort && (a.each(t, function(a, b) {
       p.order.push({column:b.col, dir:b.dir});
-      m("iSortCol_" + a, b.col);
-      m("sSortDir_" + a, b.dir);
-    }), m("iSortingCols", t.length));
+      n("iSortCol_" + a, b.col);
+      n("sSortDir_" + a, b.dir);
+    }), n("iSortingCols", t.length));
     c = w.ext.legacy.ajax;
     return null === c ? b.sAjaxSource ? h : p : c ? h : p;
   }
@@ -20499,7 +20499,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var d = b.oClasses, e = b.sTableId, f = b.oLanguage, g = b.oPreviousSearch, h = b.aanFeatures, t = '<input type="search" class="' + d.sFilterInput + '"/>', l = f.sSearch, l = l.match(/_INPUT_/) ? l.replace("_INPUT_", t) : l + t, d = a("<div/>", {id:h.f ? null : e + "_filter", "class":d.sFilter}).append(a("<label/>").append(l)), h = function() {
       var a = this.value ? this.value : "";
       a != g.sSearch && (sa(b, {sSearch:a, bRegex:g.bRegex, bSmart:g.bSmart, bCaseInsensitive:g.bCaseInsensitive}), b._iDisplayStart = 0, ia(b));
-    }, t = null !== b.searchDelay ? b.searchDelay : "ssp" === S(b) ? 400 : 0, n = a("input", d).val(g.sSearch).attr("placeholder", f.sSearchPlaceholder).bind("keyup.DT search.DT input.DT paste.DT cut.DT", t ? Oa(h, t) : h).bind("keypress.DT", function(a) {
+    }, t = null !== b.searchDelay ? b.searchDelay : "ssp" === S(b) ? 400 : 0, m = a("input", d).val(g.sSearch).attr("placeholder", f.sSearchPlaceholder).bind("keyup.DT search.DT input.DT paste.DT cut.DT", t ? Oa(h, t) : h).bind("keypress.DT", function(a) {
       if (13 == a.keyCode) {
         return !1;
       }
@@ -20507,7 +20507,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a(b.nTable).on("search.dt.DT", function(a, d) {
       if (b === d) {
         try {
-          n[0] !== c.activeElement && n.val(g.sSearch);
+          m[0] !== c.activeElement && m.val(g.sSearch);
         } catch (ac) {
         }
       }
@@ -20539,7 +20539,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function gb(b) {
     for (var c = w.ext.search, d = b.aiDisplay, e, f, g = 0, h = c.length; g < h; g++) {
-      for (var t = [], l = 0, n = d.length; l < n; l++) {
+      for (var t = [], l = 0, m = d.length; l < m; l++) {
         f = d[l], e = b.aoData[f], c[g](b, e._aFilterData, f, e._aData, l) && t.push(f);
       }
       d.length = 0;
@@ -20596,16 +20596,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         for (d = b.length; l < d; l++) {
           f = b[l];
           if (f.bSearchable) {
-            var n = F(a, g, l, "filter");
-            e[f.sType] && (n = e[f.sType](n));
-            null === n && (n = "");
-            "string" !== typeof n && n.toString && (n = n.toString());
+            var m = F(a, g, l, "filter");
+            e[f.sType] && (m = e[f.sType](m));
+            null === m && (m = "");
+            "string" !== typeof m && m.toString && (m = m.toString());
           } else {
-            n = "";
+            m = "";
           }
-          n.indexOf && -1 !== n.indexOf("&") && (Ca.innerHTML = n, n = Ob ? Ca.textContent : Ca.innerText);
-          n.replace && (n = n.replace(/[\r\n]/g, ""));
-          t.push(n);
+          m.indexOf && -1 !== m.indexOf("&") && (Ca.innerHTML = m, m = Ob ? Ca.textContent : Ca.innerText);
+          m.replace && (m = m.replace(/[\r\n]/g, ""));
+          t.push(m);
         }
         h._aFilterData = t;
         h._sFilterRow = t.join("  ");
@@ -20745,17 +20745,17 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     if ("" === d.sX && "" === d.sY) {
       return b.nTable;
     }
-    var e = d.sX, f = d.sY, g = b.oClasses, h = c.children("caption"), l = h.length ? h[0]._captionSide : null, t = a(c[0].cloneNode(!1)), n = a(c[0].cloneNode(!1)), m = c.children("tfoot");
-    m.length || (m = null);
+    var e = d.sX, f = d.sY, g = b.oClasses, h = c.children("caption"), l = h.length ? h[0]._captionSide : null, t = a(c[0].cloneNode(!1)), m = a(c[0].cloneNode(!1)), n = c.children("tfoot");
+    n.length || (n = null);
     t = a("<div/>", {"class":g.sScrollWrapper}).append(a("<div/>", {"class":g.sScrollHead}).css({overflow:"hidden", position:"relative", border:0, width:e ? e ? Q(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollHeadInner}).css({"box-sizing":"content-box", width:d.sXInner || "100%"}).append(t.removeAttr("id").css("margin-left", 0).append("top" === l ? h : null).append(c.children("thead"))))).append(a("<div/>", {"class":g.sScrollBody}).css({position:"relative", overflow:"auto", width:e ? 
     Q(e) : null}).append(c));
-    m && t.append(a("<div/>", {"class":g.sScrollFoot}).css({overflow:"hidden", border:0, width:e ? e ? Q(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollFootInner}).append(n.removeAttr("id").css("margin-left", 0).append("bottom" === l ? h : null).append(c.children("tfoot")))));
-    var c = t.children(), p = c[0], g = c[1], q = m ? c[2] : null;
+    n && t.append(a("<div/>", {"class":g.sScrollFoot}).css({overflow:"hidden", border:0, width:e ? e ? Q(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollFootInner}).append(m.removeAttr("id").css("margin-left", 0).append("bottom" === l ? h : null).append(c.children("tfoot")))));
+    var c = t.children(), p = c[0], g = c[1], q = n ? c[2] : null;
     if (e) {
       a(g).on("scroll.DT", function(a) {
         a = this.scrollLeft;
         p.scrollLeft = a;
-        m && (q.scrollLeft = a);
+        n && (q.scrollLeft = a);
       });
     }
     a(g).css(f && d.bCollapse ? "max-height" : "height", f);
@@ -20766,7 +20766,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return t[0];
   }
   function za(b) {
-    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), n = t[0].style, m = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), A = v.children("table"), y = a(b.nTHead), w = a(b.nTable), z = w[0], B = z.style, C = b.nTFoot ? a(b.nTFoot) : null, D = b.oBrowser, F = D.bScrollOversize, E = X(b.aoColumns, "nTh"), H = [], I = [], J = [], L = [], M, O = function(a) {
+    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), m = t[0].style, n = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), A = v.children("table"), y = a(b.nTHead), w = a(b.nTable), z = w[0], B = z.style, C = b.nTFoot ? a(b.nTFoot) : null, D = b.oBrowser, F = D.bScrollOversize, E = X(b.aoColumns, "nTh"), H = [], I = [], J = [], L = [], M, O = function(a) {
       a = a.style;
       a.paddingTop = "0";
       a.paddingBottom = "0";
@@ -20828,11 +20828,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       C && (b.nScrollFoot.style.width = Q(P));
       !g && F && (q.height = Q(z.offsetHeight + c));
       e = w.outerWidth();
-      m[0].style.width = Q(e);
-      n.width = Q(e);
+      n[0].style.width = Q(e);
+      m.width = Q(e);
       f = w.height() > t.clientHeight || "scroll" == p.css("overflow-y");
       g = "padding" + (D.bScrollbarLeft ? "Left" : "Right");
-      n[g] = f ? c + "px" : "0px";
+      m[g] = f ? c + "px" : "0px";
       C && (A[0].style.width = Q(e), v[0].style.width = Q(e), v[0].style[g] = f ? c + "px" : "0px");
       w.children("colgroup").insertBefore(w.children("thead"));
       p.scroll();
@@ -20849,15 +20849,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function La(c) {
-    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, n = C(c, "bVisible"), m = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, w, y = c.oBrowser, f = y.bScrollOversize;
+    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, m = C(c, "bVisible"), n = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, w, y = c.oBrowser, f = y.bScrollOversize;
     (w = d.style.width) && -1 !== w.indexOf("%") && (p = w);
-    for (w = 0; w < n.length; w++) {
-      var z = e[n[w]];
+    for (w = 0; w < m.length; w++) {
+      var z = e[m[w]];
       null !== z.sWidth && (z.sWidth = vb(z.sWidthOrig, q), v = !0);
     }
-    if (f || !v && !h && !g && t == A(c) && t == m.length) {
+    if (f || !v && !h && !g && t == A(c) && t == n.length) {
       for (w = 0; w < t; w++) {
-        n = u(c, w), null !== n && (e[n].sWidth = Q(m.eq(w).width()));
+        m = u(c, w), null !== m && (e[m].sWidth = Q(n.eq(w).width()));
       }
     } else {
       t = a(d).clone().css("visibility", "hidden").removeAttr("id");
@@ -20866,20 +20866,20 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       t.find("thead, tfoot").remove();
       t.append(a(c.nTHead).clone()).append(a(c.nTFoot).clone());
       t.find("tfoot th, tfoot td").css("width", "");
-      m = wa(c, t.find("thead")[0]);
-      for (w = 0; w < n.length; w++) {
-        z = e[n[w]], m[w].style.width = null !== z.sWidthOrig && "" !== z.sWidthOrig ? Q(z.sWidthOrig) : "", z.sWidthOrig && h && a(m[w]).append(a("<div/>").css({width:z.sWidthOrig, margin:0, padding:0, border:0, height:1}));
+      n = wa(c, t.find("thead")[0]);
+      for (w = 0; w < m.length; w++) {
+        z = e[m[w]], n[w].style.width = null !== z.sWidthOrig && "" !== z.sWidthOrig ? Q(z.sWidthOrig) : "", z.sWidthOrig && h && a(n[w]).append(a("<div/>").css({width:z.sWidthOrig, margin:0, padding:0, border:0, height:1}));
       }
       if (c.aoData.length) {
-        for (w = 0; w < n.length; w++) {
-          v = n[w], z = e[v], a(wb(c, v)).clone(!1).append(z.sContentPadding).appendTo(B);
+        for (w = 0; w < m.length; w++) {
+          v = m[w], z = e[v], a(wb(c, v)).clone(!1).append(z.sContentPadding).appendTo(B);
         }
       }
       a("[name]", t).removeAttr("name");
       z = a("<div/>").css(h || g ? {position:"absolute", top:0, left:0, height:1, right:0, overflow:"hidden"} : {}).append(t).appendTo(q);
       h && l ? t.width(l) : h ? (t.css("width", "auto"), t.removeAttr("width"), t.width() < q.clientWidth && p && t.width(q.clientWidth)) : g ? t.width(q.clientWidth) : p && t.width(p);
-      for (w = g = 0; w < n.length; w++) {
-        q = a(m[w]), l = q.outerWidth() - q.width(), q = y.bBounding ? Math.ceil(m[w].getBoundingClientRect().width) : q.outerWidth(), g += q, e[n[w]].sWidth = Q(q - l);
+      for (w = g = 0; w < m.length; w++) {
+        q = a(n[w]), l = q.outerWidth() - q.width(), q = y.bBounding ? Math.ceil(n[w].getBoundingClientRect().width) : q.outerWidth(), g += q, e[m[w]].sWidth = Q(q - l);
       }
       d.style.width = Q(g);
       z.remove();
@@ -20934,10 +20934,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       l = e[t].aDataSort;
       f = 0;
       for (g = l.length; f < g; f++) {
-        var n = l[f];
-        var m = e[n].sType || "string";
-        h[b]._idx === d && (h[b]._idx = a.inArray(h[b][1], e[n].asSorting));
-        c.push({src:t, col:n, dir:h[b][1], index:h[b]._idx, type:m, formatter:w.ext.type.order[m + "-pre"]});
+        var m = l[f];
+        var n = e[m].sType || "string";
+        h[b]._idx === d && (h[b]._idx = a.inArray(h[b][1], e[m].asSorting));
+        c.push({src:t, col:m, dir:h[b][1], index:h[b]._idx, type:n, formatter:w.ext.type.order[n + "-pre"]});
       }
     }
     return c;
@@ -20961,31 +20961,31 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var d, f = h.length, g = e[a]._aSortData, l = e[b]._aSortData;
         for (d = 0; d < f; d++) {
           var t = h[d];
-          var n = g[t.col];
-          var m = l[t.col];
-          n = n < m ? -1 : n > m ? 1 : 0;
-          if (0 !== n) {
-            return "asc" === t.dir ? n : -n;
-          }
-        }
-        n = c[a];
-        m = c[b];
-        return n < m ? -1 : n > m ? 1 : 0;
-      }) : g.sort(function(a, b) {
-        var f, g = h.length, l = e[a]._aSortData, t = e[b]._aSortData;
-        for (f = 0; f < g; f++) {
-          var n = h[f];
-          var m = l[n.col];
-          var x = t[n.col];
-          n = d[n.type + "-" + n.dir] || d["string-" + n.dir];
-          m = n(m, x);
+          var m = g[t.col];
+          var n = l[t.col];
+          m = m < n ? -1 : m > n ? 1 : 0;
           if (0 !== m) {
-            return m;
+            return "asc" === t.dir ? m : -m;
           }
         }
         m = c[a];
+        n = c[b];
+        return m < n ? -1 : m > n ? 1 : 0;
+      }) : g.sort(function(a, b) {
+        var f, g = h.length, l = e[a]._aSortData, t = e[b]._aSortData;
+        for (f = 0; f < g; f++) {
+          var m = h[f];
+          var n = l[m.col];
+          var x = t[m.col];
+          m = d[m.type + "-" + m.dir] || d["string-" + m.dir];
+          n = m(n, x);
+          if (0 !== n) {
+            return n;
+          }
+        }
+        n = c[a];
         x = c[b];
-        return m < x ? -1 : m > x ? 1 : 0;
+        return n < x ? -1 : n > x ? 1 : 0;
       });
     }
     a.bSorted = !0;
@@ -21276,11 +21276,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var c = this, e = b === d, t = this.length;
     e && (b = {});
     this.oApi = this.internal = N.internal;
-    for (var p in w.ext.internal) {
-      p && (this[p] = Db(p));
+    for (var m in w.ext.internal) {
+      m && (this[m] = Db(m));
     }
     this.each(function() {
-      var p = {}, p = 1 < t ? Bb(p, b, !0) : b, x = 0, r, G = this.getAttribute("id"), aa = !1, u = w.defaults, ba = a(this);
+      var m = {}, m = 1 < t ? Bb(m, b, !0) : b, x = 0, r, G = this.getAttribute("id"), aa = !1, u = w.defaults, ba = a(this);
       if ("table" != this.nodeName.toLowerCase()) {
         fa(null, 0, "Non-table node initialisation (" + this.nodeName + ")", 2);
       } else {
@@ -21288,16 +21288,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         l(u.column);
         f(u, u, !0);
         f(u.column, u.column, !0);
-        f(u, a.extend(p, ba.data()));
+        f(u, a.extend(m, ba.data()));
         var v = w.settings, x = 0;
         for (r = v.length; x < r; x++) {
           var A = v[x];
           if (A.nTable == this || A.nTHead.parentNode == this || A.nTFoot && A.nTFoot.parentNode == this) {
-            x = p.bRetrieve !== d ? p.bRetrieve : u.bRetrieve;
+            x = m.bRetrieve !== d ? m.bRetrieve : u.bRetrieve;
             if (e || x) {
               return A.oInstance;
             }
-            if (p.bDestroy !== d ? p.bDestroy : u.bDestroy) {
+            if (m.bDestroy !== d ? m.bDestroy : u.bDestroy) {
               A.oInstance.fnDestroy();
               break;
             } else {
@@ -21316,37 +21316,37 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var y = a.extend(!0, {}, w.models.oSettings, {sDestroyWidth:ba[0].style.width, sInstance:G, sTableId:G});
         y.nTable = this;
         y.oApi = c.internal;
-        y.oInit = p;
+        y.oInit = m;
         v.push(y);
         y.oInstance = 1 === c.length ? c : ba.dataTable();
-        h(p);
-        p.oLanguage && g(p.oLanguage);
-        p.aLengthMenu && !p.iDisplayLength && (p.iDisplayLength = a.isArray(p.aLengthMenu[0]) ? p.aLengthMenu[0][0] : p.aLengthMenu[0]);
-        p = Bb(a.extend(!0, {}, u), p);
-        ca(y.oFeatures, p, "bPaginate bLengthChange bFilter bSort bSortMulti bInfo bProcessing bAutoWidth bSortClasses bServerSide bDeferRender".split(" "));
-        ca(y, p, ["asStripeClasses", "ajax", "fnServerData", "fnFormatNumber", "sServerMethod", "aaSorting", "aaSortingFixed", "aLengthMenu", "sPaginationType", "sAjaxSource", "sAjaxDataProp", "iStateDuration", "sDom", "bSortCellsTop", "iTabIndex", "fnStateLoadCallback", "fnStateSaveCallback", "renderer", "searchDelay", "rowId", ["iCookieDuration", "iStateDuration"], ["oSearch", "oPreviousSearch"], ["aoSearchCols", "aoPreSearchCols"], ["iDisplayLength", "_iDisplayLength"], ["bJQueryUI", "bJUI"]]);
-        ca(y.oScroll, p, [["sScrollX", "sX"], ["sScrollXInner", "sXInner"], ["sScrollY", "sY"], ["bScrollCollapse", "bCollapse"]]);
-        ca(y.oLanguage, p, "fnInfoCallback");
-        T(y, "aoDrawCallback", p.fnDrawCallback, "user");
-        T(y, "aoServerParams", p.fnServerParams, "user");
-        T(y, "aoStateSaveParams", p.fnStateSaveParams, "user");
-        T(y, "aoStateLoadParams", p.fnStateLoadParams, "user");
-        T(y, "aoStateLoaded", p.fnStateLoaded, "user");
-        T(y, "aoRowCallback", p.fnRowCallback, "user");
-        T(y, "aoRowCreatedCallback", p.fnCreatedRow, "user");
-        T(y, "aoHeaderCallback", p.fnHeaderCallback, "user");
-        T(y, "aoFooterCallback", p.fnFooterCallback, "user");
-        T(y, "aoInitComplete", p.fnInitComplete, "user");
-        T(y, "aoPreDrawCallback", p.fnPreDrawCallback, "user");
-        y.rowIdFn = W(p.rowId);
-        n(y);
+        h(m);
+        m.oLanguage && g(m.oLanguage);
+        m.aLengthMenu && !m.iDisplayLength && (m.iDisplayLength = a.isArray(m.aLengthMenu[0]) ? m.aLengthMenu[0][0] : m.aLengthMenu[0]);
+        m = Bb(a.extend(!0, {}, u), m);
+        ca(y.oFeatures, m, "bPaginate bLengthChange bFilter bSort bSortMulti bInfo bProcessing bAutoWidth bSortClasses bServerSide bDeferRender".split(" "));
+        ca(y, m, ["asStripeClasses", "ajax", "fnServerData", "fnFormatNumber", "sServerMethod", "aaSorting", "aaSortingFixed", "aLengthMenu", "sPaginationType", "sAjaxSource", "sAjaxDataProp", "iStateDuration", "sDom", "bSortCellsTop", "iTabIndex", "fnStateLoadCallback", "fnStateSaveCallback", "renderer", "searchDelay", "rowId", ["iCookieDuration", "iStateDuration"], ["oSearch", "oPreviousSearch"], ["aoSearchCols", "aoPreSearchCols"], ["iDisplayLength", "_iDisplayLength"], ["bJQueryUI", "bJUI"]]);
+        ca(y.oScroll, m, [["sScrollX", "sX"], ["sScrollXInner", "sXInner"], ["sScrollY", "sY"], ["bScrollCollapse", "bCollapse"]]);
+        ca(y.oLanguage, m, "fnInfoCallback");
+        T(y, "aoDrawCallback", m.fnDrawCallback, "user");
+        T(y, "aoServerParams", m.fnServerParams, "user");
+        T(y, "aoStateSaveParams", m.fnStateSaveParams, "user");
+        T(y, "aoStateLoadParams", m.fnStateLoadParams, "user");
+        T(y, "aoStateLoaded", m.fnStateLoaded, "user");
+        T(y, "aoRowCallback", m.fnRowCallback, "user");
+        T(y, "aoRowCreatedCallback", m.fnCreatedRow, "user");
+        T(y, "aoHeaderCallback", m.fnHeaderCallback, "user");
+        T(y, "aoFooterCallback", m.fnFooterCallback, "user");
+        T(y, "aoInitComplete", m.fnInitComplete, "user");
+        T(y, "aoPreDrawCallback", m.fnPreDrawCallback, "user");
+        y.rowIdFn = W(m.rowId);
+        p(y);
         G = y.oClasses;
-        p.bJQueryUI ? (a.extend(G, w.ext.oJUIClasses, p.oClasses), p.sDom === u.sDom && "lfrtip" === u.sDom && (y.sDom = '<"H"lfr>t<"F"ip>'), y.renderer) ? a.isPlainObject(y.renderer) && !y.renderer.header && (y.renderer.header = "jqueryui") : y.renderer = "jqueryui" : a.extend(G, w.ext.classes, p.oClasses);
+        m.bJQueryUI ? (a.extend(G, w.ext.oJUIClasses, m.oClasses), m.sDom === u.sDom && "lfrtip" === u.sDom && (y.sDom = '<"H"lfr>t<"F"ip>'), y.renderer) ? a.isPlainObject(y.renderer) && !y.renderer.header && (y.renderer.header = "jqueryui") : y.renderer = "jqueryui" : a.extend(G, w.ext.classes, m.oClasses);
         ba.addClass(G.sTable);
-        y.iInitDisplayStart === d && (y.iInitDisplayStart = p.iDisplayStart, y._iDisplayStart = p.iDisplayStart);
-        null !== p.iDeferLoading && (y.bDeferLoading = !0, x = a.isArray(p.iDeferLoading), y._iRecordsDisplay = x ? p.iDeferLoading[0] : p.iDeferLoading, y._iRecordsTotal = x ? p.iDeferLoading[1] : p.iDeferLoading);
+        y.iInitDisplayStart === d && (y.iInitDisplayStart = m.iDisplayStart, y._iDisplayStart = m.iDisplayStart);
+        null !== m.iDeferLoading && (y.bDeferLoading = !0, x = a.isArray(m.iDeferLoading), y._iRecordsDisplay = x ? m.iDeferLoading[0] : m.iDeferLoading, y._iRecordsTotal = x ? m.iDeferLoading[1] : m.iDeferLoading);
         var B = y.oLanguage;
-        a.extend(!0, B, p.oLanguage);
+        a.extend(!0, B, m.oLanguage);
         "" !== B.sUrl && (a.ajax({dataType:"json", url:B.sUrl, success:function(b) {
           g(b);
           f(u.oLanguage, b);
@@ -21355,7 +21355,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         }, error:function() {
           ua(y);
         }}), aa = !0);
-        null === p.asStripeClasses && (y.asStripeClasses = [G.sStripeOdd, G.sStripeEven]);
+        null === m.asStripeClasses && (y.asStripeClasses = [G.sStripeOdd, G.sStripeEven]);
         var x = y.asStripeClasses, C = ba.children("tbody").find("tr").eq(0);
         -1 !== a.inArray(!0, a.map(x, function(a, b) {
           return C.hasClass(a);
@@ -21363,19 +21363,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         v = [];
         x = this.getElementsByTagName("thead");
         0 !== x.length && (ra(y.aoHeader, x[0]), v = wa(y));
-        if (null === p.aoColumns) {
+        if (null === m.aoColumns) {
           for (A = [], x = 0, r = v.length; x < r; x++) {
             A.push(null);
           }
         } else {
-          A = p.aoColumns;
+          A = m.aoColumns;
         }
         x = 0;
         for (r = A.length; x < r; x++) {
           q(y, v ? v[x] : null);
         }
-        H(y, p.aoColumnDefs, A, function(a, b) {
-          m(y, a, b);
+        H(y, m.aoColumnDefs, A, function(a, b) {
+          n(y, a, b);
         });
         if (C.length) {
           var F = function(a, b) {
@@ -21387,14 +21387,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
               var e = F(b, "sort") || F(b, "order");
               b = F(b, "filter") || F(b, "search");
               if (null !== e || null !== b) {
-                c.mData = {_:a + ".display", sort:null !== e ? a + ".@data-" + e : d, type:null !== e ? a + ".@data-" + e : d, filter:null !== b ? a + ".@data-" + b : d}, m(y, a);
+                c.mData = {_:a + ".display", sort:null !== e ? a + ".@data-" + e : d, type:null !== e ? a + ".@data-" + e : d, filter:null !== b ? a + ".@data-" + b : d}, n(y, a);
               }
             }
           });
         }
         var E = y.oFeatures;
-        p.bStateSave && (E.bStateSave = !0, Ab(y, p), T(y, "aoDrawCallback", Ea, "state_save"));
-        if (p.aaSorting === d) {
+        m.bStateSave && (E.bStateSave = !0, Ab(y, m), T(y, "aoDrawCallback", Ea, "state_save"));
+        if (m.aaSorting === d) {
           for (v = y.aaSorting, x = 0, r = v.length; x < r; x++) {
             v[x][1] = y.aoColumns[x].asSorting[0];
           }
@@ -21425,9 +21425,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         r = ba.children("tfoot");
         0 === r.length && 0 < x.length && ("" !== y.oScroll.sX || "" !== y.oScroll.sY) && (r = a("<tfoot/>").appendTo(this));
         0 === r.length || 0 === r.children().length ? ba.addClass(G.sNoFooter) : 0 < r.length && (y.nTFoot = r[0], ra(y.aoFooter, y.nTFoot));
-        if (p.aaData) {
-          for (x = 0; x < p.aaData.length; x++) {
-            z(y, p.aaData[x]);
+        if (m.aaData) {
+          for (x = 0; x < m.aaData.length; x++) {
+            z(y, m.aaData[x]);
           }
         } else {
           (y.bDeferLoading || "dom" == S(y)) && D(y, a(y.nTBody).children("tr"));
@@ -21607,24 +21607,24 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return -1;
   }, iterator:function(a, b, c, e) {
-    var f = [], g, h, l = this.context, n, t = this.selector;
+    var f = [], g, h, l = this.context, m, t = this.selector;
     "string" === typeof a && (e = c, c = b, b = a, a = !1);
-    var m = 0;
-    for (g = l.length; m < g; m++) {
-      var p = new J(l[m]);
+    var n = 0;
+    for (g = l.length; n < g; n++) {
+      var p = new J(l[n]);
       if ("table" === b) {
-        var q = c.call(p, l[m], m);
+        var q = c.call(p, l[n], n);
         q !== d && f.push(q);
       } else {
         if ("columns" === b || "rows" === b) {
-          q = c.call(p, l[m], this[m], m), q !== d && f.push(q);
+          q = c.call(p, l[n], this[n], n), q !== d && f.push(q);
         } else {
           if ("column" === b || "column-rows" === b || "row" === b || "cell" === b) {
-            var x = this[m];
-            "column-rows" === b && (n = Ja(l[m], t.opts));
+            var x = this[n];
+            "column-rows" === b && (m = Ja(l[n], t.opts));
             var r = 0;
             for (h = x.length; r < h; r++) {
-              q = x[r], q = "cell" === b ? c.call(p, l[m], q.row, q.column, m, r) : c.call(p, l[m], q, m, r, n), q !== d && f.push(q);
+              q = x[r], q = "cell" === b ? c.call(p, l[n], q.row, q.column, n, r) : c.call(p, l[n], q, n, r, m), q !== d && f.push(q);
             }
           }
         }
@@ -21648,9 +21648,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return b[a];
     });
   }, pop:P.pop, push:P.push, reduce:P.reduce || function(a, b) {
-    return p(this, a, b, 0, this.length, 1);
+    return m(this, a, b, 0, this.length, 1);
   }, reduceRight:P.reduceRight || function(a, b) {
-    return p(this, a, b, this.length - 1, -1, -1);
+    return m(this, a, b, this.length - 1, -1, -1);
   }, reverse:P.reverse, selector:null, shift:P.shift, sort:P.sort, splice:P.splice, toArray:function() {
     return P.slice.call(this);
   }, to$:function() {
@@ -21690,7 +21690,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var h = (g = -1 !== e[b].indexOf("()")) ? e[b].replace("()", "") : e[b];
         a: {
           var l = 0;
-          for (var n = f.length; l < n; l++) {
+          for (var m = f.length; l < m; l++) {
             if (f[l].name === h) {
               l = f[l];
               break a;
@@ -21838,20 +21838,20 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
   });
   var Ya = function(b, c, e, f, g) {
-    var h = [], l, n, m;
+    var h = [], l, m, n;
     var p = typeof c;
     c && "string" !== p && "function" !== p && c.length !== d || (c = [c]);
     p = 0;
-    for (n = c.length; p < n; p++) {
+    for (m = c.length; p < m; p++) {
       var t = c[p] && c[p].split ? c[p].split(",") : [c[p]];
       var q = 0;
-      for (m = t.length; q < m; q++) {
+      for (n = t.length; q < n; q++) {
         (l = e("string" === typeof t[q] ? a.trim(t[q]) : t[q])) && l.length && (h = h.concat(l));
       }
     }
     b = N.selector[b];
     if (b.length) {
-      for (p = 0, n = b.length; p < n; p++) {
+      for (p = 0, m = b.length; p < m; p++) {
         h = b[p](f, g, h);
       }
     }
@@ -21980,14 +21980,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     this.iterator("row", function(b, c, e) {
       var f = b.aoData, g = f[c], h, l;
       f.splice(c, 1);
-      var n = 0;
-      for (h = f.length; n < h; n++) {
-        var m = f[n];
-        var p = m.anCells;
-        null !== m.nTr && (m.nTr._DT_RowIndex = n);
+      var m = 0;
+      for (h = f.length; m < h; m++) {
+        var n = f[m];
+        var p = n.anCells;
+        null !== n.nTr && (n.nTr._DT_RowIndex = m);
         if (null !== p) {
-          for (m = 0, l = p.length; m < l; m++) {
-            p[m]._DT_CellIndex.row = n;
+          for (n = 0, l = p.length; n < l; n++) {
+            p[n]._DT_CellIndex.row = m;
           }
         }
       }
@@ -22131,22 +22131,22 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           return c(d, Mb(b, d, 0, 0, l), g[d]) ? d : null;
         });
       }
-      var n = "string" === typeof c ? c.match(Yb) : "";
-      if (n) {
-        switch(n[2]) {
+      var m = "string" === typeof c ? c.match(Yb) : "";
+      if (m) {
+        switch(m[2]) {
           case "visIdx":
           case "visible":
-            h = parseInt(n[1], 10);
+            h = parseInt(m[1], 10);
             if (0 > h) {
-              var m = a.map(e, function(a, b) {
+              var n = a.map(e, function(a, b) {
                 return a.bVisible ? b : null;
               });
-              return [m[m.length + h]];
+              return [n[n.length + h]];
             }
             return [u(b, h)];
           case "name":
             return a.map(f, function(a, b) {
-              return a === n[1] ? b : null;
+              return a === m[1] ? b : null;
             });
           default:
             return [];
@@ -22211,12 +22211,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       var f = c.aoColumns, g = f[e], h = c.aoData, l;
       if (b !== d && g.bVisible !== b) {
         if (b) {
-          var n = a.inArray(!0, X(f, "bVisible"), e + 1);
-          var m = 0;
-          for (l = h.length; m < l; m++) {
-            var p = h[m].nTr;
-            f = h[m].anCells;
-            p && p.insertBefore(f[e], f[n] || null);
+          var m = a.inArray(!0, X(f, "bVisible"), e + 1);
+          var n = 0;
+          for (l = h.length; n < l; n++) {
+            var p = h[n].nTr;
+            f = h[n].anCells;
+            p && p.insertBefore(f[e], f[m] || null);
           }
         } else {
           a(X(c.aoData, "anCells", e)).detach();
@@ -22257,15 +22257,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return $a(this.columns(a, b));
   });
   var $b = function(b, c, e) {
-    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, m = b.aoColumns.length, p, q, t, r, x, u;
+    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), m, n = b.aoColumns.length, p, q, t, r, x, u;
     return Ya("cell", c, function(c) {
       var e = "function" === typeof c;
       if (null === c || c === d || e) {
         p = [];
         q = 0;
         for (t = g.length; q < t; q++) {
-          for (n = g[q], r = 0; r < m; r++) {
-            x = {row:n, column:r}, e ? (u = f[n], c(x, F(b, n, r), u.anCells ? u.anCells[r] : null) && p.push(x)) : p.push(x);
+          for (m = g[q], r = 0; r < n; r++) {
+            x = {row:m, column:r}, e ? (u = f[m], c(x, F(b, m, r), u.anCells ? u.anCells[r] : null) && p.push(x)) : p.push(x);
           }
         }
         return p;
@@ -22291,12 +22291,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         return $b(a, b, Za(e));
       });
     }
-    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, m, p, q = this.iterator("table", function(a, b) {
+    var f = this.columns(c, e), g = this.rows(b, e), h, l, m, n, p, q = this.iterator("table", function(a, b) {
       h = [];
       l = 0;
-      for (n = g[b].length; l < n; l++) {
-        for (m = 0, p = f[b].length; m < p; m++) {
-          h.push({row:g[b][l], column:f[b][m]});
+      for (m = g[b].length; l < m; l++) {
+        for (n = 0, p = f[b].length; n < p; n++) {
+          h.push({row:g[b][l], column:f[b][n]});
         }
       }
       return h;
@@ -22478,7 +22478,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   E("destroy()", function(c) {
     c = c || !1;
     return this.iterator("table", function(d) {
-      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, m = a(g), h = a(h), p = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
+      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, m = d.nTFoot, n = a(g), h = a(h), p = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
         return a.nTr;
       }), r;
       d.bDestroying = !0;
@@ -22486,8 +22486,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       c || (new J(d)).columns().visible(!0);
       p.unbind(".DT").find(":not(tbody *)").unbind(".DT");
       a(b).unbind(".DT-" + d.sInstance);
-      g != l.parentNode && (m.children("thead").detach(), m.append(l));
-      n && g != n.parentNode && (m.children("tfoot").detach(), m.append(n));
+      g != l.parentNode && (n.children("thead").detach(), n.append(l));
+      m && g != m.parentNode && (n.children("tfoot").detach(), n.append(m));
       d.aaSorting = [];
       d.aaSortingFixed = [];
       Da(d);
@@ -22501,9 +22501,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       h.children().detach();
       h.append(q);
       l = c ? "remove" : "detach";
-      m[l]();
+      n[l]();
       p[l]();
-      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), m.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
+      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), n.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
         a(this).addClass(d.asDestroyStripes[b % r]);
       }));
       e = a.inArray(d, w.settings);
@@ -22513,8 +22513,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   a.each(["column", "row", "cell"], function(a, b) {
     E(b + "s().every()", function(a) {
       var c = this.selector.opts, e = this;
-      return this.iterator(b, function(f, g, h, l, n) {
-        a.call(e[b](g, "cell" === b ? h : c, "cell" === b ? c : d), g, h, l, n);
+      return this.iterator(b, function(f, g, h, l, m) {
+        a.call(e[b](g, "cell" === b ? h : c, "cell" === b ? c : d), g, h, l, m);
       });
     });
   });
@@ -22581,7 +22581,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return ["first", "previous", Ga(a, b), "next", "last"];
   }, _numbers:Ga, numbers_length:7});
   a.extend(!0, w.ext.renderer, {pageButton:{_:function(b, d, e, f, g, h) {
-    var l = b.oClasses, n = b.oLanguage.oPaginate, m = b.oLanguage.oAria.paginate || {}, p, q, r = 0, t = function(c, d) {
+    var l = b.oClasses, m = b.oLanguage.oPaginate, n = b.oLanguage.oAria.paginate || {}, p, q, r = 0, t = function(c, d) {
       var f, u = function(a) {
         Sa(b, a.data.action, !0);
       };
@@ -22599,25 +22599,25 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
               c.append('<span class="ellipsis">&#x2026;</span>');
               break;
             case "first":
-              p = n.sFirst;
+              p = m.sFirst;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "previous":
-              p = n.sPrevious;
+              p = m.sPrevious;
               q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "next":
-              p = n.sNext;
+              p = m.sNext;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             case "last":
-              p = n.sLast;
+              p = m.sLast;
               q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             default:
               p = v + 1, q = g === v ? l.sPageButtonActive : "";
           }
-          null !== p && (w = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":m[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(p).appendTo(c), Ua(w, {action:v}, u), r++);
+          null !== p && (w = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":n[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(p).appendTo(c), Ua(w, {action:v}, u), r++);
         }
       }
     };
@@ -22704,7 +22704,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, text:function() {
     return {display:Nb};
   }};
-  a.extend(w.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:m, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:A, _fnGetColumns:C, _fnColumnTypes:B, _fnApplyColumnDefs:H, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:n, _fnAddData:z, _fnAddTr:D, _fnNodeToDataIndex:function(a, b) {
+  a.extend(w.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:n, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:A, _fnGetColumns:C, _fnColumnTypes:B, _fnApplyColumnDefs:H, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:p, _fnAddData:z, _fnAddTr:D, _fnNodeToDataIndex:function(a, b) {
     return b._DT_RowIndex !== d ? b._DT_RowIndex : null;
   }, _fnNodeToColumnIndex:function(b, c, d) {
     return a.inArray(d, b.aoData[c].anCells);
@@ -22837,7 +22837,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }), g = function(b, c) {
       b = f[b].includeIn;
       -1 === a.inArray(c, b) && b.push(c);
-    }, m = function(a, d, e, h) {
+    }, n = function(a, d, e, h) {
       if (!e) {
         f[a].includeIn.push(d);
       } else {
@@ -22882,7 +22882,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         a.each(c, function(a, b) {
           a = b.name.split("-");
           var c = l.match(new RegExp("(min\\-|max\\-|not\\-)?(" + a[0] + ")(\\-[_a-zA-Z0-9])?"));
-          c && (f = !0, c[2] === a[0] && c[3] === "-" + a[1] ? m(d, b.name, c[1], c[2] + c[3]) : c[2] !== a[0] || c[3] || m(d, b.name, c[1], c[2]));
+          c && (f = !0, c[2] === a[0] && c[3] === "-" + a[1] ? n(d, b.name, c[1], c[2] + c[3]) : c[2] !== a[0] || c[3] || n(d, b.name, c[1], c[2]));
         });
       }
       f || (b.auto = !0);
@@ -22939,7 +22939,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       a._detailsDisplay(b.row(d), !0);
     });
   }, _resize:function() {
-    var c = this, d = this.s.dt, e = a(b).width(), f = this.c.breakpoints, g = f[0].name, m = this.s.columns, r, u = this.s.current.slice();
+    var c = this, d = this.s.dt, e = a(b).width(), f = this.c.breakpoints, g = f[0].name, n = this.s.columns, r, u = this.s.current.slice();
     for (r = f.length - 1; 0 <= r; r--) {
       if (e <= f[r].width) {
         g = f[r].name;
@@ -22950,8 +22950,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     this.s.current = v;
     f = !1;
     r = 0;
-    for (e = m.length; r < e; r++) {
-      if (!1 === v[r] && !m[r].never && !m[r].control) {
+    for (e = n.length; r < e; r++) {
+      if (!1 === v[r] && !n[r].never && !n[r].control) {
         f = !0;
         break;
       }
@@ -23808,10 +23808,12 @@ FormBehavior = {_valueChanged:function(a) {
   }));
   for (var c = this._filterToArray("gridinput-field,tableselect-field,upload-field,embeddedobj-inline-field,linkedobj-field,linkedlist-field,embeddedobj-field,embeddedprimitivecollection-field,embeddedlist-field,tree-field,select-field", this.$.formdiv, !0, !0), d = 0; d < c.length; d++) {
     if ("SELECT-FIELD" != c[d].tagName || null == c[d].getAttribute("gridfield")) {
-      var e = c[d].isInvalid;
-      c[d].checkConstraints();
-      c[d].isInvalid && b.push("Error");
-      !0 === a && c[d].setInvalid(e);
+      if ("EMBEDDEDPRIMITIVECOLLECTION-FIELD" != c[d].tagName || null == c[d].getAttribute("gridfield")) {
+        var e = c[d].isInvalid;
+        c[d].checkConstraints();
+        c[d].isInvalid && b.push("Error");
+        !0 === a && c[d].setInvalid(e);
+      }
     }
   }
   this._validateLocal(b);
@@ -23843,8 +23845,8 @@ FormBehavior = {_valueChanged:function(a) {
       g && g.match(/^[@%]/) && (g = tr(g.substring(1)));
       var l = !1;
       if (h) {
-        var n = this._getField(h);
-        n && (n.setInvalid(!0), n.setErrorMessage(g), l = !0);
+        var p = this._getField(h);
+        p && (p.setInvalid(!0), p.setErrorMessage(g), l = !0);
       }
       a.push(g);
       l || c.push(g);
@@ -23854,8 +23856,8 @@ FormBehavior = {_valueChanged:function(a) {
       a += e + c[d], e = "<br/>";
     }
     this._setGlobalErrorMessage(a);
-  } catch (p) {
-    console.error("_validateServiceForm.call:camelRoute:" + b), console.error("_validateServiceForm:", p);
+  } catch (m) {
+    console.error("_validateServiceForm.call:camelRoute:" + b), console.error("_validateServiceForm:", m);
   }
 }, _setGlobalErrorMessage:function(a) {
   _.isEmpty(a) || (this._errorMessage = a, this.async(function() {
@@ -24232,6 +24234,8 @@ FormBehavior = {_valueChanged:function(a) {
     }
     "page" == a.stencil.id.toLowerCase() && (b = a.properties.xf_label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)));
     "enumselect" != a.stencil.id.toLowerCase() && "tableselect" != a.stencil.id.toLowerCase() && "treeselect" != a.stencil.id.toLowerCase() || this._handleSelectionLists(a);
+    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && (this._handleSelectionLists(a, "value"), a.properties.items && ("map" == a.properties.xf_collectiontype ? (a.properties.columns[1].items = a.properties.items, a.properties.columns[1].id = "Enumselect") : (a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect")));
+    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && "map" == a.properties.xf_collectiontype && (this._handleSelectionLists(a, "key"), a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect");
   } else {
     if ("actionbutton" == a.stencil.id.toLowerCase()) {
       e = a.properties.xf_iconname;
@@ -24266,24 +24270,25 @@ FormBehavior = {_valueChanged:function(a) {
   var c = !1;
   a.bounds.upperLeft.y != b.bounds.upperLeft.y && (c = !0);
   return c;
-}, _handleSelectionLists:function(a) {
-  var b = "tableselect" == a.stencil.id.toLowerCase(), c = "treeselect" == a.stencil.id.toLowerCase(), d = a.properties, e = d.xf_enumembed, f = d.xf_enum, g = d.xf_service, h = d.xf_filter, l = d.xf_jsonpath;
-  var n = d.xf_parammapping;
-  var p = d.xf_resultmapping, q = d.xf_varname, m = d.xf_namespace;
-  m && "-" != m || (m = this.namespace);
-  this._isEmpty(q) ? this._isEmpty(l) ? !c && !b && e && 0 < e.totalCount ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, e), d.items = n.getItems()) : !c && !b && f && 0 < f.totalCount ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(d.xf_enum)), d.items = n.getItems()) : c || this._isEmpty(h) ? this._isEmpty(g) ? (n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(d.xf_enum)), d.items = n.getItems()) : 
-  (b = {totalCount:1, enumDescription:"sw.service:" + g, items:[]}, b.params = this._doParameterMapping(n), n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(b)), d.items = this._doResultMapping(n.getItems(), p)) : (b = {totalCount:1, enumDescription:"sw.filter:" + h, items:[]}, b.params = this._doParameterMapping(n), b.checkParams = !0, n = simpl4FormManager.createSelectableItems(m, this.formName, d.xf_id, JSON.stringify(b)), m = n.getItems(), n.getMissingParamList() ? 
-  (console.error("Filter:", b), console.error("Filter.misingParameters:", n.getMissingParamList())) : d.items = this._doResultMapping(m, p)) : (n = JSONPath({json:this._selectionLists, path:l, callback:function() {
-  }}), d.items = null == n || 0 == n.length ? [] : n[0], d.items = this._doResultMapping(d.items, p)) : (d.items = this.variables[q], c || (d.items = this._doResultMapping(d.items, p)));
-  "tableselect" == a.stencil.id.toLowerCase() && (null == d.items && (d.items = []), p = (p = d.xf_columns) ? p.items : [], d.meta = [], p.forEach(function(a, b) {
+}, _handleSelectionLists:function(a, b) {
+  var c = "tableselect" == a.stencil.id.toLowerCase(), d = "treeselect" == a.stencil.id.toLowerCase(), e = a.properties, f = e["xf_enumembed" + b], g = e["xf_enum" + b], h = e["xf_service" + b], l = e["xf_filter" + b], p = e.xf_jsonpath;
+  var m = e["xf_parammapping" + b];
+  b = e["xf_resultmapping" + b];
+  var q = e.xf_varname, n = e.xf_namespace;
+  n && "-" != n || (n = this.namespace);
+  this._isEmpty(q) ? this._isEmpty(p) ? !d && !c && f && 0 < f.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, f), e.items = m.getItems()) : !d && !c && g && 0 < g.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(e.xf_enum)), e.items = m.getItems()) : d || this._isEmpty(l) ? this._isEmpty(h) ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(e.xf_enum)), e.items = m.getItems()) : 
+  (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(m), m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), e.items = this._doResultMapping(m.getItems(), b)) : (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(m), c.checkParams = !0, m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), n = m.getItems(), m.getMissingParamList() ? 
+  (console.error("Filter:", c), console.error("Filter.misingParameters:", m.getMissingParamList())) : e.items = this._doResultMapping(n, b)) : (m = JSONPath({json:this._selectionLists, path:p, callback:function() {
+  }}), e.items = null == m || 0 == m.length ? [] : m[0], e.items = this._doResultMapping(e.items, b)) : (e.items = this.variables[q], d || (e.items = this._doResultMapping(e.items, b)));
+  "tableselect" == a.stencil.id.toLowerCase() && (null == e.items && (e.items = []), b = (b = e.xf_columns) ? b.items : [], e.meta = [], b.forEach(function(a, b) {
     var c = b = a.display;
     c && c.match(/^[@%]/) && (b = tr(c.substring(1)));
     null == b && (b = xf_id + "." + a.colname);
-    d.meta.push({title:b, data:a.colname});
-  }, this), p = a.bounds, d.height = p.lowerRight.y - p.upperLeft.y, 75 > d.height && (d.height = 75));
-  if (0 < d.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
+    e.meta.push({title:b, data:a.colname});
+  }, this), b = a.bounds, e.height = b.lowerRight.y - b.upperLeft.y, 75 > e.height && (e.height = 75));
+  if (0 < e.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
     try {
-      a.properties.xf_default = d.items[parseInt(a.properties.xf_default.substring(1))].value;
+      a.properties.xf_default = e.items[parseInt(a.properties.xf_default.substring(1))].value;
     } catch (r) {
       console.error("set xf_default(" + a.properties.xf_id + "):", r);
     }
@@ -24342,23 +24347,23 @@ FormBehavior = {_valueChanged:function(a) {
       var l = e._constraintParams[f];
       b ? (msg = b) && msg.match(/^[@%]/) && (msg = tr(msg.substring(1))) : msg = tr("validation." + e._mapKeys(f));
       for (g = 0; l && g < l.length; g++) {
-        var n = l[g];
-        var p = h[g + 1];
-        "Size" != f && "Length" != f || 1 != g || (p = p || "512");
-        var q = n;
-        "regex" == n && (q += "p");
-        msg = msg.replace("{" + q + "}", p);
+        var p = l[g];
+        var m = h[g + 1];
+        "Size" != f && "Length" != f || 1 != g || (m = m || "512");
+        var q = p;
+        "regex" == p && (q += "p");
+        msg = msg.replace("{" + q + "}", m);
       }
       c += '(message="' + msg + '"';
-      if (l && 0 < l.length && (g = l[0], p = "format" == g ? '"YMD"' : h[1], "regex" == g && (p = this._correctRegex(h[1])), c += "," + g + "=" + p, 1 < l.length)) {
+      if (l && 0 < l.length && (g = l[0], m = "format" == g ? '"YMD"' : h[1], "regex" == g && (m = this._correctRegex(h[1])), c += "," + g + "=" + m, 1 < l.length)) {
         g = l[1];
-        p = h[2];
-        if (null == p || "" == p) {
+        m = h[2];
+        if (null == m || "" == m) {
           if ("Size" == f || "Length" == f) {
-            p = "512";
+            m = "512";
           }
         }
-        c += "," + g + "=" + p;
+        c += "," + g + "=" + m;
       }
       c += ")";
       d = " ";
@@ -24430,18 +24435,18 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
         l.addClass("dropdownjs").addClass(c.dropdownStyle);
         l.data("select", d);
         l.data("options", c);
-        var n = a("<input type=text readonly class=fakeinput>");
-        a.material && n.data("mdproc", !0);
-        l.append(n);
-        var p = a("<ul></ul>");
-        p.data("select", d);
+        var p = a("<input type=text readonly class=fakeinput>");
+        a.material && p.data("mdproc", !0);
         l.append(p);
-        n.attr("placeholder", d.attr("placeholder"));
+        var m = a("<ul></ul>");
+        m.data("select", d);
+        l.append(m);
+        p.attr("placeholder", d.attr("placeholder"));
         d.find("option").each(function() {
           var c = a(this);
-          b._addOption(p, c);
+          b._addOption(m, c);
         });
-        g && (h = a("<li class=dropdownjs-add></li>"), h.append("<input>"), h.find("input").attr("placeholder", c.dynamicOptLabel), p.append(h));
+        g && (h = a("<li class=dropdownjs-add></li>"), h.append("<input>"), h.find("input").attr("placeholder", c.dynamicOptLabel), m.append(h));
         l.find("li");
         if (e) {
           b._select(l, d.find(":selected"));
@@ -24449,23 +24454,23 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
           var q = d.find(":selected").length ? d.find(":selected").last() : d.find("option, li").first();
           b._select(l, q);
         }
-        n.addClass(d[0].className);
+        p.addClass(d[0].className);
         d.hide().attr("data-dropdownjs", !0);
         d.after(l);
         c.callback && c.callback(l);
-        p.on("click", "li:not(.dropdownjs-add)", function(c) {
+        m.on("click", "li:not(.dropdownjs-add)", function(c) {
           b._select(l, a(this));
           d.change();
         });
-        p.on("keydown", "li:not(.dropdownjs-add)", function(c) {
+        m.on("keydown", "li:not(.dropdownjs-add)", function(c) {
           if (27 === c.which) {
-            return a(".dropdownjs > ul > li").attr("tabindex", -1), n.removeClass("focus").blur();
+            return a(".dropdownjs > ul > li").attr("tabindex", -1), p.removeClass("focus").blur();
           }
           if (32 === c.which && !a(c.target).is("input")) {
             return b._select(l, a(this)), !1;
           }
         });
-        p.on("focus", "li:not(.dropdownjs-add)", function() {
+        m.on("focus", "li:not(.dropdownjs-add)", function() {
         });
         if (g && g.length) {
           h.on("keydown", function(b) {
@@ -24481,7 +24486,7 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
         }
         d.on("DOMNodeInserted", function(a) {
         });
-        n.on("click focus", function(b) {
+        p.on("click focus", function(b) {
           b.stopPropagation();
           if (!d.is(":disabled")) {
             a(".dropdownjs > ul > li").attr("tabindex", -1);
@@ -24495,14 +24500,14 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
             a(this).offset();
             a(document).scrollLeft();
             var e = c;
-            200 > e && b > c ? (e = b, p.attr("placement", "top-left")) : p.attr("placement", "bottom-left");
+            200 > e && b > c ? (e = b, m.attr("placement", "top-left")) : m.attr("placement", "bottom-left");
             console.log("height:", e);
             a(this).next("ul").css("max-height", e - 20);
             a(this).addClass("focus");
           }
         });
         a(document).on("click", function(b) {
-          e && a(b.target).parents(".dropdownjs").length || a(b.target).parents(".dropdownjs-add").length || a(b.target).is(".dropdownjs-add") || (a(".dropdownjs > ul > li").attr("tabindex", -1), n.removeClass("focus"));
+          e && a(b.target).parents(".dropdownjs").length || a(b.target).parents(".dropdownjs-add").length || a(b.target).is(".dropdownjs-add") || (a(".dropdownjs > ul > li").attr("tabindex", -1), p.removeClass("focus"));
         });
       }
     }
@@ -24527,11 +24532,11 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
         d.toggleClass("selected");
         var l = c.find('[value="' + d.attr("value") + '"]');
         l.prop("selected") ? l.prop("selected", !0) : l.prop("selected", !1);
-        var n = [];
+        var p = [];
         b.each(function() {
-          a(this).hasClass("selected") && n.push(a(this).text());
+          a(this).hasClass("selected") && p.push(a(this).text());
         });
-        g.val(n.join(", "));
+        g.val(p.join(", "));
       }
       h || (b.not(d).removeClass("selected"), d.addClass("selected"), c.val(d.attr("value")), g.val(d.text().trim()));
       a.material && (g.val().trim() ? c.removeClass("empty") : c.addClass("empty"));
@@ -25105,10 +25110,10 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   var b = parseInt(a.target.dataset.lid);
   this.push("lines", {});
   this.async(function() {
-    for (var a = this.lines.length - 1; a - 1 > b; a--) {
-      this._upLine(a);
+    for (var a = b + 1, d = this.lines.length - 1; d - 1 > b; d--) {
+      this._upLine(d);
     }
-    this.setDefaultValue(this.lines.length - 1);
+    this.setDefaultValue(a);
   }, 20);
 }, removeLine:function(a) {
   1 < this.lines.length && this.splice("lines", a.target.dataset.lid, 1);
@@ -25246,26 +25251,38 @@ Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Po
   var a = this.form._getData();
   return this.form._maskedEval(this.required, a, !1);
 }});
-Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, entity:{value:null, type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["entityChanged(entity,namespace)", "columnsChanged(columns)", "regulaConstraintsChanged(regulaConstraints)"], 
-onChanged:function(a) {
+Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["columnsChanged(columns)", "regulaConstraintsChanged(regulaConstraints)"], onChanged:function(a) {
   console.log("onChanged:", a);
   this.value = a.detail.data;
 }, regulaConstraintsChanged:function() {
   console.log("Field.embeddedprimitivecollection-field.regulaConstraintsChanged:", this.regulaConstraintsChanged);
 }, columnsChanged:function() {
   console.log("Field.embeddedprimitivecollection-field.columnsChanged:", this.columns);
-}, entityChanged:function() {
-  console.log("Field.embeddedprimitivecollection-field.entityChanged:", this.entity + "/" + this.namespace);
-  this.setInvalid(!1);
 }, checkConstraints:function() {
   this.setInvalid(!1);
   !this.isRequired() || this.value && 0 < this.value.length || (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
 }, setValue:function(a) {
-  this.value = a;
-  console.log("setValue(" + this.entity + "," + this.name + "):", this.value);
+  console.log("setValue(" + this.name + "):", a);
+  a = null == a ? {} : a;
+  for (var b = Object.keys(a), c = [], d = 0; d < b.length; d++) {
+    var e = b[d], f = a[b[d]], g = {};
+    "map" == this.collectionType && (g.key = e);
+    g.value = f;
+    c.push(g);
+  }
+  console.log("lines:", c);
+  this.$.inputId.setValue(c);
 }, getValue:function() {
-  console.log("getValue(" + this.entity + "," + this.name + "):", this.value);
-  return this.value;
+  var a = "map" == this.collectionType ? {} : [], b = this.$.inputId.getValue();
+  console.log("getValue(" + this.collectionType + "," + this.name + "):", b);
+  if (null == b || 0 == b.length) {
+    return a;
+  }
+  for (var c = 0; c < b.length; c++) {
+    var d = b[c].value;
+    "map" == this.collectionType ? a[b[c].key] = d : a.add(d);
+  }
+  return a;
 }, setErrorMessage:function(a) {
   this.error = a;
 }, setInvalid:function(a) {
@@ -25938,7 +25955,7 @@ Polymer({is:"simpl-svg-hscroll", properties:{contentStyle:{computed:"getContentS
     var b = a.getSVGDocument(), c = b.querySelector("svg");
     SVG(c);
     var d = SVG.get("layer1", b);
-    $(c).swipe({swipe:function(a, b, c, h, l, n) {
+    $(c).swipe({swipe:function(a, b, c, h, l, p) {
       console.log("You swiped " + b + "/" + Math.pow(c, 2) / 100 + "/" + l);
       c = Math.pow(c, 2) / 100;
       0 != l && ("right" == b ? d.transform({x:c}, !0) : "left" == b && d.transform({x:-c}, !0));
@@ -26267,13 +26284,13 @@ Polymer({is:"simpl-xhr", request:function(a) {
       var l = (d - g * this.itemWidth - (g - 1) * this.itemSpacing) / 2;
       for (a = 0; a < c.length; a++) {
         d = c[a];
-        var n = Math.floor(a % g);
-        var p = Math.floor(a / g);
+        var p = Math.floor(a % g);
+        var m = Math.floor(a / g);
         d.style.opacity = 1;
-        d.style.top = p * f + h + "px";
-        d.style.left = n * e + l + "px";
+        d.style.top = m * f + h + "px";
+        d.style.left = p * e + l + "px";
       }
-      b.style.height = (p + 1) * f + h + "px";
+      b.style.height = (m + 1) * f + h + "px";
     }
   }});
 }();
@@ -27126,8 +27143,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var h = this.source;
       var l = a = 0;
       for (b = h.length; a < b; l = ++a) {
-        var n = h[l];
-        c[l] = n[g];
+        var p = h[l];
+        c[l] = p[g];
       }
       return this.rowIndex = c;
     };
@@ -27184,8 +27201,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
             g = new b.HeaderRow(g, this);
             break;
           case "custom":
-            var n = g.customClassName || "GenericRow";
-            g = new b[n](g, this);
+            var p = g.customClassName || "GenericRow";
+            g = new b[p](g, this);
             break;
           default:
             g = new b.GenericRow(g, this);
@@ -27353,8 +27370,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var d = a.address[0];
       var e = b.address[0];
       var l = a.address[1];
-      var n = b.address[1];
-      d === e ? l > n ? c = "left" : l < n ? c = "right" : console.log("Cannot calculate direction going from cell " + a.address + " to cell " + b.address) : d > e ? c = "up" : d < e ? c = "down" : console.log("Cannot calculate direction going from cell " + a.address + " to cell " + b.address);
+      var p = b.address[1];
+      d === e ? l > p ? c = "left" : l < p ? c = "right" : console.log("Cannot calculate direction going from cell " + a.address + " to cell " + b.address) : d > e ? c = "up" : d < e ? c = "down" : console.log("Cannot calculate direction going from cell " + a.address + " to cell " + b.address);
       return c;
     };
     b.prototype.edit = function(a, b) {
@@ -27382,10 +27399,10 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var a, b, c, g, h;
       if (this.selectionStart && this.selectionEnd && this.selectionStart !== this.selectionEnd) {
         var l = this.activeCells;
-        var n = 0;
-        for (a = l.length; n < a; n++) {
-          var p = l[n];
-          p.showInactive();
+        var p = 0;
+        for (a = l.length; p < a; p++) {
+          var m = l[p];
+          m.showInactive();
         }
         this.activeCells = [];
         var q = function() {
@@ -27395,19 +27412,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           }
           return g;
         }.apply(this);
-        n = function() {
+        p = function() {
           h = [];
           for (var a = c = this.selectionStart.address[1], b = this.selectionEnd.address[1]; c <= b ? a <= b : a >= b; c <= b ? a++ : a--) {
             h.push(a);
           }
           return h;
         }.apply(this);
-        var m = 0;
-        for (a = q.length; m < a; m++) {
-          var r = q[m];
+        var n = 0;
+        for (a = q.length; n < a; n++) {
+          var r = q[n];
           var u = 0;
-          for (l = n.length; u < l; u++) {
-            p = n[u], this.rows[r].cells[p].addToSelection();
+          for (l = p.length; u < l; u++) {
+            m = p[u], this.rows[r].cells[m].addToSelection();
           }
         }
       }
@@ -27419,13 +27436,13 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var h = 0;
       for (a = g.length; h < a; h++) {
         var l = g[h];
-        var n = [];
-        var p = l.cells;
+        var p = [];
+        var m = l.cells;
         var q = 0;
-        for (b = p.length; q < b; q++) {
-          l = p[q], n.push(l.value());
+        for (b = m.length; q < b; q++) {
+          l = m[q], p.push(l.value());
         }
-        c.push(n);
+        c.push(p);
       }
       return c;
     };
@@ -27489,9 +27506,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       if (b.Hook.prototype.run(this, "beforeMoveRows", a, c)) {
         var d = a;
         var e = c;
-        var n = a + f;
+        var p = a + f;
         if (c > a) {
-          if (c < n) {
+          if (c < p) {
             this.clearActiveCells();
             return;
           }
@@ -27499,9 +27516,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         } else {
           d = a + f - 1;
         }
-        var p = this.source.splice(a, f);
-        for (n = p.pop(); n;) {
-          this.source.splice(c, 0, n), n = p.pop();
+        var m = this.source.splice(a, f);
+        for (p = m.pop(); p;) {
+          this.source.splice(c, 0, p), p = m.pop();
         }
         g && this.addToStack({type:"move-rows", modifiedRowToMoveIndex:d, modifiedNewIndex:c, numRows:f, originalRowToMoveIndex:a, originalNewIndex:e});
         this.rebuild({rows:this.source, initialize:!0, selectedCell:[c, 0]});
@@ -27519,10 +27536,10 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         } else {
           e = {};
           var l = this.cols;
-          var n = 0;
-          for (d = l.length; n < d; n++) {
-            var p = l[n];
-            e[p.valueKey] = p.defaultValue || "";
+          var p = 0;
+          for (d = l.length; p < d; p++) {
+            var m = l[p];
+            e[m.valueKey] = m.defaultValue || "";
           }
         }
         a || 0 === a ? this.source.splice(a, 0, e) : (a = this.source.length - 1, this.source.push(e));
@@ -27537,21 +27554,21 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       null == c && (c = !0);
       null == f && (f = []);
       if (b.Hook.prototype.run(this, "beforeAddRows", a, f)) {
-        var n = d = 0;
-        for (e = f.length; d < e; n = ++d) {
-          var p = f[n];
-          n = a + n;
-          if (p) {
-            var q = p;
+        var p = d = 0;
+        for (e = f.length; d < e; p = ++d) {
+          var m = f[p];
+          p = a + p;
+          if (m) {
+            var q = m;
           } else {
             q = {};
-            var m = this.cols;
+            var n = this.cols;
             var r = 0;
-            for (l = m.length; r < l; r++) {
-              p = m[r], q[p.valueKey] = p.defaultValue || "";
+            for (l = n.length; r < l; r++) {
+              m = n[r], q[m.valueKey] = m.defaultValue || "";
             }
           }
-          n || 0 === n ? this.source.splice(n, 0, q) : this.source.push(q);
+          p || 0 === p ? this.source.splice(p, 0, q) : this.source.push(q);
         }
         c && this.addToStack({type:"add-rows", index:a, rowObjects:f});
         this.rebuild({rows:this.source, initialize:!0, selectedCell:[a, 0]});
@@ -27606,8 +27623,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var h = 0;
         for (d = a.length; h < d; h++) {
           var l = a[h];
-          var n = this.source[l];
-          e[l] = n;
+          var p = this.source[l];
+          e[l] = p;
           this.source.splice(l, 1);
         }
         c && this.addToStack({type:"remove-rows", rowIndexes:a, rowObjects:e});
@@ -27903,14 +27920,14 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           var c = GridEdit.Utilities.prototype.getScreenDimensions();
           var d = c.height > a.height;
           var e = a.bottom > c.height;
-          var n = 0 > a.top;
-          var p = c.width > a.width;
+          var p = 0 > a.top;
+          var m = c.width > a.width;
           var q = a.right > c.width;
-          var m = 0 > a.left;
-          d ? (b.style.overflowY = "hidden", b.style.height = "auto", e && (e = a.top - (a.bottom - c.height), b.style.top = e + "px"), n && (n = a.bottom + Math.abs(a.top), b.style.bottom = n + "px")) : (b.style.top = 0, b.style.height = c.height + "px", b.style.overflowY = "scroll");
-          if (p) {
-            if (b.style.overflowX = "hidden", b.style.width = "auto", q && (q = a.left - (a.right - c.width), b.style.left = q + "px"), m) {
-              return m = a.right + Math.abs(a.left), b.style.right = m + "px";
+          var n = 0 > a.left;
+          d ? (b.style.overflowY = "hidden", b.style.height = "auto", e && (e = a.top - (a.bottom - c.height), b.style.top = e + "px"), p && (p = a.bottom + Math.abs(a.top), b.style.bottom = p + "px")) : (b.style.top = 0, b.style.height = c.height + "px", b.style.overflowY = "scroll");
+          if (m) {
+            if (b.style.overflowX = "hidden", b.style.width = "auto", q && (q = a.left - (a.right - c.width), b.style.left = q + "px"), n) {
+              return n = a.right + Math.abs(a.left), b.style.right = n + "px";
             }
           } else {
             return b.style.left = 0, b.style.width = c.width + "px", b.style.overflowX = "scroll";
@@ -28148,26 +28165,26 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           }
         }
         var l = document.documentElement;
-        var n = (window.pageXOffset || l.scrollLeft) - (l.clientLeft || 0);
-        var p = (window.pageYOffset || l.scrollTop) - (l.clientTop || 0);
+        var p = (window.pageXOffset || l.scrollLeft) - (l.clientLeft || 0);
+        var m = (window.pageYOffset || l.scrollTop) - (l.clientTop || 0);
         l = a.element;
         var q = l.scrollLeft || 0;
-        var m = l.scrollTop || 0;
+        var n = l.scrollTop || 0;
         var r = g.getBoundingClientRect();
         l = document.createElement("table");
         l.className = a.tableEl.className + " ge-fixed-table-header";
         l.style.position = "absolute";
-        l.style.top = r.top + p + m + "px";
-        l.style.left = r.left + n + q + "px";
+        l.style.top = r.top + m + n + "px";
+        l.style.left = r.left + p + q + "px";
         l.style.width = r.width + "px";
         l.style.zIndex = 1039;
         l.style.pointerEvents = "none";
-        n = document.createElement("thead");
-        n.className = g.className;
-        n.ondragenter = g.ondragenter;
-        n.ondragleave = g.ondragleave;
-        p = document.createElement("tr");
-        var u = r = m = 0;
+        p = document.createElement("thead");
+        p.className = g.className;
+        p.ondragenter = g.ondragenter;
+        p.ondragleave = g.ondragleave;
+        m = document.createElement("tr");
+        var u = r = n = 0;
         for (e = h.length; r < e; u = ++r) {
           var v = h[u];
           g = v.getBoundingClientRect();
@@ -28179,7 +28196,7 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           q.style.maxWidth = g.width + "px";
           q.style.minHeight = g.height + "px";
           q.style.maxHeight = g.height + "px";
-          q.style.left = m + "px";
+          q.style.left = n + "px";
           q.style.backgroundColor = b;
           q.setAttribute("col-id", u - f);
           q.onclick = function(b) {
@@ -28204,11 +28221,11 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
               v = u[d], q.style[d] = v;
             }
           }
-          m += g.width;
-          p.appendChild(q);
+          n += g.width;
+          m.appendChild(q);
         }
-        n.appendChild(p);
-        l.appendChild(n);
+        p.appendChild(m);
+        l.appendChild(p);
         document.body.appendChild(l);
         return a.fixedHeader = {table:l, backgroundColor:b};
       }, 100);
@@ -28422,13 +28439,13 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       this.editable = !0;
       this.addHandle();
       var f = this.table.cols;
-      var n = d = 0;
-      for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
-        p = this.createCell(this.attributes[p.valueKey]);
-        this.cells.push(p);
-        this.table.cols[n].cells.push(p);
-        this.element.appendChild(p.element);
+      var p = d = 0;
+      for (e = f.length; d < e; p = ++d) {
+        var m = f[p];
+        m = this.createCell(this.attributes[m.valueKey]);
+        this.cells.push(m);
+        this.table.cols[p].cells.push(m);
+        this.element.appendChild(m.element);
       }
       delete this.attributes;
       this;
@@ -28463,19 +28480,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       this.alwaysPristine = !0;
       this.addHandle();
       var f = this.table.cols;
-      var n = d = 0;
-      for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
+      var p = d = 0;
+      for (e = f.length; d < e; p = ++d) {
+        var m = f[p];
         var q = new GridEdit.GenericCell("", this);
         q.editable = !1;
         if (this.labels) {
-          var m = this.labels[p.valueKey];
-          q.element.innerHTML = m || "";
+          var n = this.labels[m.valueKey];
+          q.element.innerHTML = n || "";
         }
         this.cells.push(q);
-        this.table.cols[n].cells.push(q);
+        this.table.cols[p].cells.push(q);
         this.element.appendChild(q.element);
-        this.attributes.subtotal[p.valueKey] && (this.subtotalColumns[p.valueKey] = n);
+        this.attributes.subtotal[m.valueKey] && (this.subtotalColumns[m.valueKey] = p);
       }
       this.table.subtotalRows.push(this);
       this.calculate();
@@ -28488,20 +28505,20 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var d = this.table.subtotalRows;
         var l = 0;
         for (b = d.length; l < b; l++) {
-          var n = d[l];
-          n = n.index;
-          n < this.index && n > c && (c = n);
+          var p = d[l];
+          p = p.index;
+          p < this.index && p > c && (c = p);
         }
       }
-      n = this.subtotalColumns;
-      var p = [];
-      for (a in n) {
-        l = n[a];
+      p = this.subtotalColumns;
+      var m = [];
+      for (a in p) {
+        l = p[a];
         var q = 0;
-        var m = this.table.rows;
+        var n = this.table.rows;
         b = 0;
-        for (d = m.length; b < d; b++) {
-          var r = m[b];
+        for (d = n.length; b < d; b++) {
+          var r = n[b];
           if (r.index > c) {
             if (r.index === this.index) {
               break;
@@ -28509,9 +28526,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
             "subtotal" !== r.type && "header" !== r.type && (r = r.cells[l]) && (q += Number(r.value()));
           }
         }
-        p.push(this.cells[l].value(q, !1));
+        m.push(this.cells[l].value(q, !1));
       }
-      return p;
+      return m;
     };
     c.prototype.afterEdit = function() {
     };
@@ -28526,14 +28543,14 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       this.editable = !0;
       this.addHandle();
       var f = this.table.cols;
-      var n = d = 0;
-      for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
-        p = new GridEdit.HTMLCell(this.attributes[p.valueKey], this);
-        p.editable = !0;
-        this.cells.push(p);
-        this.table.cols[n].cells.push(p);
-        this.element.appendChild(p.element);
+      var p = d = 0;
+      for (e = f.length; d < e; p = ++d) {
+        var m = f[p];
+        m = new GridEdit.HTMLCell(this.attributes[m.valueKey], this);
+        m.editable = !0;
+        this.cells.push(m);
+        this.table.cols[p].cells.push(m);
+        this.element.appendChild(m.element);
       }
       delete this.attributes;
       this;
@@ -28863,7 +28880,7 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           if (b.lastClickCell = a, clearInterval(c), c = setTimeout(function() {
             return b.lastClickCell = null;
           }, 1000), GridEdit.Hook.prototype.run(a, "onClick", a, d)) {
-            var m = d.ctrlKey;
+            var n = d.ctrlKey;
             var r = d.metaKey;
             var u = d.shiftKey;
             d = function(a) {
@@ -28877,19 +28894,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
                 e = b.getCell(v, e), e.makeActive(!1);
               }
             }
-            (m || r) && a.toggleActive();
+            (n || r) && a.toggleActive();
             if (u) {
               var v = b.activeCells[0];
               r = v.address[0];
               f = v.address[1];
-              m = a.address[0];
+              n = a.address[0];
               g = a.address[1];
-              if (r <= m) {
-                for (v = u = r; r <= m ? u <= m : u >= m; v = r <= m ? ++u : --u) {
+              if (r <= n) {
+                for (v = u = r; r <= n ? u <= n : u >= n; v = r <= n ? ++u : --u) {
                   d(v);
                 }
               } else {
-                for (v = u = m; m <= r ? u <= r : u >= r; v = m <= r ? ++u : --u) {
+                for (v = u = n; n <= r ? u <= r : u >= r; v = n <= r ? ++u : --u) {
                   d(v);
                 }
               }
@@ -29153,21 +29170,21 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       this.control.innerHTML = "";
       var d = this.meta.choices;
       var l = [];
-      var n = 0;
-      for (b = d.length; n < b; n++) {
-        var p = d[n];
+      var p = 0;
+      for (b = d.length; p < b; p++) {
+        var m = d[p];
         var q = document.createElement("option");
-        if (p instanceof Array) {
-          var m = a = 0;
-          for (c = p.length; a < c; m = ++a) {
-            var r = p[m];
-            0 === m && (q.value = r);
-            1 === m && (q.text = r);
+        if (m instanceof Array) {
+          var n = a = 0;
+          for (c = m.length; a < c; n = ++a) {
+            var r = m[n];
+            0 === n && (q.value = r);
+            1 === n && (q.text = r);
           }
         } else {
-          q.value = q.text = p;
+          q.value = q.text = m;
         }
-        this.value() === p && (q.selected = !0);
+        this.value() === m && (q.selected = !0);
         l.push(this.control.add(q));
       }
       return l;
@@ -29201,18 +29218,18 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var d = new RegExp("^" + a, "i");
       a = this.control;
       var e = a.options;
-      var n = [];
-      var p = b = 0;
-      for (c = e.length; b < c; p = ++b) {
-        var q = e[p];
+      var p = [];
+      var m = b = 0;
+      for (c = e.length; b < c; m = ++b) {
+        var q = e[m];
         if (d.test(q.value)) {
-          a.selectedIndex = p;
+          a.selectedIndex = m;
           break;
         } else {
-          n.push(void 0);
+          p.push(void 0);
         }
       }
-      return n;
+      return p;
     };
     return c;
   }(GridEdit.Cell);
@@ -29290,9 +29307,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var a, d, e;
         b.cells[0].addToSelection();
         var l = new GridEdit.GridChange(c.activeCells);
-        var n = a = d = l.lowRow;
-        for (e = l.highRow; d <= e ? a <= e : a >= e; n = d <= e ? ++a : --a) {
-          c.rows[n].select();
+        var p = a = d = l.lowRow;
+        for (e = l.highRow; d <= e ? a <= e : a >= e; p = d <= e ? ++a : --a) {
+          c.rows[p].select();
         }
         c.contextMenu.hideBorders();
         return c.draggingRow = l;
@@ -29357,20 +29374,20 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var h = a.width();
         var l = a.height();
         if (h < g || l < f) {
-          var n = a.firstCell.row;
-          var p = a.firstCell.col;
-          this.apply(n, p);
+          var p = a.firstCell.row;
+          var m = a.firstCell.col;
+          this.apply(p, m);
           return "copyGrid";
         }
         h = parseInt(h / g);
         l = parseInt(l / f);
-        n = a.firstCell.row;
-        p = a.firstCell.col;
+        p = a.firstCell.row;
+        m = a.firstCell.col;
         for (b = a = 0; 0 <= l ? a < l : a > l; b = 0 <= l ? ++a : --a) {
-          b = n + b * f;
+          b = p + b * f;
           var q = d = 0;
           for (e = h; 0 <= e ? d < e : d > e; q = 0 <= e ? ++d : --d) {
-            q = p + q * g, this.apply(b, q);
+            q = m + q * g, this.apply(b, q);
           }
         }
       }
@@ -29403,8 +29420,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var h = [];
       var l = 0;
       for (d = g.length; l < d; l++) {
-        var n = g[l];
-        (b = this.table.getCell(e + n.rowVector, f + n.colVector)) && b.editable ? (n.oldValue = b.value(), h.push(b.value(a, !1))) : h.push(n.oldValue = "");
+        var p = g[l];
+        (b = this.table.getCell(e + p.rowVector, f + p.colVector)) && b.editable ? (p.oldValue = b.value(), h.push(b.value(a, !1))) : h.push(p.oldValue = "");
       }
       return h;
     };
@@ -30548,17 +30565,17 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
     if ("select" === g && (a = a.$el[0].querySelector("#templateMenuId").selected, null != a)) {
       var f = clone(this.getState());
       this.currentTemplateName = c[a];
-      var n = clone(JSON.parse(b[a]));
+      var p = clone(JSON.parse(b[a]));
       if (d) {
-        n.name = this.currentTemplateName, d(n);
+        p.name = this.currentTemplateName, d(p);
       } else {
-        var p = this;
+        var m = this;
         this.executeCommand({execute:function() {
-          p.clear();
-          p.setState(n);
+          m.clear();
+          m.setState(p);
         }, rollback:function() {
-          p.clear();
-          p.setState(f);
+          m.clear();
+          m.setState(f);
         }});
       }
       e.destroy();
@@ -30788,8 +30805,8 @@ _previousAnimatedStep:null, _previousSelected:null, keyBindings:{left:"_onLeftKe
   });
   this.setAttribute("role", a ? "menu" : "menubar");
 }, _forwardStepperData:function(a, b, c, d, e, f, g, h, l) {
-  this.stepNumber && this.items.map(function(n) {
-    n._set_stepperData({linear:a, backText:b, optionalText:c, finishText:d, continueText:e, skipText:f, updateText:g, hasSkipButton:h, hasBackButton:l, stepNumber:this.stepNumber});
+  this.stepNumber && this.items.map(function(p) {
+    p._set_stepperData({linear:a, backText:b, optionalText:c, finishText:d, continueText:e, skipText:f, updateText:g, hasSkipButton:h, hasBackButton:l, stepNumber:this.stepNumber});
   }.bind(this));
 }, _forwardAlternativeLabel:function(a) {
   this.stepNumber && this.items.map(function(b) {
