@@ -24077,7 +24077,12 @@ FormBehavior = {_valueChanged:function(a) {
   this._form = {};
   this._preData = null;
   "empty" != this.formName && this.async(function() {
-    var a = simpl4FormManager.getForm(this.formName, this.namespace);
+    try {
+      var a = simpl4FormManager.getForm(this.formName, this.namespace);
+    } catch (b) {
+      console.error(b);
+      return;
+    }
     this._form = a.properties;
     this.defaultButtons = a.properties.xf_default_buttons;
     this.formVar = a.properties.xf_name;
@@ -24233,9 +24238,9 @@ FormBehavior = {_valueChanged:function(a) {
       c.height = b.lowerRight.y - b.upperLeft.y;
     }
     "page" == a.stencil.id.toLowerCase() && (b = a.properties.xf_label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)));
-    "enumselect" != a.stencil.id.toLowerCase() && "tableselect" != a.stencil.id.toLowerCase() && "treeselect" != a.stencil.id.toLowerCase() || this._handleSelectionLists(a);
-    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && (this._handleSelectionLists(a, "value"), a.properties.items && ("map" == a.properties.xf_collectiontype ? (a.properties.columns[1].items = a.properties.items, a.properties.columns[1].id = "Enumselect") : (a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect")));
-    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && "map" == a.properties.xf_collectiontype && (this._handleSelectionLists(a, "key"), a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect");
+    "enumselect" != a.stencil.id.toLowerCase() && "tableselect" != a.stencil.id.toLowerCase() && "treeselect" != a.stencil.id.toLowerCase() || this._handleSelectionLists(a, "");
+    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && (this._handleSelectionLists(a, "value"), a.properties.items && 0 < a.properties.items.length && ("map" == a.properties.xf_collectiontype ? (a.properties.columns[1].items = a.properties.items, a.properties.columns[1].id = "Enumselect") : (a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect")));
+    "embeddedprimitivecollection" == a.stencil.id.toLowerCase() && "map" == a.properties.xf_collectiontype && (a.properties.items = null, this._handleSelectionLists(a, "key"), a.properties.items && 0 < a.properties.items.length && (a.properties.columns[0].items = a.properties.items, a.properties.columns[0].id = "Enumselect"));
   } else {
     if ("actionbutton" == a.stencil.id.toLowerCase()) {
       e = a.properties.xf_iconname;
@@ -24276,9 +24281,9 @@ FormBehavior = {_valueChanged:function(a) {
   b = e["xf_resultmapping" + b];
   var q = e.xf_varname, n = e.xf_namespace;
   n && "-" != n || (n = this.namespace);
-  this._isEmpty(q) ? this._isEmpty(p) ? !d && !c && f && 0 < f.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, f), e.items = m.getItems()) : !d && !c && g && 0 < g.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(e.xf_enum)), e.items = m.getItems()) : d || this._isEmpty(l) ? this._isEmpty(h) ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(e.xf_enum)), e.items = m.getItems()) : 
-  (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(m), m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), e.items = this._doResultMapping(m.getItems(), b)) : (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(m), c.checkParams = !0, m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), n = m.getItems(), m.getMissingParamList() ? 
-  (console.error("Filter:", c), console.error("Filter.misingParameters:", m.getMissingParamList())) : e.items = this._doResultMapping(n, b)) : (m = JSONPath({json:this._selectionLists, path:p, callback:function() {
+  this._isEmpty(q) ? this._isEmpty(p) ? !d && !c && f && 0 < f.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, f), e.items = m.getItems()) : !d && !c && g && 0 < g.totalCount ? (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(g)), e.items = m.getItems()) : d || this._isEmpty(l) ? this._isEmpty(h) ? null == e.items && g && 0 < g.totalCount && (m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(g)), 
+  e.items = m.getItems()) : (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(m), m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), e.items = this._doResultMapping(m.getItems(), b)) : (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(m), c.checkParams = !0, m = simpl4FormManager.createSelectableItems(n, this.formName, e.xf_id, JSON.stringify(c)), n = m.getItems(), 
+  m.getMissingParamList() ? (console.error("Filter:", c), console.error("Filter.misingParameters:", m.getMissingParamList())) : e.items = this._doResultMapping(n, b)) : (m = JSONPath({json:this._selectionLists, path:p, callback:function() {
   }}), e.items = null == m || 0 == m.length ? [] : m[0], e.items = this._doResultMapping(e.items, b)) : (e.items = this.variables[q], d || (e.items = this._doResultMapping(e.items, b)));
   "tableselect" == a.stencil.id.toLowerCase() && (null == e.items && (e.items = []), b = (b = e.xf_columns) ? b.items : [], e.meta = [], b.forEach(function(a, b) {
     var c = b = a.display;
@@ -24286,7 +24291,7 @@ FormBehavior = {_valueChanged:function(a) {
     null == b && (b = xf_id + "." + a.colname);
     e.meta.push({title:b, data:a.colname});
   }, this), b = a.bounds, e.height = b.lowerRight.y - b.upperLeft.y, 75 > e.height && (e.height = 75));
-  if (0 < e.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
+  if (e.items && 0 < e.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
     try {
       a.properties.xf_default = e.items[parseInt(a.properties.xf_default.substring(1))].value;
     } catch (r) {
@@ -25038,10 +25043,11 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   this.setDefaultValue(0);
 }, _valueChanged:function(a) {
   for (var b = a.target.parentNode.dataset.lid, c = {}, d = {}, e = 0; e < this.columns.length; e++) {
-    a = this.querySelector("#id" + b + "_" + e);
-    var f = this.columns[e];
-    c[f.colname] = a.getValue();
-    d[f.colname] = a;
+    if (a = this.querySelector("#id" + b + "_" + e), null != a) {
+      var f = this.columns[e];
+      c[f.colname] = a.getValue();
+      d[f.colname] = a;
+    }
   }
   Object.keys(this.exprMap).forEach(function(a) {
     var b = this.form._maskedEval(this.exprMap[a], c, "");
@@ -25053,7 +25059,9 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   }
   return a;
 }, setValue:function(a) {
-  a ? (this.clearLines(), this.async(function() {
+  null == a || 0 == a.length ? (this.clearLines(), this.async(function() {
+    this.setLineValues({}, 0);
+  }, 100)) : (this.clearLines(), this.async(function() {
     for (var b = 1; b < a.length; b++) {
       this.push("lines", {});
     }
@@ -25062,8 +25070,6 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
         this.setLineValues(a[b], b);
       }
     }, 100);
-  }, 100)) : (this.clearLines(), this.async(function() {
-    this.setLineValues({}, 0);
   }, 100));
 }, getContainerStyle:function() {
   return "border:0px solid #f5f5f5;padding:2px;min-height:" + this.height + "px";
@@ -25117,6 +25123,7 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   }, 20);
 }, removeLine:function(a) {
   1 < this.lines.length && this.splice("lines", a.target.dataset.lid, 1);
+  this.fire("value-changed", this);
 }, upLine:function(a) {
   a = parseInt(a.target.dataset.lid);
   0 != a && 1 != this.lines.length && this._upLine(a);
@@ -25251,16 +25258,14 @@ Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Po
   var a = this.form._getData();
   return this.form._maskedEval(this.required, a, !1);
 }});
-Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["columnsChanged(columns)", "regulaConstraintsChanged(regulaConstraints)"], onChanged:function(a) {
-  console.log("onChanged:", a);
-  this.value = a.detail.data;
-}, regulaConstraintsChanged:function() {
+Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["columnsChanged(columns)", "regulaConstraintsChanged(regulaConstraints)"], regulaConstraintsChanged:function() {
   console.log("Field.embeddedprimitivecollection-field.regulaConstraintsChanged:", this.regulaConstraintsChanged);
 }, columnsChanged:function() {
   console.log("Field.embeddedprimitivecollection-field.columnsChanged:", this.columns);
 }, checkConstraints:function() {
   this.setInvalid(!1);
-  !this.isRequired() || this.value && 0 < this.value.length || (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
+  var a = this.isDup();
+  null != a && (this.setInvalid(!0), this.setErrorMessage(tr("form.key_exists") + " : " + a));
 }, setValue:function(a) {
   console.log("setValue(" + this.name + "):", a);
   a = null == a ? {} : a;
@@ -25273,8 +25278,8 @@ Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElem
   console.log("lines:", c);
   this.$.inputId.setValue(c);
 }, getValue:function() {
+  this.checkConstraints();
   var a = "map" == this.collectionType ? {} : [], b = this.$.inputId.getValue();
-  console.log("getValue(" + this.collectionType + "," + this.name + "):", b);
   if (null == b || 0 == b.length) {
     return a;
   }
@@ -25283,6 +25288,30 @@ Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElem
     "map" == this.collectionType ? a[b[c].key] = d : a.add(d);
   }
   return a;
+}, isDup:function() {
+  if ("map" != this.collectionType) {
+    return null;
+  }
+  var a = this.$.inputId.getValue();
+  if (null == a || 0 == a.length) {
+    return null;
+  }
+  for (var b = {}, c = 0; c < a.length; c++) {
+    var d = a[c].key;
+    if (b[d]) {
+      if (a = this.columns[0].items) {
+        for (c = 0; c < a.length; c++) {
+          if (a[c].value == d) {
+            d = a[c].label;
+            break;
+          }
+        }
+      }
+      return d;
+    }
+    b[d] = !0;
+  }
+  return null;
 }, setErrorMessage:function(a) {
   this.error = a;
 }, setInvalid:function(a) {
@@ -25392,37 +25421,55 @@ Polymer({is:"embeddedobj-field", behaviors:[Polymer.IronFormElementBehavior, Pol
   }
   return c;
 }});
-Polymer({is:"embeddedobj-inline-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{namespace:{type:String}, entity:{type:String}}, observers:["entityChanged(entity,namespace)"], setFormSpec:function(a, b) {
+Polymer({is:"embeddedobj-inline-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{namespace:{type:String}, formexpression:{type:String}, entity:{type:String}}, observers:["entityChanged(entity,namespace)"], setFormSpec:function(a, b) {
   a = simpl4FormManager.getCrudForm(b, a);
   console.log("setFormSpec(" + this.name + "):", a);
   "string" === typeof a ? this.formName = a : this.formSpec = [a];
 }, checkConstraints:function() {
-  var a = this.$.formid.validate();
+  var a = this.getFormElement().validate();
   this.setInvalid(!a);
 }, setInvalid:function(a) {
   this.isInvalid = a;
 }, getValue:function(a) {
   a = null;
   try {
-    a = this.$.formid.getData();
+    a = this.getFormElement().getData();
   } catch (b) {
     return null;
   }
-  console.log("getValue(" + this.name + "):", a);
   return a;
 }, setValue:function(a) {
   console.log("setValue(" + this.name + "):", a);
-  null != a ? this.$.formid.setData(a) : this.$.formid.setData({});
+  this.formexpressionChanged();
+  this.value = a || {};
+  this.async(function() {
+    this.getFormElement().setData(this.value);
+  }, 100);
 }, namespaceChanged:function() {
   simpl4.util.MessageManager.installMessages(this.namespace);
+}, formexpressionChanged:function() {
+  var a = this._maskedEval(this.formexpression, this.getFormData(), null);
+  console.log("formexpressionChanged(" + this.name + "," + this.formexpression + "):", a);
+  null != a && (this.formName = a);
+}, onFormReady:function() {
+  console.log("onFormReady:", this.value);
+  this.getFormElement().setData(this.value);
 }, entityChanged:function() {
   console.log("entityChanged(" + this.name + "):", this.entity);
   this.async(function() {
     null != this.entity && (this.setFormSpec(this.namespace, this.entity), this._pack = this.getPack());
   }, 10);
+}, getFormData:function() {
+  try {
+    return this.form._getData();
+  } catch (a) {
+    return console.error(a), {};
+  }
+}, getFormElement:function() {
+  return this.querySelector("#formid");
 }, _maskedEval:function(a, b, c) {
   try {
-    return (new Function("with(this) { return " + a + "}")).call(b);
+    return metaes.evaluate(a.toString(), b);
   } catch (d) {
     console.log("EmbeddedObjFieldField._maskedEval:" + a), console.error("error:" + d);
   }

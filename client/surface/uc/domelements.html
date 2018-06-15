@@ -16404,7 +16404,7 @@ div.dtr-modal div.dtr-modal-background {
 
 	</style>
 	<template>
-		<paper-input-container id="decorator" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
+		<paper-input-container id="decorator" allowed-pattern$="[[allowedPattern" ]]="" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
 
 			<label id="label" hidden$="[[!label]]">[[label]]</label>
 			<paper-tooltip for="" position="bottom" xffset="0">[[help]]</paper-tooltip>
@@ -17643,7 +17643,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			color: #d34336;
 		}
 		.error-text {
-			font-size: 0.75em;
+			font-size: 1.25em;
 			padding: 0.5em 0;
 		}
 		[invisible] {
@@ -17680,9 +17680,9 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<div class="vertical layout">
 			<gridinput-field id="inputId" class="flex" columns="[[columns]]" data-constraints$="{{regulaConstraints}}" raised=""></gridinput-field>
 			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
-				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
-				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
 				<iron-icon class="error-icon" icon="warning"></iron-icon>
+				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
+				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
 			</div>
 		</div>
 	</template>
@@ -17844,7 +17844,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</style>
 	<template>
 		<div class="layout horizontal center">
-			<simpl-form id="formid" mode="{{mode}}" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
+			<simpl-form id="formid" mode="{{mode}}" on-form-ready="onFormReady" pack="[[_pack]]" variables="{{variables}}" namespace="{{namespace}}" form-name="[[formName]]" save-disabled="{{saveDisabled}}" spec="{{formSpec}}"></simpl-form>
 	</div></template>
 	</dom-module>
 
@@ -18091,7 +18091,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<checkbox-field field="" class="flex" type="{{item.xf_type}}" enabled-expr$="{{item.xf_enabled}}" tabindex$="[[item.xf_tabindex]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" data-constraints$="{{item.regulaConstraints}}" name$="{{item.xf_id}}" help$="{{item.help}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></checkbox-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isInputAndNotBoolean(item.id,item.xf_type)}}">
-			<input-field field="" class="flex" type="{{item.xf_type}}" enabled-expr$="{{item.xf_enabled}}" tabindex$="[[item.xf_tabindex]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" content-expr$="{{item.xf_expression}}" data-constraints$="{{item.regulaConstraints}}" name$="{{item.xf_id}}" help="{{item.help}}" label="{{item.label}}" expression-out="[[item.xf_expression_out]]" expression-in="[[item.xf_expression_in]]" defaultvalue="{{item.xf_default}}"></input-field>
+			<input-field field="" class="flex" type="{{item.xf_type}}" enabled-expr$="{{item.xf_enabled}}" tabindex$="[[item.xf_tabindex]]" allowed-pattern="[[item.xf_allowedpattern]]" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" content-expr$="{{item.xf_expression}}" data-constraints$="{{item.regulaConstraints}}" name$="{{item.xf_id}}" help="{{item.help}}" label="{{item.label}}" expression-out="[[item.xf_expression_out]]" expression-in="[[item.xf_expression_in]]" defaultvalue="{{item.xf_default}}"></input-field>
 		</template>
 		<template is="dom-if" if="{{isActionButton(item.id)}}">
 			<xaction-button id$="{{item.xf_id}}" on-tap="_internalXAction" class$="[[getActionButtonClasses(item.xf_action)]]" tabindex$="0" xid="{{item.xf_id}}" style$="[[getActionButtonColor(item.xf_action)]]" xaction="{{item.xf_action}}" raised="">
@@ -18139,7 +18139,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<embeddedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isEmbeddedObjInline(item)}}">
-			<embeddedobj-inline-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-inline-field>
+			<embeddedobj-inline-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" formexpression="[[item.xf_formexpression]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-inline-field>
 		</template>
 		<template is="dom-if" if="{{isModuleSelector(item.id)}}">
 			<db-selector-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" fieldlist="{{item.xf_fieldlist}}" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></db-selector-field>
