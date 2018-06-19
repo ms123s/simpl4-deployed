@@ -18068,6 +18068,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isTextArea(item.id)}}">
 			<multiline-field gridfield="" class="flex" name$="{{item.xf_id}}" rows="{{item.xf_rows}}" enabled-expr$="{{item.xf_enabled}}" readonly$="{{item.readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" label="{{item.label}}" defaultvalue="{{item.xf_default}}"></multiline-field>
 		</template>
+		<template name="{{item.xf_id}}" is="dom-if" if="{{isTreeSelect(item.id)}}">
+			<tree-field gridfield="" class="flex" name$="{{item.xf_id}}" items="{{item.items}}" multiple="[[item.xf_multiselection]]" tabindex$="[[item.xf_tabindex]]" required="[[item.xf_required]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			</tree-field>
+		</template>
 	</template>
 	</dom-module>
 
