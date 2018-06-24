@@ -25794,7 +25794,6 @@ ScrollbarBehavior = {attached:function() {
   b || (c = this._toElementArray(a.querySelectorAll(".dataTables_scrollBody")));
   a = this._toElementArray(a.querySelectorAll(".smooth-scrollbar"));
   c = c.concat(a);
-  console.log("smoothElementArray(" + this.tagName + "):", c);
   for (a = 0; a < c.length; a++) {
     window.Scrollbar.init(c[a], {speed:b ? 1 : 4, damping:b ? 0.1 : 0.05, renderByPixels:!0, overscrollEffect:"bounce", alwaysShowTracks:!0, overscrollEffectColor:"#87ceeb", thumbMinSize:10}), c[a].setAttribute("scrollbar", "");
   }
