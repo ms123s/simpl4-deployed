@@ -1,24 +1,24 @@
 #!/bin/bash
 if [ -z "$SIMPL4DIR" ] ; then
-  thisdir=$(readlink $0)
-  if [ "${thisdir}" != "" ]
-  then
-		 export SIMPL4DIR=$(dirname $(cd `dirname $thisdir`; pwd))
-  else
-     export SIMPL4DIR=$(dirname $(cd `dirname $0`; pwd))
-  fi
-  echo "using $SIMPL4DIR"
+   thisdir=$(readlink $0)
+   if [ "${thisdir}" != "" ]
+   then
+      export SIMPL4DIR=$(dirname $(cd `dirname $thisdir`; pwd))
+   else
+      export SIMPL4DIR=$(dirname $(cd `dirname $0`; pwd))
+   fi
+   echo "using $SIMPL4DIR"
 fi
 
 if [ ! -e "${SIMPL4DIR}/server/felix/config.ini" ] ; then
-  echo "Not a simpl4 installation"
-  exit 1
+   echo "Not a simpl4 installation"
+   exit 1
 fi
 
 if [ $# = 1 ] ; then
-  ACTION=$1
+   ACTION=$1
 else
-  ACTION=start
+   ACTION=start
 fi
 
 
@@ -36,14 +36,25 @@ case "$ACTION" in
       run.sh >save 2>&1 &
       echo
    ;;
-
+   
    stop)
       echo -n "Stopping: $SIMPL4DIR:"
-      for i in `ps ax | grep "org.apache.felix.main.Main" | grep -v grep | grep -v stop | sed 's/[ ]*//' | cut -d" " -f1`
-      do
-         echo -n $i
-         kill  $i
-      done
+      PID=`ps ax | grep "org.apache.felix.main.Main" | grep -v grep | grep -v stop | sed 's/[ ]*//' | cut -d" " -f1`
+      echo -n $PID
+      if [ -n "$PID" ] ; then
+         kill -15  $PID
+         count=0
+         echo "Waiting1 to PID:$PID"
+         while kill -0 $PID 2> /dev/null; do
+            echo "Waiting2 to PID:$PID"
+            (( count += 1 ))
+            if [ $count -gt 20 ] ; then
+               echo "Waiting3 give up  PID:$PID"
+               break
+            fi
+            sleep 1;
+         done;
+      fi
       sleep 2
       for i in `ps ax | grep "org.apache.felix.main.Main" | grep -v grep | grep -v stop | sed 's/[ ]*//' | cut -d" " -f1`
       do
@@ -52,14 +63,14 @@ case "$ACTION" in
       done
       echo
    ;;
-
+   
    restart)
       $SIMPL4DIR/bin/start.sh stop
       sleep 1
       $SIMPL4DIR/bin/start.sh start
       exit $?
    ;;
-
+   
    *)
       echo "Usage: $SIMPL4DIR/bin/start.sh {start|stop|restart}"
       exit 1
