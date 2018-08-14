@@ -29,9 +29,27 @@
  or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
 
  For details please refer to: http://www.datatables.net
+   Copyright (c) Gyrocode
+ @license     MIT License
  jquery.spinner v0.2.1 (https://vsn4ik.github.io/jquery.spinner/)
  Copyright 2013-2017 xixilive
  Licensed under the MIT license
+ JqTree 1.4.8
+
+ Copyright 2018 Marco Braak
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
  Cropper v3.0.0-rc.3
  https://github.com/fengyuanchen/cropper
 
@@ -48,6 +66,9 @@
  2014-2016 SpryMedia Ltd - datatables.net/license
  Scroller 1.4.2
  ©2011-2016 SpryMedia Ltd - datatables.net/license
+ Checkboxes 1.2.11
+  Copyright (c) Gyrocode (www.gyrocode.com)
+  License: MIT License
  toast.visible*/
 var $jscomp = $jscomp || {};
 $jscomp.scope = {};
@@ -504,6 +525,15 @@ $jscomp.polyfill("Array.prototype.find", function(a) {
     return $jscomp.findInternal(this, a, c).v;
   };
 }, "es6-impl", "es3");
+$jscomp.polyfill("Object.setPrototypeOf", function(a) {
+  return a ? a : "object" != typeof "".__proto__ ? null : function(a, c) {
+    a.__proto__ = c;
+    if (a.__proto__ !== c) {
+      throw new TypeError(a + " is not extensible");
+    }
+    return a;
+  };
+}, "es6", "es5");
 $jscomp.polyfill("Array.prototype.values", function(a) {
   return a ? a : function() {
     return $jscomp.iteratorFromArray(this, function(a, c) {
@@ -987,16 +1017,16 @@ Polymer.ArraySplice = function() {
     for (var c = Array(h), d = 0; d < h; d++) {
       c[d] = Array(e), c[d][0] = d;
     }
-    for (var p = 0; p < e; p++) {
-      c[0][p] = p;
+    for (var m = 0; m < e; m++) {
+      c[0][m] = m;
     }
     for (d = 1; d < h; d++) {
-      for (p = 1; p < e; p++) {
-        if (this.equals(a[b + p - 1], f[g + d - 1])) {
-          c[d][p] = c[d - 1][p - 1];
+      for (m = 1; m < e; m++) {
+        if (this.equals(a[b + m - 1], f[g + d - 1])) {
+          c[d][m] = c[d - 1][m - 1];
         } else {
-          var q = c[d - 1][p] + 1, m = c[d][p - 1] + 1;
-          c[d][p] = q < m ? q : m;
+          var q = c[d - 1][m] + 1, p = c[d][m - 1] + 1;
+          c[d][m] = q < p ? q : p;
         }
       }
     }
@@ -1010,17 +1040,17 @@ Polymer.ArraySplice = function() {
           g.push(3), b--;
         } else {
           var h = a[b - 1][c - 1], l = a[b - 1][c], n = a[b][c - 1];
-          var p = l < n ? l < h ? l : h : n < h ? n : h;
-          p == h ? (h == f ? g.push(0) : (g.push(1), f = h), b--, c--) : p == l ? (g.push(3), b--, f = l) : (g.push(2), c--, f = n);
+          var m = l < n ? l < h ? l : h : n < h ? n : h;
+          m == h ? (h == f ? g.push(0) : (g.push(1), f = h), b--, c--) : m == l ? (g.push(3), b--, f = l) : (g.push(2), c--, f = n);
         }
       }
     }
     g.reverse();
     return g;
   }, calcSplices:function(b, d, e, f, g, h) {
-    var c = 0, n = 0, p = Math.min(e - d, h - g);
-    0 == d && 0 == g && (c = this.sharedPrefix(b, f, p));
-    e == b.length && h == f.length && (n = this.sharedSuffix(b, f, p - c));
+    var c = 0, n = 0, m = Math.min(e - d, h - g);
+    0 == d && 0 == g && (c = this.sharedPrefix(b, f, m));
+    e == b.length && h == f.length && (n = this.sharedSuffix(b, f, m - c));
     d += c;
     g += c;
     e -= n;
@@ -1107,18 +1137,18 @@ Polymer.domInnerHTML = function() {
   }
   function c(b, l) {
     b instanceof HTMLTemplateElement && (b = b.content);
-    for (var h = "", p = Polymer.dom(b).childNodes, q = 0, m = p.length, r; q < m && (r = p[q]); q++) {
+    for (var h = "", m = Polymer.dom(b).childNodes, q = 0, p = m.length, r; q < p && (r = m[q]); q++) {
       a: {
         var u = r;
         var v = b;
-        var y = l;
+        var z = l;
         switch(u.nodeType) {
           case Node.ELEMENT_NODE:
-            for (var C = u.localName, B = "<" + C, H = u.attributes, A = 0; v = H[A]; A++) {
-              B += " " + v.name + '="' + v.value.replace(d, a) + '"';
+            for (var C = u.localName, y = "<" + C, G = u.attributes, B = 0; v = G[B]; B++) {
+              y += " " + v.name + '="' + v.value.replace(d, a) + '"';
             }
-            B += ">";
-            u = f[C] ? B : B + c(u, y) + "</" + C + ">";
+            y += ">";
+            u = f[C] ? y : y + c(u, z) + "</" + C + ">";
             break a;
           case Node.TEXT_NODE:
             u = u.data;
@@ -1289,13 +1319,13 @@ Polymer.DomApi = function() {
     }
     return d;
   }, getEffectiveChildNodes:function() {
-    for (var a = [], b = this.childNodes, c = 0, d = b.length, p; c < d && (p = b[c]); c++) {
-      if (p.localName === e) {
-        for (var q = f(p).getDistributedNodes(), m = 0; m < q.length; m++) {
-          a.push(q[m]);
+    for (var a = [], b = this.childNodes, c = 0, d = b.length, m; c < d && (m = b[c]); c++) {
+      if (m.localName === e) {
+        for (var q = f(m).getDistributedNodes(), p = 0; p < q.length; p++) {
+          a.push(q[p]);
         }
       } else {
-        a.push(p);
+        a.push(m);
       }
     }
     return a;
@@ -1420,16 +1450,16 @@ Polymer.DomApi = function() {
       return d || a && !f;
     }, _maybeAddInsertionPoint:function(a, d) {
       if (a.nodeType !== Node.DOCUMENT_FRAGMENT_NODE || a.__noContent) {
-        a.localName === e && (c.Logical.saveChildNodes(d), c.Logical.saveChildNodes(a), l = !0);
+        a.localName === e && (c.Logical.saveChildNodes(d), c.Logical.saveChildNodes(a), r = !0);
       } else {
-        for (var f = b(a).querySelectorAll(e), g = 0, h, m; g < f.length && (h = f[g]); g++) {
-          m = c.Logical.getParentNode(h);
-          m === a && (m = d);
-          m = this._maybeAddInsertionPoint(h, m);
-          var l = l || m;
+        for (var f = b(a).querySelectorAll(e), g = 0, h, l; g < f.length && (h = f[g]); g++) {
+          l = c.Logical.getParentNode(h);
+          l === a && (l = d);
+          l = this._maybeAddInsertionPoint(h, l);
+          var r = r || l;
         }
       }
-      return l;
+      return r;
     }, _updateInsertionPoints:function(a) {
       a = a.shadyRoot._insertionPoints = b(a.shadyRoot).querySelectorAll(e);
       for (var d = 0, f; d < a.length; d++) {
@@ -1516,8 +1546,8 @@ Polymer.DomApi = function() {
       if (d) {
         a = c.Logical.getChildNodes(a);
         d = b(f);
-        for (var h = 0, m; h < a.length; h++) {
-          m = b(e).importNode(a[h], !0), d.appendChild(m);
+        for (var h = 0, l; h < a.length; h++) {
+          l = b(e).importNode(a[h], !0), d.appendChild(l);
         }
       }
       return f;
@@ -1812,14 +1842,14 @@ Polymer.EventApi = function() {
       return !0;
     }
     for (var c = {target:this.node, addedNodes:[], removedNodes:[]}, d = Polymer.ArraySplice.calculateSplices(b, a._nodes), e = 0, f; e < d.length && (f = d[e]); e++) {
-      for (var p = 0, q; p < f.removed.length && (q = f.removed[p]); p++) {
+      for (var m = 0, q; m < f.removed.length && (q = f.removed[m]); m++) {
         c.removedNodes.push(q);
       }
     }
     e = 0;
     for (f; e < d.length && (f = d[e]); e++) {
-      for (p = f.index; p < f.index + f.addedCount; p++) {
-        c.addedNodes.push(b[p]);
+      for (m = f.index; m < f.index + f.addedCount; m++) {
+        c.addedNodes.push(b[m]);
       }
     }
     a._nodes = b;
@@ -1989,8 +2019,8 @@ Polymer.EventApi = function() {
         var e = c._distributedNodes;
         if (e) {
           for (var n = 0; n < e.length; n++) {
-            var p = e[n]._destinationInsertionPoints;
-            p && p.splice(p.indexOf(c) + 1, p.length);
+            var m = e[n]._destinationInsertionPoints;
+            m && m.splice(m.indexOf(c) + 1, m.length);
           }
         }
       }
@@ -2009,12 +2039,12 @@ Polymer.EventApi = function() {
     a = a._insertionPoints;
     for (var e = 0, f = a.length, g; e < f && (g = a[e]); e++) {
       this._distributeInsertionPoint(g, b);
-      var p = d.Logical.getParentNode(g);
-      p && p.shadyRoot && c.hasInsertionPoint(p.shadyRoot) && p.shadyRoot._distributionClean && (p.shadyRoot._distributionClean = !1, this.shadyRoot._dirtyRoots.push(p));
+      var m = d.Logical.getParentNode(g);
+      m && m.shadyRoot && c.hasInsertionPoint(m.shadyRoot) && m.shadyRoot._distributionClean && (m.shadyRoot._distributionClean = !1, this.shadyRoot._dirtyRoots.push(m));
     }
   }, _distributeInsertionPoint:function(b, c) {
-    for (var e = !1, f = 0, g = c.length, p; f < g; f++) {
-      (p = c[f]) && this._matchesContentSelect(p, b) && (a(p, b), c[f] = void 0, e = !0);
+    for (var e = !1, f = 0, g = c.length, m; f < g; f++) {
+      (m = c[f]) && this._matchesContentSelect(m, b) && (a(m, b), c[f] = void 0, e = !0);
     }
     if (!e) {
       for (c = d.Logical.getChildNodes(b), e = 0; e < c.length; e++) {
@@ -2032,9 +2062,9 @@ Polymer.EventApi = function() {
     for (var c = 0; c < a.length; c++) {
       var e = a[c];
       if ("content" == e.localName) {
-        for (var f = e._distributedNodes, p = 0; p < f.length; p++) {
-          var q = f[p], m = q._destinationInsertionPoints;
-          m && m[m.length - 1] === e && b.push(q);
+        for (var f = e._distributedNodes, m = 0; m < f.length; m++) {
+          var q = f[m], p = q._destinationInsertionPoints;
+          p && p[p.length - 1] === e && b.push(q);
         }
       } else {
         b.push(e);
@@ -2043,14 +2073,14 @@ Polymer.EventApi = function() {
     return b;
   }, _updateChildNodes:function(a, b) {
     for (var c = d.Composed.getChildNodes(a), e = Polymer.ArraySplice.calculateSplices(b, c), f = 0, g = 0, q; f < e.length && (q = e[f]); f++) {
-      for (var m = 0, r; m < q.removed.length && (r = q.removed[m]); m++) {
+      for (var p = 0, r; p < q.removed.length && (r = q.removed[p]); p++) {
         d.Composed.getParentNode(r) === a && d.Composed.removeChild(a, r), c.splice(q.index + g, 1);
       }
       g -= q.addedCount;
     }
     for (f = 0; f < e.length && (q = e[f]); f++) {
-      for (g = c[q.index], m = q.index, r; m < q.index + q.addedCount; m++) {
-        r = b[m], d.Composed.insertBefore(a, r, g), c.splice(m, 0, r);
+      for (g = c[q.index], p = q.index, r; p < q.index + q.addedCount; p++) {
+        r = b[p], d.Composed.insertBefore(a, r, g), c.splice(p, 0, r);
       }
     }
   }, _matchesContentSelect:function(a, b) {
@@ -2276,7 +2306,7 @@ Polymer.Annotations = {parseAnnotations:function(a) {
   var c, d, e = /(url\()([^)]*)(\))/g, f = {"*":["href", "src", "style", "url"], form:["action"]}, g = /\{\{|\[\[/;
   Polymer.ResolveUrl = {resolveCss:a, resolveAttrs:function(c, d) {
     for (var e in f) {
-      for (var h = f[e], l = 0, m = h.length, r, u, v; l < m && (r = h[l]); l++) {
+      for (var h = f[e], l = 0, p = h.length, r, u, v; l < p && (r = h[l]); l++) {
         ("*" === e || c.localName === e) && (v = (u = c.attributes[r]) && u.value) && 0 > v.search(g) && (u.value = "style" === r ? a(v, d) : b(v, d));
       }
     }
@@ -2322,9 +2352,9 @@ Polymer.Base._addFeature({_prepAnnotations:function() {
     for (var e = 0, f = d.bindings, g; e < f.length && (g = f[e]); e++) {
       for (var h = 0, l = g.parts, n; h < l.length && (n = l[h]); h++) {
         if (n.signature) {
-          for (var p = n.signature.args, q = 0; q < p.length; q++) {
-            var m = p[q].model;
-            m && (b[m] = !0);
+          for (var m = n.signature.args, q = 0; q < m.length; q++) {
+            var p = m[q].model;
+            p && (b[p] = !0);
           }
         } else {
           n.model && (b[n.model] = !0);
@@ -2437,10 +2467,10 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     }
   }
   function b() {
-    p || (m.mouse.mouseIgnoreJob || a(!0), m.mouse.mouseIgnoreJob = Polymer.Debounce(m.mouse.mouseIgnoreJob, function() {
+    m || (p.mouse.mouseIgnoreJob || a(!0), p.mouse.mouseIgnoreJob = Polymer.Debounce(p.mouse.mouseIgnoreJob, function() {
       a();
-      m.mouse.target = null;
-      m.mouse.mouseIgnoreJob = null;
+      p.mouse.target = null;
+      p.mouse.mouseIgnoreJob = null;
     }, 2500));
   }
   function c(a) {
@@ -2465,18 +2495,18 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
   } catch (v) {
     n = !1;
   }
-  var p = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/), q = function(a) {
+  var m = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/), q = function(a) {
     a.__polymerGesturesHandled = {skip:!0};
     if ("click" === a.type) {
       for (var b = Polymer.dom(a).path, c = 0; c < b.length; c++) {
-        if (b[c] === m.mouse.target) {
+        if (b[c] === p.mouse.target) {
           return;
         }
       }
       a.preventDefault();
       a.stopPropagation();
     }
-  }, m = {mouse:{target:null, mouseIgnoreJob:null}, touch:{x:0, y:0, id:-1, scrollDecided:!1}}, r = {gestures:{}, recognizers:[], deepTargetFind:function(a, b) {
+  }, p = {mouse:{target:null, mouseIgnoreJob:null}, touch:{x:0, y:0, id:-1, scrollDecided:!1}}, r = {gestures:{}, recognizers:[], deepTargetFind:function(a, b) {
     for (var c = document.elementFromPoint(a, b), d = c; d && d.shadowRoot;) {
       (d = d.shadowRoot.elementFromPoint(a, b)) && (c = d);
     }
@@ -2488,31 +2518,31 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     if (d && (d = d[c])) {
       if (!a.__polymerGesturesHandled && (a.__polymerGesturesHandled = {}, "touch" === c.slice(0, 5))) {
         var e = a.changedTouches[0];
-        "touchstart" === c && 1 === a.touches.length && (m.touch.id = e.identifier);
-        if (m.touch.id !== e.identifier) {
+        "touchstart" === c && 1 === a.touches.length && (p.touch.id = e.identifier);
+        if (p.touch.id !== e.identifier) {
           return;
         }
         g || "touchstart" !== c && "touchmove" !== c || r.handleTouchAction(a);
-        "touchend" !== c || a.__polymerSimulatedTouch || (m.mouse.target = Polymer.dom(a).rootTarget, b(!0));
+        "touchend" !== c || a.__polymerSimulatedTouch || (p.mouse.target = Polymer.dom(a).rootTarget, b(!0));
       }
       e = a.__polymerGesturesHandled;
       if (!e.skip) {
-        for (var h = r.recognizers, l = 0, n; l < h.length; l++) {
-          n = h[l], d[n.name] && !e[n.name] && n.flow && -1 < n.flow.start.indexOf(a.type) && n.reset && n.reset();
+        for (var h = r.recognizers, l = 0, m; l < h.length; l++) {
+          m = h[l], d[m.name] && !e[m.name] && m.flow && -1 < m.flow.start.indexOf(a.type) && m.reset && m.reset();
         }
         l = 0;
-        for (n; l < h.length; l++) {
-          n = h[l], d[n.name] && !e[n.name] && (e[n.name] = !0, n[c](a));
+        for (m; l < h.length; l++) {
+          m = h[l], d[m.name] && !e[m.name] && (e[m.name] = !0, m[c](a));
         }
       }
     }
   }, handleTouchAction:function(a) {
     var b = a.changedTouches[0], c = a.type;
     if ("touchstart" === c) {
-      m.touch.x = b.clientX, m.touch.y = b.clientY, m.touch.scrollDecided = !1;
+      p.touch.x = b.clientX, p.touch.y = b.clientY, p.touch.scrollDecided = !1;
     } else {
-      if ("touchmove" === c && !m.touch.scrollDecided) {
-        m.touch.scrollDecided = !0;
+      if ("touchmove" === c && !p.touch.scrollDecided) {
+        p.touch.scrollDecided = !0;
         for (var c = Polymer.dom(a).path, d = "auto", e = 0, f; e < c.length; e++) {
           if (f = c[e], f.__polymerGesturesTouchAction) {
             d = f.__polymerGesturesTouchAction;
@@ -2521,18 +2551,18 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
         }
         c = d;
         d = !1;
-        e = Math.abs(m.touch.x - b.clientX);
-        b = Math.abs(m.touch.y - b.clientY);
+        e = Math.abs(p.touch.x - b.clientX);
+        b = Math.abs(p.touch.y - b.clientY);
         a.cancelable && ("none" === c ? d = !0 : "pan-x" === c ? d = b > e : "pan-y" === c && (d = e > b));
         d ? a.preventDefault() : r.prevent("track");
       }
     }
   }, add:function(a, b, c) {
     a = f(a);
-    var d = this.gestures[b], e = d.deps, g = d.name, m = a.__polymerGestures;
-    m || (a.__polymerGestures = m = {});
+    var d = this.gestures[b], e = d.deps, g = d.name, p = a.__polymerGestures;
+    p || (a.__polymerGestures = p = {});
     for (var l = 0, r, n; l < e.length; l++) {
-      r = e[l], p && -1 < h.indexOf(r) || ((n = m[r]) || (m[r] = n = {_count:0}), 0 === n._count && a.addEventListener(r, this.handleNative), n[g] = (n[g] || 0) + 1, n._count = (n._count || 0) + 1);
+      r = e[l], m && -1 < h.indexOf(r) || ((n = p[r]) || (p[r] = n = {_count:0}), 0 === n._count && a.addEventListener(r, this.handleNative), n[g] = (n[g] || 0) + 1, n._count = (n._count || 0) + 1);
     }
     a.addEventListener(b, c);
     d.touchAction && this.setTouchAction(a, d.touchAction);
@@ -2540,8 +2570,8 @@ Polymer.Base._addFeature({listeners:{}, _listenListeners:function(a) {
     a = f(a);
     var d = this.gestures[b], e = d.deps, d = d.name, g = a.__polymerGestures;
     if (g) {
-      for (var h = 0, m, l; h < e.length; h++) {
-        m = e[h], (l = g[m]) && l[d] && (l[d] = (l[d] || 1) - 1, l._count = (l._count || 1) - 1, 0 === l._count && a.removeEventListener(m, this.handleNative));
+      for (var h = 0, p, l; h < e.length; h++) {
+        p = e[h], (l = g[p]) && l[d] && (l[d] = (l[d] || 1) - 1, l._count = (l._count || 1) - 1, 0 === l._count && a.removeEventListener(p, this.handleNative));
       }
     }
     a.removeEventListener(b, c);
@@ -2909,12 +2939,12 @@ Polymer.Base.extend(Polymer.Bind, {_shouldAddListener:function(a) {
   }
 }, _marshalArgs:function(a, b, c, d) {
   for (var e = [], f = b.args, g = 1 < f.length || b.dynamicFn, h = 0, l = f.length; h < l; h++) {
-    var n = f[h], p = n.name;
-    var q = n.literal ? n.value : n.structured ? Polymer.Base._get(p, a) : a[p];
+    var n = f[h], m = n.name;
+    var q = n.literal ? n.value : n.structured ? Polymer.Base._get(m, a) : a[m];
     if (g && void 0 === q) {
       return;
     }
-    n.wildcard ? (n = 0 === p.indexOf(c + "."), n = 0 === b.trigger.name.indexOf(p) && !n, e[h] = {path:n ? c : p, value:n ? d : q, base:q}) : e[h] = q;
+    n.wildcard ? (n = 0 === m.indexOf(c + "."), n = 0 === b.trigger.name.indexOf(m) && !n, e[h] = {path:n ? c : m, value:n ? d : q, base:q}) : e[h] = q;
   }
   return e;
 }});
@@ -3088,8 +3118,8 @@ Polymer.Base._addFeature({_addPropertyEffect:function(a, b, c) {
         if (e) {
           for (var f = 0, g = e.length, h; f < g && (h = e[f]); f++) {
             if ("annotation" === h.kind && !h.isCompound) {
-              var l = this._nodes[h.effect.index], n = h.effect.propertyName, p = "attribute" == h.effect.kind, q = l._propertyEffects && l._propertyEffects[n];
-              !l._configValue || !q && p || (q = d === h.effect.value ? a[d] : this._get(h.effect.value, a), p && (q = l.deserialize(this.serialize(q), l._propertyInfo[n].type)), l._configValue(n, q));
+              var l = this._nodes[h.effect.index], n = h.effect.propertyName, m = "attribute" == h.effect.kind, q = l._propertyEffects && l._propertyEffects[n];
+              !l._configValue || !q && m || (q = d === h.effect.value ? a[d] : this._get(h.effect.value, a), m && (q = l.deserialize(this.serialize(q), l._propertyInfo[n].type)), l._configValue(n, q));
             }
           }
         }
@@ -3423,10 +3453,10 @@ Polymer.StyleTransformer = function() {
       this._transformDom(a[e], b, c, d);
     }
   }, element:function(a, b, c, e) {
-    c ? e ? a.removeAttribute(d) : a.setAttribute(d, b) : b && (a.classList ? e ? (a.classList.remove(d), a.classList.remove(b)) : (a.classList.add(d), a.classList.add(b)) : a.getAttribute && (c = a.getAttribute(B), e ? c && a.setAttribute(B, c.replace(d, "").replace(b, "")) : a.setAttribute(B, (c ? c + " " : "") + d + " " + b)));
+    c ? e ? a.removeAttribute(d) : a.setAttribute(d, b) : b && (a.classList ? e ? (a.classList.remove(d), a.classList.remove(b)) : (a.classList.add(d), a.classList.add(b)) : a.getAttribute && (c = a.getAttribute(y), e ? c && a.setAttribute(y, c.replace(d, "").replace(b, "")) : a.setAttribute(y, (c ? c + " " : "") + d + " " + b)));
   }, elementStyles:function(c, d) {
-    for (var e = c._styles, f = "", g = 0, h = e.length, m; g < h && (m = e[g]); g++) {
-      var l = b.rulesForStyle(m), f = f + (a ? b.toCssText(l, d) : this.css(l, c.is, c.extends, d, c._scopeCssViaAttr) + "\n\n");
+    for (var e = c._styles, f = "", g = 0, h = e.length, p; g < h && (p = e[g]); g++) {
+      var l = b.rulesForStyle(p), f = f + (a ? b.toCssText(l, d) : this.css(l, c.is, c.extends, d, c._scopeCssViaAttr) + "\n\n");
     }
     return f.trim();
   }, css:function(a, c, d, e, f) {
@@ -3438,7 +3468,7 @@ Polymer.StyleTransformer = function() {
       e && e(a, c, g);
     });
   }, _calcElementScope:function(a, b) {
-    return a ? b ? v + a + y : u + a : "";
+    return a ? b ? v + a + z : u + a : "";
   }, _calcHostScope:function(a, b) {
     return b ? "[is=" + a + "]" : a;
   }, rule:function(a, b, c) {
@@ -3446,16 +3476,16 @@ Polymer.StyleTransformer = function() {
   }, _transformRule:function(a, c, d, e) {
     var g = a.selector.split(f);
     if (!b.isKeyframesSelector(a)) {
-      for (var h = 0, m = g.length, l; h < m && (l = g[h]); h++) {
+      for (var h = 0, p = g.length, l; h < p && (l = g[h]); h++) {
         g[h] = c.call(this, l, d, e);
       }
     }
     a.selector = a.transformedSelector = g.join(f);
   }, _transformComplexSelector:function(a, b, c) {
-    var d = !1, e = !1, m = this;
-    a = a.replace(H, h + " $1");
+    var d = !1, e = !1, p = this;
+    a = a.replace(G, h + " $1");
     a = a.replace(g, function(a, f, g) {
-      d ? g = g.replace(r, " ") : (a = m._transformCompoundSelector(g, f, b, c), d = d || a.stop, e = e || a.hostContext, f = a.combinator, g = a.value);
+      d ? g = g.replace(r, " ") : (a = p._transformCompoundSelector(g, f, b, c), d = d || a.stop, e = e || a.hostContext, f = a.combinator, g = a.value);
       return f + g;
     });
     e && (a = a.replace(q, function(a, b, d, e) {
@@ -3464,10 +3494,10 @@ Polymer.StyleTransformer = function() {
     return a;
   }, _transformCompoundSelector:function(a, b, c, d) {
     var e = a.search(r), f = !1;
-    0 <= a.indexOf(p) ? f = !0 : 0 <= a.indexOf(h) ? (a = a.replace(n, function(a, b, c) {
+    0 <= a.indexOf(m) ? f = !0 : 0 <= a.indexOf(h) ? (a = a.replace(n, function(a, b, c) {
       return d + c;
     }), a = a.replace(h, d)) : 0 !== e && (a = c ? this._transformSimpleSelector(a, c) : a);
-    0 <= a.indexOf(m) && (b = "");
+    0 <= a.indexOf(p) && (b = "");
     if (0 <= e) {
       a = a.replace(r, " ");
       var g = !0;
@@ -3485,7 +3515,7 @@ Polymer.StyleTransformer = function() {
     a.selector === l && (a.selector = "body");
   }, _transformDocumentSelector:function(a) {
     return a.match(r) ? this._transformComplexSelector(a, e) : this._transformSimpleSelector(a.trim(), e);
-  }, SCOPE_NAME:"style-scope"}, d = c.SCOPE_NAME, e = ":not([" + d + "]):not(." + d + ")", f = ",", g = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=\[])+)/g, h = ":host", l = ":root", n = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g, p = ":host-context", q = /(.*)(?::host-context)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))(.*)/, m = "::content", r = /::content|::shadow|\/deep\//, u = ".", v = "[" + d + "~=", y = "]", C = ":", B = "class", H = new RegExp("^(" + m + ")");
+  }, SCOPE_NAME:"style-scope"}, d = c.SCOPE_NAME, e = ":not([" + d + "]):not(." + d + ")", f = ",", g = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=\[])+)/g, h = ":host", l = ":root", n = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/g, m = ":host-context", q = /(.*)(?::host-context)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))(.*)/, p = "::content", r = /::content|::shadow|\/deep\//, u = ".", v = "[" + d + "~=", z = "]", C = ":", y = "class", G = new RegExp("^(" + p + ")");
   return c;
 }();
 Polymer.StyleExtends = function() {
@@ -3552,8 +3582,8 @@ Polymer.StyleExtends = function() {
   }, _collectStyles:function() {
     var a = [], b = "", d = this.styleModules;
     if (d) {
-      for (var l = 0, n = d.length, p; l < n && (p = d[l]); l++) {
-        b += c.cssFromModule(p);
+      for (var l = 0, n = d.length, m; l < n && (m = d[l]); l++) {
+        b += c.cssFromModule(m);
       }
     }
     b += c.cssFromModule(this.is);
@@ -3723,10 +3753,10 @@ Polymer.StyleProperties = function() {
     });
     return d;
   }, transformStyles:function(b, c, g) {
-    var e = this, f = d._calcHostScope(b.is, b.extends), n = b.extends ? "\\" + f.slice(0, -1) + "\\]" : f, p = new RegExp(this.rx.HOST_PREFIX + n + this.rx.HOST_SUFFIX), q = this._elementKeyframeTransforms(b, g);
+    var e = this, f = d._calcHostScope(b.is, b.extends), n = b.extends ? "\\" + f.slice(0, -1) + "\\]" : f, m = new RegExp(this.rx.HOST_PREFIX + n + this.rx.HOST_SUFFIX), q = this._elementKeyframeTransforms(b, g);
     return d.elementStyles(b, function(d) {
       e.applyProperties(d, c);
-      a || Polymer.StyleUtil.isKeyframesSelector(d) || !d.cssText || (e.applyKeyframeTransforms(d, q), e._scopeSelector(d, p, f, b._scopeCssViaAttr, g));
+      a || Polymer.StyleUtil.isKeyframesSelector(d) || !d.cssText || (e.applyKeyframeTransforms(d, q), e._scopeSelector(d, m, f, b._scopeCssViaAttr, g));
     });
   }, _elementKeyframeTransforms:function(b, c) {
     b = b._styles._keyframes;
@@ -4619,7 +4649,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
   function a(a, b) {
     var c = "";
     if (a) {
-      if (a = a.toLowerCase(), " " === a || p.test(a)) {
+      if (a = a.toLowerCase(), " " === a || m.test(a)) {
         c = "space";
       } else {
         if (q.test(a)) {
@@ -4662,7 +4692,7 @@ Polymer({is:"dom-bind", extends:"template", _template:null, created:function() {
       return c(a);
     });
   }
-  var e = {"U+0008":"backspace", "U+0009":"tab", "U+001B":"esc", "U+0020":"space", "U+007F":"del"}, f = {8:"backspace", 9:"tab", 13:"enter", 27:"esc", 33:"pageup", 34:"pagedown", 35:"end", 36:"home", 32:"space", 37:"left", 38:"up", 39:"right", 40:"down", 46:"del", 106:"*"}, g = {shift:"shiftKey", ctrl:"ctrlKey", alt:"altKey", meta:"metaKey"}, h = /[a-z0-9*]/, l = /U\+/, n = /^arrow/, p = /^space(bar)?/, q = /^escape$/;
+  var e = {"U+0008":"backspace", "U+0009":"tab", "U+001B":"esc", "U+0020":"space", "U+007F":"del"}, f = {8:"backspace", 9:"tab", 13:"enter", 27:"esc", 33:"pageup", 34:"pagedown", 35:"end", 36:"home", 32:"space", 37:"left", 38:"up", 39:"right", 40:"down", 46:"del", 106:"*"}, g = {shift:"shiftKey", ctrl:"ctrlKey", alt:"altKey", meta:"metaKey"}, h = /[a-z0-9*]/, l = /U\+/, n = /^arrow/, m = /^space(bar)?/, q = /^escape$/;
   Polymer.IronA11yKeysBehavior = {properties:{keyEventTarget:{type:Object, value:function() {
     return this;
   }}, stopKeyboardEventPropagation:{type:Boolean, value:!1}, _boundKeyHandlers:{type:Array, value:function() {
@@ -5506,8 +5536,8 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
     this.tokens = [];
     this.tokens.links = {};
     this.options = a || n.defaults;
-    this.rules = p.normal;
-    this.options.gfm && (this.rules = this.options.tables ? p.tables : p.gfm);
+    this.rules = m.normal;
+    this.options.gfm && (this.rules = this.options.tables ? m.tables : m.gfm);
   }
   function b(a, b) {
     this.options = b || n.defaults;
@@ -5569,17 +5599,17 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
       c = l({}, n.defaults, c || {});
       var g = c.highlight, h = 0;
       try {
-        var m = a.lex(b, c);
-      } catch (A) {
-        return f(A);
+        var p = a.lex(b, c);
+      } catch (B) {
+        return f(B);
       }
-      var r = m.length;
-      var p = function(a) {
+      var r = p.length;
+      var m = function(a) {
         if (a) {
           return c.highlight = g, f(a);
         }
         try {
-          var b = d.parse(m, c);
+          var b = d.parse(p, c);
         } catch (F) {
           a = F;
         }
@@ -5587,52 +5617,52 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
         return a ? f(a) : f(null, b);
       };
       if (!g || 3 > g.length) {
-        return p();
+        return m();
       }
       delete c.highlight;
       if (!r) {
-        return p();
+        return m();
       }
-      for (; h < m.length; h++) {
+      for (; h < p.length; h++) {
         (function(a) {
-          return "code" !== a.type ? --r || p() : g(a.text, a.lang, function(b, c) {
+          return "code" !== a.type ? --r || m() : g(a.text, a.lang, function(b, c) {
             if (b) {
-              return p(b);
+              return m(b);
             }
             if (null == c || c === a.text) {
-              return --r || p();
+              return --r || m();
             }
             a.text = c;
             a.escaped = !0;
-            --r || p();
+            --r || m();
           });
-        })(m[h]);
+        })(p[h]);
       }
     } else {
       try {
         return c && (c = l({}, n.defaults, c)), d.parse(a.lex(b, c), c);
-      } catch (A) {
-        A.message += "\nPlease report this to https://github.com/chjj/marked.";
+      } catch (B) {
+        B.message += "\nPlease report this to https://github.com/chjj/marked.";
         if ((c || n.defaults).silent) {
-          return "<p>An error occured:</p><pre>" + e(A.message + "", !0) + "</pre>";
+          return "<p>An error occured:</p><pre>" + e(B.message + "", !0) + "</pre>";
         }
-        throw A;
+        throw B;
       }
     }
   }
-  var p = {newline:/^\n+/, code:/^( {4}[^\n]+\n*)+/, fences:h, hr:/^( *[-*_]){3,} *(?:\n+|$)/, heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/, nptable:h, lheading:/^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/, blockquote:/^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/, list:/^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/, html:/^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/, def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/, table:h, paragraph:/^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/, 
+  var m = {newline:/^\n+/, code:/^( {4}[^\n]+\n*)+/, fences:h, hr:/^( *[-*_]){3,} *(?:\n+|$)/, heading:/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/, nptable:h, lheading:/^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/, blockquote:/^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/, list:/^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/, html:/^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/, def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +["(]([^\n]+)[")])? *(?:\n+|$)/, table:h, paragraph:/^((?:[^\n]+\n?(?!hr|heading|lheading|blockquote|tag|def))+)\n*/, 
   text:/^[^\n]+/, bullet:/(?:[*+-]|\d+\.)/, item:/^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/};
-  p.item = g(p.item, "gm")(/bull/g, p.bullet)();
-  p.list = g(p.list)(/bull/g, p.bullet)("hr", "\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))")("def", "\\n+(?=" + p.def.source + ")")();
-  p.blockquote = g(p.blockquote)("def", p.def)();
-  p._tag = "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b";
-  p.html = g(p.html)("comment", /\x3c!--[\s\S]*?--\x3e/)("closed", /<(tag)[\s\S]+?<\/\1>/)("closing", /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g, p._tag)();
-  p.paragraph = g(p.paragraph)("hr", p.hr)("heading", p.heading)("lheading", p.lheading)("blockquote", p.blockquote)("tag", "<" + p._tag)("def", p.def)();
-  p.normal = l({}, p);
-  p.gfm = l({}, p.normal, {fences:/^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, paragraph:/^/, heading:/^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/});
-  p.gfm.paragraph = g(p.paragraph)("(?!", "(?!" + p.gfm.fences.source.replace("\\1", "\\2") + "|" + p.list.source.replace("\\1", "\\3") + "|")();
-  p.tables = l({}, p.gfm, {nptable:/^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/, table:/^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/});
-  a.rules = p;
+  m.item = g(m.item, "gm")(/bull/g, m.bullet)();
+  m.list = g(m.list)(/bull/g, m.bullet)("hr", "\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))")("def", "\\n+(?=" + m.def.source + ")")();
+  m.blockquote = g(m.blockquote)("def", m.def)();
+  m._tag = "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b";
+  m.html = g(m.html)("comment", /\x3c!--[\s\S]*?--\x3e/)("closed", /<(tag)[\s\S]+?<\/\1>/)("closing", /<tag(?:"[^"]*"|'[^']*'|[^'">])*?>/)(/tag/g, m._tag)();
+  m.paragraph = g(m.paragraph)("hr", m.hr)("heading", m.heading)("lheading", m.lheading)("blockquote", m.blockquote)("tag", "<" + m._tag)("def", m.def)();
+  m.normal = l({}, m);
+  m.gfm = l({}, m.normal, {fences:/^ *(`{3,}|~{3,})[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/, paragraph:/^/, heading:/^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/});
+  m.gfm.paragraph = g(m.paragraph)("(?!", "(?!" + m.gfm.fences.source.replace("\\1", "\\2") + "|" + m.list.source.replace("\\1", "\\3") + "|")();
+  m.tables = l({}, m.gfm, {nptable:/^ *(\S.*\|.*)\n *([-:]+ *\|[-| :]*)\n((?:.*\|.*(?:\n|$))*)\n*/, table:/^ *\|(.+)\n *\|( *[-:]+[-| :]*)\n((?: *\|.*(?:\n|$))*)\n*/});
+  a.rules = m;
   a.lex = function(b, c) {
     return (new a(c)).lex(b);
   };
@@ -5642,7 +5672,7 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
   };
   a.prototype.token = function(a, b, c) {
     a = a.replace(/^ +$/gm, "");
-    for (var d, e, f, g, h, m, l; a;) {
+    for (var d, e, f, g, h, p, l; a;) {
       if (f = this.rules.newline.exec(a)) {
         a = a.substring(f[0].length), 1 < f[0].length && this.tokens.push({type:"space"});
       }
@@ -5658,11 +5688,11 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
             if (b && (f = this.rules.nptable.exec(a))) {
               a = a.substring(f[0].length);
               h = {type:"table", header:f[1].replace(/^ *| *\| *$/g, "").split(/ *\| */), align:f[2].replace(/^ *|\| *$/g, "").split(/ *\| */), cells:f[3].replace(/\n$/, "").split("\n")};
-              for (m = 0; m < h.align.length; m++) {
-                /^ *-+: *$/.test(h.align[m]) ? h.align[m] = "right" : /^ *:-+: *$/.test(h.align[m]) ? h.align[m] = "center" : /^ *:-+ *$/.test(h.align[m]) ? h.align[m] = "left" : h.align[m] = null;
+              for (p = 0; p < h.align.length; p++) {
+                /^ *-+: *$/.test(h.align[p]) ? h.align[p] = "right" : /^ *:-+: *$/.test(h.align[p]) ? h.align[p] = "center" : /^ *:-+ *$/.test(h.align[p]) ? h.align[p] = "left" : h.align[p] = null;
               }
-              for (m = 0; m < h.cells.length; m++) {
-                h.cells[m] = h.cells[m].split(/ *\| */);
+              for (p = 0; p < h.cells.length; p++) {
+                h.cells[p] = h.cells[p].split(/ *\| */);
               }
               this.tokens.push(h);
             } else {
@@ -5682,8 +5712,8 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
                       f = f[0].match(this.rules.item);
                       d = !1;
                       l = f.length;
-                      for (m = 0; m < l; m++) {
-                        h = f[m], e = h.length, h = h.replace(/^ *([*+-]|\d+\.) +/, ""), ~h.indexOf("\n ") && (e -= h.length, h = this.options.pedantic ? h.replace(/^ {1,4}/gm, "") : h.replace(new RegExp("^ {1," + e + "}", "gm"), "")), this.options.smartLists && m !== l - 1 && (e = p.bullet.exec(f[m + 1])[0], g === e || 1 < g.length && 1 < e.length || (a = f.slice(m + 1).join("\n") + a, m = l - 1)), e = d || /\n\n(?!\s*$)/.test(h), m !== l - 1 && (d = "\n" === h.charAt(h.length - 1), e || (e = d)), 
+                      for (p = 0; p < l; p++) {
+                        h = f[p], e = h.length, h = h.replace(/^ *([*+-]|\d+\.) +/, ""), ~h.indexOf("\n ") && (e -= h.length, h = this.options.pedantic ? h.replace(/^ {1,4}/gm, "") : h.replace(new RegExp("^ {1," + e + "}", "gm"), "")), this.options.smartLists && p !== l - 1 && (e = m.bullet.exec(f[p + 1])[0], g === e || 1 < g.length && 1 < e.length || (a = f.slice(p + 1).join("\n") + a, p = l - 1)), e = d || /\n\n(?!\s*$)/.test(h), p !== l - 1 && (d = "\n" === h.charAt(h.length - 1), e || (e = d)), 
                         this.tokens.push({type:e ? "loose_item_start" : "list_item_start"}), this.token(h, !1, c), this.tokens.push({type:"list_item_end"});
                       }
                       this.tokens.push({type:"list_end"});
@@ -5697,11 +5727,11 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
                           if (b && (f = this.rules.table.exec(a))) {
                             a = a.substring(f[0].length);
                             h = {type:"table", header:f[1].replace(/^ *| *\| *$/g, "").split(/ *\| */), align:f[2].replace(/^ *|\| *$/g, "").split(/ *\| */), cells:f[3].replace(/(?: *\| *)?\n$/, "").split("\n")};
-                            for (m = 0; m < h.align.length; m++) {
-                              /^ *-+: *$/.test(h.align[m]) ? h.align[m] = "right" : /^ *:-+: *$/.test(h.align[m]) ? h.align[m] = "center" : /^ *:-+ *$/.test(h.align[m]) ? h.align[m] = "left" : h.align[m] = null;
+                            for (p = 0; p < h.align.length; p++) {
+                              /^ *-+: *$/.test(h.align[p]) ? h.align[p] = "right" : /^ *:-+: *$/.test(h.align[p]) ? h.align[p] = "center" : /^ *:-+ *$/.test(h.align[p]) ? h.align[p] = "left" : h.align[p] = null;
                             }
-                            for (m = 0; m < h.cells.length; m++) {
-                              h.cells[m] = h.cells[m].replace(/^ *\| *| *\| *$/g, "").split(/ *\| */);
+                            for (p = 0; p < h.cells.length; p++) {
+                              h.cells[p] = h.cells[p].replace(/^ *\| *| *\| *$/g, "").split(/ *\| */);
                             }
                             this.tokens.push(h);
                           } else {
@@ -5873,7 +5903,7 @@ readOnly:!0, type:Boolean, value:!1}, error:{notify:!0, readOnly:!0, type:Boolea
     if (this.options.sanitize) {
       try {
         var d = decodeURIComponent(f(a)).replace(/[^\w:]/g, "").toLowerCase();
-      } catch (y) {
+      } catch (z) {
         return "";
       }
       if (0 === d.indexOf("javascript:") || 0 === d.indexOf("vbscript:")) {
@@ -6301,15 +6331,15 @@ var _self = "undefined" !== typeof window ? window : "undefined" !== typeof Work
       }
       return f;
     }
-    var h = {}, m;
-    for (m in f) {
-      if (f.hasOwnProperty(m)) {
-        if (m == b) {
+    var h = {}, l;
+    for (l in f) {
+      if (f.hasOwnProperty(l)) {
+        if (l == b) {
           for (g in d) {
             d.hasOwnProperty(g) && (h[g] = d[g]);
           }
         }
-        h[m] = f[m];
+        h[l] = f[l];
       }
     }
     c.languages.DFS(c.languages, function(b, c) {
@@ -6360,39 +6390,39 @@ var _self = "undefined" !== typeof window ? window : "undefined" !== typeof Work
     a: for (g in b) {
       if (b.hasOwnProperty(g) && b[g]) {
         for (var f = b[g], f = "Array" === c.util.type(f) ? f : [f], h = 0; h < f.length; ++h) {
-          for (var m = f[h], r = m.inside, u = !!m.lookbehind, v = !!m.greedy, y = 0, C = m.alias, m = m.pattern || m, B = 0; B < e.length; B++) {
-            var H = e[B];
+          for (var p = f[h], r = p.inside, u = !!p.lookbehind, v = !!p.greedy, z = 0, C = p.alias, p = p.pattern || p, y = 0; y < e.length; y++) {
+            var G = e[y];
             if (e.length > a.length) {
               break a;
             }
-            if (!(H instanceof d)) {
-              m.lastIndex = 0;
-              var A = m.exec(H), D = 1;
-              if (!A && v && B != e.length - 1) {
-                var D = e[B + 1].matchedStr || e[B + 1], F = H + D;
-                B < e.length - 2 && (F += e[B + 2].matchedStr || e[B + 2]);
-                m.lastIndex = 0;
-                A = m.exec(F);
-                if (!A) {
+            if (!(G instanceof d)) {
+              p.lastIndex = 0;
+              var B = p.exec(G), E = 1;
+              if (!B && v && y != e.length - 1) {
+                var E = e[y + 1].matchedStr || e[y + 1], F = G + E;
+                y < e.length - 2 && (F += e[y + 2].matchedStr || e[y + 2]);
+                p.lastIndex = 0;
+                B = p.exec(F);
+                if (!B) {
                   continue;
                 }
-                var K = A.index + (u ? A[1].length : 0);
-                if (K >= H.length) {
+                var Q = B.index + (u ? B[1].length : 0);
+                if (Q >= G.length) {
                   continue;
                 }
-                var I = A.index + A[0].length;
-                H = H.length + D.length;
-                D = 3;
-                if (I <= H) {
-                  if (e[B + 1].greedy) {
+                var O = B.index + B[0].length;
+                G = G.length + E.length;
+                E = 3;
+                if (O <= G) {
+                  if (e[y + 1].greedy) {
                     continue;
                   }
-                  D = 2;
-                  F = F.slice(0, H);
+                  E = 2;
+                  F = F.slice(0, G);
                 }
-                H = F;
+                G = F;
               }
-              A && (u && (y = A[1].length), K = A.index + y, A = A[0].slice(y), I = K + A.length, F = H.slice(0, K), I = H.slice(I), D = [B, D], F && D.push(F), A = new d(g, r ? c.tokenize(A, r) : A, C, A, v), D.push(A), I && D.push(I), Array.prototype.splice.apply(e, D));
+              B && (u && (z = B[1].length), Q = B.index + z, B = B[0].slice(z), O = Q + B.length, F = G.slice(0, Q), O = G.slice(O), E = [y, E], F && E.push(F), B = new d(g, r ? c.tokenize(B, r) : B, C, B, v), E.push(B), O && E.push(O), Array.prototype.splice.apply(e, E));
             }
           }
         }
@@ -6894,26 +6924,26 @@ Polymer.IronFitBehavior = {properties:{sizingTarget:{type:Object, value:function
   }
   b = "auto" === b ? null : b;
   a = "auto" === a ? null : a;
-  for (var p, g = 0; g < f.length; g++) {
+  for (var m, g = 0; g < f.length; g++) {
     d = f[g];
     if (!this.dynamicAlign && !this.noOverlap && d.verticalAlign === b && d.horizontalAlign === a) {
-      p = d;
+      m = d;
       break;
     }
     h = (!b || d.verticalAlign === b) && (!a || d.horizontalAlign === a);
     if (this.dynamicAlign || h) {
-      p = p || d;
+      m = m || d;
       d.croppedArea = this.__getCroppedArea(d, c, e);
-      l = d.croppedArea - p.croppedArea;
+      l = d.croppedArea - m.croppedArea;
       if (0 > l || 0 === l && h) {
-        p = d;
+        m = d;
       }
-      if (0 === p.croppedArea && h) {
+      if (0 === m.croppedArea && h) {
         break;
       }
     }
   }
-  return p;
+  return m;
 }};
 Polymer.IronOverlayManagerClass = function() {
   this._overlays = [];
@@ -7449,7 +7479,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       this._playbackRate = 1;
       this._direction = "normal";
       this._easing = "linear";
-      this._easingFunction = y;
+      this._easingFunction = z;
     }
     function d() {
       return a.isDeprecated("Invalid timing inputs", "2016-03-02", "TypeError exceptions will be thrown instead.", !0);
@@ -7461,16 +7491,16 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       }) : f.duration = b, f;
     }
     function f(a, b, c, d) {
-      return 0 > a || 1 < a || 0 > c || 1 < c ? y : function(e) {
+      return 0 > a || 1 < a || 0 > c || 1 < c ? z : function(e) {
         if (0 == e || 1 == e) {
           return e;
         }
         for (var f = 0, g = 1;;) {
-          var h = (f + g) / 2, m = 3 * a * (1 - h) * (1 - h) * h + 3 * c * (1 - h) * h * h + h * h * h;
-          if (1e-4 > Math.abs(e - m)) {
+          var h = (f + g) / 2, l = 3 * a * (1 - h) * (1 - h) * h + 3 * c * (1 - h) * h * h + h * h * h;
+          if (1e-4 > Math.abs(e - l)) {
             return 3 * b * (1 - h) * (1 - h) * h + 3 * d * (1 - h) * h * h + h * h * h;
           }
-          e > m ? f = h : g = h;
+          e > l ? f = h : g = h;
         }
       };
     }
@@ -7483,20 +7513,20 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         return c += b * d, c - c % d;
       };
     }
-    function m(a) {
-      D || (D = document.createElement("div").style);
-      D.animationTimingFunction = "";
-      D.animationTimingFunction = a;
-      var b = D.animationTimingFunction;
+    function p(a) {
+      E || (E = document.createElement("div").style);
+      E.animationTimingFunction = "";
+      E.animationTimingFunction = a;
+      var b = E.animationTimingFunction;
       if ("" == b && d()) {
         throw new TypeError(a + " is not a valid value for easing");
       }
-      return (a = F.exec(b)) ? f.apply(this, a.slice(1).map(Number)) : (a = K.exec(b)) ? g(Number(a[1]), {start:C, middle:B, end:H}[a[2]]) : (b = A[b]) ? b : y;
+      return (a = F.exec(b)) ? f.apply(this, a.slice(1).map(Number)) : (a = Q.exec(b)) ? g(Number(a[1]), {start:C, middle:y, end:G}[a[2]]) : (b = B[b]) ? b : z;
     }
     function r(a, b, c) {
-      return null == b ? I : b < c.delay ? W : b >= c.delay + a ? Z : ha;
+      return null == b ? O : b < c.delay ? V : b >= c.delay + a ? Z : ga;
     }
-    var u = ["backwards", "forwards", "both", "none"], v = ["reverse", "alternate", "alternate-reverse"], y = function(a) {
+    var u = ["backwards", "forwards", "both", "none"], v = ["reverse", "alternate", "alternate-reverse"], z = function(a) {
       return a;
     };
     c.prototype = {_setMember:function(b, c) {
@@ -7535,7 +7565,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     }, get direction() {
       return this._direction;
     }, set easing(a) {
-      this._easingFunction = m(a);
+      this._easingFunction = p(a);
       this._setMember("easing", a);
     }, get easing() {
       return this._easing;
@@ -7547,7 +7577,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     }, get iterations() {
       return this._iterations;
     }};
-    var C = 1, B = .5, H = 0, A = {ease:f(.25, .1, .25, 1), "ease-in":f(.42, 0, 1, 1), "ease-out":f(0, 0, .58, 1), "ease-in-out":f(.42, 0, .58, 1), "step-start":g(1, C), "step-middle":g(1, B), "step-end":g(1, H)}, D = null, F = /cubic-bezier\(\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*\)/, K = /steps\(\s*(\d+)\s*,\s*(start|middle|end)\s*\)/, I = 0, W = 1, Z = 2, ha = 3;
+    var C = 1, y = .5, G = 0, B = {ease:f(.25, .1, .25, 1), "ease-in":f(.42, 0, 1, 1), "ease-out":f(0, 0, .58, 1), "ease-in-out":f(.42, 0, .58, 1), "step-start":g(1, C), "step-middle":g(1, y), "step-end":g(1, G)}, E = null, F = /cubic-bezier\(\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*,\s*(-?\d+\.?\d*|-?\.\d+)\s*\)/, Q = /steps\(\s*(\d+)\s*,\s*(start|middle|end)\s*\)/, O = 0, V = 1, Z = 2, ga = 3;
     a.cloneTimingInput = function(a) {
       if ("number" == typeof a) {
         return a;
@@ -7573,16 +7603,16 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       a: {
         var e = c.fill;
         switch(d) {
-          case W:
+          case V:
             b = "backwards" == e || "both" == e ? 0 : null;
             break a;
-          case ha:
+          case ga:
             b -= c.delay;
             break a;
           case Z:
             b = "forwards" == e || "both" == e ? a : null;
             break a;
-          case I:
+          case O:
             b = null;
             break a;
         }
@@ -7592,7 +7622,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         return null;
       }
       if (0 === a) {
-        return d === W ? 0 : 1;
+        return d === V ? 0 : 1;
       }
       d = c.iterationStart * c.duration;
       a = (0 > c.playbackRate ? b - a : b) * c.playbackRate + d;
@@ -7604,7 +7634,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       return b * c._easingFunction(("normal" == c.direction || c.direction == (1 <= a % 2 ? "alternate-reverse" : "alternate") ? d : b - d) / b) / c.duration;
     };
     a.calculatePhase = r;
-    a.toTimingFunction = m;
+    a.toTimingFunction = p;
   }(c, null);
   (function(a, b) {
     function c(a) {
@@ -7663,25 +7693,25 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
             }
             g = "" + g;
           }
-          var h = void 0, m = c, l = g, g = b, r = d[m];
-          if (r) {
-            for (h in e.style[m] = l, r) {
-              m = r[h], l = e.style[m], g[m] = m in f ? f[m][l] || l : l;
+          var h = void 0, l = c, p = g, g = b, m = d[l];
+          if (m) {
+            for (h in e.style[l] = p, m) {
+              l = m[h], p = e.style[l], g[l] = l in f ? f[l][p] || p : p;
             }
           } else {
-            g[m] = m in f ? f[m][l] || l : l;
+            g[l] = l in f ? f[l][p] || p : p;
           }
         }
         return void 0 == b.offset && (b.offset = null), b;
       });
       a = !0;
       for (var h = -(1 / 0), l = 0; l < g.length; l++) {
-        var p = g[l].offset;
-        if (null != p) {
-          if (h > p) {
+        var m = g[l].offset;
+        if (null != m) {
+          if (h > m) {
             throw {code:DOMException.INVALID_MODIFICATION_ERR, name:"InvalidModificationError", message:"Keyframes are not loosely sorted by offset. Sort or specify offsets."};
           }
-          h = p;
+          h = m;
         } else {
           a = !1;
         }
@@ -7737,9 +7767,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         var d = [], e;
         for (e in c) {
           for (var f = c[e], g = 0; g < f.length - 1; g++) {
-            var h = f[g].offset, m = f[g + 1].offset, l = f[g].value, p = f[g + 1].value, n = f[g].easing;
-            h == m && (1 == m ? l = p : p = l);
-            d.push({startTime:h, endTime:m, easing:a.toTimingFunction(n ? n : "linear"), property:e, interpolation:b.propertyInterpolation(e, l, p)});
+            var h = f[g].offset, l = f[g + 1].offset, p = f[g].value, m = f[g + 1].value, n = f[g].easing;
+            h == l && (1 == l ? p = m : m = p);
+            d.push({startTime:h, endTime:l, easing:a.toTimingFunction(n ? n : "linear"), property:e, interpolation:b.propertyInterpolation(e, p, m)});
           }
         }
         return d.sort(function(a, b) {
@@ -7774,25 +7804,25 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       var e = {};
       b.addPropertiesHandler = function(a, b, c) {
         for (var f = 0; f < c.length; f++) {
-          var g = a, h = b, m = d(c[f]);
-          e[m] = e[m] || [];
-          e[m].push([g, h]);
+          var g = a, h = b, l = d(c[f]);
+          e[l] = e[l] || [];
+          e[l].push([g, h]);
         }
       };
       var f = {backgroundColor:"transparent", backgroundPosition:"0% 0%", borderBottomColor:"currentColor", borderBottomLeftRadius:"0px", borderBottomRightRadius:"0px", borderBottomWidth:"3px", borderLeftColor:"currentColor", borderLeftWidth:"3px", borderRightColor:"currentColor", borderRightWidth:"3px", borderSpacing:"2px", borderTopColor:"currentColor", borderTopLeftRadius:"0px", borderTopRightRadius:"0px", borderTopWidth:"3px", bottom:"auto", clip:"rect(0px, 0px, 0px, 0px)", color:"black", fontSize:"100%", 
       fontWeight:"400", height:"auto", left:"auto", letterSpacing:"normal", lineHeight:"120%", marginBottom:"0px", marginLeft:"0px", marginRight:"0px", marginTop:"0px", maxHeight:"none", maxWidth:"none", minHeight:"0px", minWidth:"0px", opacity:"1.0", outlineColor:"invert", outlineOffset:"0px", outlineWidth:"3px", paddingBottom:"0px", paddingLeft:"0px", paddingRight:"0px", paddingTop:"0px", right:"auto", textIndent:"0px", textShadow:"0px 0px 0px transparent", top:"auto", transform:"", verticalAlign:"0px", 
       visibility:"visible", width:"auto", wordSpacing:"normal", zIndex:"auto"};
       b.propertyInterpolation = function(c, g, h) {
-        var m = c;
-        /-/.test(c) && !a.isDeprecated("Hyphenated property names", "2016-03-22", "Use camelCase instead.", !0) && (m = d(c));
-        "initial" != g && "initial" != h || ("initial" == g && (g = f[m]), "initial" == h && (h = f[m]));
-        c = g == h ? [] : e[m];
-        for (m = 0; c && m < c.length; m++) {
-          var l = c[m][0](g), r = c[m][0](h);
-          if (void 0 !== l && void 0 !== r && (l = c[m][1](l, r))) {
-            var p = b.Interpolation.apply(null, l);
+        var l = c;
+        /-/.test(c) && !a.isDeprecated("Hyphenated property names", "2016-03-22", "Use camelCase instead.", !0) && (l = d(c));
+        "initial" != g && "initial" != h || ("initial" == g && (g = f[l]), "initial" == h && (h = f[l]));
+        c = g == h ? [] : e[l];
+        for (l = 0; c && l < c.length; l++) {
+          var p = c[l][0](g), m = c[l][0](h);
+          if (void 0 !== p && void 0 !== m && (p = c[l][1](p, m))) {
+            var r = b.Interpolation.apply(null, p);
             return function(a) {
-              return 0 == a ? g : 1 == a ? h : p(a);
+              return 0 == a ? g : 1 == a ? h : r(a);
             };
           }
         }
@@ -7812,17 +7842,17 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         }, d;
       }
       b.KeyframeEffect = function(c, e, f, g) {
-        var h, m = d(a.normalizeTimingInput(f)), l = b.convertEffectInput(e);
+        var h, l = d(a.normalizeTimingInput(f)), p = b.convertEffectInput(e);
         e = function() {
-          l(c, h);
+          p(c, h);
         };
         return e._update = function(a) {
-          return h = m(a), null !== h;
+          return h = l(a), null !== h;
         }, e._clear = function() {
-          l(c, null);
+          p(c, null);
         }, e._hasSameTarget = function(a) {
           return c === a;
-        }, e._isCurrent = m._isCurrent, e._totalDuration = m._totalDuration, e._id = g, e;
+        }, e._isCurrent = l._isCurrent, e._totalDuration = l._totalDuration, e._id = g, e;
       };
       b.NullEffect = function(a) {
         var b = function() {
@@ -7979,7 +8009,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       function d(a) {
         var b = n;
         n = [];
-        a < D.currentTime && (a = D.currentTime);
+        a < E.currentTime && (a = E.currentTime);
         h(a, !0);
         b.forEach(function(b) {
           b[1](a);
@@ -7994,30 +8024,30 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         this.currentTime = window.performance && performance.now ? performance.now() : 0;
       }
       function g() {
-        A.forEach(function(a) {
+        B.forEach(function(a) {
           a();
         });
-        A.length = 0;
+        B.length = 0;
       }
       function h(a, c) {
-        H = !1;
+        G = !1;
         var d = b.timeline;
         d.currentTime = a;
         d._animations.sort(e);
-        B = !1;
+        y = !1;
         var f = d._animations;
         d._animations = [];
         var g = [], h = [], f = f.filter(function(b) {
           b._tick(a, c);
           b._inEffect ? h.push(b._effect) : g.push(b._effect);
-          b._needsTick && (B = !0);
+          b._needsTick && (y = !0);
           var d = b._inEffect || b._needsTick;
           return b._inTimeline = d, d;
         });
-        A.push.apply(A, g);
-        A.push.apply(A, h);
+        B.push.apply(B, g);
+        B.push.apply(B, h);
         d._animations.push.apply(d._animations, f);
-        B && requestAnimationFrame(function() {
+        y && requestAnimationFrame(function() {
         });
       }
       var l = window.requestAnimationFrame, n = [], C = 0;
@@ -8036,17 +8066,17 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         c = new b.Animation(c);
         return c._idle = !1, c._timeline = this, this._animations.push(c), b.restart(), b.invalidateEffects(), c;
       }};
-      var B = !1, H = !1;
+      var y = !1, G = !1;
       b.restart = function() {
-        return B || (B = !0, requestAnimationFrame(function() {
-        }), H = !0), H;
+        return y || (y = !0, requestAnimationFrame(function() {
+        }), G = !0), G;
       };
       b.invalidateEffects = function() {
         h(b.timeline.currentTime, !1);
         g();
       };
-      var A = [], D = new f;
-      b.timeline = D;
+      var B = [], E = new f;
+      b.timeline = E;
     })(c, d, null);
     (function(a) {
       function b(a, b) {
@@ -8064,18 +8094,18 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
         return a * b / (c + d);
       }
       function e(a, b, c, e, f) {
-        for (var g = [], h = [], m = [], l = d(e.length, f.length), r = 0; l > r; r++) {
-          var n = b(e[r % e.length], f[r % f.length]);
-          if (!n) {
+        for (var g = [], h = [], l = [], p = d(e.length, f.length), m = 0; p > m; m++) {
+          var r = b(e[m % e.length], f[m % f.length]);
+          if (!r) {
             return;
           }
-          g.push(n[0]);
-          h.push(n[1]);
-          m.push(n[2]);
+          g.push(r[0]);
+          h.push(r[1]);
+          l.push(r[2]);
         }
         return [g, h, function(b) {
           b = b.map(function(a, b) {
-            return m[b](a);
+            return l[b](a);
           }).join(c);
           return a ? a(b) : b;
         }];
@@ -8133,10 +8163,10 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       a.mergeList = function(a, b, c) {
         for (var d = [], e = [], f = [], g = 0, h = 0; h < c.length; h++) {
           if ("function" == typeof c[h]) {
-            var m = c[h](a[g], b[g++]);
-            d.push(m[0]);
-            e.push(m[1]);
-            f.push(m[2]);
+            var l = c[h](a[g], b[g++]);
+            d.push(l[0]);
+            e.push(l[1]);
+            f.push(l[2]);
           } else {
             !function(a) {
               d.push(!1);
@@ -8168,9 +8198,9 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           return {inset:a, color:[0, 0, 0, 0], lengths:[{px:0}, {px:0}, {px:0}, {px:0}]};
         }
         for (var g = [], h = [], l = 0; l < d.length || l < e.length; l++) {
-          var m = d[l] || f(e[l].inset), r = e[l] || f(d[l].inset);
-          g.push(m);
-          h.push(r);
+          var p = d[l] || f(e[l].inset), m = e[l] || f(d[l].inset);
+          g.push(p);
+          h.push(m);
         }
         return a.mergeNestedRepeated(b, c, g, h);
       }.bind(null, function(b, c) {
@@ -8396,7 +8426,7 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       function g(a) {
         return a.replace(/(x|y|z|3d)?$/, "3d");
       }
-      var h = null, l = {px:0}, y = {deg:0}, C = {matrix:["NNNNNN", [h, h, 0, 0, h, h, 0, 0, 0, 0, 1, 0, h, h, 0, 1], d], matrix3d:["NNNNNNNNNNNNNNNN", d], rotate:["A"], rotatex:["A"], rotatey:["A"], rotatez:["A"], rotate3d:["NNNA"], perspective:["L"], scale:["Nn", c([h, h, 1]), d], scalex:["N", c([h, 1, 1]), c([h, 1])], scaley:["N", c([1, h, 1]), c([1, h])], scalez:["N", c([1, 1, h])], scale3d:["NNN", d], skew:["Aa", null, d], skewx:["A", null, c([h, y])], skewy:["A", null, c([y, h])], translate:["Tt", 
+      var h = null, l = {px:0}, z = {deg:0}, C = {matrix:["NNNNNN", [h, h, 0, 0, h, h, 0, 0, 0, 0, 1, 0, h, h, 0, 1], d], matrix3d:["NNNNNNNNNNNNNNNN", d], rotate:["A"], rotatex:["A"], rotatey:["A"], rotatez:["A"], rotate3d:["NNNA"], perspective:["L"], scale:["Nn", c([h, h, 1]), d], scalex:["N", c([h, 1, 1]), c([h, 1])], scaley:["N", c([1, h, 1]), c([1, h])], scalez:["N", c([1, 1, h])], scale3d:["NNN", d], skew:["Aa", null, d], skewx:["A", null, c([h, z])], skewy:["A", null, c([z, h])], translate:["Tt", 
       c([h, h, l]), d], translatex:["T", c([h, l, l]), c([h, l])], translatey:["T", c([l, h, l]), c([l, h])], translatez:["L", c([l, l, h])], translate3d:["TTL", d]};
       a.addPropertiesHandler(function(b) {
         if (b = b.toLowerCase().trim(), "none" == b) {
@@ -8412,16 +8442,16 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           if (h.length < c.length) {
             break;
           }
-          for (var m = [], r = 0; r < h.length; r++) {
-            var n, p = c[r], q = h[r];
-            if (n = p ? {A:function(b) {
-              return "0" == b.trim() ? y : a.parseAngle(b);
-            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](p) : {a:y, n:m[0], t:l}[q], void 0 === n) {
+          for (var p = [], m = 0; m < h.length; m++) {
+            var n, r = c[m], q = h[m];
+            if (n = r ? {A:function(b) {
+              return "0" == b.trim() ? z : a.parseAngle(b);
+            }, N:a.parseNumber, T:a.parseLengthOrPercent, L:a.parseLength}[q.toUpperCase()](r) : {a:z, n:p[0], t:l}[q], void 0 === n) {
               return;
             }
-            m.push(n);
+            p.push(n);
           }
-          if (e.push({t:g, d:m}), d.lastIndex == b.length) {
+          if (e.push({t:g, d:p}), d.lastIndex == b.length) {
             return e;
           }
         }
@@ -8431,78 +8461,78 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
           b.length || (e = !0, b = c, c = []);
           for (var h = 0; h < b.length; h++) {
             var l = b[h].t;
-            var m = b[h].d, r = "scale" == l.substr(0, 5) ? 1 : 0;
-            c.push({t:l, d:m.map(function(a) {
+            var p = b[h].d, m = "scale" == l.substr(0, 5) ? 1 : 0;
+            c.push({t:l, d:p.map(function(a) {
               if ("number" == typeof a) {
-                return r;
+                return m;
               }
               var b = {}, c;
               for (c in a) {
-                b[c] = r;
+                b[c] = m;
               }
               return b;
             })});
           }
         }
-        var m = [], n = [], p = [];
+        var p = [], n = [], r = [];
         if (b.length != c.length) {
           if (!d) {
             return;
           }
           var q = f(b, c);
-          m = [q[0]];
+          p = [q[0]];
           n = [q[1]];
-          p = [["matrix", [q[2]]]];
+          r = [["matrix", [q[2]]]];
         } else {
           for (h = 0; h < b.length; h++) {
             l = b[h].t;
-            var u = c[h].t, v = b[h].d, y = c[h].d;
+            var u = c[h].t, z = b[h].d, v = c[h].d;
             q = C[l];
-            var L = C[u];
+            var J = C[u];
             if ("perspective" == l && "perspective" == u || !("matrix" != l && "matrix3d" != l || "matrix" != u && "matrix3d" != u)) {
               if (!d) {
                 return;
               }
               q = f([b[h]], [c[h]]);
-              m.push(q[0]);
+              p.push(q[0]);
               n.push(q[1]);
-              p.push(["matrix", [q[2]]]);
+              r.push(["matrix", [q[2]]]);
             } else {
               if (l != u) {
-                if (q[2] && L[2] && l.replace(/[xy]/, "") == u.replace(/[xy]/, "")) {
-                  l = l.replace(/[xy]/, ""), v = q[2](v), y = L[2](y);
+                if (q[2] && J[2] && l.replace(/[xy]/, "") == u.replace(/[xy]/, "")) {
+                  l = l.replace(/[xy]/, ""), z = q[2](z), v = J[2](v);
                 } else {
-                  if (!q[1] || !L[1] || g(l) != g(u)) {
+                  if (!q[1] || !J[1] || g(l) != g(u)) {
                     if (!d) {
                       return;
                     }
                     q = f(b, c);
-                    m = [q[0]];
+                    p = [q[0]];
                     n = [q[1]];
-                    p = [["matrix", [q[2]]]];
+                    r = [["matrix", [q[2]]]];
                     break;
                   }
                   l = g(l);
-                  v = q[1](v);
-                  y = L[1](y);
+                  z = q[1](z);
+                  v = J[1](v);
                 }
               }
-              for (var L = [], u = [], da = [], U = 0; U < v.length; U++) {
-                q = ("number" == typeof v[U] ? a.mergeNumbers : a.mergeDimensions)(v[U], y[U]), L[U] = q[0], u[U] = q[1], da.push(q[2]);
+              for (var J = [], u = [], ca = [], y = 0; y < z.length; y++) {
+                q = ("number" == typeof z[y] ? a.mergeNumbers : a.mergeDimensions)(z[y], v[y]), J[y] = q[0], u[y] = q[1], ca.push(q[2]);
               }
-              m.push(L);
+              p.push(J);
               n.push(u);
-              p.push([l, da]);
+              r.push([l, ca]);
             }
           }
         }
-        e && (n = m = n);
-        return [m, n, function(a) {
+        e && (n = p = n);
+        return [p, n, function(a) {
           return a.map(function(a, b) {
             a = a.map(function(a, c) {
-              return p[b][1][c](a);
+              return r[b][1][c](a);
             }).join(",");
-            return "matrix" == p[b][0] && 16 == a.split(",").length && (p[b][0] = "matrix3d"), p[b][0] + "(" + a + ")";
+            return "matrix" == r[b][0] && 16 == a.split(",").length && (r[b][0] = "matrix3d"), r[b][0] + "(" + a + ")";
           }).join(" ");
         }];
       }, ["transform"]);
@@ -8629,11 +8659,11 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       Object.defineProperty(window.document, "timeline", {configurable:!0, get:function() {
         return g;
       }});
-    } catch (m) {
+    } catch (p) {
     }
     try {
       window.document.timeline = g;
-    } catch (m) {
+    } catch (p) {
     }
   }(c, e, null);
   (function(a, b, c) {
@@ -8944,17 +8974,17 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     b.bindAnimationForCustomEffect = function(b) {
       var c = b.effect.target, e = "function" == typeof b.effect.getFrames();
       var g = e ? b.effect.getFrames() : b.effect._onsample;
-      var h = b.effect.timing, m = null, h = a.normalizeTimingInput(h), l = function() {
-        var d = l._animation ? l._animation.currentTime : null;
+      var h = b.effect.timing, l = null, h = a.normalizeTimingInput(h), p = function() {
+        var d = p._animation ? p._animation.currentTime : null;
         null !== d && (d = a.calculateTimeFraction(a.calculateActiveDuration(h), d, h), isNaN(d) && (d = null));
-        d !== m && (e ? g(d, c, b.effect) : g(d, b.effect, b.effect._animation));
-        m = d;
+        d !== l && (e ? g(d, c, b.effect) : g(d, b.effect, b.effect._animation));
+        l = d;
       };
-      l._animation = b;
-      l._registered = !1;
-      l._sequenceNumber = f++;
-      b._callback = l;
-      d(l);
+      p._animation = b;
+      p._registered = !1;
+      p._sequenceNumber = f++;
+      b._callback = p;
+      d(p);
     };
     var g = [], h = !1;
     b.Animation.prototype._register = function() {
@@ -10880,10 +10910,10 @@ Polymer.AppLayout.scroll = function(a) {
     if (d) {
       c.scroll(a);
     } else {
-      var h = Polymer.AppLayout.scrollTimingFunction, l = Date.now(), n = c === b ? window.pageYOffset : c.scrollTop, p = c === b ? window.pageXOffset : c.scrollLeft, q = e - n, m = f - p;
+      var h = Polymer.AppLayout.scrollTimingFunction, l = Date.now(), n = c === b ? window.pageYOffset : c.scrollTop, m = c === b ? window.pageXOffset : c.scrollLeft, q = e - n, p = f - m;
       (function u() {
         var a = Date.now() - l;
-        300 > a && (g(h(a, p, m, 300), h(a, n, q, 300)), requestAnimationFrame(u.bind(this)));
+        300 > a && (g(h(a, m, p, 300), h(a, n, q, 300)), requestAnimationFrame(u.bind(this)));
       }).call(this);
     }
   } else {
@@ -11596,6 +11626,7 @@ CSSImportBehavior = {convertSheetsToStyles:function(a) {
     return simpl4MessageManager.tr(input);
   }};
   null == window.channel && (window.channel = postal.channel());
+  channel.publish("globals.initialized", {});
   b = new Font;
   b.src = simpl4.util.BaseManager.getBaseUrl() + "/sw/surface/fontawesome-webfont.woff?v=4.3.0";
   b.fontFamily = "FontAwesome";
@@ -12129,17 +12160,17 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
           }
         }
         if (!g && h) {
-          var m = e.attr("href");
-          if (1 < m.length && "#" == m.slice(0, 1)) {
+          var p = e.attr("href");
+          if (1 < p.length && "#" == p.slice(0, 1)) {
             try {
-              var r = a(m, b.$menu);
+              var r = a(p, b.$menu);
               r.is("." + c.panel) && (g = !0, b[e.parent().hasClass(c.vertical) ? "togglePanel" : "openPanel"](r));
             } catch (u) {
             }
           }
         }
         g && d.preventDefault();
-        g || !h || !e.is("." + c.listview + " > li > a") || e.is('[rel="external"]') || e.is('[target="_blank"]') || (b.__valueOrFn(b.opts.onClick.setSelected, e) && b.setSelected(a(d.target).parent()), (m = b.__valueOrFn(b.opts.onClick.preventDefault, e, "#" == m.slice(0, 1))) && d.preventDefault(), b.__valueOrFn(b.opts.onClick.blockUI, e, !m) && f.$html.addClass(c.blocking), b.__valueOrFn(b.opts.onClick.close, e, m) && b.close());
+        g || !h || !e.is("." + c.listview + " > li > a") || e.is('[rel="external"]') || e.is('[target="_blank"]') || (b.__valueOrFn(b.opts.onClick.setSelected, e) && b.setSelected(a(d.target).parent()), (p = b.__valueOrFn(b.opts.onClick.preventDefault, e, "#" == p.slice(0, 1))) && d.preventDefault(), b.__valueOrFn(b.opts.onClick.blockUI, e, !p) && f.$html.addClass(c.blocking), b.__valueOrFn(b.opts.onClick.close, e, p) && b.close());
       });
     }, _initAddons:function() {
       for (var b in a.mmenu.addons) {
@@ -12387,47 +12418,47 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
       "object" != typeof f && (f = {});
       f = this.opts.dragOpen = a.extend(!0, {}, a.mmenu.defaults.dragOpen, f);
       if (f.open) {
-        var h = 0, l = !1, n = !1, p = 0, q = 0, m, r, u;
+        var h = 0, l = !1, n = !1, m = 0, q = 0, p, r, u;
         switch(this.opts.offCanvas.position) {
           case "left":
           case "right":
             var v = "panleft panright";
-            var y = "x";
+            var z = "x";
             var C = "X";
             n = "width";
             break;
           case "top":
           case "bottom":
-            v = "panup pandown", y = "y", C = "Y", n = "height";
+            v = "panup pandown", z = "y", C = "Y", n = "height";
         }
         switch(this.opts.offCanvas.position) {
           case "right":
           case "bottom":
-            var B = !0;
-            var H = function(a) {
+            var y = !0;
+            var G = function(a) {
               a >= d.$wndw[n]() - f.maxStartPos && (h = 1);
             };
             break;
           default:
-            B = !1, H = function(a) {
+            y = !1, G = function(a) {
               a <= f.maxStartPos && (h = 1);
             };
         }
         switch(this.opts.offCanvas.position) {
           case "left":
-            var A = "right";
-            var D = "left";
+            var B = "right";
+            var E = "left";
             break;
           case "right":
-            A = "left";
-            D = "right";
+            B = "left";
+            E = "right";
             break;
           case "top":
-            A = "down";
-            D = "up";
+            B = "down";
+            E = "up";
             break;
           case "bottom":
-            A = "up", D = "down";
+            B = "up", E = "down";
         }
         switch(this.opts.offCanvas.zposition) {
           case "front":
@@ -12440,20 +12471,20 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
               return a("." + c.slideout);
             };
         }
-        var K = this.__valueOrFn(f.pageNode, this.$menu, d.$page);
-        "string" == typeof K && (K = a(K));
-        (new Hammer(K[0], f.vendors.hammer)).on("panstart", function(a) {
-          H(a.center[y]);
+        var Q = this.__valueOrFn(f.pageNode, this.$menu, d.$page);
+        "string" == typeof Q && (Q = a(Q));
+        (new Hammer(Q[0], f.vendors.hammer)).on("panstart", function(a) {
+          G(a.center[z]);
           d.$slideOutNodes = F();
-          l = A;
+          l = B;
         }).on(v + " panend", function(a) {
           0 < h && a.preventDefault();
         }).on(v, function(a) {
-          m = a["delta" + C];
-          B && (m = -m);
-          m != p && (l = m >= p ? A : D);
-          p = m;
-          if (p > f.threshold && 1 == h) {
+          p = a["delta" + C];
+          y && (p = -p);
+          p != m && (l = p >= m ? B : E);
+          m = p;
+          if (m > f.threshold && 1 == h) {
             if (d.$html.hasClass(c.opened)) {
               return;
             }
@@ -12463,9 +12494,9 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
             d.$html.addClass(c.dragging);
             q = b(d.$wndw[n]() * g[n].perc, g[n].min, g[n].max);
           }
-          2 == h && (r = b(p, 10, q) - ("front" == e.opts.offCanvas.zposition ? q : 0), B && (r = -r), u = "translate" + C + "(" + r + "px )", d.$slideOutNodes.css({"-webkit-transform":"-webkit-" + u, transform:u}));
+          2 == h && (r = b(m, 10, q) - ("front" == e.opts.offCanvas.zposition ? q : 0), y && (r = -r), u = "translate" + C + "(" + r + "px )", d.$slideOutNodes.css({"-webkit-transform":"-webkit-" + u, transform:u}));
         }).on("panend", function(a) {
-          2 == h && (d.$html.removeClass(c.dragging), d.$slideOutNodes.css("transform", ""), e[l == A ? "_openFinish" : "close"]());
+          2 == h && (d.$html.removeClass(c.dragging), d.$slideOutNodes.css("transform", ""), e[l == B ? "_openFinish" : "close"]());
           h = 0;
         });
       }
@@ -12554,18 +12585,18 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
         "bottom" != h && (h = "top");
         f[h] || (f[h] = 0);
         f[h]++;
-        var p = a("<div />").addClass(b.navbar + " " + b.navbar + "-" + h + " " + b.navbar + "-" + h + "-" + f[h] + " " + b.navbar + "-size-" + n);
+        var m = a("<div />").addClass(b.navbar + " " + b.navbar + "-" + h + " " + b.navbar + "-" + h + "-" + f[h] + " " + b.navbar + "-size-" + n);
         f[h] += n - 1;
         for (var h = 0, q = g.content.length; h < q; h++) {
-          var m = a.mmenu.addons.navbars[g.content[h]] || !1;
-          m ? m.call(c, p, g, e) : (m = g.content[h], m instanceof a || (m = a(g.content[h])), m.each(function() {
-            p.append(a(this));
+          var p = a.mmenu.addons.navbars[g.content[h]] || !1;
+          p ? p.call(c, m, g, e) : (p = g.content[h], p instanceof a || (p = a(g.content[h])), p.each(function() {
+            m.append(a(this));
           }));
         }
-        g = Math.ceil(p.children().not("." + b.btn).length / n);
-        1 < g && p.addClass(b.navbar + "-content-" + g);
-        p.children("." + b.btn).length && p.addClass(b.hasbtns);
-        p.prependTo(c.$menu);
+        g = Math.ceil(m.children().not("." + b.btn).length / n);
+        1 < g && m.addClass(b.navbar + "-content-" + g);
+        m.children("." + b.btn).length && m.addClass(b.hasbtns);
+        m.prependTo(c.$menu);
       });
       for (var g in f) {
         c.$menu.addClass(b.hasnavbar + "-" + g + "-" + f[g]);
@@ -12587,12 +12618,12 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
     b.append('<span class="' + e.breadcrumbs + '"></span>');
     this.bind("init", function(b) {
       b.removeClass(e.hasnavbar).each(function() {
-        for (var b = [], c = a(this), g = a('<span class="' + e.breadcrumbs + '"></span>'), p = a(this).children().first(), q = !0; p && p.length;) {
-          p.is("." + e.panel) || (p = p.closest("." + e.panel));
-          var m = p.children("." + e.navbar).children("." + e.title).text();
-          b.unshift(q ? "<span>" + m + "</span>" : '<a href="#' + p.attr("id") + '">' + m + "</a>");
+        for (var b = [], c = a(this), g = a('<span class="' + e.breadcrumbs + '"></span>'), m = a(this).children().first(), q = !0; m && m.length;) {
+          m.is("." + e.panel) || (m = m.closest("." + e.panel));
+          var p = m.children("." + e.navbar).children("." + e.title).text();
+          b.unshift(q ? "<span>" + p + "</span>" : '<a href="#' + m.attr("id") + '">' + p + "</a>");
           q = !1;
-          p = p.data(f.parent);
+          m = m.data(f.parent);
         }
         g.append(b.join('<span class="' + e.separator + '">' + d.breadcrumbSeparator + "</span>")).appendTo(c.children("." + e.navbar));
       });
@@ -12855,14 +12886,14 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
           }
         });
         f.search && a("." + b.search, this.$menu).each(function() {
-          var g, h = a(this), p = h.closest("." + b.panel).length;
-          if (p) {
+          var g, h = a(this), m = h.closest("." + b.panel).length;
+          if (m) {
             var q = g = h.closest("." + b.panel);
           } else {
             g = a("." + b.panel, e.$menu), q = e.$menu;
           }
-          var m = h.children("input"), h = e.__findAddBack(g, "." + b.listview).children("li"), r = h.filter("." + b.divider), u = e.__filterListItems(h), v = function() {
-            var d = m.val().toLowerCase();
+          var p = h.children("input"), h = e.__findAddBack(g, "." + b.listview).children("li"), r = h.filter("." + b.divider), u = e.__filterListItems(h), v = function() {
+            var d = p.val().toLowerCase();
             g.scrollTop(0);
             u.add(r).addClass(b.hidden).find("." + b.fullsubopensearch).removeClass(b.fullsubopen).removeClass(b.fullsubopensearch);
             u.each(function() {
@@ -12882,14 +12913,14 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
             });
             a(g.get().reverse()).each(function(d) {
               var f = a(this), g = f.data(c.parent);
-              g && (e.__filterListItems(f.find("." + b.listview).children()).length ? (g.hasClass(b.hidden) && g.children("." + b.next).not("." + b.fullsubopen).addClass(b.fullsubopen).addClass(b.fullsubopensearch), g.removeClass(b.hidden).removeClass(b.nosubresults).prevAll("." + b.divider).first().removeClass(b.hidden)) : p || (f.hasClass(b.opened) && setTimeout(function() {
+              g && (e.__filterListItems(f.find("." + b.listview).children()).length ? (g.hasClass(b.hidden) && g.children("." + b.next).not("." + b.fullsubopen).addClass(b.fullsubopen).addClass(b.fullsubopensearch), g.removeClass(b.hidden).removeClass(b.nosubresults).prevAll("." + b.divider).first().removeClass(b.hidden)) : m || (f.hasClass(b.opened) && setTimeout(function() {
                 e.openPanel(g.closest("." + b.panel));
               }, 1.5 * (d + 1) * e.conf.openingInterval), g.addClass(b.nosubresults)));
             });
             q[u.not("." + b.hidden).length ? "removeClass" : "addClass"](b.noresults);
             this.update();
           };
-          m.off(d.keyup + "-searchfield " + d.change + "-searchfield").on(d.keyup + "-searchfield", function(a) {
+          p.off(d.keyup + "-searchfield " + d.change + "-searchfield").on(d.keyup + "-searchfield", function(a) {
             a: {
               switch(a.keyCode) {
                 case 9:
@@ -12944,12 +12975,12 @@ Polymer({is:"simpl-main", behaviors:[MainBehavior, CSSImportBehavior, ModernizrB
       this.$indexer.children().on(c.mouseover + "-sectionindexer " + b.touchstart + "-sectionindexer", function(c) {
         var e = a(this).attr("href").slice(1);
         c = d.$menu.children("." + b.current);
-        var f = c.find("." + b.listview), g = !1, p = c.scrollTop(), q = f.position().top + parseInt(f.css("margin-top"), 10) + parseInt(f.css("padding-top"), 10) + p;
+        var f = c.find("." + b.listview), g = !1, m = c.scrollTop(), q = f.position().top + parseInt(f.css("margin-top"), 10) + parseInt(f.css("padding-top"), 10) + m;
         c.scrollTop(0);
         f.children("." + b.divider).not("." + b.hidden).each(function() {
           !1 === g && e == a(this).text().slice(0, 1).toLowerCase() && (g = a(this).position().top + q);
         });
-        c.scrollTop(!1 !== g ? g : p);
+        c.scrollTop(!1 !== g ? g : m);
       }), f = function(a) {
         d.$menu[(a.hasClass(b.hasindexer) ? "add" : "remove") + "Class"](b.hasindexer);
       }, this.bind("openPanel", f), f.call(this, this.$menu.children("." + b.current)));
@@ -14034,699 +14065,82 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
   }.bind(this)), this.isInited = !0);
 }, ready:function() {
 }});
-(function e$jscomp$0(b, c, d) {
-  function e(g, l) {
-    if (!c[g]) {
-      if (!b[g]) {
-        var h = "function" == typeof require && require;
-        if (!l && h) {
-          return h(g, !0);
-        }
-        if (f) {
-          return f(g, !0);
-        }
-        l = Error("Cannot find module '" + g + "'");
-        throw l.code = "MODULE_NOT_FOUND", l;
-      }
-      l = c[g] = {exports:{}};
-      b[g][0].call(l.exports, function(c) {
-        var d = b[g][1][c];
-        return e(d ? d : c);
-      }, l, l.exports, e$jscomp$0, b, c, d);
+(function(a) {
+  function b(d) {
+    if (c[d]) {
+      return c[d].exports;
     }
-    return c[g].exports;
+    var e = c[d] = {i:d, l:!1, exports:{}};
+    a[d].call(e.exports, e, e.exports, b);
+    e.l = !0;
+    return e.exports;
   }
-  for (var f = "function" == typeof require && require, g = 0; g < d.length; g++) {
-    e(d[g]);
-  }
-  return e;
-})({1:[function(a, b, c) {
-  var d = function(a, b) {
-    function c() {
-      this.constructor = a;
-    }
-    for (var d in b) {
-      e.call(b, d) && (a[d] = b[d]);
-    }
-    c.prototype = b.prototype;
-    a.prototype = new c;
-    a.__super__ = b.prototype;
-    return a;
-  }, e = {}.hasOwnProperty;
-  c = a("./node");
-  var f = a("./util");
-  var g = c.Position;
-  var h = jQuery;
-  a = function() {
-    function a(a) {
-      this.tree_widget = a;
-      this.$ghost = this.hovered_area = null;
-      this.hit_areas = [];
-      this.is_dragging = !1;
-      this.current_item = null;
-    }
-    a.prototype.mouseCapture = function(a) {
-      a = h(a.target);
-      if (!this.mustCaptureElement(a) || this.tree_widget.options.onIsMoveHandle && !this.tree_widget.options.onIsMoveHandle(a)) {
-        return null;
-      }
-      (a = this.tree_widget._getNodeElement(a)) && this.tree_widget.options.onCanMove && (this.tree_widget.options.onCanMove(a.node) || (a = null));
-      this.current_item = a;
-      return null !== this.current_item;
-    };
-    a.prototype.mouseStart = function(a) {
-      this.refresh();
-      var b = h(a.target).offset();
-      var c = this.current_item.node;
-      c = this.tree_widget.options.autoEscape ? f.html_escape(c.name) : c.name;
-      this.drag_element = new n(c, a.page_x - b.left, a.page_y - b.top, this.tree_widget.element);
-      this.is_dragging = !0;
-      this.current_item.$element.addClass("jqtree-moving");
-      return !0;
-    };
-    a.prototype.mouseDrag = function(a) {
-      this.drag_element.move(a.page_x, a.page_y);
-      var b = this.findHoveredArea(a.page_x, a.page_y);
-      this.canMoveToArea(b) && b ? (b.node.isFolder() || this.stopOpenFolderTimer(), this.hovered_area !== b && (this.hovered_area = b, this.mustOpenFolderTimer(b) ? this.startOpenFolderTimer(b.node) : this.stopOpenFolderTimer(), this.updateDropHint())) : (this.removeHover(), this.removeDropHint(), this.stopOpenFolderTimer());
-      if (!b && null != this.tree_widget.options.onDragMove) {
-        this.tree_widget.options.onDragMove(this.current_item.node, a.original_event);
-      }
-      return !0;
-    };
-    a.prototype.mustCaptureElement = function(a) {
-      return !a.is("input,select,textarea");
-    };
-    a.prototype.canMoveToArea = function(a) {
-      if (a) {
-        if (this.tree_widget.options.onCanMoveTo) {
-          var b = g.getName(a.position);
-          return this.tree_widget.options.onCanMoveTo(this.current_item.node, a.node, b);
-        }
-        return !0;
-      }
-      return !1;
-    };
-    a.prototype.mouseStop = function(a) {
-      var b;
-      this.moveItem(a);
-      this.clear();
-      this.removeHover();
-      this.removeDropHint();
-      this.removeHitAreas();
-      if (b = this.current_item) {
-        this.current_item.$element.removeClass("jqtree-moving"), this.current_item = null;
-      }
-      this.is_dragging = !1;
-      if (!this.hovered_area && b && null != this.tree_widget.options.onDragStop) {
-        this.tree_widget.options.onDragStop(b.node, a.original_event);
-      }
-      return !1;
-    };
-    a.prototype.refresh = function() {
-      this.removeHitAreas();
-      if (this.current_item && (this.generateHitAreas(), this.current_item = this.tree_widget._getNodeElementForNode(this.current_item.node), this.is_dragging)) {
-        return this.current_item.$element.addClass("jqtree-moving");
-      }
-    };
-    a.prototype.removeHitAreas = function() {
-      return this.hit_areas = [];
-    };
-    a.prototype.clear = function() {
-      this.drag_element.remove();
-      return this.drag_element = null;
-    };
-    a.prototype.removeDropHint = function() {
-      if (this.previous_ghost) {
-        return this.previous_ghost.remove();
-      }
-    };
-    a.prototype.removeHover = function() {
-      return this.hovered_area = null;
-    };
-    a.prototype.generateHitAreas = function() {
-      return this.hit_areas = (new l(this.tree_widget.tree, this.current_item.node, this.getTreeDimensions().bottom)).generate();
-    };
-    a.prototype.findHoveredArea = function(a, b) {
-      var c = this.getTreeDimensions();
-      if (a < c.left || b < c.top || a > c.right || b > c.bottom) {
-        return null;
-      }
-      var d = 0;
-      for (c = this.hit_areas.length; d < c;) {
-        var e = d + c >> 1;
-        a = this.hit_areas[e];
-        if (b < a.top) {
-          c = e;
-        } else {
-          if (b > a.bottom) {
-            d = e + 1;
-          } else {
-            return a;
-          }
-        }
-      }
-      return null;
-    };
-    a.prototype.mustOpenFolderTimer = function(a) {
-      var b = a.node;
-      return b.isFolder() && !b.is_open && a.position === g.INSIDE;
-    };
-    a.prototype.updateDropHint = function() {
-      if (this.hovered_area) {
-        return this.removeDropHint(), this.previous_ghost = this.tree_widget._getNodeElementForNode(this.hovered_area.node).addDropHint(this.hovered_area.position);
-      }
-    };
-    a.prototype.startOpenFolderTimer = function(a) {
-      var b = function(b) {
-        return function() {
-          return b.tree_widget._openNode(a, b.tree_widget.options.slide, function() {
-            b.refresh();
-            return b.updateDropHint();
-          });
-        };
-      }(this);
-      this.stopOpenFolderTimer();
-      return this.open_folder_timer = setTimeout(b, this.tree_widget.options.openFolderDelay);
-    };
-    a.prototype.stopOpenFolderTimer = function() {
-      if (this.open_folder_timer) {
-        return clearTimeout(this.open_folder_timer), this.open_folder_timer = null;
-      }
-    };
-    a.prototype.moveItem = function(a) {
-      if (this.hovered_area && this.hovered_area.position !== g.NONE && this.canMoveToArea(this.hovered_area)) {
-        var b = this.current_item.node;
-        var c = this.hovered_area.node;
-        var d = this.hovered_area.position;
-        var e = b.parent;
-        d === g.INSIDE && (this.hovered_area.node.is_open = !0);
-        var f = function(a) {
-          return function() {
-            a.tree_widget.tree.moveNode(b, c, d);
-            a.tree_widget.element.empty();
-            return a.tree_widget._refreshElements();
-          };
-        }(this);
-        a = this.tree_widget._triggerEvent("tree.move", {move_info:{moved_node:b, target_node:c, position:g.getName(d), previous_parent:e, do_move:f, original_event:a.original_event}});
-        if (!a.isDefaultPrevented()) {
-          return f();
-        }
-      }
-    };
-    a.prototype.getTreeDimensions = function() {
-      var a = this.tree_widget.element.offset();
-      return {left:a.left, top:a.top, right:a.left + this.tree_widget.element.width(), bottom:a.top + this.tree_widget.element.height() + 16};
-    };
-    return a;
-  }();
-  var l = function(a) {
-    function b(a, c, d) {
-      b.__super__.constructor.call(this, a);
-      this.current_node = c;
-      this.tree_bottom = d;
-    }
-    d(b, a);
-    b.prototype.generate = function() {
-      this.positions = [];
-      this.last_top = 0;
-      this.iterate();
-      return this.generateHitAreas(this.positions);
-    };
-    b.prototype.getTop = function(a) {
-      return a.offset().top;
-    };
-    b.prototype.addPosition = function(a, b, c) {
-      this.positions.push({top:c, node:a, position:b});
-      return this.last_top = c;
-    };
-    b.prototype.handleNode = function(a, b, c) {
-      c = this.getTop(c);
-      a === this.current_node ? this.addPosition(a, g.NONE, c) : this.addPosition(a, g.INSIDE, c);
-      return b === this.current_node || a === this.current_node ? this.addPosition(a, g.NONE, c) : this.addPosition(a, g.AFTER, c);
-    };
-    b.prototype.handleOpenFolder = function(a, b) {
-      if (a === this.current_node) {
-        return !1;
-      }
-      a.children[0] !== this.current_node && this.addPosition(a, g.INSIDE, this.getTop(b));
-      return !0;
-    };
-    b.prototype.handleClosedFolder = function(a, b, c) {
-      c = this.getTop(c);
-      if (a === this.current_node) {
-        return this.addPosition(a, g.NONE, c);
-      }
-      this.addPosition(a, g.INSIDE, c);
-      if (b !== this.current_node) {
-        return this.addPosition(a, g.AFTER, c);
-      }
-    };
-    b.prototype.handleFirstNode = function(a, b) {
-      if (a !== this.current_node) {
-        return this.addPosition(a, g.BEFORE, this.getTop(h(a.element)));
-      }
-    };
-    b.prototype.handleAfterOpenFolder = function(a, b, c) {
-      return a === this.current_node.node || b === this.current_node.node ? this.addPosition(a, g.NONE, this.last_top) : this.addPosition(a, g.AFTER, this.last_top);
-    };
-    b.prototype.generateHitAreas = function(a) {
-      var b;
-      var c = -1;
-      var d = [];
-      var e = [];
-      var f = 0;
-      for (b = a.length; f < b; f++) {
-        var g = a[f];
-        g.top !== c && d.length && (d.length && this.generateHitAreasForGroup(e, d, c, g.top), c = g.top, d = []);
-        d.push(g);
-      }
-      this.generateHitAreasForGroup(e, d, c, this.tree_bottom);
-      return e;
-    };
-    b.prototype.generateHitAreasForGroup = function(a, b, c, d) {
-      var e;
-      var f = Math.min(b.length, 4);
-      d = Math.round((d - c) / f);
-      for (e = 0; e < f;) {
-        var g = b[e];
-        a.push({top:c, bottom:c + d, node:g.node, position:g.position});
-        c += d;
-        e += 1;
-      }
-      return null;
-    };
-    return b;
-  }(function() {
-    function a(a) {
-      this.tree = a;
-    }
-    a.prototype.iterate = function() {
-      var a = !0;
-      var b = function(c) {
-        return function(d, e) {
-          var f;
-          var g = (d.is_open || !d.element) && d.hasChildren();
-          if (d.element) {
-            var m = h(d.element);
-            if (!m.is(":visible")) {
-              return;
-            }
-            a && (c.handleFirstNode(d, m), a = !1);
-            d.hasChildren() ? d.is_open ? c.handleOpenFolder(d, m) || (g = !1) : c.handleClosedFolder(d, e, m) : c.handleNode(d, e, m);
-          }
-          if (g) {
-            g = d.children.length;
-            var l = d.children;
-            var r = f = 0;
-            for (l = l.length; f < l; r = ++f) {
-              r === g - 1 ? b(d.children[r], null) : b(d.children[r], d.children[r + 1]);
-            }
-            if (d.is_open) {
-              return c.handleAfterOpenFolder(d, e, m);
-            }
-          }
-        };
-      }(this);
-      return b(this.tree, null);
-    };
-    a.prototype.handleNode = function(a, b, c) {
-    };
-    a.prototype.handleOpenFolder = function(a, b) {
-    };
-    a.prototype.handleClosedFolder = function(a, b, c) {
-    };
-    a.prototype.handleAfterOpenFolder = function(a, b, c) {
-    };
-    a.prototype.handleFirstNode = function(a, b) {
-    };
-    return a;
-  }());
-  var n = function() {
-    function a(a, b, c, d) {
-      this.offset_x = b;
-      this.offset_y = c;
-      this.$element = h('<span class="jqtree-title jqtree-dragging">' + a + "</span>");
-      this.$element.css("position", "absolute");
-      d.append(this.$element);
-    }
-    a.prototype.move = function(a, b) {
-      return this.$element.offset({left:a - this.offset_x, top:b - this.offset_y});
-    };
-    a.prototype.remove = function() {
-      return this.$element.remove();
-    };
-    return a;
-  }();
-  b.exports = {DragAndDropHandler:a, DragElement:n, HitAreasGenerator:l};
-}, {"./node":5, "./util":12}], 2:[function(a, b, c) {
-  a("./node_element");
-  var d = a("./util");
-  var e = d.html_escape;
-  var f = jQuery;
-  a = function() {
-    function a(a) {
-      this.tree_widget = a;
-      this.opened_icon_element = this.createButtonElement(a.options.openedIcon);
-      this.closed_icon_element = this.createButtonElement(a.options.closedIcon);
-    }
-    a.prototype.render = function(a) {
-      return a && a.parent ? this.renderFromNode(a) : this.renderFromRoot();
-    };
-    a.prototype.renderFromRoot = function() {
-      var a = this.tree_widget.element;
-      a.empty();
-      return this.createDomElements(a[0], this.tree_widget.tree.children, !0, !0, 1);
-    };
-    a.prototype.renderFromNode = function(a) {
-      var b = f(a.element);
-      var c = this.createLi(a, a.getLevel());
-      this.attachNodeData(a, c);
-      b.after(c);
-      b.remove();
-      if (a.children) {
-        return this.createDomElements(c, a.children, !1, !1, a.getLevel() + 1);
-      }
-    };
-    a.prototype.createDomElements = function(a, b, c, d, e) {
-      var f;
-      c = this.createUl(c);
-      a.appendChild(c);
-      d = 0;
-      for (f = b.length; d < f; d++) {
-        a = b[d];
-        var g = this.createLi(a, e);
-        c.appendChild(g);
-        this.attachNodeData(a, g);
-        a.hasChildren() && this.createDomElements(g, a.children, !1, a.is_open, e + 1);
-      }
-      return null;
-    };
-    a.prototype.attachNodeData = function(a, b) {
-      a.element = b;
-      return f(b).data("node", a);
-    };
-    a.prototype.createUl = function(a) {
-      if (a) {
-        a = "jqtree-tree";
-        var b = "tree";
-        this.tree_widget.options.rtl && (a += " jqtree-rtl");
-      } else {
-        a = "", b = "group";
-      }
-      var c = document.createElement("ul");
-      c.className = "jqtree_common " + a;
-      c.setAttribute("role", b);
-      return c;
-    };
-    a.prototype.createLi = function(a, b) {
-      var c = this.tree_widget.select_node_handler && this.tree_widget.select_node_handler.isNodeSelected(a);
-      b = a.isFolder() ? this.createFolderLi(a, b, c) : this.createNodeLi(a, b, c);
-      if (this.tree_widget.options.onCreateLi) {
-        this.tree_widget.options.onCreateLi(a, f(b));
-      }
-      return b;
-    };
-    a.prototype.createFolderLi = function(a, b, c) {
-      var d = this.getButtonClasses(a);
-      var e = this.getFolderClasses(a, c);
-      var f = a.is_open ? this.opened_icon_element : this.closed_icon_element;
-      var g = document.createElement("li");
-      g.className = "jqtree_common " + e;
-      g.setAttribute("role", "presentation");
-      var h = document.createElement("div");
-      h.className = "jqtree-element jqtree_common";
-      h.setAttribute("role", "presentation");
-      g.appendChild(h);
-      e = document.createElement("a");
-      e.className = d;
-      e.appendChild(f.cloneNode(!1));
-      e.setAttribute("role", "presentation");
-      e.setAttribute("aria-hidden", "true");
-      this.tree_widget.options.buttonLeft && h.appendChild(e);
-      h.appendChild(this.createTitleSpan(a.name, b, c, a.is_open, !0));
-      this.tree_widget.options.buttonLeft || h.appendChild(e);
-      return g;
-    };
-    a.prototype.createNodeLi = function(a, b, c) {
-      var d = ["jqtree_common"];
-      c && d.push("jqtree-selected");
-      var e = d.join(" ");
-      d = document.createElement("li");
-      d.className = e;
-      d.setAttribute("role", "presentation");
-      e = document.createElement("div");
-      e.className = "jqtree-element jqtree_common";
-      e.setAttribute("role", "presentation");
-      d.appendChild(e);
-      e.appendChild(this.createTitleSpan(a.name, b, c, a.is_open, !1));
-      return d;
-    };
-    a.prototype.createTitleSpan = function(a, b, c, e, f) {
-      var g = document.createElement("span");
-      var h = "jqtree-title jqtree_common";
-      f && (h += " jqtree-title-folder");
-      g.className = h;
-      g.setAttribute("role", "treeitem");
-      g.setAttribute("aria-level", b);
-      g.setAttribute("aria-selected", d.getBoolString(c));
-      g.setAttribute("aria-expanded", d.getBoolString(e));
-      c && g.setAttribute("tabindex", 0);
-      g.innerHTML = this.escapeIfNecessary(a);
-      return g;
-    };
-    a.prototype.getButtonClasses = function(a) {
-      var b = ["jqtree-toggler", "jqtree_common"];
-      a.is_open || b.push("jqtree-closed");
-      this.tree_widget.options.buttonLeft ? b.push("jqtree-toggler-left") : b.push("jqtree-toggler-right");
-      return b.join(" ");
-    };
-    a.prototype.getFolderClasses = function(a, b) {
-      var c = ["jqtree-folder"];
-      a.is_open || c.push("jqtree-closed");
-      b && c.push("jqtree-selected");
-      a.is_loading && c.push("jqtree-loading");
-      return c.join(" ");
-    };
-    a.prototype.escapeIfNecessary = function(a) {
-      return this.tree_widget.options.autoEscape ? e(a) : a;
-    };
-    a.prototype.createButtonElement = function(a) {
-      if ("string" === typeof a) {
-        var b = document.createElement("div");
-        b.innerHTML = a;
-        return document.createTextNode(b.innerHTML);
-      }
-      return f(a)[0];
-    };
-    return a;
-  }();
-  b.exports = a;
-}, {"./node_element":6, "./util":12}], 3:[function(a, b, c) {
-  var d = function(a, b) {
-    return function() {
-      return a.apply(b, arguments);
-    };
+  var c = {};
+  b.m = a;
+  b.c = c;
+  b.d = function(a, c, f) {
+    b.o(a, c) || Object.defineProperty(a, c, {enumerable:!0, get:f});
   };
-  var e = jQuery;
-  a = function() {
-    function a(a) {
-      this.selectNode = d(this.selectNode, this);
-      this.tree_widget = a;
-      a.options.keyboardSupport && e(document).bind("keydown.jqtree", e.proxy(this.handleKeyDown, this));
+  b.r = function(a) {
+    "undefined" !== typeof Symbol && Symbol.toStringTag && Object.defineProperty(a, Symbol.toStringTag, {value:"Module"});
+    Object.defineProperty(a, "__esModule", {value:!0});
+  };
+  b.t = function(a, c) {
+    c & 1 && (a = b(a));
+    if (c & 8 || c & 4 && "object" === typeof a && a && a.__esModule) {
+      return a;
     }
-    a.prototype.deinit = function() {
-      return e(document).unbind("keydown.jqtree");
-    };
-    a.prototype.moveDown = function() {
-      var a;
-      return (a = this.tree_widget.getSelectedNode()) ? this.selectNode(a.getNextNode()) : !1;
-    };
-    a.prototype.moveUp = function() {
-      var a;
-      return (a = this.tree_widget.getSelectedNode()) ? this.selectNode(a.getPreviousNode()) : !1;
-    };
-    a.prototype.moveRight = function() {
-      var a;
-      if ((a = this.tree_widget.getSelectedNode()) && a.isFolder()) {
-        if (a.is_open) {
-          return this.selectNode(a.getNextNode());
-        }
-        this.tree_widget.openNode(a);
-        return !1;
-      }
-      return !0;
-    };
-    a.prototype.moveLeft = function() {
-      var a;
-      return (a = this.tree_widget.getSelectedNode()) ? a.isFolder() && a.is_open ? (this.tree_widget.closeNode(a), !1) : this.selectNode(a.getParent()) : !0;
-    };
-    a.prototype.handleKeyDown = function(a) {
-      if (!this.tree_widget.options.keyboardSupport || e(document.activeElement).is("textarea,input,select") || !this.tree_widget.getSelectedNode()) {
-        return !0;
-      }
-      switch(a.which) {
-        case 40:
-          return this.moveDown();
-        case 38:
-          return this.moveUp();
-        case 39:
-          return this.moveRight();
-        case 37:
-          return this.moveLeft();
-      }
-      return !0;
-    };
-    a.prototype.selectNode = function(a) {
-      return a ? (this.tree_widget.selectNode(a), this.tree_widget.scroll_handler && !this.tree_widget.scroll_handler.isScrolledIntoView(e(a.element).find(".jqtree-element")) && this.tree_widget.scrollToNode(a), !1) : !0;
-    };
-    return a;
-  }();
-  b.exports = a;
-}, {}], 4:[function(a, b, c) {
-  var d = function(a, b) {
-    function c() {
-      this.constructor = a;
-    }
-    for (var d in b) {
-      e.call(b, d) && (a[d] = b[d]);
-    }
-    c.prototype = b.prototype;
-    a.prototype = new c;
-    a.__super__ = b.prototype;
-    return a;
-  }, e = {}.hasOwnProperty;
-  a = a("./simple.widget");
-  var f = jQuery;
-  a = function(a) {
-    function b() {
-      return b.__super__.constructor.apply(this, arguments);
-    }
-    d(b, a);
-    b.is_mouse_handled = !1;
-    b.prototype._init = function() {
-      this.$el.bind("mousedown.mousewidget", f.proxy(this._mouseDown, this));
-      this.$el.bind("touchstart.mousewidget", f.proxy(this._touchStart, this));
-      this.is_mouse_started = !1;
-      this.mouse_delay = 0;
-      this._mouse_delay_timer = null;
-      this._is_mouse_delay_met = !0;
-      return this.mouse_down_info = null;
-    };
-    b.prototype._deinit = function() {
-      this.$el.unbind("mousedown.mousewidget");
-      this.$el.unbind("touchstart.mousewidget");
-      var a = f(document);
-      a.unbind("mousemove.mousewidget");
-      return a.unbind("mouseup.mousewidget");
-    };
-    b.prototype._mouseDown = function(a) {
-      var b;
-      if (1 === a.which) {
-        return (b = this._handleMouseDown(a, this._getPositionInfo(a))) && a.preventDefault(), b;
-      }
-    };
-    b.prototype._handleMouseDown = function(a, c) {
-      if (!b.is_mouse_handled && (this.is_mouse_started && this._handleMouseUp(c), this.mouse_down_info = c, this._mouseCapture(c))) {
-        return this._handleStartMouse(), this.is_mouse_handled = !0;
-      }
-    };
-    b.prototype._handleStartMouse = function() {
-      var a = f(document);
-      a.bind("mousemove.mousewidget", f.proxy(this._mouseMove, this));
-      a.bind("touchmove.mousewidget", f.proxy(this._touchMove, this));
-      a.bind("mouseup.mousewidget", f.proxy(this._mouseUp, this));
-      a.bind("touchend.mousewidget", f.proxy(this._touchEnd, this));
-      if (this.mouse_delay) {
-        return this._startMouseDelayTimer();
-      }
-    };
-    b.prototype._startMouseDelayTimer = function() {
-      this._mouse_delay_timer && clearTimeout(this._mouse_delay_timer);
-      this._mouse_delay_timer = setTimeout(function(a) {
-        return function() {
-          return a._is_mouse_delay_met = !0;
-        };
-      }(this), this.mouse_delay);
-      return this._is_mouse_delay_met = !1;
-    };
-    b.prototype._mouseMove = function(a) {
-      return this._handleMouseMove(a, this._getPositionInfo(a));
-    };
-    b.prototype._handleMouseMove = function(a, b) {
-      if (this.is_mouse_started) {
-        return this._mouseDrag(b), a.preventDefault();
-      }
-      if (this.mouse_delay && !this._is_mouse_delay_met) {
-        return !0;
-      }
-      (this.is_mouse_started = !1 !== this._mouseStart(this.mouse_down_info)) ? this._mouseDrag(b) : this._handleMouseUp(b);
-      return !this.is_mouse_started;
-    };
-    b.prototype._getPositionInfo = function(a) {
-      return {page_x:a.pageX, page_y:a.pageY, target:a.target, original_event:a};
-    };
-    b.prototype._mouseUp = function(a) {
-      return this._handleMouseUp(this._getPositionInfo(a));
-    };
-    b.prototype._handleMouseUp = function(a) {
-      var b = f(document);
-      b.unbind("mousemove.mousewidget");
-      b.unbind("touchmove.mousewidget");
-      b.unbind("mouseup.mousewidget");
-      b.unbind("touchend.mousewidget");
-      this.is_mouse_started && (this.is_mouse_started = !1, this._mouseStop(a));
-    };
-    b.prototype._mouseCapture = function(a) {
-      return !0;
-    };
-    b.prototype._mouseStart = function(a) {
-      return null;
-    };
-    b.prototype._mouseDrag = function(a) {
-      return null;
-    };
-    b.prototype._mouseStop = function(a) {
-      return null;
-    };
-    b.prototype.setMouseDelay = function(a) {
-      return this.mouse_delay = a;
-    };
-    b.prototype._touchStart = function(a) {
-      if (!(1 < a.originalEvent.touches.length)) {
-        return this._handleMouseDown(a, this._getPositionInfo(a.originalEvent.changedTouches[0]));
-      }
-    };
-    b.prototype._touchMove = function(a) {
-      if (!(1 < a.originalEvent.touches.length)) {
-        return this._handleMouseMove(a, this._getPositionInfo(a.originalEvent.changedTouches[0]));
-      }
-    };
-    b.prototype._touchEnd = function(a) {
-      if (!(1 < a.originalEvent.touches.length)) {
-        return this._handleMouseUp(this._getPositionInfo(a.originalEvent.changedTouches[0]));
-      }
-    };
-    return b;
-  }(a);
-  b.exports = a;
-}, {"./simple.widget":10}], 5:[function(a, b, c) {
-  var d = jQuery;
-  var e = {getName:function(a) {
-    return e.strings[a - 1];
-  }, nameToIndex:function(a) {
-    var b, c;
-    var d = b = 1;
-    for (c = e.strings.length; 1 <= c ? b <= c : b >= c; d = 1 <= c ? ++b : --b) {
-      if (e.strings[d - 1] === a) {
-        return d;
+    var d = Object.create(null);
+    b.r(d);
+    Object.defineProperty(d, "default", {enumerable:!0, value:a});
+    if (c & 2 && "string" != typeof a) {
+      for (var e in a) {
+        b.d(d, e, function(b) {
+          return a[b];
+        }.bind(null, e));
       }
     }
-    return 0;
-  }, BEFORE:1, AFTER:2, INSIDE:3, NONE:4, strings:["before", "after", "inside", "none"]};
+    return d;
+  };
+  b.n = function(a) {
+    var c = a && a.__esModule ? function() {
+      return a["default"];
+    } : function() {
+      return a;
+    };
+    b.d(c, "a", c);
+    return c;
+  };
+  b.o = function(a, b) {
+    return Object.prototype.hasOwnProperty.call(a, b);
+  };
+  b.p = "";
+  return b(b.s = 15);
+})([function(a, b, c) {
+  b.__esModule = !0;
+  var d;
+  (function(a) {
+    a[a.Before = 1] = "Before";
+    a[a.After = 2] = "After";
+    a[a.Inside = 3] = "Inside";
+    a[a.None = 4] = "None";
+  })(d = b.Position || (b.Position = {}));
+  b.position_names = {before:d.Before, after:d.After, inside:d.Inside, none:d.None};
+  b.getPositionName = function(a) {
+    for (var c in b.position_names) {
+      if (b.position_names.hasOwnProperty(c) && b.position_names[c] === a) {
+        return c;
+      }
+    }
+    return "";
+  };
+  b.getPosition = function(a) {
+    return b.position_names[a];
+  };
   a = function() {
     function a(b, c, d) {
-      null == c && (c = !1);
-      null == d && (d = a);
+      void 0 === c && (c = !1);
+      void 0 === d && (d = a);
       this.name = "";
       this.setData(b);
       this.children = [];
@@ -14734,84 +14148,41 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       c && (this.id_mapping = {}, this.tree = this, this.node_class = d);
     }
     a.prototype.setData = function(a) {
-      var b;
-      var c = function(a) {
-        return function(b) {
-          if (null !== b) {
-            return a.name = b;
+      if (a) {
+        if ("object" !== typeof a) {
+          null != a && (this.name = a);
+        } else {
+          for (var b in a) {
+            if (a.hasOwnProperty(b)) {
+              var c = a[b];
+              "label" === b ? null != c && (this.name = c) : "children" !== b && (this[b] = c);
+            }
           }
-        };
-      }(this);
-      if ("object" !== typeof a) {
-        c(a);
-      } else {
-        for (b in a) {
-          var d = a[b];
-          "label" === b ? c(d) : "children" !== b && (this[b] = d);
         }
       }
-      return null;
-    };
-    a.prototype.initFromData = function(a) {
-      var b = function(a) {
-        return function(b) {
-          a.setData(b);
-          if (b.children) {
-            return c(b.children);
-          }
-        };
-      }(this);
-      var c = function(a) {
-        return function(b) {
-          var c;
-          var d = 0;
-          for (c = b.length; d < c; d++) {
-            var e = b[d];
-            var f = new a.tree.node_class("");
-            f.initFromData(e);
-            a.addChild(f);
-          }
-          return null;
-        };
-      }(this);
-      b(a);
-      return null;
     };
     a.prototype.loadFromData = function(a) {
-      var b;
       this.removeChildren();
-      var c = 0;
-      for (b = a.length; c < b; c++) {
-        var d = a[c];
-        var e = new this.tree.node_class(d);
-        this.addChild(e);
-        "object" === typeof d && d.children && e.loadFromData(d.children);
+      for (var b = 0; b < a.length; b++) {
+        var c = a[b], d = new this.tree.node_class(c);
+        this.addChild(d);
+        "object" === typeof c && c.children && d.loadFromData(c.children);
       }
-      return null;
     };
     a.prototype.addChild = function(a) {
       this.children.push(a);
-      return a._setParent(this);
+      a._setParent(this);
     };
     a.prototype.addChildAtPosition = function(a, b) {
       this.children.splice(b, 0, a);
-      return a._setParent(this);
-    };
-    a.prototype._setParent = function(a) {
-      this.parent = a;
-      this.tree = a.tree;
-      return this.tree.addNodeToIndex(this);
+      a._setParent(this);
     };
     a.prototype.removeChild = function(a) {
       a.removeChildren();
-      return this._removeChild(a);
-    };
-    a.prototype._removeChild = function(a) {
-      this.children.splice(this.getChildIndex(a), 1);
-      return this.tree.removeNodeFromIndex(a);
+      this._removeChild(a);
     };
     a.prototype.getChildIndex = function(a) {
-      return d.inArray(a, this.children);
+      return jQuery.inArray(a, this.children);
     };
     a.prototype.hasChildren = function() {
       return 0 !== this.children.length;
@@ -14821,51 +14192,31 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     a.prototype.iterate = function(a) {
       var b = function(c, d) {
-        var e, f;
         if (c.children) {
-          var g = c.children;
-          var h = 0;
-          for (e = g.length; h < e; h++) {
-            c = g[h], (f = a(c, d)) && c.hasChildren() && b(c, d + 1);
+          var e = 0;
+          for (c = c.children; e < c.length; e++) {
+            var f = c[e];
+            a(f, d) && f.hasChildren() && b(f, d + 1);
           }
-          return null;
         }
       };
       b(this, 0);
-      return null;
     };
     a.prototype.moveNode = function(a, b, c) {
-      if (!a.isParentOf(b)) {
-        a.parent._removeChild(a);
-        if (c === e.AFTER) {
-          return b.parent.addChildAtPosition(a, b.parent.getChildIndex(b) + 1);
-        }
-        if (c === e.BEFORE) {
-          return b.parent.addChildAtPosition(a, b.parent.getChildIndex(b));
-        }
-        if (c === e.INSIDE) {
-          return b.addChildAtPosition(a, 0);
-        }
-      }
+      a.parent && !a.isParentOf(b) && (a.parent._removeChild(a), c === d.After ? b.parent && b.parent.addChildAtPosition(a, b.parent.getChildIndex(b) + 1) : c === d.Before ? b.parent && b.parent.addChildAtPosition(a, b.parent.getChildIndex(b)) : c === d.Inside && b.addChildAtPosition(a, 0));
     };
     a.prototype.getData = function(a) {
-      null == a && (a = !1);
-      var b = function(a) {
-        var c, d;
-        var e = [];
-        var f = 0;
-        for (d = a.length; f < d; f++) {
-          var g = a[f];
-          var h = {};
-          for (c in g) {
-            var l = g[c];
-            "parent" !== c && "children" !== c && "element" !== c && "tree" !== c && Object.prototype.hasOwnProperty.call(g, c) && (h[c] = l);
+      function b(a) {
+        return a.map(function(a) {
+          var c = {}, d;
+          for (d in a) {
+            -1 === ["parent", "children", "element", "tree"].indexOf(d) && Object.prototype.hasOwnProperty.call(a, d) && (c[d] = a[d]);
           }
-          g.hasChildren() && (h.children = b(g.children));
-          e.push(h);
-        }
-        return e;
-      };
+          a.hasChildren() && (c.children = b(a.children));
+          return c;
+        });
+      }
+      void 0 === a && (a = !1);
       return a ? b([this]) : b(this.children);
     };
     a.prototype.getNodeByName = function(a) {
@@ -14882,8 +14233,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     a.prototype.addAfter = function(a) {
       if (this.parent) {
-        var b = new this.tree.node_class(a);
-        var c = this.parent.getChildIndex(this);
+        var b = new this.tree.node_class(a), c = this.parent.getChildIndex(this);
         this.parent.addChildAtPosition(b, c + 1);
         "object" === typeof a && a.children && a.children.length && b.loadFromData(a.children);
         return b;
@@ -14892,8 +14242,7 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     a.prototype.addBefore = function(a) {
       if (this.parent) {
-        var b = new this.tree.node_class(a);
-        var c = this.parent.getChildIndex(this);
+        var b = new this.tree.node_class(a), c = this.parent.getChildIndex(this);
         this.parent.addChildAtPosition(b, c);
         "object" === typeof a && a.children && a.children.length && b.loadFromData(a.children);
         return b;
@@ -14901,26 +14250,20 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return null;
     };
     a.prototype.addParent = function(a) {
-      var b;
       if (this.parent) {
-        var c = new this.tree.node_class(a);
-        c._setParent(this.tree);
-        var d = this.parent;
-        var e = d.children;
-        var f = 0;
-        for (b = e.length; f < b; f++) {
-          a = e[f], c.addChild(a);
+        a = new this.tree.node_class(a);
+        a._setParent(this.tree);
+        for (var b = this.parent, c = 0, d = b.children; c < d.length; c++) {
+          a.addChild(d[c]);
         }
-        d.children = [];
-        d.addChild(c);
-        return c;
+        b.children = [];
+        b.addChild(a);
+        return a;
       }
       return null;
     };
     a.prototype.remove = function() {
-      if (this.parent) {
-        return this.parent.removeChild(this), this.parent = null;
-      }
+      this.parent && (this.parent.removeChild(this), this.parent = null);
     };
     a.prototype.append = function(a) {
       var b = new this.tree.node_class(a);
@@ -14944,34 +14287,27 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return !1;
     };
     a.prototype.getLevel = function() {
-      var a;
-      var b = 0;
-      for (a = this; a.parent;) {
-        b += 1, a = a.parent;
+      for (var a = 0, b = this; b.parent;) {
+        a += 1, b = b.parent;
       }
-      return b;
+      return a;
     };
     a.prototype.getNodeById = function(a) {
       return this.id_mapping[a];
     };
     a.prototype.addNodeToIndex = function(a) {
-      if (null != a.id) {
-        return this.id_mapping[a.id] = a;
-      }
+      null != a.id && (this.id_mapping[a.id] = a);
     };
     a.prototype.removeNodeFromIndex = function(a) {
-      if (null != a.id) {
-        return delete this.id_mapping[a.id];
-      }
+      null != a.id && delete this.id_mapping[a.id];
     };
     a.prototype.removeChildren = function() {
-      this.iterate(function(a) {
-        return function(b) {
-          a.tree.removeNodeFromIndex(b);
-          return !0;
-        };
-      }(this));
-      return this.children = [];
+      var a = this;
+      this.iterate(function(b) {
+        a.tree.removeNodeFromIndex(b);
+        return !0;
+      });
+      this.children = [];
     };
     a.prototype.getPreviousSibling = function() {
       if (this.parent) {
@@ -15001,12 +14337,15 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return b;
     };
     a.prototype.getNextNode = function(a) {
-      null == a && (a = !0);
+      void 0 === a && (a = !0);
       return a && this.hasChildren() && this.is_open ? this.children[0] : this.parent ? (a = this.getNextSibling()) ? a : this.parent.getNextNode(!1) : null;
     };
     a.prototype.getPreviousNode = function() {
-      var a;
-      return this.parent ? (a = this.getPreviousSibling()) ? a.hasChildren() && a.is_open ? a.getLastChild() : a : this.getParent() : null;
+      if (this.parent) {
+        var a = this.getPreviousSibling();
+        return a ? a.hasChildren() && a.is_open ? a.getLastChild() : a : this.getParent();
+      }
+      return null;
     };
     a.prototype.getParent = function() {
       return this.parent ? this.parent.parent ? this.parent : null : null;
@@ -15018,590 +14357,150 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       }
       return null;
     };
-    return a;
-  }();
-  b.exports = {Node:a, Position:e};
-}, {}], 6:[function(a, b, c) {
-  var d = function(a, b) {
-    function c() {
-      this.constructor = a;
-    }
-    for (var d in b) {
-      e.call(b, d) && (a[d] = b[d]);
-    }
-    c.prototype = b.prototype;
-    a.prototype = new c;
-    a.__super__ = b.prototype;
-    return a;
-  }, e = {}.hasOwnProperty;
-  var f = a("./node").Position;
-  var g = jQuery;
-  c = function() {
-    function a(a, b) {
-      this.init(a, b);
-    }
-    a.prototype.init = function(a, b) {
-      this.node = a;
-      this.tree_widget = b;
-      a.element || (a.element = this.tree_widget.element);
-      return this.$element = g(a.element);
-    };
-    a.prototype.getUl = function() {
-      return this.$element.children("ul:first");
-    };
-    a.prototype.getSpan = function() {
-      return this.$element.children(".jqtree-element").find("span.jqtree-title");
-    };
-    a.prototype.getLi = function() {
-      return this.$element;
-    };
-    a.prototype.addDropHint = function(a) {
-      return a === f.INSIDE ? new h(this.$element) : new l(this.node, this.$element, a);
-    };
-    a.prototype.select = function() {
-      var a = this.getLi();
-      a.addClass("jqtree-selected");
-      a.attr("aria-selected", "true");
-      return this.getSpan().attr("tabindex", 0);
-    };
-    a.prototype.deselect = function() {
-      var a = this.getLi();
-      a.removeClass("jqtree-selected");
-      a.attr("aria-selected", "false");
-      return this.getSpan().attr("tabindex", -1);
-    };
-    return a;
-  }();
-  a = function(a) {
-    function b() {
-      return b.__super__.constructor.apply(this, arguments);
-    }
-    d(b, a);
-    b.prototype.open = function(a, b) {
-      null == b && (b = !0);
-      if (!this.node.is_open) {
-        this.node.is_open = !0;
-        var c = this.getButton();
-        c.removeClass("jqtree-closed");
-        c.html("");
-        c.append(this.tree_widget.renderer.opened_icon_element.cloneNode(!1));
-        c = function(b) {
-          return function() {
-            b.getLi().removeClass("jqtree-closed");
-            b.getSpan().attr("aria-expanded", "true");
-            a && a(b.node);
-            return b.tree_widget._triggerEvent("tree.open", {node:b.node});
-          };
-        }(this);
-        if (b) {
-          return this.getUl().slideDown("fast", c);
-        }
-        this.getUl().show();
-        return c();
-      }
-    };
-    b.prototype.close = function(a) {
-      null == a && (a = !0);
-      if (this.node.is_open) {
-        this.node.is_open = !1;
-        var b = this.getButton();
-        b.addClass("jqtree-closed");
-        b.html("");
-        b.append(this.tree_widget.renderer.closed_icon_element.cloneNode(!1));
-        b = function(a) {
-          return function() {
-            a.getLi().addClass("jqtree-closed");
-            a.getSpan().attr("aria-expanded", "false");
-            return a.tree_widget._triggerEvent("tree.close", {node:a.node});
-          };
-        }(this);
-        if (a) {
-          return this.getUl().slideUp("fast", b);
-        }
-        this.getUl().hide();
-        return b();
-      }
-    };
-    b.prototype.getButton = function() {
-      return this.$element.children(".jqtree-element").find("a.jqtree-toggler");
-    };
-    b.prototype.addDropHint = function(a) {
-      return this.node.is_open || a !== f.INSIDE ? new l(this.node, this.$element, a) : new h(this.$element);
-    };
-    return b;
-  }(c);
-  var h = function() {
-    function a(a) {
-      var b = a.children(".jqtree-element");
-      a = a.width() - 4;
-      this.$hint = g('<span class="jqtree-border"></span>');
-      b.append(this.$hint);
-      this.$hint.css({width:a, height:b.outerHeight() - 4});
-    }
-    a.prototype.remove = function() {
-      return this.$hint.remove();
-    };
-    return a;
-  }();
-  var l = function() {
-    function a(a, b, c) {
-      this.$element = b;
-      this.node = a;
-      this.$ghost = g('<li class="jqtree_common jqtree-ghost"><span class="jqtree_common jqtree-circle"></span><span class="jqtree_common jqtree-line"></span></li>');
-      c === f.AFTER ? this.moveAfter() : c === f.BEFORE ? this.moveBefore() : c === f.INSIDE && (a.isFolder() && a.is_open ? this.moveInsideOpenFolder() : this.moveInside());
-    }
-    a.prototype.remove = function() {
-      return this.$ghost.remove();
-    };
-    a.prototype.moveAfter = function() {
-      return this.$element.after(this.$ghost);
-    };
-    a.prototype.moveBefore = function() {
-      return this.$element.before(this.$ghost);
-    };
-    a.prototype.moveInsideOpenFolder = function() {
-      return g(this.node.children[0].element).before(this.$ghost);
-    };
-    a.prototype.moveInside = function() {
-      this.$element.after(this.$ghost);
-      return this.$ghost.addClass("jqtree-inside");
-    };
-    return a;
-  }();
-  b.exports = {BorderDropHint:h, FolderElement:a, GhostDropHint:l, NodeElement:c};
-}, {"./node":5}], 7:[function(a, b, c) {
-  var d = a("./util").isInt;
-  var e = jQuery;
-  a = function() {
-    function a(a) {
-      this.tree_widget = a;
-    }
-    a.prototype.saveState = function() {
-      var a = JSON.stringify(this.getState());
-      if (this.tree_widget.options.onSetStateFromStorage) {
-        return this.tree_widget.options.onSetStateFromStorage(a);
-      }
-      if (this.supportsLocalStorage()) {
-        return localStorage.setItem(this.getCookieName(), a);
-      }
-      if (e.cookie) {
-        return e.cookie.raw = !0, e.cookie(this.getCookieName(), a, {path:"/"});
-      }
-    };
-    a.prototype.getStateFromStorage = function() {
-      var a;
-      return (a = this._loadFromStorage()) ? this._parseState(a) : null;
-    };
-    a.prototype._parseState = function(a) {
-      (a = e.parseJSON(a)) && a.selected_node && d(a.selected_node) && (a.selected_node = [a.selected_node]);
-      return a;
-    };
-    a.prototype._loadFromStorage = function() {
-      return this.tree_widget.options.onGetStateFromStorage ? this.tree_widget.options.onGetStateFromStorage() : this.supportsLocalStorage() ? localStorage.getItem(this.getCookieName()) : e.cookie ? (e.cookie.raw = !0, e.cookie(this.getCookieName())) : null;
-    };
-    a.prototype.getState = function() {
-      var a = function(a) {
-        return function() {
-          var b = [];
-          a.tree_widget.tree.iterate(function(a) {
-            a.is_open && a.id && a.hasChildren() && b.push(a.id);
-            return !0;
-          });
-          return b;
-        };
-      }(this);
-      var b = function(a) {
-        return function() {
-          var b;
-          return function() {
-            var a;
-            var c = this.tree_widget.getSelectedNodes();
-            var d = [];
-            var e = 0;
-            for (a = c.length; e < a; e++) {
-              b = c[e], d.push(b.id);
-            }
-            return d;
-          }.call(a);
-        };
-      }(this);
-      return {open_nodes:a(), selected_node:b()};
-    };
-    a.prototype.setInitialState = function(a) {
-      if (a) {
-        var b = this._openInitialNodes(a.open_nodes);
-        this._selectInitialNodes(a.selected_node);
-        return b;
-      }
-      return !1;
-    };
-    a.prototype._openInitialNodes = function(a) {
-      var b;
-      var c = !1;
-      var d = 0;
-      for (b = a.length; d < b; d++) {
-        var e = a[d];
-        if (e = this.tree_widget.getNodeById(e)) {
-          e.load_on_demand ? c = !0 : e.is_open = !0;
-        }
-      }
-      return c;
-    };
-    a.prototype._selectInitialNodes = function(a) {
-      var b, c;
-      var d = c = 0;
-      for (b = a.length; d < b; d++) {
-        var e = a[d];
-        if (e = this.tree_widget.getNodeById(e)) {
-          c += 1, this.tree_widget.select_node_handler.addToSelection(e);
-        }
-      }
-      return 0 !== c;
-    };
-    a.prototype.setInitialStateOnDemand = function(a, b) {
-      return a ? this._setInitialStateOnDemand(a.open_nodes, a.selected_node, b) : b();
-    };
-    a.prototype._setInitialStateOnDemand = function(a, b, c) {
-      var d = 0;
-      var e = function(e) {
-        return function() {
-          var g, h;
-          var m = [];
-          var l = 0;
-          for (g = a.length; l < g; l++) {
-            var n = a[l];
-            (h = e.tree_widget.getNodeById(n)) ? h.is_loading || (h.load_on_demand ? f(h) : e.tree_widget._openNode(h, !1)) : m.push(n);
-          }
-          a = m;
-          e._selectInitialNodes(b) && e.tree_widget._refreshElements();
-          if (0 === d) {
-            return c();
-          }
-        };
-      }(this);
-      var f = function(a) {
-        return function(b) {
-          d += 1;
-          return a.tree_widget._openNode(b, !1, function() {
-            --d;
-            return e();
-          });
-        };
-      }(this);
-      return e();
-    };
-    a.prototype.getCookieName = function() {
-      return "string" === typeof this.tree_widget.options.saveState ? this.tree_widget.options.saveState : "tree";
-    };
-    a.prototype.supportsLocalStorage = function() {
-      null == this._supportsLocalStorage && (this._supportsLocalStorage = function() {
-        if ("undefined" === typeof localStorage || null === localStorage) {
-          return !1;
-        }
-        try {
-          sessionStorage.setItem("_storage_test", !0), sessionStorage.removeItem("_storage_test");
-        } catch (g) {
-          return !1;
-        }
-        return !0;
-      }());
-      return this._supportsLocalStorage;
-    };
-    a.prototype.getNodeIdToBeSelected = function() {
-      var a;
-      return (a = this.getStateFromStorage()) && a.selected_node ? a.selected_node[0] : null;
-    };
-    return a;
-  }();
-  b.exports = a;
-}, {"./util":12}], 8:[function(a, b, c) {
-  var d = jQuery;
-  a = function() {
-    function a(a) {
-      this.tree_widget = a;
-      this.previous_top = -1;
-      this.is_initialized = !1;
-    }
-    a.prototype._initScrollParent = function() {
-      var a = function(a) {
-        return function() {
-          var b;
-          var c = ["overflow", "overflow-y"];
-          var e = function(a) {
-            var b, e;
-            var f = 0;
-            for (b = c.length; f < b; f++) {
-              var g = c[f];
-              if ("auto" === (e = d.css(a, g)) || "scroll" === e) {
-                return !0;
-              }
-            }
-            return !1;
-          };
-          if (e(a.tree_widget.$el[0])) {
-            return a.tree_widget.$el;
-          }
-          var f = a.tree_widget.$el.parents();
-          var g = 0;
-          for (b = f.length; g < b; g++) {
-            var h = f[g];
-            if (e(h)) {
-              return d(h);
-            }
-          }
-          return null;
-        };
-      }(this);
-      var b = function(a) {
-        return function() {
-          a.scroll_parent_top = 0;
-          return a.$scroll_parent = null;
-        };
-      }(this);
-      "fixed" === this.tree_widget.$el.css("position") && b();
-      (a = a()) && a.length && "HTML" !== a[0].tagName ? (this.$scroll_parent = a, this.scroll_parent_top = this.$scroll_parent.offset().top) : b();
-      return this.is_initialized = !0;
-    };
-    a.prototype._ensureInit = function() {
-      if (!this.is_initialized) {
-        return this._initScrollParent();
-      }
-    };
-    a.prototype.checkScrolling = function() {
-      var a;
-      this._ensureInit();
-      if ((a = this.tree_widget.dnd_handler.hovered_area) && a.top !== this.previous_top) {
-        return this.previous_top = a.top, this.$scroll_parent ? this._handleScrollingWithScrollParent(a) : this._handleScrollingWithDocument(a);
-      }
-    };
-    a.prototype._handleScrollingWithScrollParent = function(a) {
-      if (20 > this.scroll_parent_top + this.$scroll_parent[0].offsetHeight - a.bottom) {
-        return this.$scroll_parent[0].scrollTop += 20, this.tree_widget.refreshHitAreas(), this.previous_top = -1;
-      }
-      if (20 > a.top - this.scroll_parent_top) {
-        return this.$scroll_parent[0].scrollTop -= 20, this.tree_widget.refreshHitAreas(), this.previous_top = -1;
-      }
-    };
-    a.prototype._handleScrollingWithDocument = function(a) {
-      if (20 > a.top - d(document).scrollTop()) {
-        return d(document).scrollTop(d(document).scrollTop() - 20);
-      }
-      if (20 > d(window).height() - (a.bottom - d(document).scrollTop())) {
-        return d(document).scrollTop(d(document).scrollTop() + 20);
-      }
-    };
-    a.prototype.scrollTo = function(a) {
-      this._ensureInit();
-      if (this.$scroll_parent) {
-        return this.$scroll_parent[0].scrollTop = a;
-      }
-      var b = this.tree_widget.$el.offset().top;
-      return d(document).scrollTop(a + b);
-    };
-    a.prototype.isScrolledIntoView = function(a) {
-      this._ensureInit();
-      a = d(a);
-      if (this.$scroll_parent) {
+    a.prototype.initFromData = function(a) {
+      this.setData(a);
+      if (a.children) {
         var b = 0;
-        var c = this.$scroll_parent.height();
-        var e = a.offset().top - this.scroll_parent_top;
-      } else {
-        b = d(window).scrollTop(), c = b + d(window).height(), e = a.offset().top;
-      }
-      return e + a.height() <= c && e >= b;
-    };
-    return a;
-  }();
-  b.exports = a;
-}, {}], 9:[function(a, b, c) {
-  a = function() {
-    function a(a) {
-      this.tree_widget = a;
-      this.clear();
-    }
-    a.prototype.getSelectedNode = function() {
-      var a = this.getSelectedNodes();
-      return a.length ? a[0] : !1;
-    };
-    a.prototype.getSelectedNodes = function() {
-      var a, b;
-      if (this.selected_single_node) {
-        return [this.selected_single_node];
-      }
-      var c = [];
-      for (a in this.selected_nodes) {
-        (b = this.tree_widget.getNodeById(a)) && c.push(b);
-      }
-      return c;
-    };
-    a.prototype.getSelectedNodesUnder = function(a) {
-      var b, c;
-      if (this.selected_single_node) {
-        return a.isParentOf(this.selected_single_node) ? [this.selected_single_node] : [];
-      }
-      var d = [];
-      for (b in this.selected_nodes) {
-        (c = this.tree_widget.getNodeById(b)) && a.isParentOf(c) && d.push(c);
-      }
-      return d;
-    };
-    a.prototype.isNodeSelected = function(a) {
-      return a ? a.id ? this.selected_nodes[a.id] ? !0 : !1 : this.selected_single_node ? this.selected_single_node.element === a.element : !1 : !1;
-    };
-    a.prototype.clear = function() {
-      this.selected_nodes = {};
-      return this.selected_single_node = null;
-    };
-    a.prototype.removeFromSelection = function(a, b) {
-      null == b && (b = !1);
-      if (a.id) {
-        if (delete this.selected_nodes[a.id], b) {
-          return a.iterate(function(b) {
-            return function(c) {
-              delete b.selected_nodes[a.id];
-              return !0;
-            };
-          }(this));
-        }
-      } else {
-        if (this.selected_single_node && a.element === this.selected_single_node.element) {
-          return this.selected_single_node = null;
+        for (a = a.children; b < a.length; b++) {
+          var c = a[b], d = new this.tree.node_class("");
+          d.initFromData(c);
+          this.addChild(d);
         }
       }
     };
-    a.prototype.addToSelection = function(a) {
-      return a.id ? this.selected_nodes[a.id] = !0 : this.selected_single_node = a;
+    a.prototype._setParent = function(a) {
+      this.parent = a;
+      this.tree = a.tree;
+      this.tree.addNodeToIndex(this);
+    };
+    a.prototype._removeChild = function(a) {
+      this.children.splice(this.getChildIndex(a), 1);
+      this.tree.removeNodeFromIndex(a);
     };
     return a;
   }();
-  b.exports = a;
-}, {}], 10:[function(a, b, c) {
-  var d = [].slice;
-  var e = jQuery;
+  b.Node = a;
+}, function(a, b, c) {
+  b.__esModule = !0;
+  b.isInt = function(a) {
+    return "number" === typeof a && 0 === a % 1;
+  };
+  b.isFunction = function(a) {
+    return "function" === typeof a;
+  };
+  b.html_escape = function(a) {
+    return ("" + a).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
+  };
+  b.getBoolString = function(a) {
+    return a ? "true" : "false";
+  };
+}, function(a, b) {
+  a.exports = jQuery;
+}, function(a, b, c) {
+  b.__esModule = !0;
   a = function() {
     function a(a, b) {
-      this.$el = e(a);
-      this.options = e.extend({}, this.defaults, b);
+      this.$el = jQuery(a);
+      this.options = jQuery.extend({}, this.constructor.defaults, b);
     }
-    a.prototype.defaults = {};
-    a.prototype.destroy = function() {
-      return this._deinit();
-    };
-    a.prototype._init = function() {
-      return null;
-    };
-    a.prototype._deinit = function() {
-      return null;
-    };
     a.register = function(b, c) {
-      var f = function() {
+      function d(b, c) {
+        return (b = jQuery.data(b, c)) && b instanceof a ? b : null;
+      }
+      var e = function() {
         return "simple_widget_" + c;
       };
-      var g = function(b, c) {
-        return (b = e.data(b, c)) && b instanceof a ? b : null;
-      };
-      var h = function(a, c) {
-        var d;
-        var h = f();
-        var m = 0;
-        for (d = a.length; m < d; m++) {
-          var l = a[m];
-          var r = g(l, h);
-          r || (r = new b(l, c), e.data(l, h) || e.data(l, h, r), r._init());
+      jQuery.fn[c] = function(c) {
+        for (var f = [], g = 1; g < arguments.length; g++) {
+          f[g - 1] = arguments[g];
         }
-        return a;
-      };
-      var q = function(a) {
-        var b, c;
-        var d = f();
-        var h = [];
-        var m = 0;
-        for (b = a.length; m < b; m++) {
-          var l = a[m];
-          (c = g(l, d)) && c.destroy();
-          h.push(e.removeData(l, d));
+        if (void 0 === c || "object" === typeof c) {
+          for (var f = e(), g = 0, h = this.get(); g < h.length; g++) {
+            var p = h[g];
+            if (!d(p, f)) {
+              var l = new b(p, c);
+              jQuery.data(p, f) || jQuery.data(p, f, l);
+              l._init();
+            }
+          }
+          return this;
         }
-        return h;
-      };
-      var m = function(b, c, d) {
-        var g, h;
-        var m = null;
-        var l = 0;
-        for (g = b.length; l < g; l++) {
-          var r = b[l];
-          (r = e.data(r, f())) && r instanceof a && (h = r[c]) && "function" === typeof h && (m = h.apply(r, d));
-        }
-        return m;
-      };
-      return e.fn[c] = function() {
-        var a = arguments[0];
-        var c = 2 <= arguments.length ? d.call(arguments, 1) : [];
-        if (void 0 === a || "object" === typeof a) {
-          return h(this, a);
-        }
-        if ("string" === typeof a && "_" !== a[0]) {
-          return "destroy" === a ? q(this) : "get_widget_class" === a ? b : m(this, a, c);
+        if ("string" === typeof c && "_" !== c[0]) {
+          if ("destroy" === c) {
+            for (f = e(), g = 0, h = this.get(); g < h.length; g++) {
+              p = h[g], (l = d(p, f)) && l.destroy(), jQuery.removeData(p, f);
+            }
+          } else {
+            if ("get_widget_class" === c) {
+              return b;
+            }
+            g = null;
+            h = 0;
+            for (p = this.get(); h < p.length; h++) {
+              if ((l = jQuery.data(p[h], e())) && l instanceof a) {
+                var u = l[c];
+                u && "function" === typeof u && (g = u.apply(l, f));
+              }
+            }
+            return g;
+          }
         }
       };
     };
+    a.prototype.destroy = function() {
+      this._deinit();
+    };
+    a.prototype._init = function() {
+    };
+    a.prototype._deinit = function() {
+    };
+    a.defaults = {};
     return a;
   }();
-  b.exports = a;
-}, {}], 11:[function(a, b, c) {
-  var d = function(a, b) {
-    function c() {
-      this.constructor = a;
-    }
-    for (var d in b) {
-      e.call(b, d) && (a[d] = b[d]);
-    }
-    c.prototype = b.prototype;
-    a.prototype = new c;
-    a.__super__ = b.prototype;
-    return a;
-  }, e = {}.hasOwnProperty;
-  var f = a("./version");
-  var g = a("./drag_and_drop_handler");
-  var h = a("./elements_renderer");
-  var l = a("./key_handler");
-  c = a("./mouse.widget");
-  var n = a("./save_state_handler");
-  var p = a("./scroll_handler");
-  var q = a("./select_node_handler");
-  b = a("./simple.widget");
-  var m = a("./node");
-  var r = m.Node;
-  var u = m.Position;
-  var v = a("./util");
-  var y = v.isFunction;
-  a = a("./node_element");
-  var C = a.BorderDropHint;
-  var B = a.FolderElement;
-  var H = a.GhostDropHint;
-  var A = a.NodeElement;
-  var D = g.DragAndDropHandler;
-  var F = g.DragElement;
-  var K = g.HitAreasGenerator;
-  var I = jQuery;
-  a = function(a) {
+  b["default"] = a;
+}, function(a, b, c) {
+  var d = this && this.__extends || function() {
+    var a = Object.setPrototypeOf || {__proto__:[]} instanceof Array && function(a, b) {
+      a.__proto__ = b;
+    } || function(a, b) {
+      for (var c in b) {
+        b.hasOwnProperty(c) && (a[c] = b[c]);
+      }
+    };
+    return function(b, c) {
+      function d() {
+        this.constructor = b;
+      }
+      a(b, c);
+      b.prototype = null === c ? Object.create(c) : (d.prototype = c.prototype, new d);
+    };
+  }();
+  b.__esModule = !0;
+  var e = c(5), f = c(2), g = c(6), h = c(7), l = c(8);
+  b = c(9);
+  var n = c(10), m = c(11), q = c(12);
+  a = c(3);
+  var p = c(0), r = c(1), u = c(13);
+  c = function(a) {
     function b() {
-      return b.__super__.constructor.apply(this, arguments);
+      var b = null !== a && a.apply(this, arguments) || this;
+      b._handleClick = function(a) {
+        var c = b._getClickTarget(a.target);
+        c && ("button" === c.type ? (b.toggle(c.node, b.options.slide), a.preventDefault(), a.stopPropagation()) : "label" === c.type && (c = c.node, b._triggerEvent("tree.click", {node:c, click_event:a}).isDefaultPrevented() || b._selectNode(c, !0)));
+      };
+      b._handleDblclick = function(a) {
+        var c = b._getClickTarget(a.target);
+        c && "label" === c.type && b._triggerEvent("tree.dblclick", {node:c.node, click_event:a});
+      };
+      b._handleContextmenu = function(a) {
+        var c = f(a.target).closest("ul.jqtree-tree .jqtree-element");
+        return c.length && (c = b._getNode(c)) ? (a.preventDefault(), a.stopPropagation(), b._triggerEvent("tree.contextmenu", {node:c, click_event:a}), !1) : null;
+      };
+      return b;
     }
     d(b, a);
-    b.prototype.BorderDropHint = C;
-    b.prototype.DragElement = F;
-    b.prototype.DragAndDropHandler = D;
-    b.prototype.ElementsRenderer = h;
-    b.prototype.GhostDropHint = H;
-    b.prototype.HitAreasGenerator = K;
-    b.prototype.Node = r;
-    b.prototype.SaveStateHandler = n;
-    b.prototype.ScrollHandler = p;
-    b.prototype.SelectNodeHandler = q;
-    b.prototype.defaults = {autoOpen:!1, saveState:!1, dragAndDrop:!1, selectable:!0, useContextMenu:!0, onCanSelectNode:null, onSetStateFromStorage:null, onGetStateFromStorage:null, onCreateLi:null, onIsMoveHandle:null, onCanMove:null, onCanMoveTo:null, onLoadFailed:null, autoEscape:!0, dataUrl:null, closedIcon:null, openedIcon:"&#x25bc;", slide:!0, nodeClass:r, dataFilter:null, keyboardSupport:!0, openFolderDelay:500, rtl:null, onDragMove:null, onDragStop:null, buttonLeft:!0, onLoading:null};
     b.prototype.toggle = function(a, b) {
-      null == b && (b = null);
-      null === b && (b = this.options.slide);
+      b = null == b ? this.options.slide : b;
       a.is_open ? this.closeNode(a, b) : this.openNode(a, b);
       return this.element;
     };
@@ -15612,40 +14511,8 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       this._selectNode(a, !1);
       return this.element;
     };
-    b.prototype._selectNode = function(a, b) {
-      null == b && (b = !1);
-      if (this.select_node_handler) {
-        var c = function(b) {
-          return function() {
-            return b.options.onCanSelectNode ? b.options.selectable && b.options.onCanSelectNode(a) : b.options.selectable;
-          };
-        }(this);
-        var d = function(b) {
-          return function() {
-            var c;
-            if ((c = a.parent) && c.parent && !c.is_open) {
-              return b.openNode(c, !1);
-            }
-          };
-        }(this);
-        var e = function(a) {
-          return function() {
-            if (a.options.saveState) {
-              return a.save_state_handler.saveState();
-            }
-          };
-        }(this);
-        if (!a) {
-          this._deselectCurrentNode(), e();
-        } else {
-          if (c()) {
-            return this.select_node_handler.isNodeSelected(a) ? b && (this._deselectCurrentNode(), this._triggerEvent("tree.select", {node:null, previous_node:a})) : (b = this.getSelectedNode(), this._deselectCurrentNode(), this.addToSelection(a), this._triggerEvent("tree.select", {node:a, deselected_node:b}), d()), e();
-          }
-        }
-      }
-    };
     b.prototype.getSelectedNode = function() {
-      return this.select_node_handler ? this.select_node_handler.getSelectedNode() : null;
+      return this.select_node_handler ? this.select_node_handler.getSelectedNode() : !1;
     };
     b.prototype.toJson = function() {
       return JSON.stringify(this.tree.getData());
@@ -15655,95 +14522,12 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return this.element;
     };
     b.prototype.loadDataFromUrl = function(a, b, c) {
-      "string" === I.type(a) ? this._loadDataFromUrl(a, b, c) : this._loadDataFromUrl(null, a, b);
+      "string" === typeof a ? this._loadDataFromUrl(a, b, c) : this._loadDataFromUrl(null, a, b);
       return this.element;
     };
     b.prototype.reload = function(a) {
       this._loadDataFromUrl(null, null, a);
       return this.element;
-    };
-    b.prototype._loadDataFromUrl = function(a, b, c) {
-      var d = null;
-      var e = function(a) {
-        return function() {
-          d = b ? I(b.element) : a.element;
-          d.addClass("jqtree-loading");
-          return a._notifyLoading(!0, b, d);
-        };
-      }(this);
-      var f = function(a) {
-        return function() {
-          if (d) {
-            return d.removeClass("jqtree-loading"), a._notifyLoading(!1, b, d);
-          }
-        };
-      }(this);
-      var g = function() {
-        if ("string" === I.type(a)) {
-          return {url:a};
-        }
-        a.method || (a.method = "get");
-        return a;
-      };
-      var h = function(a) {
-        return function(d) {
-          f();
-          a._loadData(d, b);
-          if (c && I.isFunction(c)) {
-            return c();
-          }
-        };
-      }(this);
-      var m = function(a) {
-        return function(b) {
-          var c = I.isArray(b) || "object" === typeof b ? b : null != c ? I.parseJSON(b) : [];
-          a.options.dataFilter && (c = a.options.dataFilter(c));
-          return h(c);
-        };
-      }(this);
-      var l = function(a) {
-        return function(b) {
-          f();
-          if (a.options.onLoadFailed) {
-            return a.options.onLoadFailed(b);
-          }
-        };
-      }(this);
-      var r = function() {
-        a = g();
-        return I.ajax(I.extend({}, a, {method:null != a.method ? a.method.toUpperCase() : "GET", cache:!1, dataType:"json", success:m, error:l}));
-      };
-      a || (a = this._getDataUrlInfo(b));
-      e();
-      a ? I.isArray(a) ? h(a) : r() : f();
-    };
-    b.prototype._loadData = function(a, b) {
-      null == b && (b = null);
-      var c = function(a) {
-        return function() {
-          var c;
-          if (a.select_node_handler) {
-            var d = a.select_node_handler.getSelectedNodesUnder(b);
-            var e = 0;
-            for (c = d.length; e < c; e++) {
-              var f = d[e];
-              a.select_node_handler.removeFromSelection(f);
-            }
-          }
-          return null;
-        };
-      }(this);
-      var d = function(c) {
-        return function() {
-          b.loadFromData(a);
-          b.load_on_demand = !1;
-          b.is_loading = !1;
-          return c._refreshElements(b);
-        };
-      }(this);
-      if (a && (this._triggerEvent("tree.load_data", {tree_data:a}), b ? (c(), d()) : this._initTree(a), this.isDragging())) {
-        return this.dnd_handler.refresh();
-      }
     };
     b.prototype.getNodeById = function(a) {
       return this.tree.getNodeById(a);
@@ -15755,92 +14539,46 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return this.tree.getNodesByProperty(a, b);
     };
     b.prototype.getNodeByHtmlElement = function(a) {
-      return this._getNode(I(a));
+      return this._getNode(f(a));
     };
     b.prototype.getNodeByCallback = function(a) {
       return this.tree.getNodeByCallback(a);
     };
     b.prototype.openNode = function(a, b, c) {
-      null == b && (b = null);
-      null == c && (c = null);
-      var d = function(a) {
-        return function() {
-          if (y(b)) {
-            var d = b;
-            var e = null;
-          } else {
-            e = b, d = c;
-          }
-          null === e && (e = a.options.slide);
-          return [e, d];
-        };
-      }(this)();
-      var e = d[0];
-      d = d[1];
-      a && this._openNode(a, e, d);
+      r.isFunction(b) && (c = b, b = null);
+      null == b && (b = this.options.slide);
+      b = [b, c];
+      c = b[0];
+      b = b[1];
+      a && this._openNode(a, c, b);
       return this.element;
     };
-    b.prototype._openNode = function(a, b, c) {
-      var d;
-      null == b && (b = !0);
-      var e = function(a) {
-        return function(b, c, d) {
-          return (new B(b, a)).open(d, c);
-        };
-      }(this);
-      if (a.isFolder()) {
-        if (a.load_on_demand) {
-          return this._loadFolderOnDemand(a, b, c);
-        }
-        for (d = a.parent; d;) {
-          d.parent && e(d, !1, null), d = d.parent;
-        }
-        e(a, b, c);
-        return this._saveState();
-      }
-    };
-    b.prototype._loadFolderOnDemand = function(a, b, c) {
-      null == b && (b = !0);
-      a.is_loading = !0;
-      return this._loadDataFromUrl(null, a, function(d) {
-        return function() {
-          return d._openNode(a, b, c);
-        };
-      }(this));
-    };
     b.prototype.closeNode = function(a, b) {
-      null == b && (b = null);
-      null === b && (b = this.options.slide);
-      a.isFolder() && ((new B(a, this)).close(b), this._saveState());
+      b = null == b ? this.options.slide : b;
+      a.isFolder() && ((new u.FolderElement(a, this)).close(b, this.options.animationSpeed), this._saveState());
       return this.element;
     };
     b.prototype.isDragging = function() {
       return this.dnd_handler ? this.dnd_handler.is_dragging : !1;
     };
     b.prototype.refreshHitAreas = function() {
-      this.dnd_handler.refresh();
+      this.dnd_handler && this.dnd_handler.refresh();
       return this.element;
     };
     b.prototype.addNodeAfter = function(a, b) {
-      a = b.addAfter(a);
-      this._refreshElements(b.parent);
+      (a = b.addAfter(a)) && this._refreshElements(b.parent);
       return a;
     };
     b.prototype.addNodeBefore = function(a, b) {
-      a = b.addBefore(a);
-      this._refreshElements(b.parent);
+      (a = b.addBefore(a)) && this._refreshElements(b.parent);
       return a;
     };
     b.prototype.addParentNode = function(a, b) {
-      a = b.addParent(a);
-      this._refreshElements(a.parent);
+      (a = b.addParent(a)) && this._refreshElements(a.parent);
       return a;
     };
     b.prototype.removeNode = function(a) {
-      var b;
-      if (b = a.parent) {
-        this.select_node_handler.removeFromSelection(a, !0), a.remove(), this._refreshElements(b);
-      }
+      a.parent && this.select_node_handler && (this.select_node_handler.removeFromSelection(a, !0), a.remove(), this._refreshElements(a.parent));
       return this.element;
     };
     b.prototype.appendNode = function(a, b) {
@@ -15850,57 +14588,62 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return a;
     };
     b.prototype.prependNode = function(a, b) {
-      b || (b = this.tree);
+      b = b ? b : this.tree;
       a = b.prepend(a);
       this._refreshElements(b);
       return a;
     };
     b.prototype.updateNode = function(a, b) {
-      var c;
-      (c = b.id && b.id !== a.id) && this.tree.removeNodeFromIndex(a);
+      var c = b.id && b.id !== a.id;
+      c && this.tree.removeNodeFromIndex(a);
       a.setData(b);
       c && this.tree.addNodeToIndex(a);
       "object" === typeof b && b.children && (a.removeChildren(), b.children.length && a.loadFromData(b.children));
-      this.renderer.renderFromNode(a);
+      this._refreshElements(a);
       this._selectCurrentNode();
       return this.element;
     };
     b.prototype.moveNode = function(a, b, c) {
-      c = u.nameToIndex(c);
+      c = p.getPosition(c);
       this.tree.moveNode(a, b, c);
-      this._refreshElements();
+      this._refreshElements(null);
       return this.element;
     };
     b.prototype.getStateFromStorage = function() {
-      return this.save_state_handler.getStateFromStorage();
+      if (this.save_state_handler) {
+        return this.save_state_handler.getStateFromStorage();
+      }
     };
-    b.prototype.addToSelection = function(a) {
-      a && (this.select_node_handler.addToSelection(a), this._getNodeElementForNode(a).select(), this._saveState());
+    b.prototype.addToSelection = function(a, b) {
+      void 0 === b && (b = !0);
+      a && this.select_node_handler && (this.select_node_handler.addToSelection(a), this._getNodeElementForNode(a).select(b), this._saveState());
       return this.element;
     };
     b.prototype.getSelectedNodes = function() {
-      return this.select_node_handler.getSelectedNodes();
+      return this.select_node_handler ? this.select_node_handler.getSelectedNodes() : [];
     };
     b.prototype.isNodeSelected = function(a) {
-      return this.select_node_handler.isNodeSelected(a);
+      return this.select_node_handler ? this.select_node_handler.isNodeSelected(a) : !1;
     };
     b.prototype.removeFromSelection = function(a) {
-      this.select_node_handler.removeFromSelection(a);
-      this._getNodeElementForNode(a).deselect();
-      this._saveState();
+      this.select_node_handler && (this.select_node_handler.removeFromSelection(a), this._getNodeElementForNode(a).deselect(), this._saveState());
       return this.element;
     };
     b.prototype.scrollToNode = function(a) {
-      a = I(a.element).offset().top - this.$el.offset().top;
-      this.scroll_handler.scrollTo(a);
+      if (this.scroll_handler) {
+        a = (a = f(a.element).offset()) ? a.top : 0;
+        var b = this.$el.offset();
+        this.scroll_handler.scrollToY(a - (b ? b.top : 0));
+      }
       return this.element;
     };
     b.prototype.getState = function() {
-      return this.save_state_handler.getState();
+      if (this.save_state_handler) {
+        return this.save_state_handler.getState();
+      }
     };
     b.prototype.setState = function(a) {
-      this.save_state_handler.setInitialState(a);
-      this._refreshElements();
+      this.save_state_handler && (this.save_state_handler.setInitialState(a), this._refreshElements(null));
       return this.element;
     };
     b.prototype.setOption = function(a, b) {
@@ -15916,171 +14659,190 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       return this.element;
     };
     b.prototype.getVersion = function() {
-      return f;
+      return e["default"];
+    };
+    b.prototype.testGenerateHitAreas = function(a) {
+      return this.dnd_handler ? (this.dnd_handler.current_item = this._getNodeElementForNode(a), this.dnd_handler.generateHitAreas(), this.dnd_handler.hit_areas) : [];
+    };
+    b.prototype._triggerEvent = function(a, b) {
+      a = f.Event(a);
+      f.extend(a, b);
+      this.element.trigger(a);
+      return a;
+    };
+    b.prototype._openNode = function(a, b, c) {
+      void 0 === b && (b = !0);
+      if (a.isFolder()) {
+        if (a.load_on_demand) {
+          this._loadFolderOnDemand(a, b, c);
+        } else {
+          for (var d = a.parent; d;) {
+            d.parent && (new u.FolderElement(d, this)).open(null, !1, this.options.animationSpeed), d = d.parent;
+          }
+          (new u.FolderElement(a, this)).open(c, b, this.options.animationSpeed);
+          this._saveState();
+        }
+      }
+    };
+    b.prototype._refreshElements = function(a) {
+      this.renderer.render(a);
+      this._triggerEvent("tree.refresh");
+    };
+    b.prototype._getNodeElementForNode = function(a) {
+      return a.isFolder() ? new u.FolderElement(a, this) : new u.NodeElement(a, this);
+    };
+    b.prototype._getNodeElement = function(a) {
+      return (a = this._getNode(a)) ? this._getNodeElementForNode(a) : null;
+    };
+    b.prototype._containsElement = function(a) {
+      a = this._getNode(f(a));
+      return null != a && a.tree === this.tree;
+    };
+    b.prototype._getScrollLeft = function() {
+      return this.scroll_handler && this.scroll_handler.getScrollLeft() || 0;
     };
     b.prototype._init = function() {
-      b.__super__._init.call(this);
+      a.prototype._init.call(this);
       this.element = this.$el;
       this.mouse_delay = 300;
       this.is_initialized = !1;
       this.options.rtl = this._getRtlOption();
-      this.options.closedIcon || (this.options.closedIcon = this._getDefaultClosedIcon());
-      this.renderer = new h(this);
-      null != n ? this.save_state_handler = new n(this) : this.options.saveState = !1;
-      null != q && (this.select_node_handler = new q(this));
-      null != D ? this.dnd_handler = new D(this) : this.options.dragAndDrop = !1;
-      null != p && (this.scroll_handler = new p(this));
-      null != l && null != q && (this.key_handler = new l(this));
+      null === this.options.closedIcon && (this.options.closedIcon = this._getDefaultClosedIcon());
+      this.renderer = new h["default"](this);
+      null != n["default"] ? this.save_state_handler = new n["default"](this) : this.options.saveState = !1;
+      null != q["default"] && (this.select_node_handler = new q["default"](this));
+      null != g.DragAndDropHandler ? this.dnd_handler = new g.DragAndDropHandler(this) : this.options.dragAndDrop = !1;
+      null != m["default"] && (this.scroll_handler = new m["default"](this));
+      null != l["default"] && null != q["default"] && (this.key_handler = new l["default"](this));
       this._initData();
-      this.element.click(I.proxy(this._click, this));
-      this.element.dblclick(I.proxy(this._dblclick, this));
+      this.element.click(this._handleClick);
+      this.element.dblclick(this._handleDblclick);
       if (this.options.useContextMenu) {
-        return this.element.bind("contextmenu", I.proxy(this._contextmenu, this));
+        this.element.on("contextmenu", this._handleContextmenu);
       }
     };
     b.prototype._deinit = function() {
       this.element.empty();
-      this.element.unbind();
+      this.element.off();
       this.key_handler && this.key_handler.deinit();
-      this.tree = null;
-      return b.__super__._deinit.call(this);
+      this.tree = new p.Node({}, !0);
+      a.prototype._deinit.call(this);
+    };
+    b.prototype._mouseCapture = function(a) {
+      return this.options.dragAndDrop && this.dnd_handler ? this.dnd_handler.mouseCapture(a) : !1;
+    };
+    b.prototype._mouseStart = function(a) {
+      return this.options.dragAndDrop && this.dnd_handler ? this.dnd_handler.mouseStart(a) : !1;
+    };
+    b.prototype._mouseDrag = function(a) {
+      return this.options.dragAndDrop && this.dnd_handler ? (a = this.dnd_handler.mouseDrag(a), this.scroll_handler && this.scroll_handler.checkScrolling(), a) : !1;
+    };
+    b.prototype._mouseStop = function(a) {
+      return this.options.dragAndDrop && this.dnd_handler ? this.dnd_handler.mouseStop(a) : !1;
     };
     b.prototype._initData = function() {
-      return this.options.data ? this._loadData(this.options.data) : this._getDataUrlInfo() ? this._loadDataFromUrl() : this._loadData([]);
+      this.options.data ? this._loadData(this.options.data, null) : this._getDataUrlInfo(null) ? this._loadDataFromUrl(null, null, null) : this._loadData([], null);
     };
     b.prototype._getDataUrlInfo = function(a) {
-      var b = this.options.dataUrl || this.element.data("url");
-      var c = function(c) {
-        return function() {
-          var d = {url:b};
-          if (a && a.id) {
-            var e = {node:a.id};
-            d.data = e;
-          } else {
-            if (e = c._getNodeIdToBeSelected()) {
-              e = {selected_node:e}, d.data = e;
-            }
+      var b = this, c = this.options.dataUrl || this.element.data("url"), d = function() {
+        var a = {url:c};
+        e(a);
+        return a;
+      }, e = function(c) {
+        if (a && a.id) {
+          var d = {node:a.id};
+          c.data = d;
+        } else {
+          if (d = b._getNodeIdToBeSelected()) {
+            d = {selected_node:d}, c.data = d;
           }
-          return d;
-        };
-      }(this);
-      return I.isFunction(b) ? b(a) : "string" === I.type(b) ? c() : b;
+        }
+      };
+      if ("function" === typeof c) {
+        return c(a);
+      }
+      if ("string" === typeof c) {
+        return d();
+      }
+      "object" === typeof c && e(c);
+      return c;
     };
     b.prototype._getNodeIdToBeSelected = function() {
-      return this.options.saveState ? this.save_state_handler.getNodeIdToBeSelected() : null;
+      return this.options.saveState && this.save_state_handler ? this.save_state_handler.getNodeIdToBeSelected() : null;
     };
     b.prototype._initTree = function(a) {
-      var b = function(a) {
-        return function() {
-          if (!a.is_initialized) {
-            return a.is_initialized = !0, a._triggerEvent("tree.init");
-          }
-        };
-      }(this);
+      var b = this, c = function() {
+        b.is_initialized || (b.is_initialized = !0, b._triggerEvent("tree.init"));
+      };
       this.tree = new this.options.nodeClass(null, !0, this.options.nodeClass);
       this.select_node_handler && this.select_node_handler.clear();
       this.tree.loadFromData(a);
       a = this._setInitialState();
-      this._refreshElements();
-      return a ? this._setInitialStateOnDemand(b) : b();
+      this._refreshElements(null);
+      a ? this._setInitialStateOnDemand(c) : c();
     };
     b.prototype._setInitialState = function() {
-      var a = function(a) {
-        return function() {
-          var b;
-          return a.options.saveState && a.save_state_handler && (b = a.save_state_handler.getStateFromStorage()) ? (b = a.save_state_handler.setInitialState(b), [!0, b]) : [!1, !1];
-        };
-      }(this);
-      var b = function(a) {
-        return function() {
-          if (!1 === a.options.autoOpen) {
-            return !1;
-          }
-          var b = a._getAutoOpenMaxLevel();
-          var c = !1;
-          a.tree.iterate(function(a, d) {
-            return a.load_on_demand ? (c = !0, !1) : a.hasChildren() ? (a.is_open = !0, d !== b) : !1;
-          });
-          return c;
-        };
-      }(this);
-      var c = a();
-      a = c[0];
-      c = c[1];
-      a || (c = b());
-      return c;
+      var a = this, b = function() {
+        if (!1 === a.options.autoOpen) {
+          return !1;
+        }
+        var b = a._getAutoOpenMaxLevel(), c = !1;
+        a.tree.iterate(function(a, d) {
+          return a.load_on_demand ? (c = !0, !1) : a.hasChildren() ? (a.is_open = !0, d !== b) : !1;
+        });
+        return c;
+      }, c = function() {
+        if (a.options.saveState && a.save_state_handler) {
+          var b = a.save_state_handler.getStateFromStorage();
+          return b ? [!0, a.save_state_handler.setInitialState(b)] : [!1, !1];
+        }
+        return [!1, !1];
+      }(), d = c[1];
+      c[0] || (d = b());
+      return d;
     };
     b.prototype._setInitialStateOnDemand = function(a) {
-      var b = function(b) {
-        return function() {
-          var c;
-          return b.options.saveState && b.save_state_handler && (c = b.save_state_handler.getStateFromStorage()) ? (b.save_state_handler.setInitialStateOnDemand(c, a), !0) : !1;
-        };
-      }(this);
-      var c = function(b) {
-        return function() {
-          var c = b._getAutoOpenMaxLevel();
-          var d = 0;
-          var e = function(a) {
-            d += 1;
-            return b._openNode(a, !1, function() {
-              --d;
-              return f();
-            });
-          };
-          var f = function() {
-            b.tree.iterate(function(a, d) {
-              if (a.load_on_demand) {
-                return a.is_loading || e(a), !1;
-              }
-              b._openNode(a, !1);
-              return d !== c;
-            });
-            if (0 === d) {
-              return a();
+      var b = this, c = function() {
+        var c = b._getAutoOpenMaxLevel(), d = 0, e = function(a) {
+          d += 1;
+          b._openNode(a, !1, function() {
+            --d;
+            f();
+          });
+        }, f = function() {
+          b.tree.iterate(function(a, d) {
+            if (a.load_on_demand) {
+              return a.is_loading || e(a), !1;
             }
-          };
-          return f();
+            b._openNode(a, !1, null);
+            return d !== c;
+          });
+          0 === d && a();
         };
-      }(this);
-      if (!b()) {
-        return c();
-      }
+        f();
+      };
+      (function() {
+        if (b.options.saveState && b.save_state_handler) {
+          var c = b.save_state_handler.getStateFromStorage();
+          if (c) {
+            return b.save_state_handler.setInitialStateOnDemand(c, a), !0;
+          }
+        }
+        return !1;
+      })() || c();
     };
     b.prototype._getAutoOpenMaxLevel = function() {
-      return !0 === this.options.autoOpen ? -1 : parseInt(this.options.autoOpen);
-    };
-    b.prototype._refreshElements = function(a) {
-      null == a && (a = null);
-      this.renderer.render(a);
-      return this._triggerEvent("tree.refresh");
-    };
-    b.prototype._click = function(a) {
-      var b;
-      if (b = this._getClickTarget(a.target)) {
-        if ("button" === b.type) {
-          return this.toggle(b.node, this.options.slide), a.preventDefault(), a.stopPropagation();
-        }
-        if ("label" === b.type && (b = b.node, a = this._triggerEvent("tree.click", {node:b, click_event:a}), !a.isDefaultPrevented())) {
-          return this._selectNode(b, !0);
-        }
-      }
-    };
-    b.prototype._dblclick = function(a) {
-      var b;
-      if ((b = this._getClickTarget(a.target)) && "label" === b.type) {
-        return this._triggerEvent("tree.dblclick", {node:b.node, click_event:a});
-      }
+      return !0 === this.options.autoOpen ? -1 : parseInt(this.options.autoOpen, 10);
     };
     b.prototype._getClickTarget = function(a) {
-      var b = I(a);
-      a = b.closest(".jqtree-toggler");
-      if (a.length) {
-        if (a = this._getNode(a)) {
+      a = f(a);
+      var b = a.closest(".jqtree-toggler");
+      if (b.length) {
+        if (a = this._getNode(b)) {
           return {type:"button", node:a};
         }
       } else {
-        if (a = b.closest(".jqtree-element"), a.length && (a = this._getNode(a))) {
+        if (a = a.closest(".jqtree-element"), a.length && (a = this._getNode(a))) {
           return {type:"label", node:a};
         }
       }
@@ -16090,65 +14852,22 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
       a = a.closest("li.jqtree_common");
       return 0 === a.length ? null : a.data("node");
     };
-    b.prototype._getNodeElementForNode = function(a) {
-      return a.isFolder() ? new B(a, this) : new A(a, this);
-    };
-    b.prototype._getNodeElement = function(a) {
-      return (a = this._getNode(a)) ? this._getNodeElementForNode(a) : null;
-    };
-    b.prototype._contextmenu = function(a) {
-      var b = I(a.target).closest("ul.jqtree-tree .jqtree-element");
-      if (b.length && (b = this._getNode(b))) {
-        return a.preventDefault(), a.stopPropagation(), this._triggerEvent("tree.contextmenu", {node:b, click_event:a}), !1;
-      }
-    };
     b.prototype._saveState = function() {
-      if (this.options.saveState) {
-        return this.save_state_handler.saveState();
-      }
-    };
-    b.prototype._mouseCapture = function(a) {
-      return this.options.dragAndDrop ? this.dnd_handler.mouseCapture(a) : !1;
-    };
-    b.prototype._mouseStart = function(a) {
-      return this.options.dragAndDrop ? this.dnd_handler.mouseStart(a) : !1;
-    };
-    b.prototype._mouseDrag = function(a) {
-      return this.options.dragAndDrop ? (a = this.dnd_handler.mouseDrag(a), this.scroll_handler && this.scroll_handler.checkScrolling(), a) : !1;
-    };
-    b.prototype._mouseStop = function(a) {
-      return this.options.dragAndDrop ? this.dnd_handler.mouseStop(a) : !1;
-    };
-    b.prototype._triggerEvent = function(a, b) {
-      a = I.Event(a);
-      I.extend(a, b);
-      this.element.trigger(a);
-      return a;
-    };
-    b.prototype.testGenerateHitAreas = function(a) {
-      this.dnd_handler.current_item = this._getNodeElementForNode(a);
-      this.dnd_handler.generateHitAreas();
-      return this.dnd_handler.hit_areas;
+      this.options.saveState && this.save_state_handler && this.save_state_handler.saveState();
     };
     b.prototype._selectCurrentNode = function() {
-      var a;
-      if (a = this.getSelectedNode()) {
-        if (a = this._getNodeElementForNode(a)) {
-          return a.select();
-        }
-      }
+      var a = this.getSelectedNode();
+      a && (a = this._getNodeElementForNode(a)) && a.select(!0);
     };
     b.prototype._deselectCurrentNode = function() {
-      var a;
-      if (a = this.getSelectedNode()) {
-        return this.removeFromSelection(a);
-      }
+      var a = this.getSelectedNode();
+      a && this.removeFromSelection(a);
     };
     b.prototype._getDefaultClosedIcon = function() {
       return this.options.rtl ? "&#x25c0;" : "&#x25ba;";
     };
     b.prototype._getRtlOption = function() {
-      if (null !== this.options.rtl) {
+      if (null != this.options.rtl) {
         return this.options.rtl;
       }
       var a = this.element.data("rtl");
@@ -16156,53 +14875,1159 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     };
     b.prototype._notifyLoading = function(a, b, c) {
       if (this.options.onLoading) {
-        return this.options.onLoading(a, b, c);
+        this.options.onLoading(a, b, c);
+      }
+    };
+    b.prototype._selectNode = function(a, b) {
+      var c = this;
+      void 0 === b && (b = !1);
+      if (this.select_node_handler) {
+        var d = function() {
+          var b = a.parent;
+          b && b.parent && !b.is_open && c.openNode(b, !1);
+        }, e = function() {
+          c.options.saveState && c.save_state_handler && c.save_state_handler.saveState();
+        };
+        if (a) {
+          var f = c.options.onCanSelectNode ? c.options.selectable && c.options.onCanSelectNode(a) : c.options.selectable;
+          f && (this.select_node_handler.isNodeSelected(a) ? b && (this._deselectCurrentNode(), this._triggerEvent("tree.select", {node:null, previous_node:a})) : (b = this.getSelectedNode(), this._deselectCurrentNode(), this.addToSelection(a), this._triggerEvent("tree.select", {node:a, deselected_node:b}), d()), e());
+        } else {
+          this._deselectCurrentNode(), e();
+        }
+      }
+    };
+    b.prototype._loadData = function(a, b) {
+      a && (this._triggerEvent("tree.load_data", {tree_data:a}), b ? (this._deselectNodes(b), this._loadSubtree(a, b)) : this._initTree(a), this.isDragging() && this.dnd_handler && this.dnd_handler.refresh());
+    };
+    b.prototype._deselectNodes = function(a) {
+      if (this.select_node_handler) {
+        var b = 0;
+        for (a = this.select_node_handler.getSelectedNodesUnder(a); b < a.length; b++) {
+          this.select_node_handler.removeFromSelection(a[b]);
+        }
+      }
+    };
+    b.prototype._loadSubtree = function(a, b) {
+      b.loadFromData(a);
+      b.load_on_demand = !1;
+      b.is_loading = !1;
+      this._refreshElements(b);
+    };
+    b.prototype._loadDataFromUrl = function(a, b, c) {
+      var d = this, e = null, g = a, h = function() {
+        e && (e.removeClass("jqtree-loading"), d._notifyLoading(!1, b, e));
+      }, p = function(a) {
+        h();
+        d._loadData(a, b);
+        c && "function" === typeof c && c();
+      }, l = function(a) {
+        a = a instanceof Array || "object" === typeof a ? a : null != a ? f.parseJSON(a) : [];
+        a = d.options.dataFilter ? d.options.dataFilter(a) : a;
+        p(a);
+      }, r = function(a) {
+        h();
+        if (d.options.onLoadFailed) {
+          d.options.onLoadFailed(a);
+        }
+      }, m = function() {
+        if ("string" === typeof g) {
+          var a = {url:g};
+        } else {
+          g.method || (g.method = "get"), a = g;
+        }
+        f.ajax(f.extend({}, a, {method:null != g.method ? g.method.toUpperCase() : "GET", cache:!1, dataType:"json", success:l, error:r}));
+      };
+      a || (g = this._getDataUrlInfo(b));
+      if (e = b ? f(b.element) : d.element) {
+        e.addClass("jqtree-loading"), d._notifyLoading(!0, b, e);
+      }
+      g ? g instanceof Array ? p(g) : m() : h();
+    };
+    b.prototype._loadFolderOnDemand = function(a, b, c) {
+      var d = this;
+      void 0 === b && (b = !0);
+      a.is_loading = !0;
+      this._loadDataFromUrl(null, a, function() {
+        d._openNode(a, b, c);
+      });
+    };
+    b.defaults = {animationSpeed:"fast", autoOpen:!1, saveState:!1, dragAndDrop:!1, selectable:!0, useContextMenu:!0, onCanSelectNode:null, onSetStateFromStorage:null, onGetStateFromStorage:null, onCreateLi:null, onIsMoveHandle:null, onCanMove:null, onCanMoveTo:null, onLoadFailed:null, autoEscape:!0, dataUrl:null, closedIcon:null, openedIcon:"&#x25bc;", slide:!0, nodeClass:p.Node, dataFilter:null, keyboardSupport:!0, openFolderDelay:500, rtl:!1, onDragMove:null, onDragStop:null, buttonLeft:!0, onLoading:null, 
+    tabIndex:0};
+    return b;
+  }(b["default"]);
+  a["default"].register(c, "tree");
+}, function(a, b, c) {
+  b.__esModule = !0;
+  b["default"] = "1.4.8";
+}, function(a, b, c) {
+  var d = this && this.__extends || function() {
+    var a = Object.setPrototypeOf || {__proto__:[]} instanceof Array && function(a, b) {
+      a.__proto__ = b;
+    } || function(a, b) {
+      for (var c in b) {
+        b.hasOwnProperty(c) && (a[c] = b[c]);
+      }
+    };
+    return function(b, c) {
+      function d() {
+        this.constructor = b;
+      }
+      a(b, c);
+      b.prototype = null === c ? Object.create(c) : (d.prototype = c.prototype, new d);
+    };
+  }();
+  b.__esModule = !0;
+  var e = c(2), f = c(0), g = c(1);
+  a = function() {
+    function a(a) {
+      this.tree_widget = a;
+      this.hovered_area = null;
+      this.hit_areas = [];
+      this.is_dragging = !1;
+      this.position_info = this.current_item = null;
+    }
+    a.prototype.mouseCapture = function(a) {
+      a = e(a.target);
+      if (!this.mustCaptureElement(a) || this.tree_widget.options.onIsMoveHandle && !this.tree_widget.options.onIsMoveHandle(a)) {
+        return null;
+      }
+      (a = this.tree_widget._getNodeElement(a)) && this.tree_widget.options.onCanMove && (this.tree_widget.options.onCanMove(a.node) || (a = null));
+      this.current_item = a;
+      return null != this.current_item;
+    };
+    a.prototype.generateHitAreas = function() {
+      this.hit_areas = this.current_item ? (new h(this.tree_widget.tree, this.current_item.node, this.getTreeDimensions().bottom)).generate() : [];
+    };
+    a.prototype.mouseStart = function(a) {
+      if (this.current_item) {
+        this.refresh();
+        var b = e(a.target).offset(), c = b ? b.left : 0, b = b ? b.top : 0, d = this.current_item.node, d = this.tree_widget.options.autoEscape ? g.html_escape(d.name) : d.name;
+        this.drag_element = new l(d, a.page_x - c, a.page_y - b, this.tree_widget.element);
+        this.is_dragging = !0;
+        this.position_info = a;
+        this.current_item.$element.addClass("jqtree-moving");
+        return !0;
+      }
+      return !1;
+    };
+    a.prototype.mouseDrag = function(a) {
+      if (this.current_item && this.drag_element) {
+        this.drag_element.move(a.page_x, a.page_y);
+        this.position_info = a;
+        var b = this.findHoveredArea(a.page_x, a.page_y);
+        this.canMoveToArea(b) && b ? (b.node.isFolder() || this.stopOpenFolderTimer(), this.hovered_area !== b && (this.hovered_area = b, this.mustOpenFolderTimer(b) ? this.startOpenFolderTimer(b.node) : this.stopOpenFolderTimer(), this.updateDropHint())) : (this.removeHover(), this.removeDropHint(), this.stopOpenFolderTimer());
+        if (!b && this.tree_widget.options.onDragMove) {
+          this.tree_widget.options.onDragMove(this.current_item.node, a.original_event);
+        }
+        return !0;
+      }
+      return !1;
+    };
+    a.prototype.mouseStop = function(a) {
+      this.moveItem(a);
+      this.clear();
+      this.removeHover();
+      this.removeDropHint();
+      this.removeHitAreas();
+      var b = this.current_item;
+      this.current_item && (this.current_item.$element.removeClass("jqtree-moving"), this.current_item = null);
+      this.is_dragging = !1;
+      this.position_info = null;
+      if (!this.hovered_area && b && this.tree_widget.options.onDragStop) {
+        this.tree_widget.options.onDragStop(b.node, a.original_event);
+      }
+      return !1;
+    };
+    a.prototype.refresh = function() {
+      this.removeHitAreas();
+      this.current_item && (this.generateHitAreas(), this.current_item = this.tree_widget._getNodeElementForNode(this.current_item.node), this.is_dragging && this.current_item.$element.addClass("jqtree-moving"));
+    };
+    a.prototype.mustCaptureElement = function(a) {
+      return !a.is("input,select,textarea");
+    };
+    a.prototype.canMoveToArea = function(a) {
+      if (a && this.current_item) {
+        if (this.tree_widget.options.onCanMoveTo) {
+          var b = f.getPositionName(a.position);
+          return this.tree_widget.options.onCanMoveTo(this.current_item.node, a.node, b);
+        }
+        return !0;
+      }
+      return !1;
+    };
+    a.prototype.removeHitAreas = function() {
+      this.hit_areas = [];
+    };
+    a.prototype.clear = function() {
+      this.drag_element && (this.drag_element.remove(), this.drag_element = null);
+    };
+    a.prototype.removeDropHint = function() {
+      this.previous_ghost && this.previous_ghost.remove();
+    };
+    a.prototype.removeHover = function() {
+      this.hovered_area = null;
+    };
+    a.prototype.findHoveredArea = function(a, b) {
+      var c = this.getTreeDimensions();
+      if (a < c.left || b < c.top || a > c.right || b > c.bottom) {
+        return null;
+      }
+      a = 0;
+      for (c = this.hit_areas.length; a < c;) {
+        var d = a + c >> 1, e = this.hit_areas[d];
+        if (b < e.top) {
+          c = d;
+        } else {
+          if (b > e.bottom) {
+            a = d + 1;
+          } else {
+            return e;
+          }
+        }
+      }
+      return null;
+    };
+    a.prototype.mustOpenFolderTimer = function(a) {
+      var b = a.node;
+      return b.isFolder() && !b.is_open && a.position === f.Position.Inside;
+    };
+    a.prototype.updateDropHint = function() {
+      this.hovered_area && (this.removeDropHint(), this.previous_ghost = this.tree_widget._getNodeElementForNode(this.hovered_area.node).addDropHint(this.hovered_area.position));
+    };
+    a.prototype.startOpenFolderTimer = function(a) {
+      var b = this;
+      this.stopOpenFolderTimer();
+      this.open_folder_timer = setTimeout(function() {
+        b.tree_widget._openNode(a, b.tree_widget.options.slide, function() {
+          b.refresh();
+          b.updateDropHint();
+        });
+      }, this.tree_widget.options.openFolderDelay);
+    };
+    a.prototype.stopOpenFolderTimer = function() {
+      this.open_folder_timer && (clearTimeout(this.open_folder_timer), this.open_folder_timer = null);
+    };
+    a.prototype.moveItem = function(a) {
+      var b = this;
+      if (this.current_item && this.hovered_area && this.hovered_area.position !== f.Position.None && this.canMoveToArea(this.hovered_area)) {
+        var c = this.current_item.node, d = this.hovered_area.node, e = this.hovered_area.position, g = c.parent;
+        e === f.Position.Inside && (this.hovered_area.node.is_open = !0);
+        var h = function() {
+          b.tree_widget.tree.moveNode(c, d, e);
+          b.tree_widget.element.empty();
+          b.tree_widget._refreshElements(null);
+        };
+        this.tree_widget._triggerEvent("tree.move", {move_info:{moved_node:c, target_node:d, position:f.getPositionName(e), previous_parent:g, do_move:h, original_event:a.original_event}}).isDefaultPrevented() || h();
+      }
+    };
+    a.prototype.getTreeDimensions = function() {
+      var a = this.tree_widget.element.offset();
+      if (a) {
+        var b = this.tree_widget.element, c = b.width() || 0, b = b.height() || 0, d = a.left + this.tree_widget._getScrollLeft();
+        return {left:d, top:a.top, right:d + c, bottom:a.top + b + 16};
+      }
+      return {left:0, top:0, right:0, bottom:0};
+    };
+    return a;
+  }();
+  b.DragAndDropHandler = a;
+  var h = function(a) {
+    function b(b, c, d) {
+      b = a.call(this, b) || this;
+      b.current_node = c;
+      b.tree_bottom = d;
+      return b;
+    }
+    d(b, a);
+    b.prototype.generate = function() {
+      this.positions = [];
+      this.last_top = 0;
+      this.iterate();
+      return this.generateHitAreas(this.positions);
+    };
+    b.prototype.generateHitAreas = function(a) {
+      for (var b = -1, c = [], d = [], e = 0; e < a.length; e++) {
+        var f = a[e];
+        f.top !== b && c.length && (c.length && this.generateHitAreasForGroup(d, c, b, f.top), b = f.top, c = []);
+        c.push(f);
+      }
+      this.generateHitAreasForGroup(d, c, b, this.tree_bottom);
+      return d;
+    };
+    b.prototype.handleOpenFolder = function(a, b) {
+      if (a === this.current_node) {
+        return !1;
+      }
+      a.children[0] !== this.current_node && this.addPosition(a, f.Position.Inside, this.getTop(b));
+      return !0;
+    };
+    b.prototype.handleClosedFolder = function(a, b, c) {
+      c = this.getTop(c);
+      a === this.current_node ? this.addPosition(a, f.Position.None, c) : (this.addPosition(a, f.Position.Inside, c), b !== this.current_node && this.addPosition(a, f.Position.After, c));
+    };
+    b.prototype.handleFirstNode = function(a) {
+      a !== this.current_node && this.addPosition(a, f.Position.Before, this.getTop(e(a.element)));
+    };
+    b.prototype.handleAfterOpenFolder = function(a, b) {
+      a === this.current_node || b === this.current_node ? this.addPosition(a, f.Position.None, this.last_top) : this.addPosition(a, f.Position.After, this.last_top);
+    };
+    b.prototype.handleNode = function(a, b, c) {
+      c = this.getTop(c);
+      a === this.current_node ? this.addPosition(a, f.Position.None, c) : this.addPosition(a, f.Position.Inside, c);
+      b === this.current_node || a === this.current_node ? this.addPosition(a, f.Position.None, c) : this.addPosition(a, f.Position.After, c);
+    };
+    b.prototype.getTop = function(a) {
+      return (a = a.offset()) ? a.top : 0;
+    };
+    b.prototype.addPosition = function(a, b, c) {
+      this.positions.push({top:c, bottom:0, node:a, position:b});
+      this.last_top = c;
+    };
+    b.prototype.generateHitAreasForGroup = function(a, b, c, d) {
+      var e = Math.min(b.length, 4);
+      d = Math.round((d - c) / e);
+      for (var f = 0; f < e;) {
+        var g = b[f];
+        a.push({top:c, bottom:c + d, node:g.node, position:g.position});
+        c += d;
+        f += 1;
       }
     };
     return b;
-  }(c);
-  a.getModule = function(a) {
-    return {node:m, util:v, drag_and_drop_handler:g}[a];
-  };
-  b.register(a, "tree");
-}, {"./drag_and_drop_handler":1, "./elements_renderer":2, "./key_handler":3, "./mouse.widget":4, "./node":5, "./node_element":6, "./save_state_handler":7, "./scroll_handler":8, "./select_node_handler":9, "./simple.widget":10, "./util":12, "./version":13}], 12:[function(a, b, c) {
-  var d = function(a, b) {
-    var c, d;
-    var e = c = 0;
-    for (d = a.length; c < d; e = ++c) {
-      var f = a[e];
-      if (f === b) {
-        return e;
+  }(function() {
+    function a(a) {
+      this.tree = a;
+    }
+    a.prototype.iterate = function() {
+      var a = this, b = !0, c = function(d, f) {
+        var g = (d.is_open || !d.element) && d.hasChildren(), h = null;
+        if (d.element) {
+          h = e(d.element);
+          if (!h.is(":visible")) {
+            return;
+          }
+          b && (a.handleFirstNode(d), b = !1);
+          d.hasChildren() ? d.is_open ? a.handleOpenFolder(d, h) || (g = !1) : a.handleClosedFolder(d, f, h) : a.handleNode(d, f, h);
+        }
+        if (g) {
+          var l = d.children.length;
+          d.children.forEach(function(a, b) {
+            b === l - 1 ? c(d.children[b], null) : c(d.children[b], d.children[b + 1]);
+          });
+          d.is_open && h && a.handleAfterOpenFolder(d, f);
+        }
+      };
+      c(this.tree, null);
+    };
+    return a;
+  }());
+  b.HitAreasGenerator = h;
+  var l = function() {
+    function a(a, b, c, d) {
+      this.offset_x = b;
+      this.offset_y = c;
+      this.$element = e('<span class="jqtree-title jqtree-dragging">' + a + "</span>");
+      this.$element.css("position", "absolute");
+      d.append(this.$element);
+    }
+    a.prototype.move = function(a, b) {
+      this.$element.offset({left:a - this.offset_x, top:b - this.offset_y});
+    };
+    a.prototype.remove = function() {
+      this.$element.remove();
+    };
+    return a;
+  }();
+}, function(a, b, c) {
+  b.__esModule = !0;
+  var d = c(1);
+  a = function() {
+    function a(a) {
+      this.tree_widget = a;
+      this.opened_icon_element = this.createButtonElement(a.options.openedIcon);
+      this.closed_icon_element = this.createButtonElement(a.options.closedIcon);
+    }
+    a.prototype.render = function(a) {
+      a && a.parent ? this.renderFromNode(a) : this.renderFromRoot();
+    };
+    a.prototype.renderFromRoot = function() {
+      var a = this.tree_widget.element;
+      a.empty();
+      this.createDomElements(a[0], this.tree_widget.tree.children, !0, 1);
+    };
+    a.prototype.renderFromNode = function(a) {
+      var b = jQuery(a.element), c = this.createLi(a, a.getLevel());
+      this.attachNodeData(a, c);
+      b.after(c);
+      b.remove();
+      a.children && this.createDomElements(c, a.children, !1, a.getLevel() + 1);
+    };
+    a.prototype.createDomElements = function(a, b, c, d) {
+      c = this.createUl(c);
+      a.appendChild(c);
+      for (a = 0; a < b.length; a++) {
+        var e = b[a], f = this.createLi(e, d);
+        c.appendChild(f);
+        this.attachNodeData(e, f);
+        e.hasChildren() && this.createDomElements(f, e.children, !1, d + 1);
+      }
+    };
+    a.prototype.attachNodeData = function(a, b) {
+      a.element = b;
+      jQuery(b).data("node", a);
+    };
+    a.prototype.createUl = function(a) {
+      if (a) {
+        a = "jqtree-tree";
+        var b = "tree";
+        this.tree_widget.options.rtl && (a += " jqtree-rtl");
+      } else {
+        a = "", b = "group";
+      }
+      var c = document.createElement("ul");
+      c.className = "jqtree_common " + a;
+      c.setAttribute("role", b);
+      return c;
+    };
+    a.prototype.createLi = function(a, b) {
+      var c = !(!this.tree_widget.select_node_handler || !this.tree_widget.select_node_handler.isNodeSelected(a));
+      b = a.isFolder() ? this.createFolderLi(a, b, c) : this.createNodeLi(a, b, c);
+      if (this.tree_widget.options.onCreateLi) {
+        this.tree_widget.options.onCreateLi(a, jQuery(b), c);
+      }
+      return b;
+    };
+    a.prototype.createFolderLi = function(a, b, c) {
+      var d = this.getButtonClasses(a), e = this.getFolderClasses(a, c), f = a.is_open ? this.opened_icon_element : this.closed_icon_element, g = document.createElement("li");
+      g.className = "jqtree_common " + e;
+      g.setAttribute("role", "presentation");
+      e = document.createElement("div");
+      e.className = "jqtree-element jqtree_common";
+      e.setAttribute("role", "presentation");
+      g.appendChild(e);
+      var h = document.createElement("a");
+      h.className = d;
+      h.appendChild(f.cloneNode(!0));
+      h.setAttribute("role", "presentation");
+      h.setAttribute("aria-hidden", "true");
+      this.tree_widget.options.buttonLeft && e.appendChild(h);
+      e.appendChild(this.createTitleSpan(a.name, b, c, a.is_open, !0));
+      this.tree_widget.options.buttonLeft || e.appendChild(h);
+      return g;
+    };
+    a.prototype.createNodeLi = function(a, b, c) {
+      var d = ["jqtree_common"];
+      c && d.push("jqtree-selected");
+      var e = d.join(" "), d = document.createElement("li");
+      d.className = e;
+      d.setAttribute("role", "presentation");
+      e = document.createElement("div");
+      e.className = "jqtree-element jqtree_common";
+      e.setAttribute("role", "presentation");
+      d.appendChild(e);
+      e.appendChild(this.createTitleSpan(a.name, b, c, a.is_open, !1));
+      return d;
+    };
+    a.prototype.createTitleSpan = function(a, b, c, e, n) {
+      var f = document.createElement("span"), g = "jqtree-title jqtree_common";
+      n && (g += " jqtree-title-folder");
+      f.className = g;
+      f.setAttribute("role", "treeitem");
+      f.setAttribute("aria-level", "" + b);
+      f.setAttribute("aria-selected", d.getBoolString(c));
+      f.setAttribute("aria-expanded", d.getBoolString(e));
+      c && f.setAttribute("tabindex", this.tree_widget.options.tabIndex);
+      f.innerHTML = this.escapeIfNecessary(a);
+      return f;
+    };
+    a.prototype.getButtonClasses = function(a) {
+      var b = ["jqtree-toggler", "jqtree_common"];
+      a.is_open || b.push("jqtree-closed");
+      this.tree_widget.options.buttonLeft ? b.push("jqtree-toggler-left") : b.push("jqtree-toggler-right");
+      return b.join(" ");
+    };
+    a.prototype.getFolderClasses = function(a, b) {
+      var c = ["jqtree-folder"];
+      a.is_open || c.push("jqtree-closed");
+      b && c.push("jqtree-selected");
+      a.is_loading && c.push("jqtree-loading");
+      return c.join(" ");
+    };
+    a.prototype.escapeIfNecessary = function(a) {
+      return this.tree_widget.options.autoEscape ? d.html_escape(a) : a;
+    };
+    a.prototype.createButtonElement = function(a) {
+      if ("string" === typeof a) {
+        var b = document.createElement("div");
+        b.innerHTML = a;
+        return document.createTextNode(b.innerHTML);
+      }
+      return jQuery(a)[0];
+    };
+    return a;
+  }();
+  b["default"] = a;
+}, function(a, b, c) {
+  b.__esModule = !0;
+  a = function() {
+    function a(b) {
+      var c = this;
+      this.handleKeyDown = function(b) {
+        if (c.canHandleKeyboard()) {
+          switch(b.which) {
+            case a.DOWN:
+              return c.moveDown();
+            case a.UP:
+              return c.moveUp();
+            case a.RIGHT:
+              return c.moveRight();
+            case a.LEFT:
+              return c.moveLeft();
+            default:
+              return !0;
+          }
+        } else {
+          return !0;
+        }
+      };
+      this.tree_widget = b;
+      if (b.options.keyboardSupport) {
+        jQuery(document).on("keydown.jqtree", this.handleKeyDown);
       }
     }
-    return -1;
-  };
-  b.exports = {_indexOf:d, getBoolString:function(a) {
-    return a ? "true" : "false";
-  }, html_escape:function(a) {
-    return ("" + a).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
-  }, indexOf:function(a, b) {
-    return a.indexOf ? a.indexOf(b) : d(a, b);
-  }, isInt:function(a) {
-    return "number" === typeof a && 0 === a % 1;
-  }, isFunction:function(a) {
-    return "function" === typeof a;
-  }};
-}, {}], 13:[function(a, b, c) {
-  b.exports = "1.3.7";
-}, {}]}, {}, [11]);
-Polymer({is:"simpl-jqtree", properties:{multiselect:{type:Boolean, value:!1}, saveState:{type:Boolean, value:!0}, selection:{type:Array, notify:!0}, data:{observer:"dataChanged", type:Object}, selectedItem:{notify:!0, type:Object}, jqtree:{notify:!0, type:Object}, cmnode:{notify:!0, type:Object}, contextmenu:{type:Array}, options:{type:String}}, observers:[], behaviors:[StyleScopeBehavior], ready:function() {
+    a.prototype.deinit = function() {
+      jQuery(document).off("keydown.jqtree");
+    };
+    a.prototype.moveDown = function() {
+      var a = this.tree_widget.getSelectedNode();
+      return a ? this.selectNode(a.getNextNode()) : !1;
+    };
+    a.prototype.moveUp = function() {
+      var a = this.tree_widget.getSelectedNode();
+      return a ? this.selectNode(a.getPreviousNode()) : !1;
+    };
+    a.prototype.moveRight = function() {
+      var a = this.tree_widget.getSelectedNode();
+      if (a && a.isFolder()) {
+        if (a.is_open) {
+          return this.selectNode(a.getNextNode());
+        }
+        this.tree_widget.openNode(a);
+        return !1;
+      }
+      return !0;
+    };
+    a.prototype.moveLeft = function() {
+      var a = this.tree_widget.getSelectedNode();
+      return a ? a.isFolder() && a.is_open ? (this.tree_widget.closeNode(a), !1) : this.selectNode(a.getParent()) : !0;
+    };
+    a.prototype.selectNode = function(a) {
+      return a ? (this.tree_widget.selectNode(a), this.tree_widget.scroll_handler && !this.tree_widget.scroll_handler.isScrolledIntoView(jQuery(a.element).find(".jqtree-element")) && this.tree_widget.scrollToNode(a), !1) : !0;
+    };
+    a.prototype.canHandleKeyboard = function() {
+      return this.tree_widget.options.keyboardSupport && this.isFocusOnTree() && null != this.tree_widget.getSelectedNode();
+    };
+    a.prototype.isFocusOnTree = function() {
+      var a = document.activeElement;
+      return a && "SPAN" === a.tagName && this.tree_widget._containsElement(a);
+    };
+    a.LEFT = 37;
+    a.UP = 38;
+    a.RIGHT = 39;
+    a.DOWN = 40;
+    return a;
+  }();
+  b["default"] = a;
+}, function(a, b, c) {
+  var d = this && this.__extends || function() {
+    var a = Object.setPrototypeOf || {__proto__:[]} instanceof Array && function(a, b) {
+      a.__proto__ = b;
+    } || function(a, b) {
+      for (var c in b) {
+        b.hasOwnProperty(c) && (a[c] = b[c]);
+      }
+    };
+    return function(b, c) {
+      function d() {
+        this.constructor = b;
+      }
+      a(b, c);
+      b.prototype = null === c ? Object.create(c) : (d.prototype = c.prototype, new d);
+    };
+  }();
+  b.__esModule = !0;
+  a = function(a) {
+    function b() {
+      var b = null !== a && a.apply(this, arguments) || this;
+      b.mouseDown = function(a) {
+        if (1 === a.which) {
+          var c = b._handleMouseDown(b._getPositionInfo(a));
+          c && a.preventDefault();
+          return c;
+        }
+      };
+      b.mouseMove = function(a) {
+        return b._handleMouseMove(a, b._getPositionInfo(a));
+      };
+      b.mouseUp = function(a) {
+        return b._handleMouseUp(b._getPositionInfo(a));
+      };
+      b.touchStart = function(a) {
+        a = a.originalEvent;
+        if (!(1 < a.touches.length)) {
+          return b._handleMouseDown(b._getPositionInfo(a.changedTouches[0]));
+        }
+      };
+      b.touchMove = function(a) {
+        var c = a.originalEvent;
+        if (!(1 < c.touches.length)) {
+          return b._handleMouseMove(a, b._getPositionInfo(c.changedTouches[0]));
+        }
+      };
+      b.touchEnd = function(a) {
+        a = a.originalEvent;
+        if (!(1 < a.touches.length)) {
+          return b._handleMouseUp(b._getPositionInfo(a.changedTouches[0]));
+        }
+      };
+      return b;
+    }
+    d(b, a);
+    b.prototype.setMouseDelay = function(a) {
+      this.mouse_delay = a;
+    };
+    b.prototype._init = function() {
+      this.$el.on("mousedown.mousewidget", this.mouseDown);
+      this.$el.on("touchstart.mousewidget", this.touchStart);
+      this.is_mouse_started = !1;
+      this.mouse_delay = 0;
+      this._mouse_delay_timer = null;
+      this._is_mouse_delay_met = !0;
+      this.mouse_down_info = null;
+    };
+    b.prototype._deinit = function() {
+      this.$el.off("mousedown.mousewidget");
+      this.$el.off("touchstart.mousewidget");
+      var a = jQuery(document);
+      a.off("mousemove.mousewidget");
+      a.off("mouseup.mousewidget");
+    };
+    b.prototype._handleMouseDown = function(a) {
+      this.is_mouse_started && this._handleMouseUp(a);
+      this.mouse_down_info = a;
+      if (this._mouseCapture(a)) {
+        return this._handleStartMouse(), !0;
+      }
+    };
+    b.prototype._handleStartMouse = function() {
+      var a = jQuery(document);
+      a.on("mousemove.mousewidget", this.mouseMove);
+      a.on("touchmove.mousewidget", this.touchMove);
+      a.on("mouseup.mousewidget", this.mouseUp);
+      a.on("touchend.mousewidget", this.touchEnd);
+      this.mouse_delay && this._startMouseDelayTimer();
+    };
+    b.prototype._startMouseDelayTimer = function() {
+      var a = this;
+      this._mouse_delay_timer && clearTimeout(this._mouse_delay_timer);
+      this._mouse_delay_timer = setTimeout(function() {
+        a._is_mouse_delay_met = !0;
+      }, this.mouse_delay);
+      this._is_mouse_delay_met = !1;
+    };
+    b.prototype._handleMouseMove = function(a, b) {
+      if (this.is_mouse_started) {
+        return this._mouseDrag(b), a.preventDefault();
+      }
+      if (this.mouse_delay && !this._is_mouse_delay_met) {
+        return !0;
+      }
+      this.mouse_down_info && (this.is_mouse_started = !1 !== this._mouseStart(this.mouse_down_info));
+      this.is_mouse_started ? this._mouseDrag(b) : this._handleMouseUp(b);
+      return !this.is_mouse_started;
+    };
+    b.prototype._getPositionInfo = function(a) {
+      return {page_x:a.pageX, page_y:a.pageY, target:a.target, original_event:a};
+    };
+    b.prototype._handleMouseUp = function(a) {
+      var b = jQuery(document);
+      b.off("mousemove.mousewidget");
+      b.off("touchmove.mousewidget");
+      b.off("mouseup.mousewidget");
+      b.off("touchend.mousewidget");
+      this.is_mouse_started && (this.is_mouse_started = !1, this._mouseStop(a));
+    };
+    return b;
+  }(c(3)["default"]);
+  b["default"] = a;
+}, function(a, b, c) {
+  b.__esModule = !0;
+  var d = c(1);
+  a = function() {
+    function a(a) {
+      this.tree_widget = a;
+    }
+    a.prototype.saveState = function() {
+      var a = JSON.stringify(this.getState());
+      if (this.tree_widget.options.onSetStateFromStorage) {
+        this.tree_widget.options.onSetStateFromStorage(a);
+      } else {
+        this.supportsLocalStorage() && localStorage.setItem(this.getKeyName(), a);
+      }
+    };
+    a.prototype.getStateFromStorage = function() {
+      var a = this._loadFromStorage();
+      return a ? this._parseState(a) : null;
+    };
+    a.prototype.getState = function() {
+      var a = this;
+      return {open_nodes:function() {
+        var b = [];
+        a.tree_widget.tree.iterate(function(a) {
+          a.is_open && a.id && a.hasChildren() && b.push(a.id);
+          return !0;
+        });
+        return b;
+      }(), selected_node:function() {
+        return a.tree_widget.getSelectedNodes().map(function(a) {
+          return a.id;
+        });
+      }()};
+    };
+    a.prototype.setInitialState = function(a) {
+      if (a) {
+        var b = !1;
+        a.open_nodes && (b = this._openInitialNodes(a.open_nodes));
+        a.selected_node && (this._resetSelection(), this._selectInitialNodes(a.selected_node));
+        return b;
+      }
+      return !1;
+    };
+    a.prototype.setInitialStateOnDemand = function(a, b) {
+      a ? this._setInitialStateOnDemand(a.open_nodes, a.selected_node, b) : b();
+    };
+    a.prototype.getNodeIdToBeSelected = function() {
+      var a = this.getStateFromStorage();
+      return a && a.selected_node ? a.selected_node[0] : null;
+    };
+    a.prototype._parseState = function(a) {
+      (a = jQuery.parseJSON(a)) && a.selected_node && d.isInt(a.selected_node) && (a.selected_node = [a.selected_node]);
+      return a;
+    };
+    a.prototype._loadFromStorage = function() {
+      if (this.tree_widget.options.onGetStateFromStorage) {
+        return this.tree_widget.options.onGetStateFromStorage();
+      }
+      if (this.supportsLocalStorage()) {
+        return localStorage.getItem(this.getKeyName());
+      }
+    };
+    a.prototype._openInitialNodes = function(a) {
+      for (var b = !1, c = 0; c < a.length; c++) {
+        var d = this.tree_widget.getNodeById(a[c]);
+        d && (d.load_on_demand ? b = !0 : d.is_open = !0);
+      }
+      return b;
+    };
+    a.prototype._selectInitialNodes = function(a) {
+      for (var b = 0, c = 0; c < a.length; c++) {
+        var d = this.tree_widget.getNodeById(a[c]);
+        d && (b += 1, this.tree_widget.select_node_handler && this.tree_widget.select_node_handler.addToSelection(d));
+      }
+      return 0 !== b;
+    };
+    a.prototype._resetSelection = function() {
+      var a = this.tree_widget.select_node_handler;
+      a && a.getSelectedNodes().forEach(function(b) {
+        a.removeFromSelection(b);
+      });
+    };
+    a.prototype._setInitialStateOnDemand = function(a, b, c) {
+      var d = this, e = 0, f = a, g = function() {
+        for (var a = [], g = 0, p = f; g < p.length; g++) {
+          var l = p[g], m = d.tree_widget.getNodeById(l);
+          m ? m.is_loading || (m.load_on_demand ? h(m) : d.tree_widget._openNode(m, !1, null)) : a.push(l);
+        }
+        f = a;
+        d._selectInitialNodes(b) && d.tree_widget._refreshElements(null);
+        0 === e && c();
+      }, h = function(a) {
+        e += 1;
+        d.tree_widget._openNode(a, !1, function() {
+          --e;
+          g();
+        });
+      };
+      g();
+    };
+    a.prototype.getKeyName = function() {
+      return "string" === typeof this.tree_widget.options.saveState ? this.tree_widget.options.saveState : "tree";
+    };
+    a.prototype.supportsLocalStorage = function() {
+      null == this._supportsLocalStorage && (this._supportsLocalStorage = function() {
+        if (null == localStorage) {
+          return !1;
+        }
+        try {
+          sessionStorage.setItem("_storage_test", "value"), sessionStorage.removeItem("_storage_test");
+        } catch (f) {
+          return !1;
+        }
+        return !0;
+      }());
+      return this._supportsLocalStorage;
+    };
+    return a;
+  }();
+  b["default"] = a;
+}, function(a, b, c) {
+  b.__esModule = !0;
+  a = function() {
+    function a(a) {
+      this.tree_widget = a;
+      this.previous_top = -1;
+      this.is_initialized = !1;
+    }
+    a.prototype.checkScrolling = function() {
+      this.ensureInit();
+      this.checkVerticalScrolling();
+      this.checkHorizontalScrolling();
+    };
+    a.prototype.scrollToY = function(a) {
+      this.ensureInit();
+      if (this.$scroll_parent) {
+        this.$scroll_parent[0].scrollTop = a;
+      } else {
+        var b = this.tree_widget.$el.offset(), b = b ? b.top : 0;
+        jQuery(document).scrollTop(a + b);
+      }
+    };
+    a.prototype.isScrolledIntoView = function(a) {
+      this.ensureInit();
+      var b = a.height() || 0;
+      if (this.$scroll_parent) {
+        var c = 0;
+        var d = this.$scroll_parent.height() || 0;
+        a = a.offset();
+        a = (a ? a.top : 0) - this.scroll_parent_top;
+      } else {
+        c = jQuery(window).scrollTop() || 0, d = jQuery(window).height() || 0, d = c + d, a = (a = a.offset()) ? a.top : 0;
+      }
+      return a + b <= d && a >= c;
+    };
+    a.prototype.getScrollLeft = function() {
+      return this.$scroll_parent ? this.$scroll_parent.scrollLeft() || 0 : 0;
+    };
+    a.prototype.initScrollParent = function() {
+      var a = this;
+      "fixed" === this.tree_widget.$el.css("position") && (a.scroll_parent_top = 0, a.$scroll_parent = null);
+      var b = function() {
+        var b = ["overflow", "overflow-y"], c = function(a) {
+          for (var c = 0; c < b.length; c++) {
+            var d = a.css(b[c]);
+            if ("auto" === d || "scroll" === d) {
+              return !0;
+            }
+          }
+          return !1;
+        };
+        if (c(a.tree_widget.$el)) {
+          return a.tree_widget.$el;
+        }
+        for (var d = 0, e = a.tree_widget.$el.parents().get(); d < e.length; d++) {
+          var f = jQuery(e[d]);
+          if (c(f)) {
+            return f;
+          }
+        }
+        return null;
+      }();
+      b && b.length && "HTML" !== b[0].tagName ? (this.$scroll_parent = b, this.scroll_parent_top = (b = this.$scroll_parent.offset()) ? b.top : 0) : (a.scroll_parent_top = 0, a.$scroll_parent = null);
+      this.is_initialized = !0;
+    };
+    a.prototype.ensureInit = function() {
+      this.is_initialized || this.initScrollParent();
+    };
+    a.prototype.handleVerticalScrollingWithScrollParent = function(a) {
+      var b = this.$scroll_parent && this.$scroll_parent[0];
+      b && (20 > this.scroll_parent_top + b.offsetHeight - a.bottom ? (b.scrollTop += 20, this.tree_widget.refreshHitAreas(), this.previous_top = -1) : 20 > a.top - this.scroll_parent_top && (b.scrollTop -= 20, this.tree_widget.refreshHitAreas(), this.previous_top = -1));
+    };
+    a.prototype.handleVerticalScrollingWithDocument = function(a) {
+      var b = jQuery(document).scrollTop() || 0;
+      20 > a.top - b ? jQuery(document).scrollTop(b - 20) : 20 > (jQuery(window).height() || 0) - (a.bottom - b) && jQuery(document).scrollTop(b + 20);
+    };
+    a.prototype.checkVerticalScrolling = function() {
+      var a = this.tree_widget.dnd_handler && this.tree_widget.dnd_handler.hovered_area;
+      a && a.top !== this.previous_top && (this.previous_top = a.top, this.$scroll_parent ? this.handleVerticalScrollingWithScrollParent(a) : this.handleVerticalScrollingWithDocument(a));
+    };
+    a.prototype.checkHorizontalScrolling = function() {
+      var a = this.tree_widget.dnd_handler && this.tree_widget.dnd_handler.position_info;
+      a && (this.$scroll_parent ? this.handleHorizontalScrollingWithParent(a) : this.handleHorizontalScrollingWithDocument(a));
+    };
+    a.prototype.handleHorizontalScrollingWithParent = function(a) {
+      var b = this.$scroll_parent, c = b && b.offset();
+      if (b && c) {
+        var b = b[0], d = b.scrollLeft + b.clientWidth < b.scrollWidth, e = 0 < b.scrollLeft, n = a.page_x < c.left + 20;
+        a.page_x > c.left + b.clientWidth - 20 && d ? b.scrollLeft = Math.min(b.scrollLeft + 20, b.scrollWidth) : n && e && (b.scrollLeft = Math.max(b.scrollLeft - 20, 0));
+      }
+    };
+    a.prototype.handleHorizontalScrollingWithDocument = function(a) {
+      var b = jQuery(document), c = b.scrollLeft() || 0, d = jQuery(window).width() || 0, e = 0 < c, n = 20 > a.page_x - c;
+      a.page_x > d - 20 ? b.scrollLeft(c + 20) : n && e && b.scrollLeft(Math.max(c - 20, 0));
+    };
+    return a;
+  }();
+  b["default"] = a;
+}, function(a, b, c) {
+  b.__esModule = !0;
+  a = function() {
+    function a(a) {
+      this.tree_widget = a;
+      this.clear();
+    }
+    a.prototype.getSelectedNode = function() {
+      var a = this.getSelectedNodes();
+      return a.length ? a[0] : !1;
+    };
+    a.prototype.getSelectedNodes = function() {
+      if (this.selected_single_node) {
+        return [this.selected_single_node];
+      }
+      var a = [], b;
+      for (b in this.selected_nodes) {
+        if (this.selected_nodes.hasOwnProperty(b)) {
+          var c = this.tree_widget.getNodeById(b);
+          c && a.push(c);
+        }
+      }
+      return a;
+    };
+    a.prototype.getSelectedNodesUnder = function(a) {
+      if (this.selected_single_node) {
+        return a.isParentOf(this.selected_single_node) ? [this.selected_single_node] : [];
+      }
+      var b = [], c;
+      for (c in this.selected_nodes) {
+        if (this.selected_nodes.hasOwnProperty(c)) {
+          var d = this.tree_widget.getNodeById(c);
+          d && a.isParentOf(d) && b.push(d);
+        }
+      }
+      return b;
+    };
+    a.prototype.isNodeSelected = function(a) {
+      return a ? null != a.id ? this.selected_nodes[a.id] ? !0 : !1 : this.selected_single_node ? this.selected_single_node.element === a.element : !1 : !1;
+    };
+    a.prototype.clear = function() {
+      this.selected_nodes = {};
+      this.selected_single_node = null;
+    };
+    a.prototype.removeFromSelection = function(a, b) {
+      var c = this;
+      void 0 === b && (b = !1);
+      null == a.id ? this.selected_single_node && a.element === this.selected_single_node.element && (this.selected_single_node = null) : (delete this.selected_nodes[a.id], b && a.iterate(function() {
+        delete c.selected_nodes[a.id];
+        return !0;
+      }));
+    };
+    a.prototype.addToSelection = function(a) {
+      null != a.id ? this.selected_nodes[a.id] = !0 : this.selected_single_node = a;
+    };
+    return a;
+  }();
+  b["default"] = a;
+}, function(a, b, c) {
+  var d = this && this.__extends || function() {
+    var a = Object.setPrototypeOf || {__proto__:[]} instanceof Array && function(a, b) {
+      a.__proto__ = b;
+    } || function(a, b) {
+      for (var c in b) {
+        b.hasOwnProperty(c) && (a[c] = b[c]);
+      }
+    };
+    return function(b, c) {
+      function d() {
+        this.constructor = b;
+      }
+      a(b, c);
+      b.prototype = null === c ? Object.create(c) : (d.prototype = c.prototype, new d);
+    };
+  }();
+  b.__esModule = !0;
+  var e = c(0);
+  a = function() {
+    function a(a, b) {
+      this.init(a, b);
+    }
+    a.prototype.init = function(a, b) {
+      this.node = a;
+      this.tree_widget = b;
+      a.element || (a.element = this.tree_widget.element.get(0));
+      this.$element = jQuery(a.element);
+    };
+    a.prototype.addDropHint = function(a) {
+      return this.mustShowBorderDropHint(a) ? new f(this.$element, this.tree_widget._getScrollLeft()) : new g(this.node, this.$element, a);
+    };
+    a.prototype.select = function(a) {
+      var b = this.getLi();
+      b.addClass("jqtree-selected");
+      b.attr("aria-selected", "true");
+      b = this.getSpan();
+      b.attr("tabindex", this.tree_widget.options.tabIndex);
+      a && b.focus();
+    };
+    a.prototype.deselect = function() {
+      var a = this.getLi();
+      a.removeClass("jqtree-selected");
+      a.attr("aria-selected", "false");
+      a = this.getSpan();
+      a.removeAttr("tabindex");
+      a.blur();
+    };
+    a.prototype.getUl = function() {
+      return this.$element.children("ul:first");
+    };
+    a.prototype.getSpan = function() {
+      return this.$element.children(".jqtree-element").find("span.jqtree-title");
+    };
+    a.prototype.getLi = function() {
+      return this.$element;
+    };
+    a.prototype.mustShowBorderDropHint = function(a) {
+      return a === e.Position.Inside;
+    };
+    return a;
+  }();
+  b.NodeElement = a;
+  a = function(a) {
+    function b() {
+      return null !== a && a.apply(this, arguments) || this;
+    }
+    d(b, a);
+    b.prototype.open = function(a, b, c) {
+      var d = this;
+      void 0 === b && (b = !0);
+      void 0 === c && (c = "fast");
+      if (!this.node.is_open) {
+        this.node.is_open = !0;
+        var e = this.getButton();
+        e.removeClass("jqtree-closed");
+        e.html("");
+        if (e = e.get(0)) {
+          var f = this.tree_widget.renderer.opened_icon_element.cloneNode(!0);
+          e.appendChild(f);
+        }
+        e = function() {
+          d.getLi().removeClass("jqtree-closed");
+          d.getSpan().attr("aria-expanded", "true");
+          a && a(d.node);
+          d.tree_widget._triggerEvent("tree.open", {node:d.node});
+        };
+        b ? this.getUl().slideDown(c, e) : (this.getUl().show(), e());
+      }
+    };
+    b.prototype.close = function(a, b) {
+      var c = this;
+      void 0 === a && (a = !0);
+      void 0 === b && (b = "fast");
+      if (this.node.is_open) {
+        this.node.is_open = !1;
+        var d = this.getButton();
+        d.addClass("jqtree-closed");
+        d.html("");
+        if (d = d.get(0)) {
+          var e = this.tree_widget.renderer.closed_icon_element.cloneNode(!0);
+          d.appendChild(e);
+        }
+        d = function() {
+          c.getLi().addClass("jqtree-closed");
+          c.getSpan().attr("aria-expanded", "false");
+          c.tree_widget._triggerEvent("tree.close", {node:c.node});
+        };
+        a ? this.getUl().slideUp(b, d) : (this.getUl().hide(), d());
+      }
+    };
+    b.prototype.mustShowBorderDropHint = function(a) {
+      return !this.node.is_open && a === e.Position.Inside;
+    };
+    b.prototype.getButton = function() {
+      return this.$element.children(".jqtree-element").find("a.jqtree-toggler");
+    };
+    return b;
+  }(a);
+  b.FolderElement = a;
+  var f = function() {
+    function a(a, b) {
+      var c = a.children(".jqtree-element");
+      a = a.width() || 0;
+      b = Math.max(a + b - 4, 0);
+      a = c.outerHeight() || 0;
+      a = Math.max(a - 4, 0);
+      this.$hint = jQuery('<span class="jqtree-border"></span>');
+      c.append(this.$hint);
+      this.$hint.css({width:b, height:a});
+    }
+    a.prototype.remove = function() {
+      this.$hint.remove();
+    };
+    return a;
+  }();
+  b.BorderDropHint = f;
+  var g = function() {
+    function a(a, b, c) {
+      this.$element = b;
+      this.node = a;
+      this.$ghost = jQuery('<li class="jqtree_common jqtree-ghost"><span class="jqtree_common jqtree-circle"></span>\n            <span class="jqtree_common jqtree-line"></span></li>');
+      c === e.Position.After ? this.moveAfter() : c === e.Position.Before ? this.moveBefore() : c === e.Position.Inside && (a.isFolder() && a.is_open ? this.moveInsideOpenFolder() : this.moveInside());
+    }
+    a.prototype.remove = function() {
+      this.$ghost.remove();
+    };
+    a.prototype.moveAfter = function() {
+      this.$element.after(this.$ghost);
+    };
+    a.prototype.moveBefore = function() {
+      this.$element.before(this.$ghost);
+    };
+    a.prototype.moveInsideOpenFolder = function() {
+      jQuery(this.node.children[0].element).before(this.$ghost);
+    };
+    a.prototype.moveInside = function() {
+      this.$element.after(this.$ghost);
+      this.$ghost.addClass("jqtree-inside");
+    };
+    return a;
+  }();
+}, , function(a, b, c) {
+  a.exports = c(4);
+}]);
+Polymer({is:"simpl-jqtree", properties:{multiselect:{type:Boolean, value:!1}, saveState:{type:Boolean, value:!1}, selection:{type:Array, notify:!0}, data:{observer:"dataChanged", type:Object}, selectedItem:{notify:!0, type:Object}, jqtree:{notify:!0, type:Object}, cmnode:{notify:!0, type:Object}, contextmenu:{type:Array}, options:{type:String}}, observers:[], behaviors:[StyleScopeBehavior], ready:function() {
+  this.states = {};
 }, _createTree:function() {
   var a = clone(this._parseOptions(this.options));
   a.data = this.data;
   this.contextmenu && (a.useContextMenu = !0);
   a.saveState = this.saveState ? !0 : !1;
+  a.autoOpen = 1;
   this.jqtree = $(this.$.jqtree).tree(a);
   this.multiselect && this.jqtree.bind("tree.click", this._multiSelection.bind(this));
   this.jqtree.bind("tree.select", this._itemSelected.bind(this));
-  this.contextmenu && (this.jqtree.bind("tree.contextmenu", this._contextMenu.bind(this)), this._contextMenu = a = contextmenu(this.contextmenu), contextmenu.attach($(this.$.contextmenuId), a));
+  this.contextmenu && (this._contextMenuSave ? this._contextMenu = this._contextMenuSave : this._contextMenuSave = this._contextMenu, this.jqtree.bind("tree.contextmenu", this._contextMenu.bind(this)), this._contextMenu = a = contextmenu(this.contextmenu), contextmenu.attach($(this.$.contextmenuId), a));
 }, dataChanged:function() {
-  this.jqtree ? this.jqtree.tree("loadData", this.data) : this._createTree();
+  if (this.jqtree) {
+    if (this.data) {
+      var a = this.catalog;
+      this.catalog = this.data[0].id;
+      a && (this.states[a] = this.jqtree.tree("getState"));
+    }
+    this.jqtree.tree("loadData", this.data);
+    for (var a = this.jqtree.tree("getNodeById", this.data[0].id), b = 0; b < a.children.length; b++) {
+      this.jqtree.tree("closeNode", a.children[b]);
+    }
+    (a = this.states[this.catalog]) && this.jqtree.tree("setState", a);
+  } else {
+    this._createTree();
+  }
 }, _contextMenu:function(a) {
   this.cmnode = a.node;
   contextmenu.show(this._contextMenu, a.node.element);
@@ -16265,7 +16090,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     return a + (-1 === a.indexOf("?") ? "?" : "&") + b;
   }
   function l(a, b) {
-    if (a.naturalWidth && !A) {
+    if (a.naturalWidth && !B) {
       b(a.naturalWidth, a.naturalHeight);
     } else {
       var c = document.createElement("img");
@@ -16285,31 +16110,31 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     b(a) && 1 !== a && c.push("scaleY(" + a + ")");
     return c.length ? c.join(" ") : "none";
   }
-  function p(a, b) {
+  function m(a, b) {
     var c = Math.abs(a.degree) % 180, d = (90 < c ? 180 - c : c) * Math.PI / 180, c = Math.sin(d), d = Math.cos(d), e = a.width, f = a.height;
     a = a.aspectRatio;
     b ? (b = e / (d + c / a), c = b / a) : (b = e * d + f * c, c = e * c + f * d);
     return {width:b, height:c};
   }
   function q(c, d, e) {
-    var f = a("<canvas>")[0], g = f.getContext("2d"), h = 0, m = 0, l = d.naturalWidth, r = d.naturalHeight, n = d.rotate, u = d.scaleX;
+    var f = a("<canvas>")[0], g = f.getContext("2d"), h = 0, p = 0, l = d.naturalWidth, r = d.naturalHeight, n = d.rotate, u = d.scaleX;
     d = d.scaleY;
-    var q = b(u) && b(d) && (1 !== u || 1 !== d), da = b(n) && 0 !== n, L = da || q, v = l * Math.abs(u || 1), y = r * Math.abs(d || 1), U = void 0, C = void 0;
-    q && (U = v / 2, C = y / 2);
-    da && (y = p({width:v, height:y, degree:n}), v = y.width, y = y.height, U = v / 2, C = y / 2);
+    var q = b(u) && b(d) && (1 !== u || 1 !== d), ca = b(n) && 0 !== n, J = ca || q, v = l * Math.abs(u || 1), z = r * Math.abs(d || 1), la = void 0, C = void 0;
+    q && (la = v / 2, C = z / 2);
+    ca && (z = m({width:v, height:z, degree:n}), v = z.width, z = z.height, la = v / 2, C = z / 2);
     f.width = v;
-    f.height = y;
-    e.fillColor && (g.fillStyle = e.fillColor, g.fillRect(0, 0, v, y));
-    L && (h = -l / 2, m = -r / 2, g.save(), g.translate(U, C));
-    da && g.rotate(n * Math.PI / 180);
+    f.height = z;
+    e.fillColor && (g.fillStyle = e.fillColor, g.fillRect(0, 0, v, z));
+    J && (h = -l / 2, p = -r / 2, g.save(), g.translate(la, C));
+    ca && g.rotate(n * Math.PI / 180);
     q && g.scale(u, d);
     g.imageSmoothingEnabled = !!e.imageSmoothingEnabled;
     e.imageSmoothingQuality && (g.imageSmoothingQuality = e.imageSmoothingQuality);
-    g.drawImage(c, Math.floor(h), Math.floor(m), Math.floor(l), Math.floor(r));
-    L && g.restore();
+    g.drawImage(c, Math.floor(h), Math.floor(p), Math.floor(l), Math.floor(r));
+    J && g.restore();
     return f;
   }
-  function m(a) {
+  function p(a) {
     a = a.replace(C, "");
     a = atob(a);
     var b = a.length, c = new ArrayBuffer(b), d = new Uint8Array(c), e;
@@ -16354,9 +16179,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     return {pageX:c, pageY:d};
   }
   a = "default" in a ? a["default"] : a;
-  var y = {viewMode:0, dragMode:"crop", aspectRatio:NaN, data:null, preview:"", responsive:!0, restore:!0, checkCrossOrigin:!0, checkOrientation:!0, modal:!0, guides:!0, center:!0, highlight:!0, background:!0, autoCrop:!0, autoCropArea:0.8, movable:!0, rotatable:!0, scalable:!0, zoomable:!0, zoomOnTouch:!0, zoomOnWheel:!0, wheelZoomRatio:0.1, cropBoxMovable:!0, cropBoxResizable:!0, toggleDragModeOnDblclick:!0, minCanvasWidth:0, minCanvasHeight:0, minCropBoxWidth:0, minCropBoxHeight:0, minContainerWidth:200, 
-  minContainerHeight:100, ready:null, cropstart:null, cropmove:null, cropend:null, crop:null, zoom:null}, C = /^data:.*,/, B = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i, H = "undefined" !== typeof window ? window.navigator : null, A = H && B.test(H.userAgent), D = String.fromCharCode, F = (B = "undefined" !== typeof window ? window.PointerEvent : null) ? "pointerdown" : "touchstart mousedown", K = B ? "pointermove" : "touchmove mousemove", I = B ? " pointerup pointercancel" : "touchend touchcancel mouseup", 
-  W = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/, Z = function() {
+  var z = {viewMode:0, dragMode:"crop", aspectRatio:NaN, data:null, preview:"", responsive:!0, restore:!0, checkCrossOrigin:!0, checkOrientation:!0, modal:!0, guides:!0, center:!0, highlight:!0, background:!0, autoCrop:!0, autoCropArea:0.8, movable:!0, rotatable:!0, scalable:!0, zoomable:!0, zoomOnTouch:!0, zoomOnWheel:!0, wheelZoomRatio:0.1, cropBoxMovable:!0, cropBoxResizable:!0, toggleDragModeOnDblclick:!0, minCanvasWidth:0, minCanvasHeight:0, minCropBoxWidth:0, minCropBoxHeight:0, minContainerWidth:200, 
+  minContainerHeight:100, ready:null, cropstart:null, cropmove:null, cropend:null, crop:null, zoom:null}, C = /^data:.*,/, y = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i, G = "undefined" !== typeof window ? window.navigator : null, B = G && y.test(G.userAgent), E = String.fromCharCode, F = (y = "undefined" !== typeof window ? window.PointerEvent : null) ? "pointerdown" : "touchstart mousedown", Q = y ? "pointermove" : "touchmove mousemove", O = y ? " pointerup pointercancel" : "touchend touchcancel mouseup", 
+  V = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/, Z = function() {
     function a(a, b) {
       for (var c = 0; c < b.length; c++) {
         var d = b[c];
@@ -16371,7 +16196,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       d && a(b, d);
       return b;
     };
-  }(), ha = function(a) {
+  }(), ga = function(a) {
     if (Array.isArray(a)) {
       for (var b = 0, c = Array(a.length); b < a.length; b++) {
         c[b] = a[b];
@@ -16379,13 +16204,13 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       return c;
     }
     return Array.from(a);
-  }, ka = /^data:/, la = /^data:image\/jpeg;base64,/, R = function() {
+  }, ja = /^data:/, ka = /^data:image\/jpeg;base64,/, R = function() {
     function b(c, d) {
       if (!(this instanceof b)) {
         throw new TypeError("Cannot call a class as a function");
       }
       this.$element = a(c);
-      this.options = a.extend({}, y, a.isPlainObject(d) && d);
+      this.options = a.extend({}, z, a.isPlainObject(d) && d);
       this.isImg = this.wheeling = this.limited = this.replaced = this.disabled = this.cropped = this.rotated = this.completed = this.ready = this.loaded = !1;
       this.originalUrl = "";
       this.cropBox = this.canvas = null;
@@ -16413,8 +16238,8 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       var c = this, d = c.options, e = c.$element;
       if (b) {
         if (c.url = b, c.image = {}, d.checkOrientation && window.ArrayBuffer) {
-          if (ka.test(b)) {
-            la.test(b) ? c.read(m(b)) : c.clone();
+          if (ja.test(b)) {
+            ka.test(b) ? c.read(p(b)) : c.clone();
           } else {
             var f = new XMLHttpRequest;
             f.onerror = f.onabort = a.proxy(function() {
@@ -16436,31 +16261,31 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     }}, {key:"read", value:function(a) {
       var b = this.options;
       var c = new DataView(a);
-      var d = c.byteLength, e = void 0, f, g = void 0, h = f = void 0, m;
+      var d = c.byteLength, e = void 0, f, g = void 0, h = f = void 0, p;
       if (255 === c.getUint8(0) && 216 === c.getUint8(1)) {
-        for (m = 2; m < d;) {
-          if (255 === c.getUint8(m) && 225 === c.getUint8(m + 1)) {
-            f = m;
+        for (p = 2; p < d;) {
+          if (255 === c.getUint8(p) && 225 === c.getUint8(p + 1)) {
+            f = p;
             break;
           }
-          m++;
+          p++;
         }
       }
       if (f) {
         var d = f + 10, l = f + 4;
         f = "";
-        m = l;
-        for (l = 4 + l; m < l; m++) {
-          f += D(c.getUint8(m));
+        p = l;
+        for (l = 4 + l; p < l; p++) {
+          f += E(c.getUint8(p));
         }
         "Exif" === f && (f = c.getUint16(d), !(g = 18761 === f) && 19789 !== f || 42 !== c.getUint16(d + 2, g) || (f = c.getUint32(d + 4, g), 8 <= f && (h = d + f)));
       }
       if (h) {
         for (d = c.getUint16(h, g), f = 0; f < d; f++) {
-          if (m = h + 12 * f + 2, 274 === c.getUint16(m, g)) {
-            m += 8;
-            e = c.getUint16(m, g);
-            A && c.setUint16(m, 1, g);
+          if (p = h + 12 * f + 2, 274 === c.getUint16(p, g)) {
+            p += 8;
+            e = c.getUint16(p, g);
+            B && c.setUint16(p, 1, g);
             break;
           }
         }
@@ -16472,11 +16297,11 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       if (1 < c) {
         a = new Uint8Array(a);
         f = a.length;
-        m = "";
+        p = "";
         for (l = 0; l < f; l++) {
-          m += D(a[l]);
+          p += E(a[l]);
         }
-        this.url = "data:image/jpeg;base64," + btoa(m);
+        this.url = "data:image/jpeg;base64," + btoa(p);
         switch(c) {
           case 2:
             h = -1;
@@ -16550,7 +16375,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     }}, {key:"unbuild", value:function() {
       this.ready && (this.completed || clearTimeout(this.completing), this.completed = this.ready = !1, this.cropBox = this.canvas = this.container = this.initialCropBox = this.initialCanvas = this.initialImage = null, this.unbind(), this.resetPreview(), this.$container = this.$canvas = this.$dragBox = this.$cropBox = this.$viewBox = this.$preview = null, this.$cropper.remove(), this.$cropper = null);
     }}], [{key:"setDefaults", value:function(b) {
-      a.extend(y, a.isPlainObject(b) && b);
+      a.extend(z, a.isPlainObject(b) && b);
     }}]);
     return b;
   }();
@@ -16568,26 +16393,26 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     b.addClass("cropper-hidden");
     d.removeClass("cropper-hidden");
   }, initCanvas:function() {
-    var b = this.options.viewMode, c = this.container, d = c.width, c = c.height, e = this.image, f = e.naturalWidth, g = e.naturalHeight, h = 90 === Math.abs(e.rotate) % 180, m = h ? g : f, h = h ? f : g, l = m / h, f = d, g = c;
+    var b = this.options.viewMode, c = this.container, d = c.width, c = c.height, e = this.image, f = e.naturalWidth, g = e.naturalHeight, h = 90 === Math.abs(e.rotate) % 180, p = h ? g : f, h = h ? f : g, l = p / h, f = d, g = c;
     c * l > d ? 3 === b ? f = c * l : g = d / l : 3 === b ? g = d / l : f = c * l;
-    m = {naturalWidth:m, naturalHeight:h, aspectRatio:l, width:f, height:g};
-    m.oldLeft = m.left = (d - f) / 2;
-    m.oldTop = m.top = (c - g) / 2;
-    this.canvas = m;
+    p = {naturalWidth:p, naturalHeight:h, aspectRatio:l, width:f, height:g};
+    p.oldLeft = p.left = (d - f) / 2;
+    p.oldTop = p.top = (c - g) / 2;
+    this.canvas = p;
     this.limited = 1 === b || 2 === b;
     this.limitCanvas(!0, !0);
     this.initialImage = a.extend({}, e);
-    this.initialCanvas = a.extend({}, m);
+    this.initialCanvas = a.extend({}, p);
   }, limitCanvas:function(a, b) {
-    var c = this.options, d = c.viewMode, e = this.container, f = e.width, e = e.height, g = this.canvas, h = g.aspectRatio, m = this.cropBox, l = this.cropped && m;
-    a && (a = Number(c.minCanvasWidth) || 0, c = Number(c.minCanvasHeight) || 0, d && (1 < d ? (a = Math.max(a, f), c = Math.max(c, e), 3 === d && (c * h > a ? a = c * h : c = a / h)) : a ? a = Math.max(a, l ? m.width : 0) : c ? c = Math.max(c, l ? m.height : 0) : l && (a = m.width, c = m.height, c * h > a ? a = c * h : c = a / h)), a && c ? c * h > a ? c = a / h : a = c * h : a ? c = a / h : c && (a = c * h), g.minWidth = a, g.minHeight = c, g.maxWidth = Infinity, g.maxHeight = Infinity);
-    b && (d ? (b = f - g.width, c = e - g.height, g.minLeft = Math.min(0, b), g.minTop = Math.min(0, c), g.maxLeft = Math.max(0, b), g.maxTop = Math.max(0, c), l && this.limited && (g.minLeft = Math.min(m.left, m.left + m.width - g.width), g.minTop = Math.min(m.top, m.top + m.height - g.height), g.maxLeft = m.left, g.maxTop = m.top, 2 === d && (g.width >= f && (g.minLeft = Math.min(0, b), g.maxLeft = Math.max(0, b)), g.height >= e && (g.minTop = Math.min(0, c), g.maxTop = Math.max(0, c))))) : (g.minLeft = 
+    var c = this.options, d = c.viewMode, e = this.container, f = e.width, e = e.height, g = this.canvas, h = g.aspectRatio, p = this.cropBox, l = this.cropped && p;
+    a && (a = Number(c.minCanvasWidth) || 0, c = Number(c.minCanvasHeight) || 0, d && (1 < d ? (a = Math.max(a, f), c = Math.max(c, e), 3 === d && (c * h > a ? a = c * h : c = a / h)) : a ? a = Math.max(a, l ? p.width : 0) : c ? c = Math.max(c, l ? p.height : 0) : l && (a = p.width, c = p.height, c * h > a ? a = c * h : c = a / h)), a && c ? c * h > a ? c = a / h : a = c * h : a ? c = a / h : c && (a = c * h), g.minWidth = a, g.minHeight = c, g.maxWidth = Infinity, g.maxHeight = Infinity);
+    b && (d ? (b = f - g.width, c = e - g.height, g.minLeft = Math.min(0, b), g.minTop = Math.min(0, c), g.maxLeft = Math.max(0, b), g.maxTop = Math.max(0, c), l && this.limited && (g.minLeft = Math.min(p.left, p.left + p.width - g.width), g.minTop = Math.min(p.top, p.top + p.height - g.height), g.maxLeft = p.left, g.maxTop = p.top, 2 === d && (g.width >= f && (g.minLeft = Math.min(0, b), g.maxLeft = Math.max(0, b)), g.height >= e && (g.minTop = Math.min(0, c), g.maxTop = Math.max(0, c))))) : (g.minLeft = 
     -g.width, g.minTop = -g.height, g.maxLeft = f, g.maxTop = e));
   }, renderCanvas:function(a) {
     var b = this.canvas, c = this.image, d = c.rotate, e = c.naturalWidth, f = c.naturalHeight;
     if (this.rotated) {
       this.rotated = !1;
-      var g = p({width:c.width, height:c.height, degree:d}), h = g.width / g.height;
+      var g = m({width:c.width, height:c.height, degree:d}), h = g.width / g.height;
       if ((c = 1 === c.aspectRatio) || h !== b.aspectRatio) {
         b.left -= (g.width - b.width) / 2;
         b.top -= (g.height - b.height) / 2;
@@ -16597,7 +16422,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
         b.naturalWidth = e;
         b.naturalHeight = f;
         if (c && d % 90 || d % 180) {
-          d = p({width:e, height:f, degree:d}), b.naturalWidth = d.width, b.naturalHeight = d.height;
+          d = m({width:e, height:f, degree:d}), b.naturalWidth = d.width, b.naturalHeight = d.height;
         }
         this.limitCanvas(!0, !1);
       }
@@ -16619,7 +16444,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     a && this.output();
   }, renderImage:function(b) {
     var c = this.canvas, d = this.image, e = void 0;
-    d.rotate && (e = p({width:c.width, height:c.height, degree:d.rotate, aspectRatio:d.aspectRatio}, !0));
+    d.rotate && (e = m({width:c.width, height:c.height, degree:d.rotate, aspectRatio:d.aspectRatio}, !0));
     a.extend(d, e ? {width:e.width, height:e.height, left:(c.width - e.width) / 2, top:(c.height - e.height) / 2} : {width:c.width, height:c.height, left:0, top:0});
     this.$clone.css({width:d.width, height:d.height, transform:n(a.extend({translateX:d.left, translateY:d.top}, d))});
     b && this.output();
@@ -16636,10 +16461,10 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     e.oldTop = e.top = c.top + (c.height - e.height) / 2;
     this.initialCropBox = a.extend({}, e);
   }, limitCropBox:function(a, b) {
-    var c = this.options, d = c.aspectRatio, e = this.container, f = e.width, e = e.height, g = this.canvas, h = this.cropBox, m = this.limited;
+    var c = this.options, d = c.aspectRatio, e = this.container, f = e.width, e = e.height, g = this.canvas, h = this.cropBox, p = this.limited;
     if (a) {
       a = Number(c.minCropBoxWidth) || 0;
-      var c = Number(c.minCropBoxHeight) || 0, l = Math.min(f, m ? g.width : f), r = Math.min(e, m ? g.height : e);
+      var c = Number(c.minCropBoxHeight) || 0, l = Math.min(f, p ? g.width : f), r = Math.min(e, p ? g.height : e);
       a = Math.min(a, f);
       c = Math.min(c, e);
       d && (a && c ? c * d > a ? c = a / d : a = c * d : a ? c = a / d : c && (a = c * d), r * d > l ? r = l / d : l = r * d);
@@ -16648,7 +16473,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       h.maxWidth = l;
       h.maxHeight = r;
     }
-    b && (m ? (h.minLeft = Math.max(0, g.left), h.minTop = Math.max(0, g.top), h.maxLeft = Math.min(f, g.left + g.width) - h.width, h.maxTop = Math.min(e, g.top + g.height) - h.height) : (h.minLeft = 0, h.minTop = 0, h.maxLeft = f - h.width, h.maxTop = e - h.height));
+    b && (p ? (h.minLeft = Math.max(0, g.left), h.minTop = Math.max(0, g.top), h.maxLeft = Math.min(f, g.left + g.width) - h.width, h.maxTop = Math.min(e, g.top + g.height) - h.height) : (h.minLeft = 0, h.minTop = 0, h.maxLeft = f - h.width, h.maxTop = e - h.height));
   }, renderCropBox:function() {
     var a = this.options, b = this.container, c = b.width, b = b.height, d = this.cropBox;
     if (d.width > d.maxWidth || d.width < d.minWidth) {
@@ -16694,15 +16519,15 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
       b.css({width:c.width, height:c.height}).html(c.html).removeData("preview");
     });
   }, preview:function() {
-    var b = this.image, c = this.canvas, d = this.cropBox, e = d.width, f = d.height, g = b.width, h = b.height, m = d.left - c.left - b.left, l = d.top - c.top - b.top;
-    this.cropped && !this.disabled && (this.$clone2.css({width:g, height:h, transform:n(a.extend({translateX:-m, translateY:-l}, b))}), this.$preview.each(function(c, d) {
+    var b = this.image, c = this.canvas, d = this.cropBox, e = d.width, f = d.height, g = b.width, h = b.height, p = d.left - c.left - b.left, l = d.top - c.top - b.top;
+    this.cropped && !this.disabled && (this.$clone2.css({width:g, height:h, transform:n(a.extend({translateX:-p, translateY:-l}, b))}), this.$preview.each(function(c, d) {
       c = a(d);
       var r = c.data("preview");
       d = r.width;
-      var r = r.height, p = d, u = r, q = 1;
+      var r = r.height, m = d, u = r, q = 1;
       e && (q = d / e, u = f * q);
-      f && u > r && (q = r / f, p = e * q, u = r);
-      c.css({width:p, height:u}).find("img").css({width:g * q, height:h * q, transform:n(a.extend({translateX:-m * q, translateY:-l * q}, b))});
+      f && u > r && (q = r / f, m = e * q, u = r);
+      c.css({width:m, height:u}).find("img").css({width:g * q, height:h * q, transform:n(a.extend({translateX:-p * q, translateY:-l * q}, b))});
     }));
   }});
   a.extend(R.prototype, {bind:function() {
@@ -16729,7 +16554,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     if (b.toggleDragModeOnDblclick) {
       d.on("dblclick", e(this.dblclick, this));
     }
-    a(document).on(K, this.onCropMove = e(this.cropMove, this)).on(I, this.onCropEnd = e(this.cropEnd, this));
+    a(document).on(Q, this.onCropMove = e(this.cropMove, this)).on(O, this.onCropEnd = e(this.cropEnd, this));
     if (b.responsive) {
       a(window).on("resize", this.onResize = e(this.resize, this));
     }
@@ -16743,7 +16568,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     d.off(F, this.cropStart);
     b.zoomable && b.zoomOnWheel && d.off("wheel mousewheel DOMMouseScroll", this.wheel);
     b.toggleDragModeOnDblclick && d.off("dblclick", this.dblclick);
-    a(document).off(K, this.onCropMove).off(I, this.onCropEnd);
+    a(document).off(Q, this.onCropMove).off(O, this.onCropEnd);
     b.responsive && a(window).off("resize", this.onResize);
   }});
   a.extend(R.prototype, {resize:function() {
@@ -16781,7 +16606,7 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
         d[b.identifier] = r(b);
       }) : d[e && e.pointerId || 0] = r(e || b);
       g = 1 < f(d).length && c.zoomable && c.zoomOnTouch ? "zoom" : a(b.target).data("action");
-      W.test(g) && !this.trigger("cropstart", {originalEvent:e, action:g}).isDefaultPrevented() && (b.preventDefault(), this.action = g, this.cropping = !1, "crop" === g && (this.cropping = !0, this.$dragBox.addClass("cropper-modal")));
+      V.test(g) && !this.trigger("cropstart", {originalEvent:e, action:g}).isDefaultPrevented() && (b.preventDefault(), this.action = g, this.cropping = !1, "crop" === g && (this.cropping = !0, this.$dragBox.addClass("cropper-modal")));
     }
   }, cropMove:function(b) {
     var c = this.action;
@@ -16802,125 +16627,125 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     }
   }});
   a.extend(R.prototype, {change:function(b) {
-    var c = this.options, d = this.pointers, e = d[f(d)[0]], g = this.container, h = this.canvas, m = this.cropBox, l = this.action, c = c.aspectRatio, r = m.width, n = m.height, p = m.left, q = m.top, v = p + r, y = q + n, C = 0, L = 0, B = g.width, A = g.height, D = !0, H = void 0;
-    !c && b.shiftKey && (c = r && n ? r / n : 1);
-    this.limited && (C = m.minLeft, L = m.minTop, B = C + Math.min(g.width, h.width, h.left + h.width), A = L + Math.min(g.height, h.height, h.top + h.height));
+    var c = this.options, d = this.pointers, e = d[f(d)[0]], g = this.container, h = this.canvas, p = this.cropBox, l = this.action, c = c.aspectRatio, r = p.width, m = p.height, n = p.left, q = p.top, v = n + r, z = q + m, C = 0, J = 0, y = g.width, B = g.height, E = !0, G = void 0;
+    !c && b.shiftKey && (c = r && m ? r / m : 1);
+    this.limited && (C = p.minLeft, J = p.minTop, y = C + Math.min(g.width, h.width, h.left + h.width), B = J + Math.min(g.height, h.height, h.top + h.height));
     var g = e.endX - e.startX, h = e.endY - e.startY;
     if (c) {
       var F = h * c;
-      var K = g / c;
+      var Q = g / c;
     }
     switch(l) {
       case "all":
-        p += g;
+        n += g;
         q += h;
         break;
       case "e":
-        if (0 <= g && (v >= B || c && (q <= L || y >= A))) {
-          D = !1;
+        if (0 <= g && (v >= y || c && (q <= J || z >= B))) {
+          E = !1;
           break;
         }
         r += g;
-        c && (n = r / c, q -= K / 2);
+        c && (m = r / c, q -= Q / 2);
         0 > r && (l = "w", r = 0);
         break;
       case "n":
-        if (0 >= h && (q <= L || c && (p <= C || v >= B))) {
-          D = !1;
+        if (0 >= h && (q <= J || c && (n <= C || v >= y))) {
+          E = !1;
           break;
         }
-        n -= h;
+        m -= h;
         q += h;
-        c && (r = n * c, p += F / 2);
-        0 > n && (l = "s", n = 0);
+        c && (r = m * c, n += F / 2);
+        0 > m && (l = "s", m = 0);
         break;
       case "w":
-        if (0 >= g && (p <= C || c && (q <= L || y >= A))) {
-          D = !1;
+        if (0 >= g && (n <= C || c && (q <= J || z >= B))) {
+          E = !1;
           break;
         }
         r -= g;
-        p += g;
-        c && (n = r / c, q += K / 2);
+        n += g;
+        c && (m = r / c, q += Q / 2);
         0 > r && (l = "e", r = 0);
         break;
       case "s":
-        if (0 <= h && (y >= A || c && (p <= C || v >= B))) {
-          D = !1;
+        if (0 <= h && (z >= B || c && (n <= C || v >= y))) {
+          E = !1;
           break;
         }
-        n += h;
-        c && (r = n * c, p -= F / 2);
-        0 > n && (l = "n", n = 0);
+        m += h;
+        c && (r = m * c, n -= F / 2);
+        0 > m && (l = "n", m = 0);
         break;
       case "ne":
         if (c) {
-          if (0 >= h && (q <= L || v >= B)) {
-            D = !1;
+          if (0 >= h && (q <= J || v >= y)) {
+            E = !1;
             break;
           }
-          n -= h;
+          m -= h;
           q += h;
-          r = n * c;
+          r = m * c;
         } else {
-          0 <= g ? v < B ? r += g : 0 >= h && q <= L && (D = !1) : r += g, 0 >= h ? q > L && (n -= h, q += h) : (n -= h, q += h);
+          0 <= g ? v < y ? r += g : 0 >= h && q <= J && (E = !1) : r += g, 0 >= h ? q > J && (m -= h, q += h) : (m -= h, q += h);
         }
-        0 > r && 0 > n ? (l = "sw", r = n = 0) : 0 > r ? (l = "nw", r = 0) : 0 > n && (l = "se", n = 0);
+        0 > r && 0 > m ? (l = "sw", r = m = 0) : 0 > r ? (l = "nw", r = 0) : 0 > m && (l = "se", m = 0);
         break;
       case "nw":
         if (c) {
-          if (0 >= h && (q <= L || p <= C)) {
-            D = !1;
+          if (0 >= h && (q <= J || n <= C)) {
+            E = !1;
             break;
           }
-          n -= h;
+          m -= h;
           q += h;
-          r = n * c;
-          p += F;
+          r = m * c;
+          n += F;
         } else {
-          0 >= g ? p > C ? (r -= g, p += g) : 0 >= h && q <= L && (D = !1) : (r -= g, p += g), 0 >= h ? q > L && (n -= h, q += h) : (n -= h, q += h);
+          0 >= g ? n > C ? (r -= g, n += g) : 0 >= h && q <= J && (E = !1) : (r -= g, n += g), 0 >= h ? q > J && (m -= h, q += h) : (m -= h, q += h);
         }
-        0 > r && 0 > n ? (l = "se", r = n = 0) : 0 > r ? (l = "ne", r = 0) : 0 > n && (l = "sw", n = 0);
+        0 > r && 0 > m ? (l = "se", r = m = 0) : 0 > r ? (l = "ne", r = 0) : 0 > m && (l = "sw", m = 0);
         break;
       case "sw":
         if (c) {
-          if (0 >= g && (p <= C || y >= A)) {
-            D = !1;
+          if (0 >= g && (n <= C || z >= B)) {
+            E = !1;
             break;
           }
           r -= g;
-          p += g;
-          n = r / c;
+          n += g;
+          m = r / c;
         } else {
-          0 >= g ? p > C ? (r -= g, p += g) : 0 <= h && y >= A && (D = !1) : (r -= g, p += g), 0 <= h ? y < A && (n += h) : n += h;
+          0 >= g ? n > C ? (r -= g, n += g) : 0 <= h && z >= B && (E = !1) : (r -= g, n += g), 0 <= h ? z < B && (m += h) : m += h;
         }
-        0 > r && 0 > n ? (l = "ne", r = n = 0) : 0 > r ? (l = "se", r = 0) : 0 > n && (l = "nw", n = 0);
+        0 > r && 0 > m ? (l = "ne", r = m = 0) : 0 > r ? (l = "se", r = 0) : 0 > m && (l = "nw", m = 0);
         break;
       case "se":
         if (c) {
-          if (0 <= g && (v >= B || y >= A)) {
-            D = !1;
+          if (0 <= g && (v >= y || z >= B)) {
+            E = !1;
             break;
           }
           r += g;
-          n = r / c;
+          m = r / c;
         } else {
-          0 <= g ? v < B ? r += g : 0 <= h && y >= A && (D = !1) : r += g, 0 <= h ? y < A && (n += h) : n += h;
+          0 <= g ? v < y ? r += g : 0 <= h && z >= B && (E = !1) : r += g, 0 <= h ? z < B && (m += h) : m += h;
         }
-        0 > r && 0 > n ? (l = "nw", r = n = 0) : 0 > r ? (l = "sw", r = 0) : 0 > n && (l = "ne", n = 0);
+        0 > r && 0 > m ? (l = "nw", r = m = 0) : 0 > r ? (l = "sw", r = 0) : 0 > m && (l = "ne", m = 0);
         break;
       case "move":
         this.move(g, h);
-        D = !1;
+        E = !1;
         break;
       case "zoom":
         this.zoom(u(d), b.originalEvent);
-        D = !1;
+        E = !1;
         break;
       case "crop":
-        g && h ? (H = this.$cropper.offset(), p = e.startX - H.left, q = e.startY - H.top, r = m.minWidth, n = m.minHeight, 0 < g ? l = 0 < h ? "se" : "ne" : 0 > g && (p -= r, l = 0 < h ? "sw" : "nw"), 0 > h && (q -= n), this.cropped || (this.$cropBox.removeClass("cropper-hidden"), this.cropped = !0, this.limited && this.limitCropBox(!0, !0))) : D = !1;
+        g && h ? (G = this.$cropper.offset(), n = e.startX - G.left, q = e.startY - G.top, r = p.minWidth, m = p.minHeight, 0 < g ? l = 0 < h ? "se" : "ne" : 0 > g && (n -= r, l = 0 < h ? "sw" : "nw"), 0 > h && (q -= m), this.cropped || (this.$cropBox.removeClass("cropper-hidden"), this.cropped = !0, this.limited && this.limitCropBox(!0, !0))) : E = !1;
     }
-    D && (m.width = r, m.height = n, m.left = p, m.top = q, this.action = l, this.renderCropBox());
+    E && (p.width = r, p.height = m, p.left = n, p.top = q, this.action = l, this.renderCropBox());
     a.each(d, function(a, b) {
       b.startX = b.endX;
       b.startY = b.endY;
@@ -16956,10 +16781,10 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     a = Number(a);
     this.zoomTo(c.width * (0 > a ? 1 / (1 - a) : 1 + a) / c.naturalWidth, b);
   }, zoomTo:function(a, b) {
-    var c = this.options, d = this.pointers, e = this.canvas, g = e.width, h = e.height, m = e.naturalWidth, l = e.naturalHeight;
+    var c = this.options, d = this.pointers, e = this.canvas, g = e.width, h = e.height, p = e.naturalWidth, l = e.naturalHeight;
     a = Number(a);
     console.log("ratio:", a);
-    0 <= a && this.ready && !this.disabled && c.zoomable && (c = m * a, a *= l, l = void 0, b && (l = b.originalEvent), this.trigger("zoom", {originalEvent:l, oldRatio:g / m, ratio:c / m}).isDefaultPrevented() || (l ? (m = this.$cropper.offset(), b = d && f(d).length ? v(d) : {pageX:b.pageX || l.pageX || 0, pageY:b.pageY || l.pageY || 0}, e.left -= (b.pageX - m.left - e.left) / g * (c - g), e.top -= (b.pageY - m.top - e.top) / h * (a - h)) : (e.left -= (c - g) / 2, e.top -= (a - h) / 2), e.width = 
+    0 <= a && this.ready && !this.disabled && c.zoomable && (c = p * a, a *= l, l = void 0, b && (l = b.originalEvent), this.trigger("zoom", {originalEvent:l, oldRatio:g / p, ratio:c / p}).isDefaultPrevented() || (l ? (p = this.$cropper.offset(), b = d && f(d).length ? v(d) : {pageX:b.pageX || l.pageX || 0, pageY:b.pageY || l.pageY || 0}, e.left -= (b.pageX - p.left - e.left) / g * (c - g), e.top -= (b.pageY - p.top - e.top) / h * (a - h)) : (e.left -= (c - g) / 2, e.top -= (a - h) / 2), e.width = 
     c, e.height = a, this.renderCanvas(!0)));
   }, rotate:function(a) {
     this.rotateTo((this.image.rotate || 0) + Number(a));
@@ -16988,9 +16813,9 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     c.scalable && (h.scaleX = d.scaleX || 1, h.scaleY = d.scaleY || 1);
     return h;
   }, setData:function(c) {
-    var d = this.options, e = this.image, f = this.canvas, g = {}, h = void 0, m = void 0;
+    var d = this.options, e = this.image, f = this.canvas, g = {}, h = void 0, p = void 0;
     a.isFunction(c) && (c = c.call(this.element));
-    this.ready && !this.disabled && a.isPlainObject(c) && (d.rotatable && b(c.rotate) && c.rotate !== e.rotate && (e.rotate = c.rotate, this.rotated = h = !0), d.scalable && (b(c.scaleX) && c.scaleX !== e.scaleX && (e.scaleX = c.scaleX, m = !0), b(c.scaleY) && c.scaleY !== e.scaleY && (e.scaleY = c.scaleY, m = !0)), h ? this.renderCanvas() : m && this.renderImage(), d = e.width / e.naturalWidth, b(c.x) && (g.left = c.x * d + f.left), b(c.y) && (g.top = c.y * d + f.top), b(c.width) && (g.width = c.width * 
+    this.ready && !this.disabled && a.isPlainObject(c) && (d.rotatable && b(c.rotate) && c.rotate !== e.rotate && (e.rotate = c.rotate, this.rotated = h = !0), d.scalable && (b(c.scaleX) && c.scaleX !== e.scaleX && (e.scaleX = c.scaleX, p = !0), b(c.scaleY) && c.scaleY !== e.scaleY && (e.scaleY = c.scaleY, p = !0)), h ? this.renderCanvas() : p && this.renderImage(), d = e.width / e.naturalWidth, b(c.x) && (g.left = c.x * d + f.left), b(c.y) && (g.top = c.y * d + f.top), b(c.width) && (g.width = c.width * 
     d), b(c.height) && (g.height = c.height * d), this.setCropBoxData(g));
   }, getContainerData:function() {
     return this.ready ? this.container : {};
@@ -17022,21 +16847,21 @@ Polymer({is:"simpl-jqtree-dropdown", properties:{selectedItem:{observer:"selecte
     if (!this.cropped) {
       return q(this.$clone[0], this.image, b);
     }
-    var c = this.getData(), d = c.width, e = c.height, f = d / e, g = void 0, h = void 0, m = void 0;
-    a.isPlainObject(b) && (g = b.width, h = b.height, g ? (h = g / f, m = g / d) : h && (g = h * f, m = h / e));
+    var c = this.getData(), d = c.width, e = c.height, f = d / e, g = void 0, h = void 0, p = void 0;
+    a.isPlainObject(b) && (g = b.width, h = b.height, g ? (h = g / f, p = g / d) : h && (g = h * f, p = h / e));
     var g = Math.floor(g || d), l = Math.floor(h || e), h = a("<canvas>")[0], f = h.getContext("2d");
     h.width = g;
     h.height = l;
     b.fillColor && (f.fillStyle = b.fillColor, f.fillRect(0, 0, g, l));
-    var r = q(this.$clone[0], this.image, b), g = r.width, l = r.height, n = this.canvas, r = [r], p = c.x + n.naturalWidth * (Math.abs(c.scaleX || 1) - 1) / 2, c = c.y + n.naturalHeight * (Math.abs(c.scaleY || 1) - 1) / 2, u = n = void 0, v = void 0, y = void 0, C = void 0, B = void 0;
-    p <= -d || p > g ? p = n = v = C = 0 : 0 >= p ? (v = -p, p = 0, n = C = Math.min(g, d + p)) : p <= g && (v = 0, n = C = Math.min(d, g - p));
-    0 >= n || c <= -e || c > l ? c = u = y = B = 0 : 0 >= c ? (y = -c, c = 0, u = B = Math.min(l, e + c)) : c <= l && (y = 0, u = B = Math.min(e, l - c));
-    r.push(Math.floor(p), Math.floor(c), Math.floor(n), Math.floor(u));
-    m && (v *= m, y *= m, C *= m, B *= m);
-    0 < C && 0 < B && r.push(Math.floor(v), Math.floor(y), Math.floor(C), Math.floor(B));
+    var r = q(this.$clone[0], this.image, b), g = r.width, l = r.height, m = this.canvas, r = [r], n = c.x + m.naturalWidth * (Math.abs(c.scaleX || 1) - 1) / 2, c = c.y + m.naturalHeight * (Math.abs(c.scaleY || 1) - 1) / 2, u = m = void 0, v = void 0, z = void 0, C = void 0, y = void 0;
+    n <= -d || n > g ? n = m = v = C = 0 : 0 >= n ? (v = -n, n = 0, m = C = Math.min(g, d + n)) : n <= g && (v = 0, m = C = Math.min(d, g - n));
+    0 >= m || c <= -e || c > l ? c = u = z = y = 0 : 0 >= c ? (z = -c, c = 0, u = y = Math.min(l, e + c)) : c <= l && (z = 0, u = y = Math.min(e, l - c));
+    r.push(Math.floor(n), Math.floor(c), Math.floor(m), Math.floor(u));
+    p && (v *= p, z *= p, C *= p, y *= p);
+    0 < C && 0 < y && r.push(Math.floor(v), Math.floor(z), Math.floor(C), Math.floor(y));
     f.imageSmoothingEnabled = !!b.imageSmoothingEnabled;
     b.imageSmoothingQuality && (f.imageSmoothingQuality = b.imageSmoothingQuality);
-    f.drawImage.apply(f, ha(r));
+    f.drawImage.apply(f, ga(r));
     return h;
   }, setAspectRatio:function(a) {
     var b = this.options;
@@ -17444,13 +17269,13 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }
   }, init:function(a, b) {
     function c(a) {
-      for (var b = 0, c = p.listeners.length; b < c; b++) {
-        p.listeners[b](a);
+      for (var b = 0, c = m.listeners.length; b < c; b++) {
+        m.listeners[b](a);
       }
     }
     var d = this;
     this.history = b;
-    p.listeners || (p.listeners = []);
+    m.listeners || (m.listeners = []);
     "onhashchange" in window && (void 0 === document.documentMode || 7 < document.documentMode) ? (!0 === this.history ? setTimeout(function() {
       window.onpopstate = c;
     }, 500) : window.onhashchange = c, this.mode = "modern") : (b = document.createElement("iframe"), b.id = "state-frame", b.style.display = "none", document.body.appendChild(b), this.writeFrame(""), "onpropertychange" in document && "attachEvent" in document && document.attachEvent("onpropertychange", function() {
@@ -17458,11 +17283,11 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }), window.setInterval(function() {
       d.check();
     }, 50), this.onHashChanged = c, this.mode = "legacy");
-    p.listeners.push(a);
+    m.listeners.push(a);
     return this.mode;
   }, destroy:function(a) {
-    if (p && p.listeners) {
-      for (var b = p.listeners, c = b.length - 1; 0 <= c; c--) {
+    if (m && m.listeners) {
+      for (var b = m.listeners, c = b.length - 1; 0 <= c; c--) {
         b[c] === a && b.splice(c, 1);
       }
     }
@@ -17480,9 +17305,9 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     a != l.hash && (l.hash = a);
     return this;
   }, onHashChanged:function() {
-  }}, p = a.Router = function(a) {
-    if (!(this instanceof p)) {
-      return new p(a);
+  }}, m = a.Router = function(a) {
+    if (!(this instanceof m)) {
+      return new m(a);
     }
     this.params = {};
     this.routes = {};
@@ -17495,7 +17320,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     this.configure();
     this.mount(a || {});
   };
-  p.prototype.init = function(a) {
+  m.prototype.init = function(a) {
     var c = this;
     this.handler = function(a) {
       a = a && a.newURL || window.location.hash;
@@ -17506,18 +17331,18 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     !1 === this.history ? b() && a ? l.hash = a : b() || c.dispatch("on", "/" + l.hash.replace(/^(#\/|#|\/)/, "")) : (this.convert_hash_in_init ? (a = b() && a ? a : b() ? null : l.hash.replace(/^#/, "")) && window.history.replaceState({}, document.title, a) : a = this.getPath(), (a || !0 === this.run_in_init) && this.handler());
     return this;
   };
-  p.prototype.explode = function() {
+  m.prototype.explode = function() {
     var a = !0 === this.history ? this.getPath() : l.hash;
     "/" === a.charAt(1) && (a = a.slice(1));
     return a.slice(1, a.length).split("/");
   };
-  p.prototype.setRoute = function(a, b, c) {
+  m.prototype.setRoute = function(a, b, c) {
     var d = this.explode();
     "number" === typeof a && "string" === typeof b ? d[a] = b : "string" === typeof c ? d.splice(a, b, s) : d = [a];
     n.setHash(d.join("/"));
     return d;
   };
-  p.prototype.insertEx = function(a, b, c, d) {
+  m.prototype.insertEx = function(a, b, c, d) {
     "once" === a && (a = "on", c = function(a) {
       var b = !1;
       return function() {
@@ -17528,20 +17353,20 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }(c));
     return this._insert(a, b, c, d);
   };
-  p.prototype.getRoute = function(a) {
+  m.prototype.getRoute = function(a) {
     return "number" === typeof a ? this.explode()[a] : "string" === typeof a ? this.explode().indexOf(a) : this.explode();
   };
-  p.prototype.destroy = function() {
+  m.prototype.destroy = function() {
     n.destroy(this.handler);
     return this;
   };
-  p.prototype.getPath = function() {
+  m.prototype.getPath = function() {
     var a = window.location.pathname;
     "/" !== a.substr(0, 1) && (a = "/" + a);
     return a;
   };
   var q = /\?.*/;
-  p.prototype.configure = function(a) {
+  m.prototype.configure = function(a) {
     a = a || {};
     for (var b = 0; b < this.methods.length; b++) {
       this._methods[this.methods[b]] = !0;
@@ -17558,7 +17383,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     this.every = {after:a.after || null, before:a.before || null, on:a.on || null};
     return this;
   };
-  p.prototype.param = function(a, b) {
+  m.prototype.param = function(a, b) {
     ":" !== a[0] && (a = ":" + a);
     var c = new RegExp(a, "g");
     this.params[a] = function(a) {
@@ -17566,7 +17391,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     };
     return this;
   };
-  p.prototype.on = p.prototype.route = function(a, b, c) {
+  m.prototype.on = m.prototype.route = function(a, b, c) {
     var d = this;
     c || "function" != typeof b || (c = b, b = a, a = "on");
     if (Array.isArray(b)) {
@@ -17584,7 +17409,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     b = h(b, this.delimiter);
     this.insert(a, this.scope.concat(b), c);
   };
-  p.prototype.path = function(a, b) {
+  m.prototype.path = function(a, b) {
     var c = this.scope.length;
     a.source && (a = a.source.replace(/\\\//ig, "/"));
     a = a.split(new RegExp(this.delimiter));
@@ -17593,7 +17418,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     b.call(this, this);
     this.scope.splice(c, a.length);
   };
-  p.prototype.dispatch = function(a, b, c) {
+  m.prototype.dispatch = function(a, b, c) {
     function d() {
       e.last = f.after;
       e.invoke(e.runlist(f), e, c);
@@ -17610,7 +17435,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     d();
     return !0;
   };
-  p.prototype.invoke = function(a, b, d) {
+  m.prototype.invoke = function(a, b, d) {
     var f = this;
     if (this.async) {
       var g = function(c, d) {
@@ -17634,7 +17459,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
       }, c(a, g);
     }
   };
-  p.prototype.traverse = function(a, b, c, d, e) {
+  m.prototype.traverse = function(a, b, c, d, e) {
     function f(a) {
       function b(a) {
         for (var c = [], d = 0; d < a.length; d++) {
@@ -17659,26 +17484,26 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
     }
     var g = [], h;
     if (b === this.delimiter && c[a]) {
-      var m = [[c.before, c[a]].filter(Boolean)];
-      m.after = [c.after].filter(Boolean);
-      m.matched = !0;
-      m.captures = [];
-      return f(m);
+      var l = [[c.before, c[a]].filter(Boolean)];
+      l.after = [c.after].filter(Boolean);
+      l.matched = !0;
+      l.captures = [];
+      return f(l);
     }
-    for (var l in c) {
-      if (c.hasOwnProperty(l) && (!this._methods[l] || this._methods[l] && "object" === typeof c[l] && !Array.isArray(c[l])) && (m = h = d + this.delimiter + l, this.strict || (h += "[" + this.delimiter + "]?"), h = b.match(new RegExp("^" + h)))) {
-        if (h[0] && h[0] == b && c[l][a]) {
-          return m = [[c[l].before, c[l][a]].filter(Boolean)], m.after = [c[l].after].filter(Boolean), m.matched = !0, m.captures = h.slice(1), this.recurse && c === this.routes && (m.push([c.before, c.on].filter(Boolean)), m.after = m.after.concat([c.after].filter(Boolean))), f(m);
+    for (var p in c) {
+      if (c.hasOwnProperty(p) && (!this._methods[p] || this._methods[p] && "object" === typeof c[p] && !Array.isArray(c[p])) && (l = h = d + this.delimiter + p, this.strict || (h += "[" + this.delimiter + "]?"), h = b.match(new RegExp("^" + h)))) {
+        if (h[0] && h[0] == b && c[p][a]) {
+          return l = [[c[p].before, c[p][a]].filter(Boolean)], l.after = [c[p].after].filter(Boolean), l.matched = !0, l.captures = h.slice(1), this.recurse && c === this.routes && (l.push([c.before, c.on].filter(Boolean)), l.after = l.after.concat([c.after].filter(Boolean))), f(l);
         }
-        m = this.traverse(a, b, c[l], m);
-        if (m.matched) {
-          return 0 < m.length && (g = g.concat(m)), this.recurse && (g.push([c[l].before, c[l].on].filter(Boolean)), m.after = m.after.concat([c[l].after].filter(Boolean)), c === this.routes && (g.push([c.before, c.on].filter(Boolean)), m.after = m.after.concat([c.after].filter(Boolean)))), g.matched = !0, g.captures = m.captures, g.after = m.after, f(g);
+        l = this.traverse(a, b, c[p], l);
+        if (l.matched) {
+          return 0 < l.length && (g = g.concat(l)), this.recurse && (g.push([c[p].before, c[p].on].filter(Boolean)), l.after = l.after.concat([c[p].after].filter(Boolean)), c === this.routes && (g.push([c.before, c.on].filter(Boolean)), l.after = l.after.concat([c.after].filter(Boolean)))), g.matched = !0, g.captures = l.captures, g.after = l.after, f(g);
         }
       }
     }
     return !1;
   };
-  p.prototype.insert = function(a, b, c, d) {
+  m.prototype.insert = function(a, b, c, d) {
     b = b.filter(function(a) {
       return a && 0 < a.length;
     });
@@ -17725,7 +17550,7 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
         d[a] = c;
     }
   };
-  p.prototype.extend = function(a) {
+  m.prototype.extend = function(a) {
     function b(a) {
       c._methods[a] = !0;
       c[a] = function() {
@@ -17737,22 +17562,22 @@ Polymer({is:"simpl-import", properties:{data:{type:Object}, type:{type:String}, 
       b(a[e]);
     }
   };
-  p.prototype.runlist = function(a) {
+  m.prototype.runlist = function(a) {
     var b = this.every && this.every.before ? [this.every.before].concat(d(a)) : d(a);
     this.every && this.every.on && b.push(this.every.on);
     b.captures = a.captures;
     b.source = a.source;
     return b;
   };
-  p.prototype.mount = function(a, b) {
+  m.prototype.mount = function(a, b) {
     if (a && "object" === typeof a && !Array.isArray(a)) {
       b = b || [];
       Array.isArray(b) || (b = b.split(this.delimiter));
       for (var c in a) {
         if (a.hasOwnProperty(c)) {
-          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), l = typeof a[d], m = "" === g[0] || !this._methods[g[0]], r = m ? "on" : f;
-          m && (f = f.slice((f.match(new RegExp("^" + this.delimiter)) || [""])[0].length), g.shift());
-          m && "object" === l && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (m && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(r, e, a[d]));
+          var d = c, e = b.slice(0), f = d, g = d.split(this.delimiter), l = typeof a[d], p = "" === g[0] || !this._methods[g[0]], m = p ? "on" : f;
+          p && (f = f.slice((f.match(new RegExp("^" + this.delimiter)) || [""])[0].length), g.shift());
+          p && "object" === l && !Array.isArray(a[d]) ? (e = e.concat(g), this.mount(a[d], e)) : (p && (e = e.concat(f.split(this.delimiter)), e = h(e, this.delimiter)), this.insert(m, e, a[d]));
         }
       }
     }
@@ -18005,7 +17830,7 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
   function l(a, b) {
     b ? jQuery(a).css("display", "") : jQuery(a).css("display", "none");
   }
-  var n = "string integer double date time datetime".split(" "), p = ["text", "radio", "checkbox", "select"], q = function(a, b) {
+  var n = "string integer double date time datetime".split(" "), m = ["text", "radio", "checkbox", "select"], q = function(a, b) {
     console.log("QueryBuilder.construct");
     this.$el = a;
     this.init(b);
@@ -18090,14 +17915,14 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
           if ("-1" == l) {
             return b.triggerValidationError(["no_filter"], h, null, null, null), {};
           }
-          var l = b.getFilterById(l), m = b.getOperatorByType(b.getRuleOperator(h)), n = null;
-          if (0 !== m.accept_values) {
-            var n = b.getRuleValue(h, l, m), r = b.validateValue(h, n, l, m);
-            if (!0 !== r) {
-              return b.triggerValidationError(r, h, n, l, m), {};
+          var l = b.getFilterById(l), p = b.getOperatorByType(b.getRuleOperator(h)), m = null;
+          if (0 !== p.accept_values) {
+            var m = b.getRuleValue(h, l, p), n = b.validateValue(h, m, l, p);
+            if (!0 !== n) {
+              return b.triggerValidationError(n, h, m, l, p), {};
             }
           }
-          h = {id:l.id, field:l.field, type:l.type, input:l.input, operator:m.type, value:n};
+          h = {id:l.id, field:l.field, type:l.type, input:l.input, operator:p.type, value:m};
         } else {
           if (h = v(h), a.isEmptyObject(h)) {
             return {};
@@ -18149,7 +17974,7 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
       b.push(e.id);
       e.type || a.error("Missing filter type: " + e.id);
       -1 == n.indexOf(e.type) && a.error("Invalid type: " + e.type);
-      e.input ? "function" != typeof e.input && -1 == p.indexOf(e.input) && a.error("Invalid input: " + e.input) : e.input = "text";
+      e.input ? "function" != typeof e.input && -1 == m.indexOf(e.input) && a.error("Invalid input: " + e.input) : e.input = "text";
       e.field || (e.field = e.id);
       e.label || (e.label = e.field);
       c.status.has_optgroup |= !!e.optgroup;
@@ -18770,31 +18595,31 @@ Polymer({is:"simpl-panel", properties:{heading:{type:String, value:""}, collapsa
     b = !0 === b || void 0 === b ? "question_mark" : b;
     c = c || void 0 === c ? "\n" : " ";
     var f = this, g = 1, l = [];
-    d = function H(d) {
+    d = function G(d) {
       d.condition || (d.condition = f.settings.default_condition);
       -1 === ["AND", "OR"].indexOf(d.condition.toUpperCase()) && a.error("Unable to build SQL query with " + d.condition + " condition");
       if (!d.rules) {
         return "";
       }
-      var n = [];
-      a.each(d.rules, function(d, m) {
-        if (m.rules && 0 < m.rules.length) {
-          n.push("(" + c + H(m) + c + ")" + c);
+      var m = [];
+      a.each(d.rules, function(d, n) {
+        if (n.rules && 0 < n.rules.length) {
+          m.push("(" + c + G(n) + c + ")" + c);
         } else {
-          var p = f.getSqlOperator(m.operator);
-          d = f.getOperatorByType(m.operator);
+          var p = f.getSqlOperator(n.operator);
+          d = f.getOperatorByType(n.operator);
           var q = "";
-          !1 === p && a.error("SQL operation unknown for operator " + m.operator);
-          d.accept_values && (m.value instanceof Array ? !p.list && 1 < m.value.length && a.error("Operator " + m.operator + " cannot accept multiple values") : m.value = [m.value], m.value.forEach(function(a, c) {
+          !1 === p && a.error("SQL operation unknown for operator " + n.operator);
+          d.accept_values && (n.value instanceof Array ? !p.list && 1 < n.value.length && a.error("Operator " + n.operator + " cannot accept multiple values") : n.value = [n.value], n.value.forEach(function(a, c) {
             0 < c && (q += p.sep);
-            "integer" == m.type || "double" == m.type ? a = e(a, m.type) : b || (a = h(a));
+            "integer" == n.type || "double" == n.type ? a = e(a, n.type) : b || (a = h(a));
             p.fn && (a = p.fn(a));
             b ? (q = "question_mark" == b ? q + "?" : q + ("$" + g), l.push(a), g++) : ("string" === typeof a && (a = "'" + a + "'"), q += a);
           }));
-          n.push(m.field + " " + p.op.replace(/\?/, q));
+          m.push(n.field + " " + p.op.replace(/\?/, q));
         }
       });
-      return n.join(" " + d.condition + c);
+      return m.join(" " + d.condition + c);
     }(d);
     return b ? {sql:d, params:l} : {sql:d};
   }, getSqlOperator:function(a) {
@@ -18825,7 +18650,7 @@ Polymer({is:"simpl-filter", behaviors:[StyleScopeBehavior, TranslationsBehavior]
   console.debug("Filter.attached.Entity:", this.entity + "/namespace:" + this.namespace);
   if (null != this.entity && null != this.namespace) {
     var a = simpl4.util.SearchFilter.createSearchFilter(this.entity, {namespace:this.namespace});
-    console.debug("Builder;", this.builder);
+    console.debug("Filters(" + this.namespace + "," + this.entity + ").filter:", a);
     $(this.$.builder).queryBuilder({icons:{add_group:"fa fa-plus-circle", add_rule:"fa fa-plus", remove_group:"fa fa-minus", remove_rule:"fa fa-minus", error:"fa fa-bug", sort:"fa fa-arrows-v"}, sortable:!1, display_errors:!0, filters:a, lang:this.getLang()});
     $(this.$.builder).queryBuilder("setRules", {condition:"AND", rules:[{id:a[0].id, operator:a[0].operators[0], value:""}]});
     this.isBuilderInitialized = !0;
@@ -19700,30 +19525,30 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function f(b, c, g) {
     b._hungarianMap || e(b);
-    var t;
-    a.each(c, function(e, h) {
-      t = b._hungarianMap[e];
-      t === d || !g && c[t] !== d || ("o" === t.charAt(0) ? (c[t] || (c[t] = {}), a.extend(!0, c[t], c[e]), f(b[t], c[t], g)) : c[t] = c[e]);
+    var h;
+    a.each(c, function(e, t) {
+      h = b._hungarianMap[e];
+      h === d || !g && c[h] !== d || ("o" === h.charAt(0) ? (c[h] || (c[h] = {}), a.extend(!0, c[h], c[e]), f(b[h], c[h], g)) : c[h] = c[e]);
     });
   }
   function g(a) {
     var b = x.defaults.oLanguage, c = a.sZeroRecords;
-    !a.sEmptyTable && c && "No data available in table" === b.sEmptyTable && ca(a, a, "sZeroRecords", "sEmptyTable");
-    !a.sLoadingRecords && c && "Loading..." === b.sLoadingRecords && ca(a, a, "sZeroRecords", "sLoadingRecords");
+    !a.sEmptyTable && c && "No data available in table" === b.sEmptyTable && ba(a, a, "sZeroRecords", "sEmptyTable");
+    !a.sLoadingRecords && c && "Loading..." === b.sLoadingRecords && ba(a, a, "sZeroRecords", "sLoadingRecords");
     a.sInfoThousands && (a.sThousands = a.sInfoThousands);
     (a = a.sDecimal) && nb(a);
   }
   function h(a) {
-    V(a, "ordering", "bSort");
-    V(a, "orderMulti", "bSortMulti");
-    V(a, "orderClasses", "bSortClasses");
-    V(a, "orderCellsTop", "bSortCellsTop");
-    V(a, "order", "aaSorting");
-    V(a, "orderFixed", "aaSortingFixed");
-    V(a, "paging", "bPaginate");
-    V(a, "pagingType", "sPaginationType");
-    V(a, "pageLength", "iDisplayLength");
-    V(a, "searching", "bFilter");
+    U(a, "ordering", "bSort");
+    U(a, "orderMulti", "bSortMulti");
+    U(a, "orderClasses", "bSortClasses");
+    U(a, "orderCellsTop", "bSortCellsTop");
+    U(a, "order", "aaSorting");
+    U(a, "orderFixed", "aaSortingFixed");
+    U(a, "paging", "bPaginate");
+    U(a, "pagingType", "sPaginationType");
+    U(a, "pageLength", "iDisplayLength");
+    U(a, "searching", "bFilter");
     "boolean" === typeof a.sScrollX && (a.sScrollX = a.sScrollX ? "100%" : "");
     "boolean" === typeof a.scrollX && (a.scrollX = a.scrollX ? "100%" : "");
     if (a = a.aoSearchCols) {
@@ -19733,10 +19558,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function l(b) {
-    V(b, "orderable", "bSortable");
-    V(b, "orderData", "aDataSort");
-    V(b, "orderSequence", "asSorting");
-    V(b, "orderDataType", "sortDataType");
+    U(b, "orderable", "bSortable");
+    U(b, "orderData", "aDataSort");
+    U(b, "orderSequence", "asSorting");
+    U(b, "orderDataType", "sortDataType");
     var c = b.aDataSort;
     c && !a.isArray(c) && (b.aDataSort = [c]);
   }
@@ -19754,48 +19579,48 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a.extend(b.oBrowser, x.__browser);
     b.oScroll.iBarWidth = x.__browser.barWidth;
   }
-  function p(a, b, c, e, f, g) {
-    var t = !1;
+  function m(a, b, c, e, f, g) {
+    var h = !1;
     if (c !== d) {
-      var h = c;
-      t = !0;
+      var t = c;
+      h = !0;
     }
     for (; e !== f;) {
-      a.hasOwnProperty(e) && (h = t ? b(h, a[e], e, a) : a[e], t = !0, e += g);
+      a.hasOwnProperty(e) && (t = h ? b(t, a[e], e, a) : a[e], h = !0, e += g);
     }
-    return h;
+    return t;
   }
   function q(b, d) {
     var e = x.defaults.column, f = b.aoColumns.length, e = a.extend({}, x.models.oColumn, e, {nTh:d ? d : c.createElement("th"), sTitle:e.sTitle ? e.sTitle : d ? d.innerHTML : "", aDataSort:e.aDataSort ? e.aDataSort : [f], mData:e.mData ? e.mData : f, idx:f});
     b.aoColumns.push(e);
     e = b.aoPreSearchCols;
     e[f] = a.extend({}, x.models.oSearch, e[f]);
-    m(b, f, a(d).data());
+    p(b, f, a(d).data());
   }
-  function m(b, c, e) {
+  function p(b, c, e) {
     c = b.aoColumns[c];
-    var g = b.oClasses, t = a(c.nTh);
+    var g = b.oClasses, h = a(c.nTh);
     if (!c.sWidthOrig) {
-      c.sWidthOrig = t.attr("width") || null;
-      var h = (t.attr("style") || "").match(/width:\s*(\d+[pxem%]+)/);
-      h && (c.sWidthOrig = h[1]);
+      c.sWidthOrig = h.attr("width") || null;
+      var t = (h.attr("style") || "").match(/width:\s*(\d+[pxem%]+)/);
+      t && (c.sWidthOrig = t[1]);
     }
-    e !== d && null !== e && (l(e), f(x.defaults.column, e), e.mDataProp === d || e.mData || (e.mData = e.mDataProp), e.sType && (c._sManualType = e.sType), e.className && !e.sClass && (e.sClass = e.className), a.extend(c, e), ca(c, e, "sWidth", "sWidthOrig"), e.iDataSort !== d && (c.aDataSort = [e.iDataSort]), ca(c, e, "aDataSort"));
-    var w = c.mData, G = W(w), n = c.mRender ? W(c.mRender) : null;
+    e !== d && null !== e && (l(e), f(x.defaults.column, e), e.mDataProp === d || e.mData || (e.mData = e.mDataProp), e.sType && (c._sManualType = e.sType), e.className && !e.sClass && (e.sClass = e.className), a.extend(c, e), ba(c, e, "sWidth", "sWidthOrig"), e.iDataSort !== d && (c.aDataSort = [e.iDataSort]), ba(c, e, "aDataSort"));
+    var w = c.mData, m = V(w), I = c.mRender ? V(c.mRender) : null;
     e = function(a) {
       return "string" === typeof a && -1 !== a.indexOf("@");
     };
     c._bAttrSrc = a.isPlainObject(w) && (e(w.sort) || e(w.type) || e(w.filter));
     c._setter = null;
     c.fnGetData = function(a, b, c) {
-      var e = G(a, b, d, c);
-      return n && b ? n(e, b, a, c) : e;
+      var e = m(a, b, d, c);
+      return I && b ? I(e, b, a, c) : e;
     };
     c.fnSetData = function(a, b, c) {
       return Z(w)(a, b, c);
     };
     "number" !== typeof w && (b._rowReadObject = !0);
-    b.oFeatures.bSort || (c.bSortable = !1, t.addClass(g.sSortableNone));
+    b.oFeatures.bSort || (c.bSortable = !1, h.addClass(g.sSortableNone));
     b = -1 !== a.inArray("asc", c.asSorting);
     e = -1 !== a.inArray("desc", c.asSorting);
     c.bSortable && (b || e) ? b && !e ? (c.sSortingClass = g.sSortableAsc, c.sSortingClassJUI = g.sSortJUIAscAllowed) : !b && e ? (c.sSortingClass = g.sSortableDesc, c.sSortingClassJUI = g.sSortJUIDescAllowed) : (c.sSortingClass = g.sSortable, c.sSortingClassJUI = g.sSortJUI) : (c.sSortingClass = g.sSortableNone, c.sSortingClassJUI = "");
@@ -19810,7 +19635,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     b = a.oScroll;
     "" === b.sY && "" === b.sX || za(a);
-    M(a, null, "column-sizing", [a]);
+    K(a, null, "column-sizing", [a]);
   }
   function u(a, b) {
     a = C(a, "bVisible");
@@ -19821,7 +19646,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     c = a.inArray(c, b);
     return -1 !== c ? c : null;
   }
-  function y(b) {
+  function z(b) {
     var c = 0;
     a.each(b.aoColumns, function(b, d) {
       d.bVisible && "none" !== a(d.nTh).css("display") && c++;
@@ -19835,23 +19660,23 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
     return d;
   }
-  function B(a) {
+  function y(a) {
     var b = a.aoColumns, c = a.aoData, e = x.ext.type.detect, f, g, h;
     var t = 0;
     for (f = b.length; t < f; t++) {
       var l = b[t];
-      var n = [];
+      var m = [];
       if (!l.sType && l._sManualType) {
         l.sType = l._sManualType;
       } else {
         if (!l.sType) {
-          var m = 0;
-          for (g = e.length; m < g; m++) {
+          var n = 0;
+          for (g = e.length; n < g; n++) {
             var p = 0;
             for (h = c.length; p < h; p++) {
-              n[p] === d && (n[p] = F(a, p, t, "type"));
-              var q = e[m](n[p], a);
-              if (!q && m !== e.length - 1) {
+              m[p] === d && (m[p] = F(a, p, t, "type"));
+              var q = e[n](m[p], a);
+              if (!q && n !== e.length - 1) {
                 break;
               }
               if ("html" === q) {
@@ -19868,28 +19693,28 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }
   }
-  function H(b, c, e, f) {
+  function G(b, c, e, f) {
     var g, h, t, l = b.aoColumns;
     if (c) {
       for (g = c.length - 1; 0 <= g; g--) {
         var w = c[g];
-        var G = w.targets !== d ? w.targets : w.aTargets;
-        a.isArray(G) || (G = [G]);
+        var m = w.targets !== d ? w.targets : w.aTargets;
+        a.isArray(m) || (m = [m]);
         var n = 0;
-        for (h = G.length; n < h; n++) {
-          if ("number" === typeof G[n] && 0 <= G[n]) {
-            for (; l.length <= G[n];) {
+        for (h = m.length; n < h; n++) {
+          if ("number" === typeof m[n] && 0 <= m[n]) {
+            for (; l.length <= m[n];) {
               q(b);
             }
-            f(G[n], w);
+            f(m[n], w);
           } else {
-            if ("number" === typeof G[n] && 0 > G[n]) {
-              f(l.length + G[n], w);
+            if ("number" === typeof m[n] && 0 > m[n]) {
+              f(l.length + m[n], w);
             } else {
-              if ("string" === typeof G[n]) {
-                var aa = 0;
-                for (t = l.length; aa < t; aa++) {
-                  ("_all" == G[n] || a(l[aa].nTh).hasClass(G[n])) && f(aa, w);
+              if ("string" === typeof m[n]) {
+                var I = 0;
+                for (t = l.length; I < t; I++) {
+                  ("_all" == m[n] || a(l[I].nTh).hasClass(m[n])) && f(I, w);
                 }
               }
             }
@@ -19903,7 +19728,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }
   }
-  function A(b, c, e, f) {
+  function B(b, c, e, f) {
     var g = b.aoData.length, h = a.extend(!0, {}, x.models.oRow, {src:e ? "dom" : "data", idx:g});
     h._aData = c;
     b.aoData.push(h);
@@ -19913,21 +19738,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b.aiDisplayMaster.push(g);
     c = b.rowIdFn(c);
     c !== d && (b.aIds[c] = h);
-    !e && b.oFeatures.bDeferRender || L(b, g, e, f);
+    !e && b.oFeatures.bDeferRender || J(b, g, e, f);
     return g;
   }
-  function D(b, c) {
+  function E(b, c) {
     var d;
     c instanceof a || (c = a(c));
     return c.map(function(a, c) {
       d = pa(b, c);
-      return A(b, d.data, c, d.cells);
+      return B(b, d.data, c, d.cells);
     });
   }
   function F(a, b, c, e) {
     var f = a.iDraw, g = a.aoColumns[c], h = a.aoData[b]._aData, t = g.sDefaultContent, l = g.fnGetData(h, e, {settings:a, row:b, col:c});
     if (l === d) {
-      return a.iDrawError != f && null === t && (fa(a, 0, "Requested unknown parameter " + ("function" == typeof g.mData ? "{function}" : "'" + g.mData + "'") + " for row " + b + ", column " + c, 4), a.iDrawError = f), t;
+      return a.iDrawError != f && null === t && (ea(a, 0, "Requested unknown parameter " + ("function" == typeof g.mData ? "{function}" : "'" + g.mData + "'") + " for row " + b + ", column " + c, 4), a.iDrawError = f), t;
     }
     if ((l === h || null === l) && null !== t && e !== d) {
       l = t;
@@ -19938,19 +19763,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return null === l && "display" == e ? "" : l;
   }
-  function K(a, b, c, d) {
+  function Q(a, b, c, d) {
     a.aoColumns[c].fnSetData(a.aoData[b]._aData, d, {settings:a, row:b, col:c});
   }
-  function I(b) {
+  function O(b) {
     return a.map(b.match(/(\\.|[^\.])+/g) || [""], function(a) {
       return a.replace(/\\./g, ".");
     });
   }
-  function W(b) {
+  function V(b) {
     if (a.isPlainObject(b)) {
       var c = {};
       a.each(b, function(a, b) {
-        b && (c[a] = W(b));
+        b && (c[a] = V(b));
       });
       return function(a, b, e, f) {
         var g = c[b] || c._;
@@ -19974,7 +19799,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     var e = function(b, c, f) {
       if ("" !== f) {
-        var g = I(f);
+        var g = O(f);
         for (var h = 0, t = g.length; h < t; h++) {
           f = g[h].match(ta);
           var l = g[h].match(ma);
@@ -20030,7 +19855,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       };
     }
     var c = function(b, e, f) {
-      f = I(f);
+      f = O(f);
       var g = f[f.length - 1];
       for (var h, t, l = 0, w = f.length - 1; l < w; l++) {
         h = f[l].match(ta);
@@ -20066,16 +19891,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return c(a, d, b);
     };
   }
-  function ha(a) {
+  function ga(a) {
     return X(a.aoData, "_aData");
   }
-  function ka(a) {
+  function ja(a) {
     a.aoData.length = 0;
     a.aiDisplayMaster.length = 0;
     a.aiDisplay.length = 0;
     a.aIds = {};
   }
-  function la(a, b, c) {
+  function ka(a, b, c) {
     for (var e = -1, f = 0, g = a.length; f < g; f++) {
       a[f] == b ? e = f : a[f] > b && a[f]--;
     }
@@ -20112,63 +19937,63 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       for (g = h.length; c < g; c++) {
         h[c].sType = null;
       }
-      da(a, f);
+      ca(a, f);
     }
   }
   function pa(b, c, e, f) {
-    var g = [], h = c.firstChild, t, l = 0, w, n = b.aoColumns, G = b._rowReadObject;
-    f = f !== d ? f : G ? {} : [];
-    var m = function(a, b) {
+    var g = [], h = c.firstChild, t, l = 0, w, m = b.aoColumns, n = b._rowReadObject;
+    f = f !== d ? f : n ? {} : [];
+    var I = function(a, b) {
       if ("string" === typeof a) {
         var c = a.indexOf("@");
         -1 !== c && (c = a.substring(c + 1), Z(a)(f, b.getAttribute(c)));
       }
     }, p = function(b) {
       if (e === d || e === l) {
-        t = n[l], w = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, w), m(t.mData.sort, b), m(t.mData.type, b), m(t.mData.filter, b)) : G ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, w)) : f[l] = w;
+        t = m[l], w = a.trim(b.innerHTML), t && t._bAttrSrc ? (Z(t.mData._)(f, w), I(t.mData.sort, b), I(t.mData.type, b), I(t.mData.filter, b)) : n ? (t._setter || (t._setter = Z(t.mData)), t._setter(f, w)) : f[l] = w;
       }
       l++;
     };
     if (h) {
       for (; h;) {
-        var aa = h.nodeName.toUpperCase();
-        if ("TD" == aa || "TH" == aa) {
+        var q = h.nodeName.toUpperCase();
+        if ("TD" == q || "TH" == q) {
           p(h), g.push(h);
         }
         h = h.nextSibling;
       }
     } else {
-      for (g = c.anCells, h = 0, aa = g.length; h < aa; h++) {
+      for (g = c.anCells, h = 0, q = g.length; h < q; h++) {
         p(g[h]);
       }
     }
     (c = c.firstChild ? c : c.nTr) && (c = c.getAttribute("id")) && Z(b.rowId)(f, c);
     return {data:f, cells:g};
   }
-  function L(b, d, e, f) {
+  function J(b, d, e, f) {
     var g = b.aoData[d], h = g._aData, t = [], l;
     if (null === g.nTr) {
       var w = e || c.createElement("tr");
       g.nTr = w;
       g.anCells = t;
       w._DT_RowIndex = d;
-      da(b, g);
-      var n = 0;
-      for (l = b.aoColumns.length; n < l; n++) {
-        var G = b.aoColumns[n];
-        var m = e ? f[n] : c.createElement(G.sCellType);
-        m._DT_CellIndex = {row:d, column:n};
-        t.push(m);
-        e && !G.mRender && G.mData === n || a.isPlainObject(G.mData) && G.mData._ === n + ".display" || (m.innerHTML = F(b, d, n, "display"));
-        G.sClass && (m.className += " " + G.sClass);
-        G.bVisible && !e ? w.appendChild(m) : !G.bVisible && e && m.parentNode.removeChild(m);
-        G.fnCreatedCell && G.fnCreatedCell.call(b.oInstance, m, F(b, d, n), h, d, n);
+      ca(b, g);
+      var m = 0;
+      for (l = b.aoColumns.length; m < l; m++) {
+        var n = b.aoColumns[m];
+        var I = e ? f[m] : c.createElement(n.sCellType);
+        I._DT_CellIndex = {row:d, column:m};
+        t.push(I);
+        e && !n.mRender && n.mData === m || a.isPlainObject(n.mData) && n.mData._ === m + ".display" || (I.innerHTML = F(b, d, m, "display"));
+        n.sClass && (I.className += " " + n.sClass);
+        n.bVisible && !e ? w.appendChild(I) : !n.bVisible && e && I.parentNode.removeChild(I);
+        n.fnCreatedCell && n.fnCreatedCell.call(b.oInstance, I, F(b, d, m), h, d, m);
       }
-      M(b, "aoRowCreatedCallback", null, [w, h, d]);
+      K(b, "aoRowCreatedCallback", null, [w, h, d]);
     }
     g.nTr.setAttribute("role", "row");
   }
-  function da(b, c) {
+  function ca(b, c) {
     var d = c.nTr, e = c._aData;
     if (d) {
       if (b = b.rowIdFn(e)) {
@@ -20179,17 +20004,17 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       e.DT_RowData && a(d).data(e.DT_RowData);
     }
   }
-  function U(b) {
+  function la(b) {
     var c, d, e = b.nTHead, f = b.nTFoot, g = 0 === a("th, td", e).length, h = b.oClasses, t = b.aoColumns;
     g && (d = a("<tr/>").appendTo(e));
     var l = 0;
     for (c = t.length; l < c; l++) {
-      var n = t[l];
-      var m = a(n.nTh).addClass(n.sClass);
-      g && m.appendTo(d);
-      b.oFeatures.bSort && (m.addClass(n.sSortingClass), !1 !== n.bSortable && (m.attr("tabindex", b.iTabIndex).attr("aria-controls", b.sTableId), Ma(b, n.nTh, l)));
-      n.sTitle != m[0].innerHTML && m.html(n.sTitle);
-      Na(b, "header")(b, m, n, h);
+      var m = t[l];
+      var n = a(m.nTh).addClass(m.sClass);
+      g && n.appendTo(d);
+      b.oFeatures.bSort && (n.addClass(m.sSortingClass), !1 !== m.bSortable && (n.attr("tabindex", b.iTabIndex).attr("aria-controls", b.sTableId), Ma(b, m.nTh, l)));
+      m.sTitle != n[0].innerHTML && n.html(m.sTitle);
+      Na(b, "header")(b, n, m, h);
     }
     g && ra(b.aoHeader, e);
     a(e).find(">tr").attr("role", "row");
@@ -20197,7 +20022,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a(f).find(">tr>th, >tr>td").addClass(h.sFooterTH);
     if (null !== f) {
       for (b = b.aoFooter[0], l = 0, c = b.length; l < c; l++) {
-        n = t[l], n.nTf = b[l].cell, n.sClass && a(n.nTf).addClass(n.sClass);
+        m = t[l], m.nTf = b[l].cell, m.sClass && a(m.nTf).addClass(m.sClass);
       }
     }
   }
@@ -20223,33 +20048,33 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         }
         g = 0;
         for (c = h[w].length; g < c; g++) {
-          var n = l = 1;
+          var m = l = 1;
           if (t[w][g] === d) {
             b.appendChild(h[w][g].cell);
             for (t[w][g] = 1; h[w + l] !== d && h[w][g].cell == h[w + l][g].cell;) {
               t[w + l][g] = 1, l++;
             }
-            for (; h[w][g + n] !== d && h[w][g].cell == h[w][g + n].cell;) {
+            for (; h[w][g + m] !== d && h[w][g].cell == h[w][g + m].cell;) {
               for (e = 0; e < l; e++) {
-                t[w + e][g + n] = 1;
+                t[w + e][g + m] = 1;
               }
-              n++;
+              m++;
             }
-            a(h[w][g].cell).attr("rowspan", l).attr("colspan", n);
+            a(h[w][g].cell).attr("rowspan", l).attr("colspan", m);
           }
         }
       }
     }
   }
-  function ia(b) {
-    var c = M(b, "aoPreDrawCallback", "preDraw", [b]);
+  function ha(b) {
+    var c = K(b, "aoPreDrawCallback", "preDraw", [b]);
     if (-1 !== a.inArray(!1, c)) {
       Y(b, !1);
     } else {
-      var c = [], e = 0, f = b.asStripeClasses, g = f.length, h = b.oLanguage, t = b.iInitDisplayStart, l = "ssp" == S(b), n = b.aiDisplay;
+      var c = [], e = 0, f = b.asStripeClasses, g = f.length, h = b.oLanguage, t = b.iInitDisplayStart, l = "ssp" == S(b), m = b.aiDisplay;
       b.bDrawing = !0;
       t !== d && -1 !== t && (b._iDisplayStart = l ? t : t >= b.fnRecordsDisplay() ? 0 : t, b.iInitDisplayStart = -1);
-      var t = b._iDisplayStart, m = b.fnDisplayEnd();
+      var t = b._iDisplayStart, n = b.fnDisplayEnd();
       if (b.bDeferLoading) {
         b.bDeferLoading = !1, b.iDraw++, Y(b, !1);
       } else {
@@ -20261,40 +20086,40 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           }
         }
       }
-      if (0 !== n.length) {
-        for (h = l ? b.aoData.length : m, l = l ? 0 : t; l < h; l++) {
-          var p = n[l], q = b.aoData[p];
-          null === q.nTr && L(b, p);
+      if (0 !== m.length) {
+        for (h = l ? b.aoData.length : n, l = l ? 0 : t; l < h; l++) {
+          var p = m[l], q = b.aoData[p];
+          null === q.nTr && J(b, p);
           p = q.nTr;
           if (0 !== g) {
             var r = f[e % g];
             q._sRowStripe != r && (a(p).removeClass(q._sRowStripe).addClass(r), q._sRowStripe = r);
           }
-          M(b, "aoRowCallback", null, [p, q._aData, e, l]);
+          K(b, "aoRowCallback", null, [p, q._aData, e, l]);
           c.push(p);
           e++;
         }
       } else {
-        e = h.sZeroRecords, 1 == b.iDraw && "ajax" == S(b) ? e = h.sLoadingRecords : h.sEmptyTable && 0 === b.fnRecordsTotal() && (e = h.sEmptyTable), c[0] = a("<tr/>", {"class":g ? f[0] : ""}).append(a("<td />", {valign:"top", colSpan:y(b), "class":b.oClasses.sRowEmpty}).html(e))[0];
+        e = h.sZeroRecords, 1 == b.iDraw && "ajax" == S(b) ? e = h.sLoadingRecords : h.sEmptyTable && 0 === b.fnRecordsTotal() && (e = h.sEmptyTable), c[0] = a("<tr/>", {"class":g ? f[0] : ""}).append(a("<td />", {valign:"top", colSpan:z(b), "class":b.oClasses.sRowEmpty}).html(e))[0];
       }
-      M(b, "aoHeaderCallback", "header", [a(b.nTHead).children("tr")[0], ha(b), t, m, n]);
-      M(b, "aoFooterCallback", "footer", [a(b.nTFoot).children("tr")[0], ha(b), t, m, n]);
+      K(b, "aoHeaderCallback", "header", [a(b.nTHead).children("tr")[0], ga(b), t, n, m]);
+      K(b, "aoFooterCallback", "footer", [a(b.nTFoot).children("tr")[0], ga(b), t, n, m]);
       f = a(b.nTBody);
       f.children().detach();
       f.append(a(c));
-      M(b, "aoDrawCallback", "draw", [b]);
+      K(b, "aoDrawCallback", "draw", [b]);
       b.bSorted = !1;
       b.bFiltered = !1;
       b.bDrawing = !1;
     }
   }
-  function ja(a, b) {
+  function ia(a, b) {
     var c = a.oFeatures, d = c.bFilter;
     c.bSort && ob(a);
     d ? sa(a, a.oPreviousSearch) : a.aiDisplay = a.aiDisplayMaster.slice();
     !0 !== b && (a._iDisplayStart = 0);
     a._drawHold = b;
-    ia(a);
+    ha(a);
     a._drawHold = !1;
   }
   function bb(b) {
@@ -20302,19 +20127,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b.nHolding = d[0];
     b.nTableWrapper = f[0];
     b.nTableReinsertBefore = b.nTable.nextSibling;
-    for (var g = b.sDom.split(""), h, t, l, n, m, p, q = 0; q < g.length; q++) {
+    for (var g = b.sDom.split(""), h, t, l, m, n, p, q = 0; q < g.length; q++) {
       h = null;
       t = g[q];
       if ("<" == t) {
         l = a("<div/>")[0];
-        n = g[q + 1];
-        if ("'" == n || '"' == n) {
-          m = "";
-          for (p = 2; g[q + p] != n;) {
-            m += g[q + p], p++;
+        m = g[q + 1];
+        if ("'" == m || '"' == m) {
+          n = "";
+          for (p = 2; g[q + p] != m;) {
+            n += g[q + p], p++;
           }
-          "H" == m ? m = c.sJUIHeader : "F" == m && (m = c.sJUIFooter);
-          -1 != m.indexOf(".") ? (n = m.split("."), l.id = n[0].substr(1, n[0].length - 1), l.className = n[1]) : "#" == m.charAt(0) ? l.id = m.substr(1, m.length - 1) : l.className = m;
+          "H" == n ? n = c.sJUIHeader : "F" == n && (n = c.sJUIFooter);
+          -1 != n.indexOf(".") ? (m = n.split("."), l.id = m[0].substr(1, m[0].length - 1), l.className = m[1]) : "#" == n.charAt(0) ? l.id = n.substr(1, n.length - 1) : l.className = n;
           q += p;
         }
         f.append(l);
@@ -20342,7 +20167,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
                       h = sb(b);
                     } else {
                       if (0 !== x.ext.feature.length) {
-                        for (l = x.ext.feature, p = 0, n = l.length; p < n; p++) {
+                        for (l = x.ext.feature, p = 0, m = l.length; p < m; p++) {
                           if (t == l[p].cFeature) {
                             h = l[p].fnInit(b);
                             break;
@@ -20383,11 +20208,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           for (e = b[g]; e[w];) {
             w++;
           }
-          var n = w;
-          var m = 1 === t ? !0 : !1;
+          var m = w;
+          var n = 1 === t ? !0 : !1;
           for (e = 0; e < t; e++) {
             for (w = 0; w < l; w++) {
-              b[g + w][n + e] = {cell:d, unique:m}, b[g + w].nTr = h;
+              b[g + w][m + e] = {cell:d, unique:n}, b[g + w].nTr = h;
             }
           }
         }
@@ -20407,7 +20232,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return d;
   }
   function xa(b, c, d) {
-    M(b, "aoServerParams", "serverParams", [c]);
+    K(b, "aoServerParams", "serverParams", [c]);
     if (c && a.isArray(c)) {
       var e = {}, f = /(.*?)\[\]$/;
       a.each(c, function(a, b) {
@@ -20416,7 +20241,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       c = e;
     }
     var g = b.ajax, h = b.oInstance, t = function(a) {
-      M(b, null, "xhr", [b, a, b.jqXHR]);
+      K(b, null, "xhr", [b, a, b.jqXHR]);
       d(a);
     };
     if (a.isPlainObject(g) && g.data) {
@@ -20427,16 +20252,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     w = {data:c, success:function(a) {
       var c = a.error || a.sError;
-      c && fa(b, 0, c);
+      c && ea(b, 0, c);
       b.json = a;
       t(a);
     }, dataType:"json", cache:!1, type:b.sServerMethod, error:function(c, d, e) {
-      e = M(b, null, "xhr", [b, null, b.jqXHR]);
-      -1 === a.inArray(!0, e) && ("parsererror" == d ? fa(b, 0, "Invalid JSON response", 1) : 4 === c.readyState && fa(b, 0, "Ajax error", 7));
+      e = K(b, null, "xhr", [b, null, b.jqXHR]);
+      -1 === a.inArray(!0, e) && ("parsererror" == d ? ea(b, 0, "Invalid JSON response", 1) : 4 === c.readyState && ea(b, 0, "Ajax error", 7));
       Y(b, !1);
     }};
     b.oAjaxData = c;
-    M(b, null, "preXhr", [b, c]);
+    K(b, null, "preXhr", [b, c]);
     b.fnServerData ? b.fnServerData.call(h, b.sAjaxSource, a.map(c, function(a, b) {
       return {name:b, value:a};
     }), t, b) : b.sAjaxSource || "string" === typeof g ? b.jqXHR = a.ajax(a.extend(w, {url:g || b.sAjaxSource})) : a.isFunction(g) ? b.jqXHR = g.call(h, c, t, b) : (b.jqXHR = a.ajax(a.extend(w, g)), g.data = l);
@@ -20449,31 +20274,31 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function db(b) {
     var c = b.aoColumns, d = c.length, e = b.oFeatures, f = b.oPreviousSearch, g = b.aoPreSearchCols, h = [], t = na(b);
     var l = b._iDisplayStart;
-    var n = !1 !== e.bPaginate ? b._iDisplayLength : -1;
-    var m = function(a, b) {
+    var m = !1 !== e.bPaginate ? b._iDisplayLength : -1;
+    var n = function(a, b) {
       h.push({name:a, value:b});
     };
-    m("sEcho", b.iDraw);
-    m("iColumns", d);
-    m("sColumns", X(c, "sName").join(","));
-    m("iDisplayStart", l);
-    m("iDisplayLength", n);
-    var p = {draw:b.iDraw, columns:[], order:[], start:l, length:n, search:{value:f.sSearch, regex:f.bRegex}};
+    n("sEcho", b.iDraw);
+    n("iColumns", d);
+    n("sColumns", X(c, "sName").join(","));
+    n("iDisplayStart", l);
+    n("iDisplayLength", m);
+    var p = {draw:b.iDraw, columns:[], order:[], start:l, length:m, search:{value:f.sSearch, regex:f.bRegex}};
     for (l = 0; l < d; l++) {
       var q = c[l];
       var r = g[l];
-      n = "function" == typeof q.mData ? "function" : q.mData;
-      p.columns.push({data:n, name:q.sName, searchable:q.bSearchable, orderable:q.bSortable, search:{value:r.sSearch, regex:r.bRegex}});
-      m("mDataProp_" + l, n);
-      e.bFilter && (m("sSearch_" + l, r.sSearch), m("bRegex_" + l, r.bRegex), m("bSearchable_" + l, q.bSearchable));
-      e.bSort && m("bSortable_" + l, q.bSortable);
+      m = "function" == typeof q.mData ? "function" : q.mData;
+      p.columns.push({data:m, name:q.sName, searchable:q.bSearchable, orderable:q.bSortable, search:{value:r.sSearch, regex:r.bRegex}});
+      n("mDataProp_" + l, m);
+      e.bFilter && (n("sSearch_" + l, r.sSearch), n("bRegex_" + l, r.bRegex), n("bSearchable_" + l, q.bSearchable));
+      e.bSort && n("bSortable_" + l, q.bSortable);
     }
-    e.bFilter && (m("sSearch", f.sSearch), m("bRegex", f.bRegex));
+    e.bFilter && (n("sSearch", f.sSearch), n("bRegex", f.bRegex));
     e.bSort && (a.each(t, function(a, b) {
       p.order.push({column:b.col, dir:b.dir});
-      m("iSortCol_" + a, b.col);
-      m("sSortDir_" + a, b.dir);
-    }), m("iSortingCols", t.length));
+      n("iSortCol_" + a, b.col);
+      n("sSortDir_" + a, b.dir);
+    }), n("iSortingCols", t.length));
     c = x.ext.legacy.ajax;
     return null === c ? b.sAjaxSource ? h : p : c ? h : p;
   }
@@ -20487,29 +20312,29 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
       a.iDraw = 1 * f;
     }
-    ka(a);
+    ja(a);
     a._iRecordsTotal = parseInt(g, 10);
     a._iRecordsDisplay = parseInt(c, 10);
     f = 0;
     for (g = e.length; f < g; f++) {
-      A(a, e[f]);
+      B(a, e[f]);
     }
     a.aiDisplay = a.aiDisplayMaster.slice();
     a.bAjaxDataGet = !1;
-    ia(a);
+    ha(a);
     a._bInitComplete || Ba(a, b);
     a.bAjaxDataGet = !0;
     Y(a, !1);
   }
   function ya(b, c) {
     b = a.isPlainObject(b.ajax) && b.ajax.dataSrc !== d ? b.ajax.dataSrc : b.sAjaxDataProp;
-    return "data" === b ? c.aaData || c[b] : "" !== b ? W(b)(c) : c;
+    return "data" === b ? c.aaData || c[b] : "" !== b ? V(b)(c) : c;
   }
   function fb(b) {
     var d = b.oClasses, e = b.sTableId, f = b.oLanguage, g = b.oPreviousSearch, h = b.aanFeatures, t = '<input type="search" class="' + d.sFilterInput + '"/>', l = f.sSearch, l = l.match(/_INPUT_/) ? l.replace("_INPUT_", t) : l + t, d = a("<div/>", {id:h.f ? null : e + "_filter", "class":d.sFilter}).append(a("<label/>").append(l)), h = function() {
       var a = this.value ? this.value : "";
-      a != g.sSearch && (sa(b, {sSearch:a, bRegex:g.bRegex, bSmart:g.bSmart, bCaseInsensitive:g.bCaseInsensitive}), b._iDisplayStart = 0, ia(b));
-    }, t = null !== b.searchDelay ? b.searchDelay : "ssp" === S(b) ? 400 : 0, n = a("input", d).val(g.sSearch).attr("placeholder", f.sSearchPlaceholder).bind("keyup.DT search.DT input.DT paste.DT cut.DT", t ? Oa(h, t) : h).bind("keypress.DT", function(a) {
+      a != g.sSearch && (sa(b, {sSearch:a, bRegex:g.bRegex, bSmart:g.bSmart, bCaseInsensitive:g.bCaseInsensitive}), b._iDisplayStart = 0, ha(b));
+    }, t = null !== b.searchDelay ? b.searchDelay : "ssp" === S(b) ? 400 : 0, m = a("input", d).val(g.sSearch).attr("placeholder", f.sSearchPlaceholder).bind("keyup.DT search.DT input.DT paste.DT cut.DT", t ? Oa(h, t) : h).bind("keypress.DT", function(a) {
       if (13 == a.keyCode) {
         return !1;
       }
@@ -20517,7 +20342,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a(b.nTable).on("search.dt.DT", function(a, d) {
       if (b === d) {
         try {
-          n[0] !== c.activeElement && n.val(g.sSearch);
+          m[0] !== c.activeElement && m.val(g.sSearch);
         } catch (ac) {
         }
       }
@@ -20533,7 +20358,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }, h = function(a) {
       return a.bEscapeRegex !== d ? !a.bEscapeRegex : a.bRegex;
     };
-    B(a);
+    y(a);
     if ("ssp" != S(a)) {
       ib(a, b.sSearch, c, h(b), b.bSmart, b.bCaseInsensitive);
       g(b);
@@ -20545,11 +20370,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       g(b);
     }
     a.bFiltered = !0;
-    M(a, null, "search", [a]);
+    K(a, null, "search", [a]);
   }
   function gb(b) {
     for (var c = x.ext.search, d = b.aiDisplay, e, f, g = 0, h = c.length; g < h; g++) {
-      for (var t = [], l = 0, n = d.length; l < n; l++) {
+      for (var t = [], l = 0, m = d.length; l < m; l++) {
         f = d[l], e = b.aoData[f], c[g](b, e._aFilterData, f, e._aData, l) && t.push(f);
       }
       d.length = 0;
@@ -20601,24 +20426,24 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     for (c = a.aoData.length; g < c; g++) {
       var h = a.aoData[g];
       if (!h._aFilterData) {
-        var t = [];
-        var l = 0;
-        for (d = b.length; l < d; l++) {
-          f = b[l];
+        var l = [];
+        var t = 0;
+        for (d = b.length; t < d; t++) {
+          f = b[t];
           if (f.bSearchable) {
-            var n = F(a, g, l, "filter");
-            e[f.sType] && (n = e[f.sType](n));
-            null === n && (n = "");
-            "string" !== typeof n && n.toString && (n = n.toString());
+            var m = F(a, g, t, "filter");
+            e[f.sType] && (m = e[f.sType](m));
+            null === m && (m = "");
+            "string" !== typeof m && m.toString && (m = m.toString());
           } else {
-            n = "";
+            m = "";
           }
-          n.indexOf && -1 !== n.indexOf("&") && (Ca.innerHTML = n, n = Ob ? Ca.textContent : Ca.innerText);
-          n.replace && (n = n.replace(/[\r\n]/g, ""));
-          t.push(n);
+          m.indexOf && -1 !== m.indexOf("&") && (Ca.innerHTML = m, m = Ob ? Ca.textContent : Ca.innerText);
+          m.replace && (m = m.replace(/[\r\n]/g, ""));
+          l.push(m);
         }
-        h._aFilterData = t;
-        h._sFilterRow = t.join("  ");
+        h._aFilterData = l;
+        h._sFilterRow = l.join("  ");
         f = !0;
       }
     }
@@ -20638,13 +20463,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function tb(b) {
     var c = b.aanFeatures.i;
     if (0 !== c.length) {
-      var d = b.oLanguage, e = b._iDisplayStart + 1, f = b.fnDisplayEnd(), g = b.fnRecordsTotal(), h = b.fnRecordsDisplay(), t = h ? d.sInfo : d.sInfoEmpty;
-      h !== g && (t += " " + d.sInfoFiltered);
-      t += d.sInfoPostFix;
-      t = ub(b, t);
+      var d = b.oLanguage, e = b._iDisplayStart + 1, f = b.fnDisplayEnd(), g = b.fnRecordsTotal(), h = b.fnRecordsDisplay(), l = h ? d.sInfo : d.sInfoEmpty;
+      h !== g && (l += " " + d.sInfoFiltered);
+      l += d.sInfoPostFix;
+      l = ub(b, l);
       d = d.fnInfoCallback;
-      null !== d && (t = d.call(b.oInstance, b, e, f, g, h, t));
-      a(c).html(t);
+      null !== d && (l = d.call(b.oInstance, b, e, f, g, h, l));
+      a(c).html(l);
     }
   }
   function ub(a, b) {
@@ -20657,7 +20482,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var e = a.bDeferLoading;
     if (a.bInitialised) {
       bb(a);
-      U(a);
+      la(a);
       qa(a, a.aoHeader);
       qa(a, a.aoFooter);
       Y(a, !0);
@@ -20665,19 +20490,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       var f = 0;
       for (d = c.length; f < d; f++) {
         var g = c[f];
-        g.sWidth && (g.nTh.style.width = Q(g.sWidth));
+        g.sWidth && (g.nTh.style.width = P(g.sWidth));
       }
-      M(a, null, "preInit", [a]);
-      ja(a);
+      K(a, null, "preInit", [a]);
+      ia(a);
       c = S(a);
       if ("ssp" != c || e) {
         "ajax" == c ? xa(a, [], function(c) {
           var d = ya(a, c);
           for (f = 0; f < d.length; f++) {
-            A(a, d[f]);
+            B(a, d[f]);
           }
           a.iInitDisplayStart = b;
-          ja(a);
+          ia(a);
           Y(a, !1);
           Ba(a, c);
         }, a) : (Y(a, !1), Ba(a));
@@ -20691,34 +20516,34 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function Ba(a, b) {
     a._bInitComplete = !0;
     (b || a.oInit.aaData) && r(a);
-    M(a, null, "plugin-init", [a, b]);
-    M(a, "aoInitComplete", "init", [a, b]);
+    K(a, null, "plugin-init", [a, b]);
+    K(a, "aoInitComplete", "init", [a, b]);
   }
   function Qa(a, b) {
     b = parseInt(b, 10);
     a._iDisplayLength = b;
     Ra(a);
-    M(a, null, "length", [a, b]);
+    K(a, null, "length", [a, b]);
   }
   function pb(b) {
-    for (var c = b.oClasses, d = b.sTableId, e = b.aLengthMenu, f = a.isArray(e[0]), g = f ? e[0] : e, e = f ? e[1] : e, f = a("<select/>", {name:d + "_length", "aria-controls":d, "class":c.sLengthSelect}), h = 0, t = g.length; h < t; h++) {
+    for (var c = b.oClasses, d = b.sTableId, e = b.aLengthMenu, f = a.isArray(e[0]), g = f ? e[0] : e, e = f ? e[1] : e, f = a("<select/>", {name:d + "_length", "aria-controls":d, "class":c.sLengthSelect}), h = 0, l = g.length; h < l; h++) {
       f[0][h] = new Option(e[h], g[h]);
     }
-    var l = a("<div><label/></div>").addClass(c.sLength);
-    b.aanFeatures.l || (l[0].id = d + "_length");
-    l.children().append(b.oLanguage.sLengthMenu.replace("_MENU_", f[0].outerHTML));
-    a("select", l).val(b._iDisplayLength).bind("change.DT", function(c) {
+    var t = a("<div><label/></div>").addClass(c.sLength);
+    b.aanFeatures.l || (t[0].id = d + "_length");
+    t.children().append(b.oLanguage.sLengthMenu.replace("_MENU_", f[0].outerHTML));
+    a("select", t).val(b._iDisplayLength).bind("change.DT", function(c) {
       Qa(b, a(this).val());
-      ia(b);
+      ha(b);
     });
     a(b.nTable).bind("length.dt.DT", function(c, d, e) {
-      b === d && a("select", l).val(e);
+      b === d && a("select", t).val(e);
     });
-    return l[0];
+    return t[0];
   }
   function sb(b) {
     var c = b.sPaginationType, d = x.ext.pager[c], e = "function" === typeof d, f = function(a) {
-      ia(a);
+      ha(a);
     }, c = a("<div/>").addClass(b.oClasses.sPaging + c)[0], g = b.aanFeatures;
     e || d.fnInit(b, c, f);
     g.p || (c.id = b.sTableId + "_paginate", b.aoDrawCallback.push({fn:function(a) {
@@ -20735,10 +20560,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function Sa(a, b, c) {
     var d = a._iDisplayStart, e = a._iDisplayLength, f = a.fnRecordsDisplay();
-    0 === f || -1 === e ? d = 0 : "number" === typeof b ? (d = b * e, d > f && (d = 0)) : "first" == b ? d = 0 : "previous" == b ? (d = 0 <= e ? d - e : 0, 0 > d && (d = 0)) : "next" == b ? d + e < f && (d += e) : "last" == b ? d = Math.floor((f - 1) / e) * e : fa(a, 0, "Unknown paging action: " + b, 5);
+    0 === f || -1 === e ? d = 0 : "number" === typeof b ? (d = b * e, d > f && (d = 0)) : "first" == b ? d = 0 : "previous" == b ? (d = 0 <= e ? d - e : 0, 0 > d && (d = 0)) : "next" == b ? d + e < f && (d += e) : "last" == b ? d = Math.floor((f - 1) / e) * e : ea(a, 0, "Unknown paging action: " + b, 5);
     b = a._iDisplayStart !== d;
     a._iDisplayStart = d;
-    b && (M(a, null, "page", [a]), c && ia(a));
+    b && (K(a, null, "page", [a]), c && ha(a));
     return b;
   }
   function qb(b) {
@@ -20746,7 +20571,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }
   function Y(b, c) {
     b.oFeatures.bProcessing && a(b.aanFeatures.r).css("display", c ? "block" : "none");
-    M(b, null, "processing", [b, c]);
+    K(b, null, "processing", [b, c]);
   }
   function rb(b) {
     var c = a(b.nTable);
@@ -20755,17 +20580,17 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     if ("" === d.sX && "" === d.sY) {
       return b.nTable;
     }
-    var e = d.sX, f = d.sY, g = b.oClasses, h = c.children("caption"), l = h.length ? h[0]._captionSide : null, t = a(c[0].cloneNode(!1)), n = a(c[0].cloneNode(!1)), m = c.children("tfoot");
-    m.length || (m = null);
-    t = a("<div/>", {"class":g.sScrollWrapper}).append(a("<div/>", {"class":g.sScrollHead}).css({overflow:"hidden", position:"relative", border:0, width:e ? e ? Q(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollHeadInner}).css({"box-sizing":"content-box", width:d.sXInner || "100%"}).append(t.removeAttr("id").css("margin-left", 0).append("top" === l ? h : null).append(c.children("thead"))))).append(a("<div/>", {"class":g.sScrollBody}).css({position:"relative", overflow:"auto", width:e ? 
-    Q(e) : null}).append(c));
-    m && t.append(a("<div/>", {"class":g.sScrollFoot}).css({overflow:"hidden", border:0, width:e ? e ? Q(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollFootInner}).append(n.removeAttr("id").css("margin-left", 0).append("bottom" === l ? h : null).append(c.children("tfoot")))));
-    var c = t.children(), p = c[0], g = c[1], q = m ? c[2] : null;
+    var e = d.sX, f = d.sY, g = b.oClasses, h = c.children("caption"), l = h.length ? h[0]._captionSide : null, t = a(c[0].cloneNode(!1)), m = a(c[0].cloneNode(!1)), n = c.children("tfoot");
+    n.length || (n = null);
+    t = a("<div/>", {"class":g.sScrollWrapper}).append(a("<div/>", {"class":g.sScrollHead}).css({overflow:"hidden", position:"relative", border:0, width:e ? e ? P(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollHeadInner}).css({"box-sizing":"content-box", width:d.sXInner || "100%"}).append(t.removeAttr("id").css("margin-left", 0).append("top" === l ? h : null).append(c.children("thead"))))).append(a("<div/>", {"class":g.sScrollBody}).css({position:"relative", overflow:"auto", width:e ? 
+    P(e) : null}).append(c));
+    n && t.append(a("<div/>", {"class":g.sScrollFoot}).css({overflow:"hidden", border:0, width:e ? e ? P(e) : null : "100%"}).append(a("<div/>", {"class":g.sScrollFootInner}).append(m.removeAttr("id").css("margin-left", 0).append("bottom" === l ? h : null).append(c.children("tfoot")))));
+    var c = t.children(), p = c[0], g = c[1], q = n ? c[2] : null;
     if (e) {
       a(g).on("scroll.DT", function(a) {
         a = this.scrollLeft;
         p.scrollLeft = a;
-        m && (q.scrollLeft = a);
+        n && (q.scrollLeft = a);
       });
     }
     a(g).css(f && d.bCollapse ? "max-height" : "height", f);
@@ -20776,7 +20601,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return t[0];
   }
   function za(b) {
-    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), n = t[0].style, m = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), y = v.children("table"), z = a(b.nTHead), x = a(b.nTable), A = x[0], B = A.style, C = b.nTFoot ? a(b.nTFoot) : null, D = b.oBrowser, F = D.bScrollOversize, E = X(b.aoColumns, "nTh"), H = [], I = [], J = [], L = [], M, O = function(a) {
+    var c = b.oScroll, e = c.sX, f = c.sXInner, g = c.sY, c = c.iBarWidth, h = a(b.nScrollHead), l = h[0].style, t = h.children("div"), m = t[0].style, n = t.children("table"), t = b.nScrollBody, p = a(t), q = t.style, v = a(b.nScrollFoot).children("div"), z = v.children("table"), A = a(b.nTHead), x = a(b.nTable), B = x[0], y = B.style, C = b.nTFoot ? a(b.nTFoot) : null, E = b.oBrowser, D = E.bScrollOversize, F = X(b.aoColumns, "nTh"), G = [], H = [], J = [], K = [], M, Q = function(a) {
       a = a.style;
       a.paddingTop = "0";
       a.paddingBottom = "0";
@@ -20784,72 +20609,72 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       a.borderBottomWidth = "0";
       a.height = 0;
     };
-    var K = t.scrollHeight > t.clientHeight;
-    if (b.scrollBarVis !== K && b.scrollBarVis !== d) {
-      b.scrollBarVis = K, r(b);
+    var L = t.scrollHeight > t.clientHeight;
+    if (b.scrollBarVis !== L && b.scrollBarVis !== d) {
+      b.scrollBarVis = L, r(b);
     } else {
-      b.scrollBarVis = K;
+      b.scrollBarVis = L;
       x.children("thead, tfoot").remove();
       if (C) {
         var N = C.clone().prependTo(x);
-        var P = C.find("tr");
+        var O = C.find("tr");
         N = N.find("tr");
       }
-      var R = z.clone().prependTo(x);
-      z = z.find("tr");
-      K = R.find("tr");
+      var R = A.clone().prependTo(x);
+      A = A.find("tr");
+      L = R.find("tr");
       R.find("th, td").removeAttr("tabindex");
       e || (q.width = "100%", h[0].style.width = "100%");
       a.each(wa(b, R), function(a, c) {
         M = u(b, a);
         c.style.width = b.aoColumns[M].sWidth;
       });
-      C && ea(function(a) {
+      C && da(function(a) {
         a.style.width = "";
       }, N);
       h = x.outerWidth();
-      "" === e ? (B.width = "100%", F && (x.find("tbody").height() > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(x.outerWidth() - c)), h = x.outerWidth()) : "" !== f && (B.width = Q(f), h = x.outerWidth());
-      ea(O, K);
-      ea(function(b) {
+      "" === e ? (y.width = "100%", D && (x.find("tbody").height() > t.offsetHeight || "scroll" == p.css("overflow-y")) && (y.width = P(x.outerWidth() - c)), h = x.outerWidth()) : "" !== f && (y.width = P(f), h = x.outerWidth());
+      da(Q, L);
+      da(function(b) {
         J.push(b.innerHTML);
-        H.push(Q(a(b).css("width")));
-      }, K);
-      ea(function(b, c) {
-        -1 !== a.inArray(b, E) && (b.style.width = H[c]);
-      }, z);
-      a(K).height(0);
-      C && (ea(O, N), ea(function(b) {
-        L.push(b.innerHTML);
-        I.push(Q(a(b).css("width")));
-      }, N), ea(function(a, b) {
-        a.style.width = I[b];
-      }, P), a(N).height(0));
-      ea(function(a, b) {
-        a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + J[b] + "</div>";
+        G.push(P(a(b).css("width")));
+      }, L);
+      da(function(b, c) {
+        -1 !== a.inArray(b, F) && (b.style.width = G[c]);
+      }, A);
+      a(L).height(0);
+      C && (da(Q, N), da(function(b) {
+        K.push(b.innerHTML);
+        H.push(P(a(b).css("width")));
+      }, N), da(function(a, b) {
         a.style.width = H[b];
-      }, K);
-      C && ea(function(a, b) {
-        a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + L[b] + "</div>";
-        a.style.width = I[b];
+      }, O), a(N).height(0));
+      da(function(a, b) {
+        a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + J[b] + "</div>";
+        a.style.width = G[b];
+      }, L);
+      C && da(function(a, b) {
+        a.innerHTML = '<div class="dataTables_sizing" style="height:0;overflow:hidden;">' + K[b] + "</div>";
+        a.style.width = H[b];
       }, N);
-      x.outerWidth() < h ? (P = t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y") ? h + c : h, F && (t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y")) && (B.width = Q(P - c)), "" !== e && "" === f || fa(b, 1, "Possible column misalignment", 6)) : P = "100%";
-      q.width = Q(P);
-      l.width = Q(P);
-      C && (b.nScrollFoot.style.width = Q(P));
-      !g && F && (q.height = Q(A.offsetHeight + c));
+      x.outerWidth() < h ? (O = t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y") ? h + c : h, D && (t.scrollHeight > t.offsetHeight || "scroll" == p.css("overflow-y")) && (y.width = P(O - c)), "" !== e && "" === f || ea(b, 1, "Possible column misalignment", 6)) : O = "100%";
+      q.width = P(O);
+      l.width = P(O);
+      C && (b.nScrollFoot.style.width = P(O));
+      !g && D && (q.height = P(B.offsetHeight + c));
       e = x.outerWidth();
-      m[0].style.width = Q(e);
-      n.width = Q(e);
+      n[0].style.width = P(e);
+      m.width = P(e);
       f = x.height() > t.clientHeight || "scroll" == p.css("overflow-y");
-      g = "padding" + (D.bScrollbarLeft ? "Left" : "Right");
-      n[g] = f ? c + "px" : "0px";
-      C && (y[0].style.width = Q(e), v[0].style.width = Q(e), v[0].style[g] = f ? c + "px" : "0px");
+      g = "padding" + (E.bScrollbarLeft ? "Left" : "Right");
+      m[g] = f ? c + "px" : "0px";
+      C && (z[0].style.width = P(e), v[0].style.width = P(e), v[0].style[g] = f ? c + "px" : "0px");
       x.children("colgroup").insertBefore(x.children("thead"));
       p.scroll();
       !b.bSorted && !b.bFiltered || b._drawHold || (t.scrollTop = 0);
     }
   }
-  function ea(a, b, c) {
+  function da(a, b, c) {
     for (var d = 0, e = 0, f = b.length, g, h; e < f;) {
       g = b[e].firstChild;
       for (h = c ? c[e].firstChild : null; g;) {
@@ -20859,15 +20684,15 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   }
   function La(c) {
-    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, n = C(c, "bVisible"), m = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, x, z = c.oBrowser, f = z.bScrollOversize;
+    var d = c.nTable, e = c.aoColumns, f = c.oScroll, g = f.sY, h = f.sX, l = f.sXInner, t = e.length, m = C(c, "bVisible"), n = a("th", c.nTHead), p = d.getAttribute("width"), q = d.parentNode, v = !1, x, A = c.oBrowser, f = A.bScrollOversize;
     (x = d.style.width) && -1 !== x.indexOf("%") && (p = x);
-    for (x = 0; x < n.length; x++) {
-      var A = e[n[x]];
-      null !== A.sWidth && (A.sWidth = vb(A.sWidthOrig, q), v = !0);
+    for (x = 0; x < m.length; x++) {
+      var y = e[m[x]];
+      null !== y.sWidth && (y.sWidth = vb(y.sWidthOrig, q), v = !0);
     }
-    if (f || !v && !h && !g && t == y(c) && t == m.length) {
+    if (f || !v && !h && !g && t == z(c) && t == n.length) {
       for (x = 0; x < t; x++) {
-        n = u(c, x), null !== n && (e[n].sWidth = Q(m.eq(x).width()));
+        m = u(c, x), null !== m && (e[m].sWidth = P(n.eq(x).width()));
       }
     } else {
       t = a(d).clone().css("visibility", "hidden").removeAttr("id");
@@ -20876,25 +20701,25 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       t.find("thead, tfoot").remove();
       t.append(a(c.nTHead).clone()).append(a(c.nTFoot).clone());
       t.find("tfoot th, tfoot td").css("width", "");
-      m = wa(c, t.find("thead")[0]);
-      for (x = 0; x < n.length; x++) {
-        A = e[n[x]], m[x].style.width = null !== A.sWidthOrig && "" !== A.sWidthOrig ? Q(A.sWidthOrig) : "", A.sWidthOrig && h && a(m[x]).append(a("<div/>").css({width:A.sWidthOrig, margin:0, padding:0, border:0, height:1}));
+      n = wa(c, t.find("thead")[0]);
+      for (x = 0; x < m.length; x++) {
+        y = e[m[x]], n[x].style.width = null !== y.sWidthOrig && "" !== y.sWidthOrig ? P(y.sWidthOrig) : "", y.sWidthOrig && h && a(n[x]).append(a("<div/>").css({width:y.sWidthOrig, margin:0, padding:0, border:0, height:1}));
       }
       if (c.aoData.length) {
-        for (x = 0; x < n.length; x++) {
-          v = n[x], A = e[v], a(wb(c, v)).clone(!1).append(A.sContentPadding).appendTo(B);
+        for (x = 0; x < m.length; x++) {
+          v = m[x], y = e[v], a(wb(c, v)).clone(!1).append(y.sContentPadding).appendTo(B);
         }
       }
       a("[name]", t).removeAttr("name");
-      A = a("<div/>").css(h || g ? {position:"absolute", top:0, left:0, height:1, right:0, overflow:"hidden"} : {}).append(t).appendTo(q);
+      y = a("<div/>").css(h || g ? {position:"absolute", top:0, left:0, height:1, right:0, overflow:"hidden"} : {}).append(t).appendTo(q);
       h && l ? t.width(l) : h ? (t.css("width", "auto"), t.removeAttr("width"), t.width() < q.clientWidth && p && t.width(q.clientWidth)) : g ? t.width(q.clientWidth) : p && t.width(p);
-      for (x = g = 0; x < n.length; x++) {
-        q = a(m[x]), l = q.outerWidth() - q.width(), q = z.bBounding ? Math.ceil(m[x].getBoundingClientRect().width) : q.outerWidth(), g += q, e[n[x]].sWidth = Q(q - l);
+      for (x = g = 0; x < m.length; x++) {
+        q = a(n[x]), l = q.outerWidth() - q.width(), q = A.bBounding ? Math.ceil(n[x].getBoundingClientRect().width) : q.outerWidth(), g += q, e[m[x]].sWidth = P(q - l);
       }
-      d.style.width = Q(g);
-      A.remove();
+      d.style.width = P(g);
+      y.remove();
     }
-    p && (d.style.width = Q(p));
+    p && (d.style.width = P(p));
     !p && !h || c._reszEvt || (d = function() {
       a(b).bind("resize.DT-" + c.sInstance, Oa(function() {
         r(c);
@@ -20905,7 +20730,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     if (!b) {
       return 0;
     }
-    b = a("<div/>").css("width", Q(b)).appendTo(d || c.body);
+    b = a("<div/>").css("width", P(b)).appendTo(d || c.body);
     d = b[0].offsetWidth;
     b.remove();
     return d;
@@ -20924,7 +20749,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return e;
   }
-  function Q(a) {
+  function P(a) {
     return null === a ? "0px" : "number" == typeof a ? 0 > a ? "0px" : a + "px" : a.match(/\d$/) ? a + "px" : a;
   }
   function na(b) {
@@ -20944,17 +20769,17 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       l = e[t].aDataSort;
       f = 0;
       for (g = l.length; f < g; f++) {
-        var n = l[f];
-        var m = e[n].sType || "string";
-        h[b]._idx === d && (h[b]._idx = a.inArray(h[b][1], e[n].asSorting));
-        c.push({src:t, col:n, dir:h[b][1], index:h[b]._idx, type:m, formatter:x.ext.type.order[m + "-pre"]});
+        var m = l[f];
+        var n = e[m].sType || "string";
+        h[b]._idx === d && (h[b]._idx = a.inArray(h[b][1], e[m].asSorting));
+        c.push({src:t, col:m, dir:h[b][1], index:h[b]._idx, type:n, formatter:x.ext.type.order[n + "-pre"]});
       }
     }
     return c;
   }
   function ob(a) {
     var b, c = [], d = x.ext.type.order, e = a.aoData, f = 0, g = a.aiDisplayMaster;
-    B(a);
+    y(a);
     var h = na(a);
     var l = 0;
     for (b = h.length; l < b; l++) {
@@ -20971,31 +20796,31 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var d, f = h.length, g = e[a]._aSortData, l = e[b]._aSortData;
         for (d = 0; d < f; d++) {
           var t = h[d];
-          var n = g[t.col];
-          var w = l[t.col];
-          n = n < w ? -1 : n > w ? 1 : 0;
+          var m = g[t.col];
+          var n = l[t.col];
+          m = m < n ? -1 : m > n ? 1 : 0;
+          if (0 !== m) {
+            return "asc" === t.dir ? m : -m;
+          }
+        }
+        m = c[a];
+        n = c[b];
+        return m < n ? -1 : m > n ? 1 : 0;
+      }) : g.sort(function(a, b) {
+        var f, g = h.length, l = e[a]._aSortData, t = e[b]._aSortData;
+        for (f = 0; f < g; f++) {
+          var m = h[f];
+          var n = l[m.col];
+          var w = t[m.col];
+          m = d[m.type + "-" + m.dir] || d["string-" + m.dir];
+          n = m(n, w);
           if (0 !== n) {
-            return "asc" === t.dir ? n : -n;
+            return n;
           }
         }
         n = c[a];
         w = c[b];
         return n < w ? -1 : n > w ? 1 : 0;
-      }) : g.sort(function(a, b) {
-        var f, g = h.length, l = e[a]._aSortData, t = e[b]._aSortData;
-        for (f = 0; f < g; f++) {
-          var n = h[f];
-          var w = l[n.col];
-          var m = t[n.col];
-          n = d[n.type + "-" + n.dir] || d["string-" + n.dir];
-          w = n(w, m);
-          if (0 !== w) {
-            return w;
-          }
-        }
-        w = c[a];
-        m = c[b];
-        return w < m ? -1 : w > m ? 1 : 0;
       });
     }
     a.bSorted = !0;
@@ -21021,7 +20846,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     };
     "number" === typeof g[0] && (g = b.aaSorting = [g]);
     e && b.oFeatures.bSortMulti ? (e = a.inArray(c, X(g, "0")), -1 !== e ? (c = l(g[e], !0), null === c && 1 === g.length && (c = 0), null === c ? g.splice(e, 1) : (g[e][1] = h[c], g[e]._idx = c)) : (g.push([c, h[0], 0]), g[g.length - 1]._idx = 0)) : g.length && g[0][0] == c ? (c = l(g[0]), g.length = 1, g[0][1] = h[c], g[0]._idx = c) : (g.length = 0, g.push([c, h[0]]), g[0]._idx = 0);
-    ja(b);
+    ia(b);
     "function" == typeof f && f(b);
   }
   function Ma(a, b, c, d) {
@@ -21062,7 +20887,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       var c = {time:+new Date, start:b._iDisplayStart, length:b._iDisplayLength, order:a.extend(!0, [], b.aaSorting), search:kb(b.oPreviousSearch), columns:a.map(b.aoColumns, function(a, c) {
         return {visible:a.bVisible, search:kb(b.aoPreSearchCols[c])};
       })};
-      M(b, "aoStateSaveParams", "stateSaveParams", [b, c]);
+      K(b, "aoStateSaveParams", "stateSaveParams", [b, c]);
       b.oSavedState = c;
       b.fnStateSaveCallback.call(b.oInstance, b, c);
     }
@@ -21070,7 +20895,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function Ab(b, c) {
     var e, f = b.aoColumns;
     if (b.oFeatures.bStateSave && (c = b.fnStateLoadCallback.call(b.oInstance, b)) && c.time) {
-      var g = M(b, "aoStateLoadParams", "stateLoadParams", [b, c]);
+      var g = K(b, "aoStateLoadParams", "stateLoadParams", [b, c]);
       if (-1 === a.inArray(!1, g) && (g = b.iStateDuration, !(0 < g && c.time < +new Date - 1000 * g) && f.length === c.columns.length)) {
         b.oLoadedState = a.extend(!0, {}, c);
         c.start !== d && (b._iDisplayStart = c.start, b.iInitDisplayStart = c.start);
@@ -21085,7 +20910,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           h.visible !== d && (f[g].bVisible = h.visible);
           h.search !== d && a.extend(b.aoPreSearchCols[g], lb(h.search));
         }
-        M(b, "aoStateLoaded", "stateLoaded", [b, c]);
+        K(b, "aoStateLoaded", "stateLoaded", [b, c]);
       }
     }
   }
@@ -21094,13 +20919,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b = a.inArray(b, X(c, "nTable"));
     return -1 !== b ? c[b] : null;
   }
-  function fa(a, c, d, e) {
+  function ea(a, c, d, e) {
     d = "DataTables warning: " + (a ? "table id=" + a.sTableId + " - " : "") + d;
     e && (d += ". For more information about this error, please see http://datatables.net/tn/" + e);
     if (c) {
       b.console && console.log && console.log(d);
     } else {
-      if (c = x.ext, c = c.sErrMode || c.errMode, a && M(a, null, "error", [a, e, d]), "alert" == c) {
+      if (c = x.ext, c = c.sErrMode || c.errMode, a && K(a, null, "error", [a, e, d]), "alert" == c) {
         alert(d);
       } else {
         if ("throw" == c) {
@@ -21110,9 +20935,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }
   }
-  function ca(b, c, e, f) {
+  function ba(b, c, e, f) {
     a.isArray(e) ? a.each(e, function(d, e) {
-      a.isArray(e) ? ca(b, c, e[0], e[1]) : ca(b, c, e);
+      a.isArray(e) ? ba(b, c, e[0], e[1]) : ba(b, c, e);
     }) : (f === d && (f = e), c[e] !== d && (b[f] = c[e]));
   }
   function Bb(b, c, d) {
@@ -21138,7 +20963,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   function T(a, b, c, d) {
     c && a[b].push({fn:c, sName:d});
   }
-  function M(b, c, d, e) {
+  function K(b, c, d, e) {
     var f = [];
     c && (f = a.map(b[c].slice().reverse(), function(a, c) {
       return a.fn.apply(b.oInstance, e);
@@ -21179,8 +21004,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }, "html-num-fmt":function(a) {
       return Ha(a, b, Ia, Va);
     }}, function(a, c) {
-      N.type.order[a + b + "-pre"] = c;
-      a.match(/^html\-/) && (N.type.search[a + b] = N.type.search.html);
+      L.type.order[a + b + "-pre"] = c;
+      a.match(/^html\-/) && (L.type.search[a + b] = L.type.search.html);
     });
   }
   function Db(a) {
@@ -21197,7 +21022,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return this.api(!0).rows(a, b).data();
     };
     this.api = function(a) {
-      return a ? new J(Fa(this[N.iApiIndex])) : new J(this);
+      return a ? new H(Fa(this[L.iApiIndex])) : new H(this);
     };
     this.fnAddData = function(b, c) {
       var e = this.api(!0);
@@ -21267,7 +21092,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       (c === d || c) && a.columns.adjust().draw();
     };
     this.fnSettings = function() {
-      return Fa(this[N.iApiIndex]);
+      return Fa(this[L.iApiIndex]);
     };
     this.fnSort = function(a) {
       this.api(!0).order(a).draw();
@@ -21282,174 +21107,174 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       (e === d || e) && g.draw();
       return 0;
     };
-    this.fnVersionCheck = N.fnVersionCheck;
-    var c = this, e = b === d, t = this.length;
+    this.fnVersionCheck = L.fnVersionCheck;
+    var c = this, e = b === d, m = this.length;
     e && (b = {});
-    this.oApi = this.internal = N.internal;
-    for (var p in x.ext.internal) {
-      p && (this[p] = Db(p));
+    this.oApi = this.internal = L.internal;
+    for (var t in x.ext.internal) {
+      t && (this[t] = Db(t));
     }
     this.each(function() {
-      var p = {}, p = 1 < t ? Bb(p, b, !0) : b, w = 0, r, G = this.getAttribute("id"), aa = !1, u = x.defaults, ba = a(this);
+      var t = {}, t = 1 < m ? Bb(t, b, !0) : b, w = 0, r, I = this.getAttribute("id"), u = !1, W = x.defaults, aa = a(this);
       if ("table" != this.nodeName.toLowerCase()) {
-        fa(null, 0, "Non-table node initialisation (" + this.nodeName + ")", 2);
+        ea(null, 0, "Non-table node initialisation (" + this.nodeName + ")", 2);
       } else {
-        h(u);
-        l(u.column);
-        f(u, u, !0);
-        f(u.column, u.column, !0);
-        f(u, a.extend(p, ba.data()));
+        h(W);
+        l(W.column);
+        f(W, W, !0);
+        f(W.column, W.column, !0);
+        f(W, a.extend(t, aa.data()));
         var v = x.settings, w = 0;
         for (r = v.length; w < r; w++) {
-          var y = v[w];
-          if (y.nTable == this || y.nTHead.parentNode == this || y.nTFoot && y.nTFoot.parentNode == this) {
-            w = p.bRetrieve !== d ? p.bRetrieve : u.bRetrieve;
+          var z = v[w];
+          if (z.nTable == this || z.nTHead.parentNode == this || z.nTFoot && z.nTFoot.parentNode == this) {
+            w = t.bRetrieve !== d ? t.bRetrieve : W.bRetrieve;
             if (e || w) {
-              return y.oInstance;
+              return z.oInstance;
             }
-            if (p.bDestroy !== d ? p.bDestroy : u.bDestroy) {
-              y.oInstance.fnDestroy();
+            if (t.bDestroy !== d ? t.bDestroy : W.bDestroy) {
+              z.oInstance.fnDestroy();
               break;
             } else {
-              fa(y, 0, "Cannot reinitialise DataTable", 3);
+              ea(z, 0, "Cannot reinitialise DataTable", 3);
               return;
             }
           }
-          if (y.sTableId == this.id) {
+          if (z.sTableId == this.id) {
             v.splice(w, 1);
             break;
           }
         }
-        if (null === G || "" === G) {
-          this.id = G = "DataTables_Table_" + x.ext._unique++;
+        if (null === I || "" === I) {
+          this.id = I = "DataTables_Table_" + x.ext._unique++;
         }
-        var z = a.extend(!0, {}, x.models.oSettings, {sDestroyWidth:ba[0].style.width, sInstance:G, sTableId:G});
-        z.nTable = this;
-        z.oApi = c.internal;
-        z.oInit = p;
-        v.push(z);
-        z.oInstance = 1 === c.length ? c : ba.dataTable();
-        h(p);
-        p.oLanguage && g(p.oLanguage);
-        p.aLengthMenu && !p.iDisplayLength && (p.iDisplayLength = a.isArray(p.aLengthMenu[0]) ? p.aLengthMenu[0][0] : p.aLengthMenu[0]);
-        p = Bb(a.extend(!0, {}, u), p);
-        ca(z.oFeatures, p, "bPaginate bLengthChange bFilter bSort bSortMulti bInfo bProcessing bAutoWidth bSortClasses bServerSide bDeferRender".split(" "));
-        ca(z, p, ["asStripeClasses", "ajax", "fnServerData", "fnFormatNumber", "sServerMethod", "aaSorting", "aaSortingFixed", "aLengthMenu", "sPaginationType", "sAjaxSource", "sAjaxDataProp", "iStateDuration", "sDom", "bSortCellsTop", "iTabIndex", "fnStateLoadCallback", "fnStateSaveCallback", "renderer", "searchDelay", "rowId", ["iCookieDuration", "iStateDuration"], ["oSearch", "oPreviousSearch"], ["aoSearchCols", "aoPreSearchCols"], ["iDisplayLength", "_iDisplayLength"], ["bJQueryUI", "bJUI"]]);
-        ca(z.oScroll, p, [["sScrollX", "sX"], ["sScrollXInner", "sXInner"], ["sScrollY", "sY"], ["bScrollCollapse", "bCollapse"]]);
-        ca(z.oLanguage, p, "fnInfoCallback");
-        T(z, "aoDrawCallback", p.fnDrawCallback, "user");
-        T(z, "aoServerParams", p.fnServerParams, "user");
-        T(z, "aoStateSaveParams", p.fnStateSaveParams, "user");
-        T(z, "aoStateLoadParams", p.fnStateLoadParams, "user");
-        T(z, "aoStateLoaded", p.fnStateLoaded, "user");
-        T(z, "aoRowCallback", p.fnRowCallback, "user");
-        T(z, "aoRowCreatedCallback", p.fnCreatedRow, "user");
-        T(z, "aoHeaderCallback", p.fnHeaderCallback, "user");
-        T(z, "aoFooterCallback", p.fnFooterCallback, "user");
-        T(z, "aoInitComplete", p.fnInitComplete, "user");
-        T(z, "aoPreDrawCallback", p.fnPreDrawCallback, "user");
-        z.rowIdFn = W(p.rowId);
-        n(z);
-        G = z.oClasses;
-        p.bJQueryUI ? (a.extend(G, x.ext.oJUIClasses, p.oClasses), p.sDom === u.sDom && "lfrtip" === u.sDom && (z.sDom = '<"H"lfr>t<"F"ip>'), z.renderer) ? a.isPlainObject(z.renderer) && !z.renderer.header && (z.renderer.header = "jqueryui") : z.renderer = "jqueryui" : a.extend(G, x.ext.classes, p.oClasses);
-        ba.addClass(G.sTable);
-        z.iInitDisplayStart === d && (z.iInitDisplayStart = p.iDisplayStart, z._iDisplayStart = p.iDisplayStart);
-        null !== p.iDeferLoading && (z.bDeferLoading = !0, w = a.isArray(p.iDeferLoading), z._iRecordsDisplay = w ? p.iDeferLoading[0] : p.iDeferLoading, z._iRecordsTotal = w ? p.iDeferLoading[1] : p.iDeferLoading);
-        var B = z.oLanguage;
-        a.extend(!0, B, p.oLanguage);
-        "" !== B.sUrl && (a.ajax({dataType:"json", url:B.sUrl, success:function(b) {
+        var A = a.extend(!0, {}, x.models.oSettings, {sDestroyWidth:aa[0].style.width, sInstance:I, sTableId:I});
+        A.nTable = this;
+        A.oApi = c.internal;
+        A.oInit = t;
+        v.push(A);
+        A.oInstance = 1 === c.length ? c : aa.dataTable();
+        h(t);
+        t.oLanguage && g(t.oLanguage);
+        t.aLengthMenu && !t.iDisplayLength && (t.iDisplayLength = a.isArray(t.aLengthMenu[0]) ? t.aLengthMenu[0][0] : t.aLengthMenu[0]);
+        t = Bb(a.extend(!0, {}, W), t);
+        ba(A.oFeatures, t, "bPaginate bLengthChange bFilter bSort bSortMulti bInfo bProcessing bAutoWidth bSortClasses bServerSide bDeferRender".split(" "));
+        ba(A, t, ["asStripeClasses", "ajax", "fnServerData", "fnFormatNumber", "sServerMethod", "aaSorting", "aaSortingFixed", "aLengthMenu", "sPaginationType", "sAjaxSource", "sAjaxDataProp", "iStateDuration", "sDom", "bSortCellsTop", "iTabIndex", "fnStateLoadCallback", "fnStateSaveCallback", "renderer", "searchDelay", "rowId", ["iCookieDuration", "iStateDuration"], ["oSearch", "oPreviousSearch"], ["aoSearchCols", "aoPreSearchCols"], ["iDisplayLength", "_iDisplayLength"], ["bJQueryUI", "bJUI"]]);
+        ba(A.oScroll, t, [["sScrollX", "sX"], ["sScrollXInner", "sXInner"], ["sScrollY", "sY"], ["bScrollCollapse", "bCollapse"]]);
+        ba(A.oLanguage, t, "fnInfoCallback");
+        T(A, "aoDrawCallback", t.fnDrawCallback, "user");
+        T(A, "aoServerParams", t.fnServerParams, "user");
+        T(A, "aoStateSaveParams", t.fnStateSaveParams, "user");
+        T(A, "aoStateLoadParams", t.fnStateLoadParams, "user");
+        T(A, "aoStateLoaded", t.fnStateLoaded, "user");
+        T(A, "aoRowCallback", t.fnRowCallback, "user");
+        T(A, "aoRowCreatedCallback", t.fnCreatedRow, "user");
+        T(A, "aoHeaderCallback", t.fnHeaderCallback, "user");
+        T(A, "aoFooterCallback", t.fnFooterCallback, "user");
+        T(A, "aoInitComplete", t.fnInitComplete, "user");
+        T(A, "aoPreDrawCallback", t.fnPreDrawCallback, "user");
+        A.rowIdFn = V(t.rowId);
+        n(A);
+        I = A.oClasses;
+        t.bJQueryUI ? (a.extend(I, x.ext.oJUIClasses, t.oClasses), t.sDom === W.sDom && "lfrtip" === W.sDom && (A.sDom = '<"H"lfr>t<"F"ip>'), A.renderer) ? a.isPlainObject(A.renderer) && !A.renderer.header && (A.renderer.header = "jqueryui") : A.renderer = "jqueryui" : a.extend(I, x.ext.classes, t.oClasses);
+        aa.addClass(I.sTable);
+        A.iInitDisplayStart === d && (A.iInitDisplayStart = t.iDisplayStart, A._iDisplayStart = t.iDisplayStart);
+        null !== t.iDeferLoading && (A.bDeferLoading = !0, w = a.isArray(t.iDeferLoading), A._iRecordsDisplay = w ? t.iDeferLoading[0] : t.iDeferLoading, A._iRecordsTotal = w ? t.iDeferLoading[1] : t.iDeferLoading);
+        var y = A.oLanguage;
+        a.extend(!0, y, t.oLanguage);
+        "" !== y.sUrl && (a.ajax({dataType:"json", url:y.sUrl, success:function(b) {
           g(b);
-          f(u.oLanguage, b);
-          a.extend(!0, B, b);
-          ua(z);
+          f(W.oLanguage, b);
+          a.extend(!0, y, b);
+          ua(A);
         }, error:function() {
-          ua(z);
-        }}), aa = !0);
-        null === p.asStripeClasses && (z.asStripeClasses = [G.sStripeOdd, G.sStripeEven]);
-        var w = z.asStripeClasses, C = ba.children("tbody").find("tr").eq(0);
+          ua(A);
+        }}), u = !0);
+        null === t.asStripeClasses && (A.asStripeClasses = [I.sStripeOdd, I.sStripeEven]);
+        var w = A.asStripeClasses, C = aa.children("tbody").find("tr").eq(0);
         -1 !== a.inArray(!0, a.map(w, function(a, b) {
           return C.hasClass(a);
-        })) && (a("tbody tr", this).removeClass(w.join(" ")), z.asDestroyStripes = w.slice());
+        })) && (a("tbody tr", this).removeClass(w.join(" ")), A.asDestroyStripes = w.slice());
         v = [];
         w = this.getElementsByTagName("thead");
-        0 !== w.length && (ra(z.aoHeader, w[0]), v = wa(z));
-        if (null === p.aoColumns) {
-          for (y = [], w = 0, r = v.length; w < r; w++) {
-            y.push(null);
+        0 !== w.length && (ra(A.aoHeader, w[0]), v = wa(A));
+        if (null === t.aoColumns) {
+          for (z = [], w = 0, r = v.length; w < r; w++) {
+            z.push(null);
           }
         } else {
-          y = p.aoColumns;
+          z = t.aoColumns;
         }
         w = 0;
-        for (r = y.length; w < r; w++) {
-          q(z, v ? v[w] : null);
+        for (r = z.length; w < r; w++) {
+          q(A, v ? v[w] : null);
         }
-        H(z, p.aoColumnDefs, y, function(a, b) {
-          m(z, a, b);
+        G(A, t.aoColumnDefs, z, function(a, b) {
+          p(A, a, b);
         });
         if (C.length) {
-          var F = function(a, b) {
+          var D = function(a, b) {
             return null !== a.getAttribute("data-" + b) ? b : null;
           };
           a(C[0]).children("th, td").each(function(a, b) {
-            var c = z.aoColumns[a];
+            var c = A.aoColumns[a];
             if (c.mData === a) {
-              var e = F(b, "sort") || F(b, "order");
-              b = F(b, "filter") || F(b, "search");
+              var e = D(b, "sort") || D(b, "order");
+              b = D(b, "filter") || D(b, "search");
               if (null !== e || null !== b) {
-                c.mData = {_:a + ".display", sort:null !== e ? a + ".@data-" + e : d, type:null !== e ? a + ".@data-" + e : d, filter:null !== b ? a + ".@data-" + b : d}, m(z, a);
+                c.mData = {_:a + ".display", sort:null !== e ? a + ".@data-" + e : d, type:null !== e ? a + ".@data-" + e : d, filter:null !== b ? a + ".@data-" + b : d}, p(A, a);
               }
             }
           });
         }
-        var E = z.oFeatures;
-        p.bStateSave && (E.bStateSave = !0, Ab(z, p), T(z, "aoDrawCallback", Ea, "state_save"));
-        if (p.aaSorting === d) {
-          for (v = z.aaSorting, w = 0, r = v.length; w < r; w++) {
-            v[w][1] = z.aoColumns[w].asSorting[0];
+        var F = A.oFeatures;
+        t.bStateSave && (F.bStateSave = !0, Ab(A, t), T(A, "aoDrawCallback", Ea, "state_save"));
+        if (t.aaSorting === d) {
+          for (v = A.aaSorting, w = 0, r = v.length; w < r; w++) {
+            v[w][1] = A.aoColumns[w].asSorting[0];
           }
         }
-        Da(z);
-        E.bSort && T(z, "aoDrawCallback", function() {
-          if (z.bSorted) {
-            var b = na(z), c = {};
+        Da(A);
+        F.bSort && T(A, "aoDrawCallback", function() {
+          if (A.bSorted) {
+            var b = na(A), c = {};
             a.each(b, function(a, b) {
               c[b.src] = b.dir;
             });
-            M(z, null, "order", [z, b, c]);
-            zb(z);
+            K(A, null, "order", [A, b, c]);
+            zb(A);
           }
         });
-        T(z, "aoDrawCallback", function() {
-          (z.bSorted || "ssp" === S(z) || E.bDeferRender) && Da(z);
+        T(A, "aoDrawCallback", function() {
+          (A.bSorted || "ssp" === S(A) || F.bDeferRender) && Da(A);
         }, "sc");
-        w = ba.children("caption").each(function() {
-          this._captionSide = ba.css("caption-side");
+        w = aa.children("caption").each(function() {
+          this._captionSide = aa.css("caption-side");
         });
-        r = ba.children("thead");
+        r = aa.children("thead");
         0 === r.length && (r = a("<thead/>").appendTo(this));
-        z.nTHead = r[0];
-        r = ba.children("tbody");
+        A.nTHead = r[0];
+        r = aa.children("tbody");
         0 === r.length && (r = a("<tbody/>").appendTo(this));
-        z.nTBody = r[0];
-        r = ba.children("tfoot");
-        0 === r.length && 0 < w.length && ("" !== z.oScroll.sX || "" !== z.oScroll.sY) && (r = a("<tfoot/>").appendTo(this));
-        0 === r.length || 0 === r.children().length ? ba.addClass(G.sNoFooter) : 0 < r.length && (z.nTFoot = r[0], ra(z.aoFooter, z.nTFoot));
-        if (p.aaData) {
-          for (w = 0; w < p.aaData.length; w++) {
-            A(z, p.aaData[w]);
+        A.nTBody = r[0];
+        r = aa.children("tfoot");
+        0 === r.length && 0 < w.length && ("" !== A.oScroll.sX || "" !== A.oScroll.sY) && (r = a("<tfoot/>").appendTo(this));
+        0 === r.length || 0 === r.children().length ? aa.addClass(I.sNoFooter) : 0 < r.length && (A.nTFoot = r[0], ra(A.aoFooter, A.nTFoot));
+        if (t.aaData) {
+          for (w = 0; w < t.aaData.length; w++) {
+            B(A, t.aaData[w]);
           }
         } else {
-          (z.bDeferLoading || "dom" == S(z)) && D(z, a(z.nTBody).children("tr"));
+          (A.bDeferLoading || "dom" == S(A)) && E(A, a(A.nTBody).children("tr"));
         }
-        z.aiDisplay = z.aiDisplayMaster.slice();
-        z.bInitialised = !0;
-        !1 === aa && ua(z);
+        A.aiDisplay = A.aiDisplayMaster.slice();
+        A.bInitialised = !0;
+        !1 === u && ua(A);
       }
     });
     c = null;
     return this;
-  }, N, E, O, Wa = {}, Eb = /[\r\n]/g, Ia = /<.*?>/g, Qb = /^[\w\+\-]/, Rb = /[\w\+\-]$/, Sb = /(\/|\.|\*|\+|\?|\||\(|\)|\[|\]|\{|\}|\\|\$|\^|\-)/g, Va = /[',$£€¥%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi, ga = function(a) {
+  }, L, D, M, Wa = {}, Eb = /[\r\n]/g, Ia = /<.*?>/g, Qb = /^[\w\+\-]/, Rb = /[\w\+\-]$/, Sb = /(\/|\.|\*|\+|\?|\||\(|\)|\[|\]|\{|\}|\\|\$|\^|\-)/g, Va = /[',$£€¥%\u2009\u202F\u20BD\u20a9\u20BArfk]/gi, fa = function(a) {
     return a && !0 !== a && "-" !== a ? !1 : !0;
   }, Fb = function(a) {
     var b = parseInt(a, 10);
@@ -21459,14 +21284,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return "string" === typeof a && "." !== b ? a.replace(/\./g, "").replace(Wa[b], ".") : a;
   }, Xa = function(a, b, c) {
     var d = "string" === typeof a;
-    if (ga(a)) {
+    if (fa(a)) {
       return !0;
     }
     b && d && (a = Gb(a, b));
     c && d && (a = a.replace(Va, ""));
     return !isNaN(parseFloat(a)) && isFinite(a);
   }, Hb = function(a, b, c) {
-    return ga(a) ? !0 : ga(a) || "string" === typeof a ? Xa(a.replace(Ia, ""), b, c) ? !0 : null : null;
+    return fa(a) ? !0 : fa(a) || "string" === typeof a ? Xa(a.replace(Ia, ""), b, c) ? !0 : null : null;
   }, X = function(a, b, c) {
     var e = [], f = 0, g = a.length;
     if (c !== d) {
@@ -21535,9 +21360,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, escapeRegex:function(a) {
     return a.replace(Sb, "\\$1");
   }};
-  var V = function(a, b, c) {
+  var U = function(a, b, c) {
     a[b] !== d && (a[c] = a[b]);
-  }, ta = /\[.*?\]$/, ma = /\(\)$/, Pa = x.util.escapeRegex, Ca = a("<div>")[0], Ob = Ca.textContent !== d, Pb = /<.*?>/g, Oa = x.util.throttle, Jb = [], P = Array.prototype, Tb = function(b) {
+  }, ta = /\[.*?\]$/, ma = /\(\)$/, Pa = x.util.escapeRegex, Ca = a("<div>")[0], Ob = Ca.textContent !== d, Pb = /<.*?>/g, Oa = x.util.throttle, Jb = [], N = Array.prototype, Tb = function(b) {
     var c, d = x.settings, e = a.map(d, function(a, b) {
       return a.nTable;
     });
@@ -21563,9 +21388,9 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }).toArray();
     }
   };
-  var J = function(b, c) {
-    if (!(this instanceof J)) {
-      return new J(b, c);
+  var H = function(b, c) {
+    if (!(this instanceof H)) {
+      return new H(b, c);
     }
     var d = [], e = function(a) {
       (a = Tb(a)) && (d = d.concat(a));
@@ -21580,12 +21405,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     this.context = Aa(d);
     c && a.merge(this, c);
     this.selector = {rows:null, cols:null, opts:null};
-    J.extend(this, this, Jb);
+    H.extend(this, this, Jb);
   };
-  x.Api = J;
-  a.extend(J.prototype, {any:function() {
+  x.Api = H;
+  a.extend(H.prototype, {any:function() {
     return 0 !== this.count();
-  }, concat:P.concat, context:[], count:function() {
+  }, concat:N.concat, context:[], count:function() {
     return this.flatten().length;
   }, each:function(a) {
     for (var b = 0, c = this.length; b < c; b++) {
@@ -21594,21 +21419,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return this;
   }, eq:function(a) {
     var b = this.context;
-    return b.length > a ? new J(b[a], this[a]) : null;
+    return b.length > a ? new H(b[a], this[a]) : null;
   }, filter:function(a) {
     var b = [];
-    if (P.filter) {
-      b = P.filter.call(this, a, this);
+    if (N.filter) {
+      b = N.filter.call(this, a, this);
     } else {
       for (var c = 0, d = this.length; c < d; c++) {
         a.call(this, this[c], c, this) && b.push(this[c]);
       }
     }
-    return new J(this.context, b);
+    return new H(this.context, b);
   }, flatten:function() {
     var a = [];
-    return new J(this.context, a.concat.apply(a, this.toArray()));
-  }, join:P.join, indexOf:P.indexOf || function(a, b) {
+    return new H(this.context, a.concat.apply(a, this.toArray()));
+  }, join:N.join, indexOf:N.indexOf || function(a, b) {
     b = b || 0;
     for (var c = this.length; b < c; b++) {
       if (this[b] === a) {
@@ -21617,65 +21442,65 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
     return -1;
   }, iterator:function(a, b, c, e) {
-    var f = [], g, h, l = this.context, n, t = this.selector;
+    var f = [], g, h, l = this.context, m, t = this.selector;
     "string" === typeof a && (e = c, c = b, b = a, a = !1);
-    var p = 0;
-    for (g = l.length; p < g; p++) {
-      var m = new J(l[p]);
+    var n = 0;
+    for (g = l.length; n < g; n++) {
+      var p = new H(l[n]);
       if ("table" === b) {
-        var q = c.call(m, l[p], p);
+        var q = c.call(p, l[n], n);
         q !== d && f.push(q);
       } else {
         if ("columns" === b || "rows" === b) {
-          q = c.call(m, l[p], this[p], p), q !== d && f.push(q);
+          q = c.call(p, l[n], this[n], n), q !== d && f.push(q);
         } else {
           if ("column" === b || "column-rows" === b || "row" === b || "cell" === b) {
-            var w = this[p];
-            "column-rows" === b && (n = Ja(l[p], t.opts));
+            var w = this[n];
+            "column-rows" === b && (m = Ja(l[n], t.opts));
             var r = 0;
             for (h = w.length; r < h; r++) {
-              q = w[r], q = "cell" === b ? c.call(m, l[p], q.row, q.column, p, r) : c.call(m, l[p], q, p, r, n), q !== d && f.push(q);
+              q = w[r], q = "cell" === b ? c.call(p, l[n], q.row, q.column, n, r) : c.call(p, l[n], q, n, r, m), q !== d && f.push(q);
             }
           }
         }
       }
     }
-    return f.length || e ? (a = new J(l, a ? f.concat.apply([], f) : f), b = a.selector, b.rows = t.rows, b.cols = t.cols, b.opts = t.opts, a) : this;
-  }, lastIndexOf:P.lastIndexOf || function(a, b) {
+    return f.length || e ? (a = new H(l, a ? f.concat.apply([], f) : f), b = a.selector, b.rows = t.rows, b.cols = t.cols, b.opts = t.opts, a) : this;
+  }, lastIndexOf:N.lastIndexOf || function(a, b) {
     return this.indexOf.apply(this.toArray.reverse(), arguments);
   }, length:0, map:function(a) {
     var b = [];
-    if (P.map) {
-      b = P.map.call(this, a, this);
+    if (N.map) {
+      b = N.map.call(this, a, this);
     } else {
       for (var c = 0, d = this.length; c < d; c++) {
         b.push(a.call(this, this[c], c));
       }
     }
-    return new J(this.context, b);
+    return new H(this.context, b);
   }, pluck:function(a) {
     return this.map(function(b) {
       return b[a];
     });
-  }, pop:P.pop, push:P.push, reduce:P.reduce || function(a, b) {
-    return p(this, a, b, 0, this.length, 1);
-  }, reduceRight:P.reduceRight || function(a, b) {
-    return p(this, a, b, this.length - 1, -1, -1);
-  }, reverse:P.reverse, selector:null, shift:P.shift, sort:P.sort, splice:P.splice, toArray:function() {
-    return P.slice.call(this);
+  }, pop:N.pop, push:N.push, reduce:N.reduce || function(a, b) {
+    return m(this, a, b, 0, this.length, 1);
+  }, reduceRight:N.reduceRight || function(a, b) {
+    return m(this, a, b, this.length - 1, -1, -1);
+  }, reverse:N.reverse, selector:null, shift:N.shift, sort:N.sort, splice:N.splice, toArray:function() {
+    return N.slice.call(this);
   }, to$:function() {
     return a(this);
   }, toJQuery:function() {
     return a(this);
   }, unique:function() {
-    return new J(this.context, Aa(this));
-  }, unshift:P.unshift});
-  J.extend = function(b, c, d) {
-    if (d.length && c && (c instanceof J || c.__dt_wrapper)) {
+    return new H(this.context, Aa(this));
+  }, unshift:N.unshift});
+  H.extend = function(b, c, d) {
+    if (d.length && c && (c instanceof H || c.__dt_wrapper)) {
       var e, f = function(a, b, c) {
         return function() {
           var d = b.apply(a, arguments);
-          J.extend(d, d, c.methodExt);
+          H.extend(d, d, c.methodExt);
           return d;
         };
       };
@@ -21684,14 +21509,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var h = d[g];
         c[h.name] = "function" === typeof h.val ? f(b, h.val, h) : a.isPlainObject(h.val) ? {} : h.val;
         c[h.name].__dt_wrapper = !0;
-        J.extend(b, c[h.name], h.propExt);
+        H.extend(b, c[h.name], h.propExt);
       }
     }
   };
-  J.register = E = function(b, c) {
+  H.register = D = function(b, c) {
     if (a.isArray(b)) {
       for (var d = 0, e = b.length; d < e; d++) {
-        J.register(b[d], c);
+        H.register(b[d], c);
       }
     } else {
       var e = b.split("."), f = Jb, g;
@@ -21700,7 +21525,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         var h = (g = -1 !== e[b].indexOf("()")) ? e[b].replace("()", "") : e[b];
         a: {
           var l = 0;
-          for (var n = f.length; l < n; l++) {
+          for (var m = f.length; l < m; l++) {
             if (f[l].name === h) {
               l = f[l];
               break a;
@@ -21713,11 +21538,11 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }
   };
-  J.registerPlural = O = function(b, c, e) {
-    J.register(b, e);
-    J.register(c, function() {
+  H.registerPlural = M = function(b, c, e) {
+    H.register(b, e);
+    H.register(c, function() {
       var b = e.apply(this, arguments);
-      return b === this ? this : b instanceof J ? b.length ? a.isArray(b[0]) ? new J(b.context, b[0]) : b[0] : d : b;
+      return b === this ? this : b instanceof H ? b.length ? a.isArray(b[0]) ? new H(b.context, b[0]) : b[0] : d : b;
     });
   };
   var Ub = function(b, c) {
@@ -21732,50 +21557,50 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return c[b];
     }).toArray();
   };
-  E("tables()", function(a) {
-    return a ? new J(Ub(a, this.context)) : this;
+  D("tables()", function(a) {
+    return a ? new H(Ub(a, this.context)) : this;
   });
-  E("table()", function(a) {
+  D("table()", function(a) {
     a = this.tables(a);
     var b = a.context;
-    return b.length ? new J(b[0]) : a;
+    return b.length ? new H(b[0]) : a;
   });
-  O("tables().nodes()", "table().node()", function() {
+  M("tables().nodes()", "table().node()", function() {
     return this.iterator("table", function(a) {
       return a.nTable;
     }, 1);
   });
-  O("tables().body()", "table().body()", function() {
+  M("tables().body()", "table().body()", function() {
     return this.iterator("table", function(a) {
       return a.nTBody;
     }, 1);
   });
-  O("tables().header()", "table().header()", function() {
+  M("tables().header()", "table().header()", function() {
     return this.iterator("table", function(a) {
       return a.nTHead;
     }, 1);
   });
-  O("tables().footer()", "table().footer()", function() {
+  M("tables().footer()", "table().footer()", function() {
     return this.iterator("table", function(a) {
       return a.nTFoot;
     }, 1);
   });
-  O("tables().containers()", "table().container()", function() {
+  M("tables().containers()", "table().container()", function() {
     return this.iterator("table", function(a) {
       return a.nTableWrapper;
     }, 1);
   });
-  E("draw()", function(a) {
+  D("draw()", function(a) {
     return this.iterator("table", function(b) {
-      "page" === a ? ia(b) : ("string" === typeof a && (a = "full-hold" === a ? !1 : !0), ja(b, !1 === a));
+      "page" === a ? ha(b) : ("string" === typeof a && (a = "full-hold" === a ? !1 : !0), ia(b, !1 === a));
     });
   });
-  E("page()", function(a) {
+  D("page()", function(a) {
     return a === d ? this.page.info().page : this.iterator("table", function(b) {
       Sa(b, a);
     });
   });
-  E("page.info()", function(a) {
+  D("page.info()", function(a) {
     if (0 === this.context.length) {
       return d;
     }
@@ -21783,53 +21608,53 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var b = a._iDisplayStart, c = a.oFeatures.bPaginate ? a._iDisplayLength : -1, e = a.fnRecordsDisplay(), f = -1 === c;
     return {page:f ? 0 : Math.floor(b / c), pages:f ? 1 : Math.ceil(e / c), start:b, end:a.fnDisplayEnd(), length:c, recordsTotal:a.fnRecordsTotal(), recordsDisplay:e, serverSide:"ssp" === S(a)};
   });
-  E("page.len()", function(a) {
+  D("page.len()", function(a) {
     return a === d ? 0 !== this.context.length ? this.context[0]._iDisplayLength : d : this.iterator("table", function(b) {
       Qa(b, a);
     });
   });
   var Kb = function(a, b, c) {
     if (c) {
-      var d = new J(a);
+      var d = new H(a);
       d.one("draw", function() {
         c(d.ajax.json());
       });
     }
     if ("ssp" == S(a)) {
-      ja(a, b);
+      ia(a, b);
     } else {
       Y(a, !0);
       var e = a.jqXHR;
       e && 4 !== e.readyState && e.abort();
       xa(a, [], function(c) {
-        ka(a);
+        ja(a);
         c = ya(a, c);
         for (var d = 0, e = c.length; d < e; d++) {
-          A(a, c[d]);
+          B(a, c[d]);
         }
-        ja(a, b);
+        ia(a, b);
         Y(a, !1);
       });
     }
   };
-  E("ajax.json()", function() {
+  D("ajax.json()", function() {
     var a = this.context;
     if (0 < a.length) {
       return a[0].json;
     }
   });
-  E("ajax.params()", function() {
+  D("ajax.params()", function() {
     var a = this.context;
     if (0 < a.length) {
       return a[0].oAjaxData;
     }
   });
-  E("ajax.reload()", function(a, b) {
+  D("ajax.reload()", function(a, b) {
     return this.iterator("table", function(c) {
       Kb(c, !1 === b, a);
     });
   });
-  E("ajax.url()", function(b) {
+  D("ajax.url()", function(b) {
     var c = this.context;
     if (b === d) {
       if (0 === c.length) {
@@ -21842,27 +21667,27 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       a.isPlainObject(c.ajax) ? c.ajax.url = b : c.ajax = b;
     });
   });
-  E("ajax.url().load()", function(a, b) {
+  D("ajax.url().load()", function(a, b) {
     return this.iterator("table", function(c) {
       Kb(c, !1 === b, a);
     });
   });
   var Ya = function(b, c, e, f, g) {
-    var h = [], l, n, p;
-    var m = typeof c;
-    c && "string" !== m && "function" !== m && c.length !== d || (c = [c]);
-    m = 0;
-    for (n = c.length; m < n; m++) {
-      var t = c[m] && c[m].split ? c[m].split(",") : [c[m]];
+    var h = [], l, m, n;
+    var t = typeof c;
+    c && "string" !== t && "function" !== t && c.length !== d || (c = [c]);
+    t = 0;
+    for (m = c.length; t < m; t++) {
+      var p = c[t] && c[t].split ? c[t].split(",") : [c[t]];
       var q = 0;
-      for (p = t.length; q < p; q++) {
-        (l = e("string" === typeof t[q] ? a.trim(t[q]) : t[q])) && l.length && (h = h.concat(l));
+      for (n = p.length; q < n; q++) {
+        (l = e("string" === typeof p[q] ? a.trim(p[q]) : p[q])) && l.length && (h = h.concat(l));
       }
     }
-    b = N.selector[b];
+    b = L.selector[b];
     if (b.length) {
-      for (m = 0, n = b.length; m < n; m++) {
-        h = b[m](f, g, h);
+      for (t = 0, m = b.length; t < m; t++) {
+        h = b[t](f, g, h);
       }
     }
     return Aa(h);
@@ -21940,7 +21765,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }).toArray();
     }, b, e);
   };
-  E("rows()", function(b, c) {
+  D("rows()", function(b, c) {
     b === d ? b = "" : a.isPlainObject(b) && (c = b, b = "");
     c = Za(c);
     var e = this.iterator("table", function(a) {
@@ -21950,60 +21775,60 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     e.selector.opts = c;
     return e;
   });
-  E("rows().nodes()", function() {
+  D("rows().nodes()", function() {
     return this.iterator("row", function(a, b) {
       return a.aoData[b].nTr || d;
     }, 1);
   });
-  E("rows().data()", function() {
+  D("rows().data()", function() {
     return this.iterator(!0, "rows", function(a, b) {
       return va(a.aoData, b, "_aData");
     }, 1);
   });
-  O("rows().cache()", "row().cache()", function(a) {
+  M("rows().cache()", "row().cache()", function(a) {
     return this.iterator("row", function(b, c) {
       b = b.aoData[c];
       return "search" === a ? b._aFilterData : b._aSortData;
     }, 1);
   });
-  O("rows().invalidate()", "row().invalidate()", function(a) {
+  M("rows().invalidate()", "row().invalidate()", function(a) {
     return this.iterator("row", function(b, c) {
       R(b, c, a);
     });
   });
-  O("rows().indexes()", "row().index()", function() {
+  M("rows().indexes()", "row().index()", function() {
     return this.iterator("row", function(a, b) {
       return b;
     }, 1);
   });
-  O("rows().ids()", "row().id()", function(a) {
+  M("rows().ids()", "row().id()", function(a) {
     for (var b = [], c = this.context, d = 0, e = c.length; d < e; d++) {
       for (var f = 0, g = this[d].length; f < g; f++) {
         var h = c[d].rowIdFn(c[d].aoData[this[d][f]]._aData);
         b.push((!0 === a ? "#" : "") + h);
       }
     }
-    return new J(c, b);
+    return new H(c, b);
   });
-  O("rows().remove()", "row().remove()", function() {
+  M("rows().remove()", "row().remove()", function() {
     var a = this;
     this.iterator("row", function(b, c, e) {
       var f = b.aoData, g = f[c], h, l;
       f.splice(c, 1);
-      var n = 0;
-      for (h = f.length; n < h; n++) {
-        var p = f[n];
-        var m = p.anCells;
-        null !== p.nTr && (p.nTr._DT_RowIndex = n);
-        if (null !== m) {
-          for (p = 0, l = m.length; p < l; p++) {
-            m[p]._DT_CellIndex.row = n;
+      var m = 0;
+      for (h = f.length; m < h; m++) {
+        var n = f[m];
+        var t = n.anCells;
+        null !== n.nTr && (n.nTr._DT_RowIndex = m);
+        if (null !== t) {
+          for (n = 0, l = t.length; n < l; n++) {
+            t[n]._DT_CellIndex.row = m;
           }
         }
       }
-      la(b.aiDisplayMaster, c);
-      la(b.aiDisplay, c);
-      la(a[e], c, !1);
+      ka(b.aiDisplayMaster, c);
+      ka(b.aiDisplay, c);
+      ka(a[e], c, !1);
       Ra(b);
       c = b.rowIdFn(g._aData);
       c !== d && delete b.aIds[c];
@@ -22015,13 +21840,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     });
     return this;
   });
-  E("rows.add()", function(b) {
+  D("rows.add()", function(b) {
     var c = this.iterator("table", function(a) {
       var c, d = [];
       var e = 0;
       for (c = b.length; e < c; e++) {
         var f = b[e];
-        f.nodeName && "TR" === f.nodeName.toUpperCase() ? d.push(D(a, f)[0]) : d.push(A(a, f));
+        f.nodeName && "TR" === f.nodeName.toUpperCase() ? d.push(E(a, f)[0]) : d.push(B(a, f));
       }
       return d;
     }, 1), d = this.rows(-1);
@@ -22029,10 +21854,10 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a.merge(d, c);
     return d;
   });
-  E("row()", function(a, b) {
+  D("row()", function(a, b) {
     return $a(this.rows(a, b));
   });
-  E("row().data()", function(a) {
+  D("row().data()", function(a) {
     var b = this.context;
     if (a === d) {
       return b.length && this.length ? b[0].aoData[this[0]]._aData : d;
@@ -22041,14 +21866,14 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     R(b[0], this[0], "data");
     return this;
   });
-  E("row().node()", function() {
+  D("row().node()", function() {
     var a = this.context;
     return a.length && this.length ? a[0].aoData[this[0]].nTr || null : null;
   });
-  E("row.add()", function(b) {
+  D("row.add()", function(b) {
     b instanceof a && b.length && (b = b[0]);
     var c = this.iterator("table", function(a) {
-      return b.nodeName && "TR" === b.nodeName.toUpperCase() ? D(a, b)[0] : A(a, b);
+      return b.nodeName && "TR" === b.nodeName.toUpperCase() ? E(a, b)[0] : B(a, b);
     });
     return this.row(c[0]);
   });
@@ -22059,7 +21884,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           g(c[e], d);
         }
       } else {
-        c.nodeName && "tr" === c.nodeName.toLowerCase() ? f.push(c) : (e = a("<tr><td/></tr>").addClass(d), a("td", e).addClass(d).html(c)[0].colSpan = y(b), f.push(e[0]));
+        c.nodeName && "tr" === c.nodeName.toLowerCase() ? f.push(c) : (e = a("<tr><td/></tr>").addClass(d), a("td", e).addClass(d).html(c)[0].colSpan = z(b), f.push(e[0]));
       }
     };
     g(d, e);
@@ -22073,7 +21898,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var c = a.context;
     c.length && a.length && (a = c[0].aoData[a[0]], a._details && ((a._detailsShow = b) ? a._details.insertAfter(a.nTr) : a._details.detach(), Xb(c[0])));
   }, Xb = function(a) {
-    var b = new J(a), c = a.aoData;
+    var b = new H(a), c = a.aoData;
     b.off("draw.dt.DT_details column-visibility.dt.DT_details destroy.dt.DT_details");
     0 < X(c, "_details").length && (b.on("draw.dt.DT_details", function(d, e) {
       a === e && b.rows({page:"current"}).eq(0).each(function(a) {
@@ -22082,7 +21907,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       });
     }), b.on("column-visibility.dt.DT_details", function(b, d, e, f) {
       if (a === d) {
-        for (d = y(d), e = 0, f = c.length; e < f; e++) {
+        for (d = z(d), e = 0, f = c.length; e < f; e++) {
           b = c[e], b._details && b._details.children("td[colspan]").attr("colspan", d);
         }
       }
@@ -22094,7 +21919,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }));
   };
-  E("row().child()", function(a, b) {
+  D("row().child()", function(a, b) {
     var c = this.context;
     if (a === d) {
       return c.length && this.length ? c[0].aoData[this[0]]._details : d;
@@ -22102,19 +21927,19 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     !0 === a ? this.child.show() : !1 === a ? ab(this) : c.length && this.length && Wb(c[0], c[0].aoData[this[0]], a, b);
     return this;
   });
-  E(["row().child.show()", "row().child().show()"], function(a) {
+  D(["row().child.show()", "row().child().show()"], function(a) {
     Lb(this, !0);
     return this;
   });
-  E(["row().child.hide()", "row().child().hide()"], function() {
+  D(["row().child.hide()", "row().child().hide()"], function() {
     Lb(this, !1);
     return this;
   });
-  E(["row().child.remove()", "row().child().remove()"], function() {
+  D(["row().child.remove()", "row().child().remove()"], function() {
     ab(this);
     return this;
   });
-  E("row().child.isShown()", function() {
+  D("row().child.isShown()", function() {
     var a = this.context;
     return a.length && this.length ? a[0].aoData[this[0]]._detailsShow || !1 : !1;
   });
@@ -22141,22 +21966,22 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
           return c(d, Mb(b, d, 0, 0, l), g[d]) ? d : null;
         });
       }
-      var n = "string" === typeof c ? c.match(Yb) : "";
-      if (n) {
-        switch(n[2]) {
+      var m = "string" === typeof c ? c.match(Yb) : "";
+      if (m) {
+        switch(m[2]) {
           case "visIdx":
           case "visible":
-            h = parseInt(n[1], 10);
+            h = parseInt(m[1], 10);
             if (0 > h) {
-              var p = a.map(e, function(a, b) {
+              var n = a.map(e, function(a, b) {
                 return a.bVisible ? b : null;
               });
-              return [p[p.length + h]];
+              return [n[n.length + h]];
             }
             return [u(b, h)];
           case "name":
             return a.map(f, function(a, b) {
-              return a === n[1] ? b : null;
+              return a === m[1] ? b : null;
             });
           default:
             return [];
@@ -22175,7 +22000,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return h.length ? [h.data("dt-column")] : [];
     }, b, d);
   };
-  E("columns()", function(b, c) {
+  D("columns()", function(b, c) {
     b === d ? b = "" : a.isPlainObject(b) && (c = b, b = "");
     c = Za(c);
     var e = this.iterator("table", function(a) {
@@ -22185,35 +22010,35 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     e.selector.opts = c;
     return e;
   });
-  O("columns().header()", "column().header()", function(a, b) {
+  M("columns().header()", "column().header()", function(a, b) {
     return this.iterator("column", function(a, b) {
       return a.aoColumns[b].nTh;
     }, 1);
   });
-  O("columns().footer()", "column().footer()", function(a, b) {
+  M("columns().footer()", "column().footer()", function(a, b) {
     return this.iterator("column", function(a, b) {
       return a.aoColumns[b].nTf;
     }, 1);
   });
-  O("columns().data()", "column().data()", function() {
+  M("columns().data()", "column().data()", function() {
     return this.iterator("column-rows", Mb, 1);
   });
-  O("columns().dataSrc()", "column().dataSrc()", function() {
+  M("columns().dataSrc()", "column().dataSrc()", function() {
     return this.iterator("column", function(a, b) {
       return a.aoColumns[b].mData;
     }, 1);
   });
-  O("columns().cache()", "column().cache()", function(a) {
+  M("columns().cache()", "column().cache()", function(a) {
     return this.iterator("column-rows", function(b, c, d, e, f) {
       return va(b.aoData, f, "search" === a ? "_aFilterData" : "_aSortData", c);
     }, 1);
   });
-  O("columns().nodes()", "column().nodes()", function() {
+  M("columns().nodes()", "column().nodes()", function() {
     return this.iterator("column-rows", function(a, b, c, d, e) {
       return va(a.aoData, e, "anCells", b);
     }, 1);
   });
-  O("columns().visible()", "column().visible()", function(b, c) {
+  M("columns().visible()", "column().visible()", function(b, c) {
     var e = this.iterator("column", function(c, e) {
       if (b === d) {
         return c.aoColumns[e].bVisible;
@@ -22221,12 +22046,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       var f = c.aoColumns, g = f[e], h = c.aoData, l;
       if (b !== d && g.bVisible !== b) {
         if (b) {
-          var n = a.inArray(!0, X(f, "bVisible"), e + 1);
-          var p = 0;
-          for (l = h.length; p < l; p++) {
-            var m = h[p].nTr;
-            f = h[p].anCells;
-            m && m.insertBefore(f[e], f[n] || null);
+          var m = a.inArray(!0, X(f, "bVisible"), e + 1);
+          var n = 0;
+          for (l = h.length; n < l; n++) {
+            var p = h[n].nTr;
+            f = h[n].anCells;
+            p && p.insertBefore(f[e], f[m] || null);
           }
         } else {
           a(X(c.aoData, "anCells", e)).detach();
@@ -22238,21 +22063,21 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     });
     b !== d && (this.iterator("column", function(a, d) {
-      M(a, null, "column-visibility", [a, d, b, c]);
+      K(a, null, "column-visibility", [a, d, b, c]);
     }), (c === d || c) && this.columns.adjust());
     return e;
   });
-  O("columns().indexes()", "column().index()", function(a) {
+  M("columns().indexes()", "column().index()", function(a) {
     return this.iterator("column", function(b, c) {
       return "visible" === a ? v(b, c) : c;
     }, 1);
   });
-  E("columns.adjust()", function() {
+  D("columns.adjust()", function() {
     return this.iterator("table", function(a) {
       r(a);
     }, 1);
   });
-  E("column.index()", function(a, b) {
+  D("column.index()", function(a, b) {
     if (0 !== this.context.length) {
       var c = this.context[0];
       if ("fromVisible" === a || "toData" === a) {
@@ -22263,22 +22088,22 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       }
     }
   });
-  E("column()", function(a, b) {
+  D("column()", function(a, b) {
     return $a(this.columns(a, b));
   });
   var $b = function(b, c, e) {
-    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), n, p = b.aoColumns.length, m, q, t, r, w, u;
+    var f = b.aoData, g = Ja(b, e), h = Ib(va(f, g, "anCells")), l = a([].concat.apply([], h)), m, n = b.aoColumns.length, p, q, t, r, w, u;
     return Ya("cell", c, function(c) {
       var e = "function" === typeof c;
       if (null === c || c === d || e) {
-        m = [];
+        p = [];
         q = 0;
         for (t = g.length; q < t; q++) {
-          for (n = g[q], r = 0; r < p; r++) {
-            w = {row:n, column:r}, e ? (u = f[n], c(w, F(b, n, r), u.anCells ? u.anCells[r] : null) && m.push(w)) : m.push(w);
+          for (m = g[q], r = 0; r < n; r++) {
+            w = {row:m, column:r}, e ? (u = f[m], c(w, F(b, m, r), u.anCells ? u.anCells[r] : null) && p.push(w)) : p.push(w);
           }
         }
-        return m;
+        return p;
       }
       if (a.isPlainObject(c)) {
         return [c];
@@ -22293,7 +22118,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return u.length ? [{row:u.data("dt-row"), column:u.data("dt-column")}] : [];
     }, b, e);
   };
-  E("cells()", function(b, c, e) {
+  D("cells()", function(b, c, e) {
     a.isPlainObject(b) && (b.row === d ? (e = b, b = null) : (e = c, c = null));
     a.isPlainObject(c) && (e = c, c = null);
     if (null === c || c === d) {
@@ -22301,12 +22126,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         return $b(a, b, Za(e));
       });
     }
-    var f = this.columns(c, e), g = this.rows(b, e), h, l, n, p, m, q = this.iterator("table", function(a, b) {
+    var f = this.columns(c, e), g = this.rows(b, e), h, l, m, n, p, q = this.iterator("table", function(a, b) {
       h = [];
       l = 0;
-      for (n = g[b].length; l < n; l++) {
-        for (p = 0, m = f[b].length; p < m; p++) {
-          h.push({row:g[b][l], column:f[b][p]});
+      for (m = g[b].length; l < m; l++) {
+        for (n = 0, p = f[b].length; n < p; n++) {
+          h.push({row:g[b][l], column:f[b][n]});
         }
       }
       return h;
@@ -22314,50 +22139,50 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a.extend(q.selector, {cols:c, rows:b, opts:e});
     return q;
   });
-  O("cells().nodes()", "cell().node()", function() {
+  M("cells().nodes()", "cell().node()", function() {
     return this.iterator("cell", function(a, b, c) {
       return (a = a.aoData[b]) && a.anCells ? a.anCells[c] : d;
     }, 1);
   });
-  E("cells().data()", function() {
+  D("cells().data()", function() {
     return this.iterator("cell", function(a, b, c) {
       return F(a, b, c);
     }, 1);
   });
-  O("cells().cache()", "cell().cache()", function(a) {
+  M("cells().cache()", "cell().cache()", function(a) {
     a = "search" === a ? "_aFilterData" : "_aSortData";
     return this.iterator("cell", function(b, c, d) {
       return b.aoData[c][a][d];
     }, 1);
   });
-  O("cells().render()", "cell().render()", function(a) {
+  M("cells().render()", "cell().render()", function(a) {
     return this.iterator("cell", function(b, c, d) {
       return F(b, c, d, a);
     }, 1);
   });
-  O("cells().indexes()", "cell().index()", function() {
+  M("cells().indexes()", "cell().index()", function() {
     return this.iterator("cell", function(a, b, c) {
       return {row:b, column:c, columnVisible:v(a, c)};
     }, 1);
   });
-  O("cells().invalidate()", "cell().invalidate()", function(a) {
+  M("cells().invalidate()", "cell().invalidate()", function(a) {
     return this.iterator("cell", function(b, c, d) {
       R(b, c, a, d);
     });
   });
-  E("cell()", function(a, b, c) {
+  D("cell()", function(a, b, c) {
     return $a(this.cells(a, b, c));
   });
-  E("cell().data()", function(a) {
+  D("cell().data()", function(a) {
     var b = this.context, c = this[0];
     if (a === d) {
       return b.length && c.length ? F(b[0], c[0].row, c[0].column) : d;
     }
-    K(b[0], c[0].row, c[0].column, a);
+    Q(b[0], c[0].row, c[0].column, a);
     R(b[0], c[0].row, "data", c[0].column);
     return this;
   });
-  E("order()", function(b, c) {
+  D("order()", function(b, c) {
     var e = this.context;
     if (b === d) {
       return 0 !== e.length ? e[0].aaSorting : d;
@@ -22367,12 +22192,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       a.aaSorting = b.slice();
     });
   });
-  E("order.listener()", function(a, b, c) {
+  D("order.listener()", function(a, b, c) {
     return this.iterator("table", function(d) {
       Ma(d, a, b, c);
     });
   });
-  E("order.fixed()", function(b) {
+  D("order.fixed()", function(b) {
     if (!b) {
       var c = this.context, c = c.length ? c[0].aaSortingFixed : d;
       return a.isArray(c) ? {pre:c} : c;
@@ -22381,7 +22206,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       c.aaSortingFixed = a.extend(!0, {}, b);
     });
   });
-  E(["columns().order()", "column().order()"], function(b) {
+  D(["columns().order()", "column().order()"], function(b) {
     var c = this;
     return this.iterator("table", function(d, e) {
       var f = [];
@@ -22391,13 +22216,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       d.aaSorting = f;
     });
   });
-  E("search()", function(b, c, e, f) {
+  D("search()", function(b, c, e, f) {
     var g = this.context;
     return b === d ? 0 !== g.length ? g[0].oPreviousSearch.sSearch : d : this.iterator("table", function(d) {
       d.oFeatures.bFilter && sa(d, a.extend({}, d.oPreviousSearch, {sSearch:b + "", bRegex:null === c ? !1 : c, bSmart:null === e ? !0 : e, bCaseInsensitive:null === f ? !0 : f}), 1);
     });
   });
-  O("columns().search()", "column().search()", function(b, c, e, f) {
+  M("columns().search()", "column().search()", function(b, c, e, f) {
     return this.iterator("column", function(g, h) {
       var l = g.aoPreSearchCols;
       if (b === d) {
@@ -22406,18 +22231,18 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       g.oFeatures.bFilter && (a.extend(l[h], {sSearch:b + "", bRegex:null === c ? !1 : c, bSmart:null === e ? !0 : e, bCaseInsensitive:null === f ? !0 : f}), sa(g, g.oPreviousSearch, 1));
     });
   });
-  E("state()", function() {
+  D("state()", function() {
     return this.context.length ? this.context[0].oSavedState : null;
   });
-  E("state.clear()", function() {
+  D("state.clear()", function() {
     return this.iterator("table", function(a) {
       a.fnStateSaveCallback.call(a.oInstance, a, {});
     });
   });
-  E("state.loaded()", function() {
+  D("state.loaded()", function() {
     return this.context.length ? this.context[0].oLoadedState : null;
   });
-  E("state.save()", function() {
+  D("state.save()", function() {
     return this.iterator("table", function(a) {
       Ea(a);
     });
@@ -22451,16 +22276,16 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         return c.nTable;
       }
     });
-    return c ? new J(d) : d;
+    return c ? new H(d) : d;
   };
   x.camelToHungarian = f;
-  E("$()", function(b, c) {
+  D("$()", function(b, c) {
     c = this.rows(c).nodes();
     c = a(c);
     return a([].concat(c.filter(b).toArray(), c.find(b).toArray()));
   });
   a.each(["on", "one", "off"], function(b, c) {
-    E(c + "()", function() {
+    D(c + "()", function() {
       var b = Array.prototype.slice.call(arguments);
       b[0].match(/\.dt\b/) || (b[0] += ".dt");
       var d = a(this.tables().nodes());
@@ -22468,36 +22293,36 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return this;
     });
   });
-  E("clear()", function() {
+  D("clear()", function() {
     return this.iterator("table", function(a) {
-      ka(a);
+      ja(a);
     });
   });
-  E("settings()", function() {
-    return new J(this.context, this.context);
+  D("settings()", function() {
+    return new H(this.context, this.context);
   });
-  E("init()", function() {
+  D("init()", function() {
     var a = this.context;
     return a.length ? a[0].oInit : null;
   });
-  E("data()", function() {
+  D("data()", function() {
     return this.iterator("table", function(a) {
       return X(a.aoData, "_aData");
     }).flatten();
   });
-  E("destroy()", function(c) {
+  D("destroy()", function(c) {
     c = c || !1;
     return this.iterator("table", function(d) {
-      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, n = d.nTFoot, p = a(g), h = a(h), m = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
+      var e = d.nTableWrapper.parentNode, f = d.oClasses, g = d.nTable, h = d.nTBody, l = d.nTHead, m = d.nTFoot, n = a(g), h = a(h), p = a(d.nTableWrapper), q = a.map(d.aoData, function(a) {
         return a.nTr;
-      }), r;
+      }), t;
       d.bDestroying = !0;
-      M(d, "aoDestroyCallback", "destroy", [d]);
-      c || (new J(d)).columns().visible(!0);
-      m.unbind(".DT").find(":not(tbody *)").unbind(".DT");
+      K(d, "aoDestroyCallback", "destroy", [d]);
+      c || (new H(d)).columns().visible(!0);
+      p.unbind(".DT").find(":not(tbody *)").unbind(".DT");
       a(b).unbind(".DT-" + d.sInstance);
-      g != l.parentNode && (p.children("thead").detach(), p.append(l));
-      n && g != n.parentNode && (p.children("tfoot").detach(), p.append(n));
+      g != l.parentNode && (n.children("thead").detach(), n.append(l));
+      m && g != m.parentNode && (n.children("tfoot").detach(), n.append(m));
       d.aaSorting = [];
       d.aaSortingFixed = [];
       Da(d);
@@ -22511,26 +22336,26 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       h.children().detach();
       h.append(q);
       l = c ? "remove" : "detach";
+      n[l]();
       p[l]();
-      m[l]();
-      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), p.css("width", d.sDestroyWidth).removeClass(f.sTable), (r = d.asDestroyStripes.length) && h.children().each(function(b) {
-        a(this).addClass(d.asDestroyStripes[b % r]);
+      !c && e && (e.insertBefore(g, d.nTableReinsertBefore), n.css("width", d.sDestroyWidth).removeClass(f.sTable), (t = d.asDestroyStripes.length) && h.children().each(function(b) {
+        a(this).addClass(d.asDestroyStripes[b % t]);
       }));
       e = a.inArray(d, x.settings);
       -1 !== e && x.settings.splice(e, 1);
     });
   });
   a.each(["column", "row", "cell"], function(a, b) {
-    E(b + "s().every()", function(a) {
+    D(b + "s().every()", function(a) {
       var c = this.selector.opts, e = this;
-      return this.iterator(b, function(f, g, h, l, n) {
-        a.call(e[b](g, "cell" === b ? h : c, "cell" === b ? c : d), g, h, l, n);
+      return this.iterator(b, function(f, g, h, l, m) {
+        a.call(e[b](g, "cell" === b ? h : c, "cell" === b ? c : d), g, h, l, m);
       });
     });
   });
-  E("i18n()", function(b, c, e) {
+  D("i18n()", function(b, c, e) {
     var f = this.context[0];
-    b = W(b)(f.oLanguage);
+    b = V(b)(f.oLanguage);
     b === d && (b = c);
     e !== d && a.isPlainObject(b) && (b = b[e] !== d ? b[e] : b._);
     return b.replace("%d", e);
@@ -22552,7 +22377,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, fnStateLoadParams:null, fnStateLoaded:null, fnStateSaveCallback:function(a, b) {
     try {
       (-1 === a.iStateDuration ? sessionStorage : localStorage).setItem("DataTables_" + a.sInstance + "_" + location.pathname, JSON.stringify(b));
-    } catch (G) {
+    } catch (I) {
     }
   }, fnStateSaveParams:null, iStateDuration:7200, iDeferLoading:null, iDisplayLength:10, iDisplayStart:0, iTabIndex:0, oClasses:{}, oLanguage:{oAria:{sSortAscending:": activate to sort column ascending", sSortDescending:": activate to sort column descending"}, oPaginate:{sFirst:"First", sLast:"Last", sNext:"Next", sPrevious:"Previous"}, sEmptyTable:"No data available in table", sInfo:"Showing _START_ to _END_ of _TOTAL_ entries", sInfoEmpty:"Showing 0 to 0 of 0 entries", sInfoFiltered:"(filtered from _MAX_ total entries)", 
   sInfoPostFix:"", sDecimal:"", sThousands:",", sLengthMenu:"Show _MENU_ entries", sLoadingRecords:"Loading...", sProcessing:"Processing...", sSearch:"Search:", sSearchPlaceholder:"", sUrl:"", sZeroRecords:"No matching records found"}, oSearch:a.extend({}, x.models.oSearch), sAjaxDataProp:"data", sAjaxSource:null, sDom:"lfrtip", searchDelay:null, sPaginationType:"simple_numbers", sScrollX:"", sScrollXInner:"", sScrollY:"", sServerMethod:"GET", renderer:null, rowId:"DT_RowId"};
@@ -22570,8 +22395,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     var a = this._iDisplayLength, b = this._iDisplayStart, c = b + a, d = this.aiDisplay.length, e = this.oFeatures, f = e.bPaginate;
     return e.bServerSide ? !1 === f || -1 === a ? b + d : Math.min(b + a, this._iRecordsDisplay) : !f || c > d || -1 === a ? d : c;
   }, oInstance:null, sInstance:null, iTabIndex:0, nScrollHead:null, nScrollFoot:null, aLastSort:[], oPlugins:{}, rowIdFn:null, rowId:null};
-  x.ext = N = {buttons:{}, classes:{}, builder:"-source-", errMode:"window.console.error", feature:[], search:[], selector:{cell:[], column:[], row:[]}, internal:{}, legacy:{ajax:null}, pager:{}, renderer:{pageButton:{}, header:{}}, order:{}, type:{detect:[], search:{}, order:{}}, _unique:0, fnVersionCheck:x.fnVersionCheck, iApiIndex:0, oJUIClasses:{}, sVersion:x.version};
-  a.extend(N, {afnFiltering:N.search, aTypes:N.type.detect, ofnSearch:N.type.search, oSort:N.type.order, afnSortData:N.order, aoFeatures:N.feature, oApi:N.internal, oStdClasses:N.classes, oPagination:N.pager});
+  x.ext = L = {buttons:{}, classes:{}, builder:"-source-", errMode:"window.console.error", feature:[], search:[], selector:{cell:[], column:[], row:[]}, internal:{}, legacy:{ajax:null}, pager:{}, renderer:{pageButton:{}, header:{}}, order:{}, type:{detect:[], search:{}, order:{}}, _unique:0, fnVersionCheck:x.fnVersionCheck, iApiIndex:0, oJUIClasses:{}, sVersion:x.version};
+  a.extend(L, {afnFiltering:L.search, aTypes:L.type.detect, ofnSearch:L.type.search, oSort:L.type.order, afnSortData:L.order, aoFeatures:L.feature, oApi:L.internal, oStdClasses:L.classes, oPagination:L.pager});
   a.extend(x.ext.classes, {sTable:"dataTable", sNoFooter:"no-footer", sPageButton:"paginate_button", sPageButtonActive:"current", sPageButtonDisabled:"disabled", sStripeOdd:"odd", sStripeEven:"even", sRowEmpty:"dataTables_empty", sWrapper:"dataTables_wrapper", sFilter:"dataTables_filter", sInfo:"dataTables_info", sPaging:"dataTables_paginate paging_", sLength:"dataTables_length", sProcessing:"dataTables_processing", sSortAsc:"sorting_asc", sSortDesc:"sorting_desc", sSortable:"sorting", sSortableAsc:"sorting_asc_disabled", 
   sSortableDesc:"sorting_desc_disabled", sSortableNone:"sorting_disabled", sSortColumn:"sorting_", sFilterInput:"", sLengthSelect:"", sScrollWrapper:"dataTables_scroll", sScrollHead:"dataTables_scrollHead", sScrollHeadInner:"dataTables_scrollHeadInner", sScrollBody:"dataTables_scrollBody", sScrollFoot:"dataTables_scrollFoot", sScrollFootInner:"dataTables_scrollFootInner", sHeaderTH:"", sFooterTH:"", sSortJUIAsc:"", sSortJUIDesc:"", sSortJUI:"", sSortJUIAscAllowed:"", sSortJUIDescAllowed:"", sSortJUIWrapper:"", 
   sSortIcon:"", sJUIHeader:"", sJUIFooter:""});
@@ -22591,49 +22416,49 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     return ["first", "previous", Ga(a, b), "next", "last"];
   }, _numbers:Ga, numbers_length:7});
   a.extend(!0, x.ext.renderer, {pageButton:{_:function(b, d, e, f, g, h) {
-    var l = b.oClasses, n = b.oLanguage.oPaginate, p = b.oLanguage.oAria.paginate || {}, m, q, r = 0, t = function(c, d) {
+    var l = b.oClasses, m = b.oLanguage.oPaginate, n = b.oLanguage.oAria.paginate || {}, p, q, r = 0, t = function(c, d) {
       var f, u = function(a) {
         Sa(b, a.data.action, !0);
       };
-      var w = 0;
-      for (f = d.length; w < f; w++) {
-        var v = d[w];
-        if (a.isArray(v)) {
-          var y = a("<" + (v.DT_el || "div") + "/>").appendTo(c);
-          t(y, v);
+      var v = 0;
+      for (f = d.length; v < f; v++) {
+        var w = d[v];
+        if (a.isArray(w)) {
+          var z = a("<" + (w.DT_el || "div") + "/>").appendTo(c);
+          t(z, w);
         } else {
-          m = null;
+          p = null;
           q = "";
-          switch(v) {
+          switch(w) {
             case "ellipsis":
               c.append('<span class="ellipsis">&#x2026;</span>');
               break;
             case "first":
-              m = n.sFirst;
-              q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
+              p = m.sFirst;
+              q = w + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "previous":
-              m = n.sPrevious;
-              q = v + (0 < g ? "" : " " + l.sPageButtonDisabled);
+              p = m.sPrevious;
+              q = w + (0 < g ? "" : " " + l.sPageButtonDisabled);
               break;
             case "next":
-              m = n.sNext;
-              q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
+              p = m.sNext;
+              q = w + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             case "last":
-              m = n.sLast;
-              q = v + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
+              p = m.sLast;
+              q = w + (g < h - 1 ? "" : " " + l.sPageButtonDisabled);
               break;
             default:
-              m = v + 1, q = g === v ? l.sPageButtonActive : "";
+              p = w + 1, q = g === w ? l.sPageButtonActive : "";
           }
-          null !== m && (y = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":p[v], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof v ? b.sTableId + "_" + v : null}).html(m).appendTo(c), Ua(y, {action:v}, u), r++);
+          null !== p && (z = a("<a>", {"class":l.sPageButton + " " + q, "aria-controls":b.sTableId, "aria-label":n[w], "data-dt-idx":r, tabindex:b.iTabIndex, id:0 === e && "string" === typeof w ? b.sTableId + "_" + w : null}).html(p).appendTo(c), Ua(z, {action:w}, u), r++);
         }
       }
     };
     try {
       var u = a(d).find(c.activeElement).data("dt-idx");
-    } catch (z) {
+    } catch (A) {
     }
     t(a(d).empty(), f);
     u && a(d).find("[data-dt-idx=" + u + "]").focus();
@@ -22646,7 +22471,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       return null;
     }
     b = Date.parse(a);
-    return null !== b && !isNaN(b) || ga(a) ? "date" : null;
+    return null !== b && !isNaN(b) || fa(a) ? "date" : null;
   }, function(a, b) {
     b = b.oLanguage.sDecimal;
     return Xa(a, b, !0) ? "num-fmt" + b : null;
@@ -22657,12 +22482,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     b = b.oLanguage.sDecimal;
     return Hb(a, b, !0) ? "html-num-fmt" + b : null;
   }, function(a, b) {
-    return ga(a) || "string" === typeof a && -1 !== a.indexOf("<") ? "html" : null;
+    return fa(a) || "string" === typeof a && -1 !== a.indexOf("<") ? "html" : null;
   }]);
   a.extend(x.ext.type.search, {html:function(a) {
-    return ga(a) ? a : "string" === typeof a ? a.replace(Eb, " ").replace(Ia, "") : "";
+    return fa(a) ? a : "string" === typeof a ? a.replace(Eb, " ").replace(Ia, "") : "";
   }, string:function(a) {
-    return ga(a) ? a : "string" === typeof a ? a.replace(Eb, " ") : a;
+    return fa(a) ? a : "string" === typeof a ? a.replace(Eb, " ") : a;
   }});
   var Ha = function(a, b, c, d) {
     if (0 !== a && (!a || "-" === a)) {
@@ -22672,12 +22497,12 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     a.replace && (c && (a = a.replace(c, "")), d && (a = a.replace(d, "")));
     return 1 * a;
   };
-  a.extend(N.type.order, {"date-pre":function(a) {
+  a.extend(L.type.order, {"date-pre":function(a) {
     return Date.parse(a) || 0;
   }, "html-pre":function(a) {
-    return ga(a) ? "" : a.replace ? a.replace(/<.*?>/g, "").toLowerCase() : a + "";
+    return fa(a) ? "" : a.replace ? a.replace(/<.*?>/g, "").toLowerCase() : a + "";
   }, "string-pre":function(a) {
-    return ga(a) ? "" : "string" === typeof a ? a.toLowerCase() : a.toString ? a.toString() : "";
+    return fa(a) ? "" : "string" === typeof a ? a.toLowerCase() : a.toString ? a.toString() : "";
   }, "string-asc":function(a, b) {
     return a < b ? -1 : a > b ? 1 : 0;
   }, "string-desc":function(a, b) {
@@ -22714,13 +22539,13 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
   }, text:function() {
     return {display:Nb};
   }};
-  a.extend(x.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:m, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:y, _fnGetColumns:C, _fnColumnTypes:B, _fnApplyColumnDefs:H, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:n, _fnAddData:A, _fnAddTr:D, _fnNodeToDataIndex:function(a, b) {
+  a.extend(x.ext.internal, {_fnExternApiFunc:Db, _fnBuildAjax:xa, _fnAjaxUpdate:cb, _fnAjaxParameters:db, _fnAjaxUpdateDraw:eb, _fnAjaxDataSrc:ya, _fnAddColumn:q, _fnColumnOptions:p, _fnAdjustColumnSizing:r, _fnVisibleToColumnIndex:u, _fnColumnIndexToVisible:v, _fnVisbleColumns:z, _fnGetColumns:C, _fnColumnTypes:y, _fnApplyColumnDefs:G, _fnHungarianMap:e, _fnCamelToHungarian:f, _fnLanguageCompat:g, _fnBrowserDetect:n, _fnAddData:B, _fnAddTr:E, _fnNodeToDataIndex:function(a, b) {
     return b._DT_RowIndex !== d ? b._DT_RowIndex : null;
   }, _fnNodeToColumnIndex:function(b, c, d) {
     return a.inArray(d, b.aoData[c].anCells);
-  }, _fnGetCellData:F, _fnSetCellData:K, _fnSplitObjNotation:I, _fnGetObjectDataFn:W, _fnSetObjectDataFn:Z, _fnGetDataMaster:ha, _fnClearTable:ka, _fnDeleteIndex:la, _fnInvalidate:R, _fnGetRowElements:pa, _fnCreateTr:L, _fnBuildHead:U, _fnDrawHead:qa, _fnDraw:ia, _fnReDraw:ja, _fnAddOptionsHtml:bb, _fnDetectHeader:ra, _fnGetUniqueThs:wa, _fnFeatureHtmlFilter:fb, _fnFilterComplete:sa, _fnFilterCustom:gb, _fnFilterColumn:hb, _fnFilter:ib, _fnFilterCreateSearch:Ka, _fnEscapeRegex:Pa, _fnFilterData:jb, 
-  _fnFeatureHtmlInfo:mb, _fnUpdateInfo:tb, _fnInfoMacros:ub, _fnInitialise:ua, _fnInitComplete:Ba, _fnLengthChange:Qa, _fnFeatureHtmlLength:pb, _fnFeatureHtmlPaginate:sb, _fnPageChange:Sa, _fnFeatureHtmlProcessing:qb, _fnProcessingDisplay:Y, _fnFeatureHtmlTable:rb, _fnScrollDraw:za, _fnApplyToChildren:ea, _fnCalculateColumnWidths:La, _fnThrottle:Oa, _fnConvertToWidth:vb, _fnGetWidestNode:wb, _fnGetMaxLenString:xb, _fnStringToCss:Q, _fnSortFlatten:na, _fnSort:ob, _fnSortAria:zb, _fnSortListener:Ta, 
-  _fnSortAttachListener:Ma, _fnSortingClasses:Da, _fnSortData:yb, _fnSaveState:Ea, _fnLoadState:Ab, _fnSettingsFromNode:Fa, _fnLog:fa, _fnMap:ca, _fnBindAction:Ua, _fnCallbackReg:T, _fnCallbackFire:M, _fnLengthOverflow:Ra, _fnRenderer:Na, _fnDataSource:S, _fnRowAttributes:da, _fnCalculateEnd:function() {
+  }, _fnGetCellData:F, _fnSetCellData:Q, _fnSplitObjNotation:O, _fnGetObjectDataFn:V, _fnSetObjectDataFn:Z, _fnGetDataMaster:ga, _fnClearTable:ja, _fnDeleteIndex:ka, _fnInvalidate:R, _fnGetRowElements:pa, _fnCreateTr:J, _fnBuildHead:la, _fnDrawHead:qa, _fnDraw:ha, _fnReDraw:ia, _fnAddOptionsHtml:bb, _fnDetectHeader:ra, _fnGetUniqueThs:wa, _fnFeatureHtmlFilter:fb, _fnFilterComplete:sa, _fnFilterCustom:gb, _fnFilterColumn:hb, _fnFilter:ib, _fnFilterCreateSearch:Ka, _fnEscapeRegex:Pa, _fnFilterData:jb, 
+  _fnFeatureHtmlInfo:mb, _fnUpdateInfo:tb, _fnInfoMacros:ub, _fnInitialise:ua, _fnInitComplete:Ba, _fnLengthChange:Qa, _fnFeatureHtmlLength:pb, _fnFeatureHtmlPaginate:sb, _fnPageChange:Sa, _fnFeatureHtmlProcessing:qb, _fnProcessingDisplay:Y, _fnFeatureHtmlTable:rb, _fnScrollDraw:za, _fnApplyToChildren:da, _fnCalculateColumnWidths:La, _fnThrottle:Oa, _fnConvertToWidth:vb, _fnGetWidestNode:wb, _fnGetMaxLenString:xb, _fnStringToCss:P, _fnSortFlatten:na, _fnSort:ob, _fnSortAria:zb, _fnSortListener:Ta, 
+  _fnSortAttachListener:Ma, _fnSortingClasses:Da, _fnSortData:yb, _fnSaveState:Ea, _fnLoadState:Ab, _fnSettingsFromNode:Fa, _fnLog:ea, _fnMap:ba, _fnBindAction:Ua, _fnCallbackReg:T, _fnCallbackFire:K, _fnLengthOverflow:Ra, _fnRenderer:Na, _fnDataSource:S, _fnRowAttributes:ca, _fnCalculateEnd:function() {
   }});
   a.fn.dataTable = x;
   x.$ = a;
@@ -22847,7 +22672,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }), g = function(b, c) {
       b = f[b].includeIn;
       -1 === a.inArray(c, b) && b.push(c);
-    }, m = function(a, d, e, h) {
+    }, p = function(a, d, e, h) {
       if (!e) {
         f[a].includeIn.push(d);
       } else {
@@ -22892,7 +22717,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
         a.each(c, function(a, b) {
           a = b.name.split("-");
           var c = l.match(new RegExp("(min\\-|max\\-|not\\-)?(" + a[0] + ")(\\-[_a-zA-Z0-9])?"));
-          c && (f = !0, c[2] === a[0] && c[3] === "-" + a[1] ? m(d, b.name, c[1], c[2] + c[3]) : c[2] !== a[0] || c[3] || m(d, b.name, c[1], c[2]));
+          c && (f = !0, c[2] === a[0] && c[3] === "-" + a[1] ? p(d, b.name, c[1], c[2] + c[3]) : c[2] !== a[0] || c[3] || p(d, b.name, c[1], c[2]));
         });
       }
       f || (b.auto = !0);
@@ -22949,7 +22774,7 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       a._detailsDisplay(b.row(d), !0);
     });
   }, _resize:function() {
-    var c = this, d = this.s.dt, e = a(b).width(), f = this.c.breakpoints, g = f[0].name, m = this.s.columns, r, u = this.s.current.slice();
+    var c = this, d = this.s.dt, e = a(b).width(), f = this.c.breakpoints, g = f[0].name, p = this.s.columns, r, u = this.s.current.slice();
     for (r = f.length - 1; 0 <= r; r--) {
       if (e <= f[r].width) {
         g = f[r].name;
@@ -22960,18 +22785,18 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     this.s.current = v;
     f = !1;
     r = 0;
-    for (e = m.length; r < e; r++) {
-      if (!1 === v[r] && !m[r].never && !m[r].control) {
+    for (e = p.length; r < e; r++) {
+      if (!1 === v[r] && !p[r].never && !p[r].control) {
         f = !0;
         break;
       }
     }
     a(d.table().node()).toggleClass("collapsed", f);
-    var y = !1;
+    var z = !1;
     d.columns().eq(0).each(function(a, b) {
-      v[b] !== u[b] && (y = !0, c._setColumnVis(a, v[b]));
+      v[b] !== u[b] && (z = !0, c._setColumnVis(a, v[b]));
     });
-    y && (this._redrawChildren(), a(d.table().node()).trigger("responsive-resize.dt", [d, this.s.current]));
+    z && (this._redrawChildren(), a(d.table().node()).trigger("responsive-resize.dt", [d, this.s.current]));
   }, _resizeAuto:function() {
     var b = this.s.dt, c = this.s.columns;
     if (this.c.auto && -1 !== a.inArray(!0, a.map(c, function(a) {
@@ -23290,8 +23115,8 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     f.remove();
   }, _fnInfo:function() {
     if (this.s.dt.oFeatures.bInfo) {
-      var b = this.s.dt, c = b.oLanguage, d = this.dom.scroller.scrollTop, e = Math.floor(this.fnPixelsToRow(d, !1, this.s.ani) + 1), f = b.fnRecordsTotal(), g = b.fnRecordsDisplay(), d = Math.ceil(this.fnPixelsToRow(d + this.s.heights.viewport, !1, this.s.ani)), d = g < d ? g : d, r = b.fnFormatNumber(e), u = b.fnFormatNumber(d), v = b.fnFormatNumber(f), y = b.fnFormatNumber(g), r = 0 === b.fnRecordsDisplay() && b.fnRecordsDisplay() == b.fnRecordsTotal() ? c.sInfoEmpty + c.sInfoPostFix : 0 === b.fnRecordsDisplay() ? 
-      c.sInfoEmpty + " " + c.sInfoFiltered.replace("_MAX_", v) + c.sInfoPostFix : b.fnRecordsDisplay() == b.fnRecordsTotal() ? c.sInfo.replace("_START_", r).replace("_END_", u).replace("_MAX_", v).replace("_TOTAL_", y) + c.sInfoPostFix : c.sInfo.replace("_START_", r).replace("_END_", u).replace("_MAX_", v).replace("_TOTAL_", y) + " " + c.sInfoFiltered.replace("_MAX_", b.fnFormatNumber(b.fnRecordsTotal())) + c.sInfoPostFix;
+      var b = this.s.dt, c = b.oLanguage, d = this.dom.scroller.scrollTop, e = Math.floor(this.fnPixelsToRow(d, !1, this.s.ani) + 1), f = b.fnRecordsTotal(), g = b.fnRecordsDisplay(), d = Math.ceil(this.fnPixelsToRow(d + this.s.heights.viewport, !1, this.s.ani)), d = g < d ? g : d, r = b.fnFormatNumber(e), u = b.fnFormatNumber(d), v = b.fnFormatNumber(f), z = b.fnFormatNumber(g), r = 0 === b.fnRecordsDisplay() && b.fnRecordsDisplay() == b.fnRecordsTotal() ? c.sInfoEmpty + c.sInfoPostFix : 0 === b.fnRecordsDisplay() ? 
+      c.sInfoEmpty + " " + c.sInfoFiltered.replace("_MAX_", v) + c.sInfoPostFix : b.fnRecordsDisplay() == b.fnRecordsTotal() ? c.sInfo.replace("_START_", r).replace("_END_", u).replace("_MAX_", v).replace("_TOTAL_", z) + c.sInfoPostFix : c.sInfo.replace("_START_", r).replace("_END_", u).replace("_MAX_", v).replace("_TOTAL_", z) + " " + c.sInfoFiltered.replace("_MAX_", b.fnFormatNumber(b.fnRecordsTotal())) + c.sInfoPostFix;
       (c = c.fnInfoCallback) && (r = c.call(b.oInstance, b, e, d, f, g, r));
       e = b.aanFeatures.i;
       if ("undefined" != typeof e) {
@@ -23362,6 +23187,352 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
     }
   });
   return f;
+});
+(function(a) {
+  "function" === typeof define && define.amd ? define(["jquery", "datatables.net"], function(b) {
+    return a(b, window, document);
+  }) : "object" === typeof exports ? module.exports = function(b, c) {
+    b || (b = window);
+    c && c.fn.dataTable || (c = require("datatables.net")(b, c).$);
+    return a(c, b, b.document);
+  } : a(jQuery, window, document);
+})(function(a, b, c) {
+  var d = a.fn.dataTable, e = function(a) {
+    if (!d.versionCheck || !d.versionCheck("1.10.8")) {
+      throw "DataTables Checkboxes requires DataTables 1.10.8 or newer";
+    }
+    this.s = {dt:new d.Api(a), columns:[], data:[], dataDisabled:[], ignoreSelect:!1};
+    this.s.ctx = this.s.dt.settings()[0];
+    this.s.ctx.checkboxes || (a.checkboxes = this, this._constructor());
+  };
+  e.prototype = {_constructor:function() {
+    for (var b = this, g = b.s.dt, h = b.s.ctx, l = !1, n = !1, m = 0; m < h.aoColumns.length; m++) {
+      if (h.aoColumns[m].checkboxes) {
+        var q = a(g.column(m).header()), l = !0;
+        a.isPlainObject(h.aoColumns[m].checkboxes) || (h.aoColumns[m].checkboxes = {});
+        h.aoColumns[m].checkboxes = a.extend({}, e.defaults, h.aoColumns[m].checkboxes);
+        var p = {searchable:!1, orderable:!1};
+        p.className = "" === h.aoColumns[m].sClass ? "dt-checkboxes-cell" : h.aoColumns[m].sClass + " dt-checkboxes-cell";
+        null === h.aoColumns[m].sWidthOrig && (p.width = "1%");
+        null === h.aoColumns[m].mRender && (p.render = function() {
+          return '<input type="checkbox" class="dt-checkboxes">';
+        });
+        d.ext.internal._fnColumnOptions(h, m, p);
+        q.removeClass("sorting");
+        q.off(".dt");
+        if (null === h.sAjaxSource) {
+          var r = g.cells("tr", m);
+          r.invalidate("data");
+          a(r.nodes()).addClass(p.className);
+        }
+        b.s.data[m] = {};
+        b.s.dataDisabled[m] = {};
+        b.s.columns.push(m);
+        h.aoColumns[m].checkboxes.selectRow && (h._select ? n = !0 : h.aoColumns[m].checkboxes.selectRow = !1);
+        h.aoColumns[m].checkboxes.selectAll && (q.data("html", q.html()), null !== h.aoColumns[m].checkboxes.selectAllRender && (p = "", a.isFunction(h.aoColumns[m].checkboxes.selectAllRender) ? p = h.aoColumns[m].checkboxes.selectAllRender() : "string" === typeof h.aoColumns[m].checkboxes.selectAllRender && (p = h.aoColumns[m].checkboxes.selectAllRender), q.html(p).addClass("dt-checkboxes-select-all").attr("data-col", m)));
+      }
+    }
+    if (l) {
+      b.loadState();
+      l = a(g.table().node());
+      m = a(g.table().body());
+      q = a(g.table().container());
+      n && (l.addClass("dt-checkboxes-select"), l.on("user-select.dt.dtCheckboxes", function(a, c, d, e, f) {
+        b.onDataTablesUserSelect(a, c, d, e, f);
+      }), l.on("select.dt.dtCheckboxes deselect.dt.dtCheckboxes", function(a, c, d, e) {
+        b.onDataTablesSelectDeselect(a, d, e);
+      }), g.select.info(!1), l.on("draw.dt.dtCheckboxes select.dt.dtCheckboxes deselect.dt.dtCheckboxes", function() {
+        b.showInfoSelected();
+      }));
+      l.on("draw.dt.dtCheckboxes", function(a) {
+        b.onDataTablesDraw(a);
+      });
+      m.on("click.dtCheckboxes", "input.dt-checkboxes", function(a) {
+        b.onClick(a, this);
+      });
+      q.on("click.dtCheckboxes", 'thead th.dt-checkboxes-select-all input[type="checkbox"]', function(a) {
+        b.onClickSelectAll(a, this);
+      });
+      q.on("click.dtCheckboxes", "thead th.dt-checkboxes-select-all", function() {
+        a('input[type="checkbox"]', this).not(":disabled").trigger("click");
+      });
+      if (!n) {
+        q.on("click.dtCheckboxes", "tbody td.dt-checkboxes-cell", function() {
+          a('input[type="checkbox"]', this).not(":disabled").trigger("click");
+        });
+      }
+      q.on("click.dtCheckboxes", "thead th.dt-checkboxes-select-all label, tbody td.dt-checkboxes-cell label", function(a) {
+        a.preventDefault();
+      });
+      a(c).on("click.dtCheckboxes", '.fixedHeader-floating thead th.dt-checkboxes-select-all input[type="checkbox"]', function(a) {
+        if (h._fixedHeader && h._fixedHeader.dom.header.floating) {
+          b.onClickSelectAll(a, this);
+        }
+      });
+      a(c).on("click.dtCheckboxes", ".fixedHeader-floating thead th.dt-checkboxes-select-all", function() {
+        h._fixedHeader && h._fixedHeader.dom.header.floating && a('input[type="checkbox"]', this).trigger("click");
+      });
+      l.on("init.dt.dtCheckboxes", function() {
+        b.onDataTablesInit();
+      });
+      l.on("stateSaveParams.dt.dtCheckboxes", function(a, c, d) {
+        b.onDataTablesStateSave(a, c, d);
+      });
+      l.one("destroy.dt.dtCheckboxes", function(a, c) {
+        b.onDataTablesDestroy(a, c);
+      });
+    }
+  }, onDataTablesInit:function() {
+    var b = this, c = b.s.dt, d = b.s.ctx;
+    d.oFeatures.bServerSide || (d.oFeatures.bStateSave && b.updateState(), a(c.table().node()).on("xhr.dt.dtCheckboxes", function(a, c, d, e) {
+      b.onDataTablesXhr(a.settings, d, e);
+    }));
+  }, onDataTablesUserSelect:function(a, b, c, d) {
+    d = d.index().row;
+    c = this.getSelectRowColIndex();
+    b = b.cell({row:d, column:c}).data();
+    this.isCellSelectable(c, b) || a.preventDefault();
+  }, onDataTablesSelectDeselect:function(a, b, c) {
+    var d = this.s.dt;
+    this.s.ignoreSelect || "row" !== b || (b = this.getSelectRowColIndex(), null !== b && (c = d.cells(c, b), this.updateData(c, b, "select" === a.type ? !0 : !1), this.updateCheckbox(c, b, "select" === a.type ? !0 : !1), this.updateSelectAll(b)));
+  }, onDataTablesStateSave:function(b, c, d) {
+    var e = this, f = e.s.ctx;
+    d.checkboxes = [];
+    a.each(e.s.columns, function(a, b) {
+      f.aoColumns[b].checkboxes.stateSave && (d.checkboxes[b] = e.s.data[b]);
+    });
+  }, onDataTablesDestroy:function() {
+    var b = this.s.dt, d = a(b.table().node()), e = a(b.table().body()), b = a(b.table().container());
+    a(c).off("click.dtCheckboxes");
+    b.off(".dtCheckboxes");
+    e.off(".dtCheckboxes");
+    d.off(".dtCheckboxes");
+    this.s.data = {};
+    this.s.dataDisabled = {};
+    a(".dt-checkboxes-select-all", d).each(function(b, c) {
+      a(c).html(a(c).data("html")).removeClass("dt-checkboxes-select-all");
+    });
+  }, onDataTablesDraw:function() {
+    var b = this, c = b.s.ctx;
+    (c.oFeatures.bServerSide || c.oFeatures.bDeferRender) && b.updateStateCheckboxes({page:"current", search:"none"});
+    a.each(b.s.columns, function(a, c) {
+      b.updateSelectAll(c);
+    });
+  }, onDataTablesXhr:function() {
+    var b = this, c = b.s.ctx, d = a(b.s.dt.table().node());
+    a.each(b.s.columns, function(a, c) {
+      b.s.data[c] = {};
+      b.s.dataDisabled[c] = {};
+    });
+    c.oFeatures.bStateSave && (b.loadState(), d.one("draw.dt.dtCheckboxes", function() {
+      b.updateState();
+    }));
+  }, updateData:function(a, b, c) {
+    var d = this.s.dt, e = this.s.ctx;
+    e.aoColumns[b].checkboxes && (a.data().each(function(a) {
+      c ? e.checkboxes.s.data[b][a] = 1 : delete e.checkboxes.s.data[b][a];
+    }), e.oFeatures.bStateSave && e.aoColumns[b].checkboxes.stateSave && d.state.save());
+  }, updateSelect:function(a, b) {
+    var c = this.s.dt;
+    this.s.ctx._select && (this.s.ignoreSelect = !0, b ? c.rows(a).select() : c.rows(a).deselect(), this.s.ignoreSelect = !1);
+  }, updateCheckbox:function(b, c, d) {
+    var e = this.s.ctx;
+    b = b.nodes();
+    b.length && (a("input.dt-checkboxes", b).not(":disabled").prop("checked", d), a.isFunction(e.aoColumns[c].checkboxes.selectCallback) && e.aoColumns[c].checkboxes.selectCallback(b, d));
+  }, updateState:function() {
+    var b = this;
+    b.updateStateCheckboxes({page:"all", search:"none"});
+    a.each(b.s.columns, function(a, c) {
+      b.updateSelectAll(c);
+    });
+  }, updateStateCheckboxes:function(b) {
+    var c = this, d = c.s.ctx;
+    c.s.dt.cells("tr", c.s.columns, b).every(function(b, e) {
+      var f = this.data(), g = c.isCellSelectable(e, f);
+      d.checkboxes.s.data[e].hasOwnProperty(f) && (c.updateCheckbox(this, e, !0), d.aoColumns[e].checkboxes.selectRow && g && c.updateSelect(b, !0));
+      g || a("input.dt-checkboxes", this.node()).prop("disabled", !0);
+    });
+  }, onClick:function(b, c) {
+    var d = this, e = d.s.dt, f = d.s.ctx;
+    var g = a(c).closest("td");
+    g = g.parents(".DTFC_Cloned").length ? e.fixedColumns().cellIndex(g) : g;
+    var q = e.cell(g), p = q.index().column;
+    f.aoColumns[p].checkboxes.selectRow ? setTimeout(function() {
+      var a = q.data(), a = d.s.data[p].hasOwnProperty(a);
+      a !== c.checked && (d.updateCheckbox(q, p, a), d.updateSelectAll(p));
+    }, 0) : (q.checkboxes.select(c.checked), b.stopPropagation());
+  }, onClickSelectAll:function(b, c) {
+    var d = this.s.dt, e = this.s.ctx;
+    var f = a(c).closest("th");
+    f = f.parents(".DTFC_Cloned").length ? d.fixedColumns().cellIndex(f).column : d.column(f).index();
+    a(c).data("is-changed", !0);
+    d.column(f, {page:e.aoColumns[f].checkboxes && e.aoColumns[f].checkboxes.selectAllPages ? "all" : "current", search:"applied"}).checkboxes.select(c.checked);
+    b.stopPropagation();
+  }, loadState:function() {
+    var b = this, c = b.s.dt, d = b.s.ctx;
+    if (d.oFeatures.bStateSave) {
+      var e = c.state.loaded();
+      a.each(b.s.columns, function(a, c) {
+        e && e.checkboxes && e.checkboxes.hasOwnProperty(c) && d.aoColumns[c].checkboxes.stateSave && (b.s.data[c] = e.checkboxes[c]);
+      });
+    }
+  }, updateSelectAll:function(b) {
+    var c = this, d = c.s.dt, e = c.s.ctx;
+    if (e.aoColumns[b].checkboxes && e.aoColumns[b].checkboxes.selectAll) {
+      var f = d.cells("tr", b, {page:e.aoColumns[b].checkboxes.selectAllPages ? "all" : "current", search:"applied"}), d = d.table().container(), d = a('.dt-checkboxes-select-all[data-col="' + b + '"] input[type="checkbox"]', d), m = 0, q = 0, f = f.data();
+      a.each(f, function(a, d) {
+        c.isCellSelectable(b, d) ? c.s.data[b].hasOwnProperty(d) && m++ : q++;
+      });
+      e._fixedHeader && e._fixedHeader.dom.header.floating && (d = a('.fixedHeader-floating .dt-checkboxes-select-all[data-col="' + b + '"] input[type="checkbox"]'));
+      if (0 === m) {
+        var p = f = !1;
+      } else {
+        m + q === f.length ? (f = !0, p = !1) : p = f = !0;
+      }
+      var r = d.data("is-changed"), u = d.prop("checked"), v = d.prop("indeterminate");
+      if (r || u !== f || v !== p) {
+        d.data("is-changed", !1), d.prop({checked:f, indeterminate:p}), a.isFunction(e.aoColumns[b].checkboxes.selectAllCallback) && e.aoColumns[b].checkboxes.selectAllCallback(d.closest("th").get(0), f, p);
+      }
+    }
+  }, showInfoSelected:function() {
+    var b = this.s.dt, c = this.s.ctx;
+    if (c.aanFeatures.i) {
+      var d = this.getSelectRowColIndex();
+      if (null !== d) {
+        var e = 0, n;
+        for (n in c.checkboxes.s.data[d]) {
+          c.checkboxes.s.data[d].hasOwnProperty(n) && e++;
+        }
+        a.each(c.aanFeatures.i, function(c, d) {
+          c = a(d);
+          d = a('<span class="select-info"/>');
+          var f = e;
+          d.append(a('<span class="select-item"/>').append(b.i18n("select.rows", {_:"%d rows selected", 0:"", 1:"1 row selected"}, f)));
+          f = c.children("span.select-info");
+          f.length && f.remove();
+          "" !== d.text() && c.append(d);
+        });
+      }
+    }
+  }, isCellSelectable:function(a, b) {
+    return this.s.ctx.checkboxes.s.dataDisabled[a].hasOwnProperty(b) ? !1 : !0;
+  }, getCellIndex:function(a) {
+    var b = this.s.dt;
+    return this.s.ctx._oFixedColumns ? b.fixedColumns().cellIndex(a) : b.cell(a).index();
+  }, getSelectRowColIndex:function() {
+    for (var a = this.s.ctx, b = null, c = 0; c < a.aoColumns.length; c++) {
+      if (a.aoColumns[c].checkboxes && a.aoColumns[c].checkboxes.selectRow) {
+        b = c;
+        break;
+      }
+    }
+    return b;
+  }, updateFixedColumn:function(a) {
+    var b = this.s.dt, c = this.s.ctx;
+    if (c._oFixedColumns) {
+      var d = c.aoColumns.length - c._oFixedColumns.s.iRightColumns - 1;
+      (a < c._oFixedColumns.s.iLeftColumns || a > d) && b.fixedColumns().update();
+    }
+  }};
+  e.defaults = {stateSave:!0, selectRow:!1, selectAll:!0, selectAllPages:!0, selectCallback:null, selectAllCallback:null, selectAllRender:'<input type="checkbox">'};
+  b = a.fn.dataTable.Api;
+  b.register("checkboxes()", function() {
+    return this;
+  });
+  b.registerPlural("columns().checkboxes.select()", "column().checkboxes.select()", function(b) {
+    "undefined" === typeof b && (b = !0);
+    return this.iterator("column-rows", function(c, d, e, f, m) {
+      if (c.aoColumns[d].checkboxes) {
+        var g = [];
+        a.each(m, function(a, b) {
+          g.push({row:b, column:d});
+        });
+        e = this.cells(g);
+        e = e.data();
+        var h = [], g = [];
+        a.each(e, function(a, b) {
+          c.checkboxes.isCellSelectable(d, b) && (g.push({row:m[a], column:d}), h.push(m[a]));
+        });
+        e = this.cells(g);
+        c.checkboxes.updateData(e, d, b);
+        c.checkboxes.updateCheckbox(e, d, b);
+        c.aoColumns[d].checkboxes.selectRow && c.checkboxes.updateSelect(h, b);
+        c._oFixedColumns ? setTimeout(function() {
+          c.checkboxes.updateSelectAll(d);
+        }, 0) : c.checkboxes.updateSelectAll(d);
+        c.checkboxes.updateFixedColumn(d);
+      }
+    }, 1);
+  });
+  b.registerPlural("cells().checkboxes.select()", "cell().checkboxes.select()", function(a) {
+    "undefined" === typeof a && (a = !0);
+    return this.iterator("cell", function(b, c, d) {
+      if (b.aoColumns[d].checkboxes) {
+        var e = this.cells([{row:c, column:d}]), f = this.cell({row:c, column:d}).data();
+        b.checkboxes.isCellSelectable(d, f) && (b.checkboxes.updateData(e, d, a), b.checkboxes.updateCheckbox(e, d, a), b.aoColumns[d].checkboxes.selectRow && b.checkboxes.updateSelect(c, a), b._oFixedColumns ? setTimeout(function() {
+          b.checkboxes.updateSelectAll(d);
+        }, 0) : b.checkboxes.updateSelectAll(d), b.checkboxes.updateFixedColumn(d));
+      }
+    }, 1);
+  });
+  b.registerPlural("cells().checkboxes.enable()", "cell().checkboxes.enable()", function(b) {
+    "undefined" === typeof b && (b = !0);
+    return this.iterator("cell", function(c, d, e) {
+      if (c.aoColumns[e].checkboxes) {
+        var f = this.cell({row:d, column:e}), g = f.data();
+        b ? delete c.checkboxes.s.dataDisabled[e][g] : c.checkboxes.s.dataDisabled[e][g] = 1;
+        (f = f.node()) && a("input.dt-checkboxes", f).prop("disabled", !b);
+        c.aoColumns[e].checkboxes.selectRow && c.checkboxes.s.data[e].hasOwnProperty(g) && c.checkboxes.updateSelect(d, b);
+      }
+    }, 1);
+  });
+  b.registerPlural("cells().checkboxes.disable()", "cell().checkboxes.disable()", function(a) {
+    "undefined" === typeof a && (a = !0);
+    return this.checkboxes.enable(!a);
+  });
+  b.registerPlural("columns().checkboxes.deselect()", "column().checkboxes.deselect()", function(a) {
+    "undefined" === typeof a && (a = !0);
+    return this.checkboxes.select(!a);
+  });
+  b.registerPlural("cells().checkboxes.deselect()", "cell().checkboxes.deselect()", function(a) {
+    "undefined" === typeof a && (a = !0);
+    return this.checkboxes.select(!a);
+  });
+  b.registerPlural("columns().checkboxes.deselectAll()", "column().checkboxes.deselectAll()", function() {
+    return this.iterator("column", function(a, b) {
+      a.aoColumns[b].checkboxes && (a.checkboxes.s.data[b] = {}, this.column(b).checkboxes.select(!1));
+    }, 1);
+  });
+  b.registerPlural("columns().checkboxes.selected()", "column().checkboxes.selected()", function() {
+    return this.iterator("column-rows", function(b, c, d, e, n) {
+      if (b.aoColumns[c].checkboxes) {
+        var f = [];
+        if (b.oFeatures.bServerSide) {
+          a.each(b.checkboxes.s.data[c], function(a) {
+            b.checkboxes.isCellSelectable(c, a) && f.push(a);
+          });
+        } else {
+          var g = [];
+          a.each(n, function(a, b) {
+            g.push({row:b, column:c});
+          });
+          d = this.cells(g).data();
+          a.each(d, function(a, d) {
+            b.checkboxes.s.data[c].hasOwnProperty(d) && b.checkboxes.isCellSelectable(c, d) && f.push(d);
+          });
+        }
+        return f;
+      }
+      return [];
+    }, 1);
+  });
+  e.version = "1.2.11";
+  a.fn.DataTable.Checkboxes = e;
+  a.fn.dataTable.Checkboxes = e;
+  a(c).on("preInit.dt.dtCheckboxes", function(a, b) {
+    "dt" === a.namespace && new e(b);
+  });
+  return e;
 });
 $.fn.dataTableExt.oPagination.two_button = {fnInit:function(a, b, c) {
   var d = document.createElement("span"), e = document.createElement("span");
@@ -23616,8 +23787,8 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
     this._api.row.add(a);
   }.bind(this)), this._api.draw(), this._createRowListener());
 }, preProcessData:function(a) {
-  var b = Object.keys(this.selectableList), c = Object.keys(this.dateList);
-  Object.keys(this.datetimeList);
+  var b = Object.keys(this.selectableList || {}), c = Object.keys(this.dateList || {});
+  Object.keys(this.datetimeList || {});
   a.forEach(function(a) {
     b.forEach(function(b) {
       a[b + "_display"] = this.selectableList[b][a[b]];
@@ -23866,8 +24037,8 @@ FormBehavior = {_valueChanged:function(a) {
       a += e + c[d], e = "<br/>";
     }
     this._setGlobalErrorMessage(a);
-  } catch (p) {
-    console.error("_validateServiceForm.call:camelRoute:" + b), console.error("_validateServiceForm:", p);
+  } catch (m) {
+    console.error("_validateServiceForm.call:camelRoute:" + b), console.error("_validateServiceForm:", m);
   }
 }, _setGlobalErrorMessage:function(a) {
   _.isEmpty(a) || (this._errorMessage = a, this.async(function() {
@@ -24121,6 +24292,7 @@ FormBehavior = {_valueChanged:function(a) {
   this.async(function() {
     this.shapes = this.spec;
     this._shapeMap = {};
+    this.shapes = [this._prepareShape(this.shapes[0])];
     this._buildShapeMap(this.shapes[0]);
     this.async(function() {
       this.fields = this._filterToArray("[field]", this.$.formdiv, !0, !0);
@@ -24181,12 +24353,22 @@ FormBehavior = {_valueChanged:function(a) {
     this._buildShapeMap(a[b]);
   }
 }, _prepareShape:function(a) {
+  var b = !1;
+  if (null == a.stencil) {
+    var c = {}, b = !0;
+    c.stencil = {id:a.id};
+    a.id = null;
+    c.childShapes = a.childShapes;
+    a.childShapes = null;
+    c.properties = a;
+    a = c;
+  }
   a = this._cleanShape(a);
   "Input" == a.id && (a.regulaConstraints = this._constructRegulaConstraints(a["xf_constraint_" + this._convertType(a.xf_type)], a.xf_errormsg));
-  a.childShapes = _.sortBy(a.childShapes, function(a) {
+  !1 === b && (a.childShapes = _.sortBy(a.childShapes, function(a) {
     return 10000 * a.bounds.upperLeft.y + a.bounds.upperLeft.x;
-  });
-  var b = a.childShapes;
+  }));
+  b = a.childShapes || [];
   a.childShapes = [];
   for (var c = null, d = 0; d < b.length; d++) {
     if ("Tabview" == a.id) {
@@ -24203,7 +24385,7 @@ FormBehavior = {_valueChanged:function(a) {
   if ("input" == a.stencil.id.toLowerCase() || "textarea" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "upload" == a.stencil.id.toLowerCase() || "embeddedlist" == a.stencil.id.toLowerCase() || "linkedlist" == a.stencil.id.toLowerCase() || "embeddedprimitivecollection" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "embeddedobj" == a.stencil.id.toLowerCase() || "moduleselector" == a.stencil.id.toLowerCase() || "enumselect" == a.stencil.id.toLowerCase() || 
   "treeselect" == a.stencil.id.toLowerCase() || "tableselect" == a.stencil.id.toLowerCase() || "gridinput" == a.stencil.id.toLowerCase() || "checkbox" == a.stencil.id.toLowerCase() || "custom" == a.stencil.id.toLowerCase() || "page" == a.stencil.id.toLowerCase() || "group" == a.stencil.id.toLowerCase()) {
     var b = this._getLabelShape(a.childShapes);
-    null != b ? (a.properties.label = b.properties.xf_text, null != a.properties.xf_id && "" != a.properties.xf_id || !a.properties.label || (a.properties.xf_id = a.properties.label.toLowerCase().replace(/\s/g, "")), 1 == a.childShapes.length && (a.childShapes = []), (b = a.properties.label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)))) : a.properties.label = "";
+    null != b ? (a.properties.label = b.properties.xf_text, null != a.properties.xf_id && "" != a.properties.xf_id || !a.properties.label || (a.properties.xf_id = a.properties.label.toLowerCase().replace(/\s/g, "")), 1 == a.childShapes.length && (a.childShapes = []), (b = a.properties.label) && b.match(/^[@%]/) && (a.properties.label = tr(b.substring(1)))) : null == a.properties.label && (a.properties.label = "");
     b = this._getHelpShape(a.childShapes);
     null != b ? (a.properties.help = b.properties.xf_message, 1 == a.childShapes.length && (a.childShapes = []), (b = a.properties.help) && b.match(/^[@%]/) && (a.properties.help = tr(b.substring(1)))) : a.properties.help = null;
     !this._isEmpty(a.properties.xf_default) && "input" == a.stencil.id.toLowerCase() && a.properties.xf_type.startsWith("date") && (b = a.properties.xf_default, "now" == a.properties.xf_default ? a.properties.xf_default = Date.create().getTime() : null != b && "string" === typeof b && 0 < b.length && (a.properties.xf_default = Date.create(b).getTime(), isNaN(a.properties.xf_default) && console.error("form-behavior:parse.error.DefaultDate(" + a.properties.xf_id + "):" + b)));
@@ -24216,6 +24398,7 @@ FormBehavior = {_valueChanged:function(a) {
       b = {id:"Input", colname:"value"};
       b.type = a.properties.xf_type;
       b.display = a.properties.xf_valuelabel;
+      b.valuetype = a.properties.xf_valuetype;
       b.display && b.display.match(/^[@%]/) && (b.display = tr(b.display.substring(1)));
       b.regulaConstraints = this._constructRegulaConstraints(a.properties["xf_constraint_" + this._convertType(a.properties.xf_type)], a.properties.xf_errormsg);
       c.push(b);
@@ -24280,33 +24463,42 @@ FormBehavior = {_valueChanged:function(a) {
   null == a.properties.xf_type && (a.properties.xf_type = "noop");
   return _.extend(a.properties, {bounds:a.bounds}, a.stencil, {childShapes:a.childShapes});
 }, _getHelpShape:function(a) {
-  for (var b = 0; b < a.length; b++) {
+  if (null == a) {
+    return null;
+  }
+  for (var b = 0; b < a.length && null != a[b].stencil; b++) {
     if ("help" == a[b].stencil.id.toLowerCase()) {
       return a[b];
     }
   }
   return null;
 }, _getLabelShape:function(a) {
-  for (var b = 0; b < a.length; b++) {
+  if (null == a) {
+    return null;
+  }
+  for (var b = 0; b < a.length && null != a[b].stencil; b++) {
     if ("label" == a[b].stencil.id.toLowerCase()) {
       return a[b];
     }
   }
   return null;
 }, _isLineBreak:function(a, b) {
+  if (null == a.bounds) {
+    return !1;
+  }
   var c = !1;
   a.bounds.upperLeft.y != b.bounds.upperLeft.y && (c = !0);
   return c;
 }, _handleSelectionLists:function(a, b) {
-  var c = "tableselect" == a.stencil.id.toLowerCase(), d = "treeselect" == a.stencil.id.toLowerCase(), e = a.properties, f = e["xf_enumembed" + b], g = e["xf_enum" + b], h = e["xf_service" + b], l = e["xf_filter" + b], n = e["xf_resource" + b], p = e.xf_jsonpath;
+  var c = "tableselect" == a.stencil.id.toLowerCase(), d = "treeselect" == a.stencil.id.toLowerCase(), e = a.properties, f = e["xf_enumembed" + b], g = e["xf_enum" + b], h = e["xf_service" + b], l = e["xf_filter" + b], n = e["xf_resource" + b], m = e.xf_jsonpath;
   var q = e["xf_parammapping" + b];
   b = e["xf_resultmapping" + b];
-  var m = e.xf_varname, r = e.xf_namespace;
+  var p = e.xf_varname, r = e.xf_namespace;
   r && "-" != r || (r = this.namespace);
-  this._isEmpty(m) ? this._isEmpty(p) ? !d && !c && f && 0 < f.totalCount ? (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, f), e.items = q.getItems()) : !d && !c && g && 0 < g.totalCount ? (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(g)), e.items = q.getItems()) : d && n ? (b = simpl4.util.Rpc.rpcSync("resource:getResourceTree", {namespace:r, types:n.split(",")}), e.items = null != e.xf_default ? [{label:"-", id:e.xf_default}].concat(b.children) : 
-  b.children, console.log("treeitem:", e.items)) : d || this._isEmpty(l) ? this._isEmpty(h) ? null == e.items && g && 0 < g.totalCount && (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(g)), e.items = q.getItems()) : (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(q), q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c)), e.items = this._doResultMapping(q.getItems(), b)) : 
-  (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(q), c.checkParams = !0, q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c)), r = q.getItems(), q.getMissingParamList() ? (console.error("Filter:", c), console.error("Filter.misingParameters:", q.getMissingParamList())) : e.items = this._doResultMapping(r, b)) : (q = JSONPath({json:this._selectionLists, path:p, callback:function() {
-  }}), e.items = null == q || 0 == q.length ? [] : q[0], e.items = this._doResultMapping(e.items, b)) : (e.items = this.variables[m], d || (e.items = this._doResultMapping(e.items, b)));
+  this._isEmpty(p) ? this._isEmpty(m) ? !d && !c && f && 0 < f.totalCount ? (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, f), e.items = q.getItems()) : !d && !c && g && 0 < g.totalCount ? (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(g)), e.items = q.getItems()) : d && n ? (b = simpl4.util.Rpc.rpcSync("resource:getResourceTree", {namespace:r, types:n.split(",")}), e.items = null != e.xf_default ? [{label:"-", id:e.xf_default}].concat(b.children) : 
+  b.children, console.log("treeitem:", e.items)) : d || this._isEmpty(l) ? this._isEmpty(h) ? null == e.items && g && 0 < g.totalCount && (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(g)), e.items = q.getItems()) : (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(q), q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c), this.variables), e.items = this._doResultMapping(q.getItems(), 
+  b)) : (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(q), c.checkParams = !0, q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c)), r = q.getItems(), q.getMissingParamList() ? (console.error("Filter:", c), console.error("Filter.misingParameters:", q.getMissingParamList())) : e.items = this._doResultMapping(r, b)) : (q = JSONPath({json:this._selectionLists, path:m, callback:function() {
+  }}), e.items = null == q || 0 == q.length ? [] : q[0], e.items = this._doResultMapping(e.items, b)) : (e.items = this.variables[p], d || (e.items = this._doResultMapping(e.items, b)));
   "tableselect" == a.stencil.id.toLowerCase() && (null == e.items && (e.items = []), b = (b = e.xf_columns) ? b.items : [], e.meta = [], b.forEach(function(a, b) {
     var c = b = a.display;
     c && c.match(/^[@%]/) && (b = tr(c.substring(1)));
@@ -24375,22 +24567,22 @@ FormBehavior = {_valueChanged:function(a) {
       b ? (msg = b) && msg.match(/^[@%]/) && (msg = tr(msg.substring(1))) : msg = tr("validation." + e._mapKeys(f));
       for (g = 0; l && g < l.length; g++) {
         var n = l[g];
-        var p = h[g + 1];
-        "Size" != f && "Length" != f || 1 != g || (p = p || "512");
+        var m = h[g + 1];
+        "Size" != f && "Length" != f || 1 != g || (m = m || "512");
         var q = n;
         "regex" == n && (q += "p");
-        msg = msg.replace("{" + q + "}", p);
+        msg = msg.replace("{" + q + "}", m);
       }
       c += '(message="' + msg + '"';
-      if (l && 0 < l.length && (g = l[0], p = "format" == g ? '"YMD"' : h[1], "regex" == g && (p = this._correctRegex(h[1])), c += "," + g + "=" + p, 1 < l.length)) {
+      if (l && 0 < l.length && (g = l[0], m = "format" == g ? '"YMD"' : h[1], "regex" == g && (m = this._correctRegex(h[1])), c += "," + g + "=" + m, 1 < l.length)) {
         g = l[1];
-        p = h[2];
-        if (null == p || "" == p) {
+        m = h[2];
+        if (null == m || "" == m) {
           if ("Size" == f || "Length" == f) {
-            p = "512";
+            m = "512";
           }
         }
-        c += "," + g + "=" + p;
+        c += "," + g + "=" + m;
       }
       c += ")";
       d = " ";
@@ -24465,15 +24657,15 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
         var n = a("<input type=text readonly class=fakeinput>");
         a.material && n.data("mdproc", !0);
         l.append(n);
-        var p = a("<ul></ul>");
-        p.data("select", d);
-        l.append(p);
+        var m = a("<ul></ul>");
+        m.data("select", d);
+        l.append(m);
         n.attr("placeholder", d.attr("placeholder"));
         d.find("option").each(function() {
           var c = a(this);
-          b._addOption(p, c);
+          b._addOption(m, c);
         });
-        g && (h = a("<li class=dropdownjs-add></li>"), h.append("<input>"), h.find("input").attr("placeholder", c.dynamicOptLabel), p.append(h));
+        g && (h = a("<li class=dropdownjs-add></li>"), h.append("<input>"), h.find("input").attr("placeholder", c.dynamicOptLabel), m.append(h));
         l.find("li");
         if (e) {
           b._select(l, d.find(":selected"));
@@ -24485,11 +24677,11 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
         d.hide().attr("data-dropdownjs", !0);
         d.after(l);
         c.callback && c.callback(l);
-        p.on("click", "li:not(.dropdownjs-add)", function(c) {
+        m.on("click", "li:not(.dropdownjs-add)", function(c) {
           b._select(l, a(this));
           d.change();
         });
-        p.on("keydown", "li:not(.dropdownjs-add)", function(c) {
+        m.on("keydown", "li:not(.dropdownjs-add)", function(c) {
           if (27 === c.which) {
             return a(".dropdownjs > ul > li").attr("tabindex", -1), n.removeClass("focus").blur();
           }
@@ -24497,7 +24689,7 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
             return b._select(l, a(this)), !1;
           }
         });
-        p.on("focus", "li:not(.dropdownjs-add)", function() {
+        m.on("focus", "li:not(.dropdownjs-add)", function() {
         });
         if (g && g.length) {
           h.on("keydown", function(b) {
@@ -24527,7 +24719,7 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
             a(this).offset();
             a(document).scrollLeft();
             var e = c;
-            200 > e && b > c ? (e = b, p.attr("placement", "top-left")) : p.attr("placement", "bottom-left");
+            200 > e && b > c ? (e = b, m.attr("placement", "top-left")) : m.attr("placement", "bottom-left");
             console.log("height:", e);
             a(this).next("ul").css("max-height", e - 20);
             a(this).addClass("focus");
@@ -24623,6 +24815,7 @@ Polymer({is:"input-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.P
   });
 }, attached:function() {
   this.pickerType = "bootstrap";
+  window.pickerType && (this.pickerType = window.pickerType);
   if (null == this.label || "" == this.label) {
     this.label = this.name;
   }
@@ -24757,7 +24950,6 @@ Polymer({is:"custom-field", behaviors:[FieldBehavior], properties:{elementname:{
   a && a.firstElementChild && (1 == $(a).children().length ? Polymer.dom(b).appendChild(a.firstElementChild) : Polymer.dom(b).appendChild(a));
   this.field = this.querySelector(this.elementname);
   this.field.setValue(this.value);
-  console.log("Custom(" + this.name + ").setValue:", this.value);
   this.field.label = this.label;
 }, setValue:function(a) {
   this.value = a;
@@ -24861,7 +25053,7 @@ value:"and"}, lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:
 }, valueChanged:function(a) {
   !0 !== this._invalueSetting && (this.async(function() {
     this.selectize && this.selectize.getValue() != this.value && (this._invalueSetting = !0, this.selectize.setValue(this.value), this._invalueSetting = !1);
-  }, 300), 1 == this.isDomReady && (this.withoutCheck ? this.withoutCheck = !1 : this.checkConstraints()));
+  }, 300), 1 == this.isDomReady && (this.withoutCheck ? (this.withoutCheck = !1, this.setInvalid(!1)) : this.checkConstraints()));
 }, setValue:function(a) {
   this.value = a;
   this.selectize ? this.selectize.setValue(a) : this.__value = a;
@@ -24946,8 +25138,8 @@ value:"and"}, lockOptgroupOrder:{type:Boolean, value:!1}, copyClassesToDropdown:
   var a = this.form._getData();
   return this.form._maskedEval(this.required, a, !1);
 }});
-Polymer({is:"tree-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, StyleScopeBehavior, FieldBehavior], properties:{selectedItem:{observer:"selectedItemChanged", notify:!0, type:Object}, multiple:{value:!1}, compact:{value:!1}, jsonItems:{type:String}, items:{observer:"itemsChanged", type:Object}, required:{value:"false", type:String}, closeAfterSelect:{type:Boolean, value:!1}}, observers:["valueChanged(value)", "compactChanged(compact)", "jsonItemsChanged(jsonItems)"], 
-ready:function() {
+Polymer({is:"tree-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, StyleScopeBehavior, FieldBehavior], properties:{selectedItem:{observer:"selectedItemChanged", notify:!0, type:Object}, jqtree:{notify:!0, type:Object}, multiple:{value:!1}, compact:{value:!1}, jsonItems:{type:String}, items:{observer:"itemsChanged", type:Object}, required:{value:"false", type:String}, closeAfterSelect:{type:Boolean, value:!1}}, observers:["valueChanged(value)", 
+"compactChanged(compact)", "jsonItemsChanged(jsonItems)"], ready:function() {
   this.isInvalid = !1;
   this.options = {autoOpen:!0};
 }, compactChanged:function() {
@@ -24961,12 +25153,9 @@ ready:function() {
 }, jsonItemsChanged:function(a) {
   this.items = JSON.parse(this.jsonItems);
 }, itemsChanged:function() {
-  console.log("tree-field(" + this.name + ").itemsChanged:", this.items);
 }, valueChanged:function(a) {
-  console.log("tree-field(" + this.name + ",wo:" + this.withoutCheck + ").valueChanged:", this.value);
   1 == this.isDomReady && (this.withoutCheck ? this.withoutCheck = !1 : this.checkConstraints());
 }, setValue:function(a) {
-  console.log("tree-field(" + this.name + ").setValue:", a);
   var b = a;
   if (_.isString(b)) {
     try {
@@ -24990,7 +25179,6 @@ ready:function() {
 }, getValue:function() {
   return null == this.value ? null : this.value;
 }, selectedItemChanged:function(a) {
-  console.log("tree-field(" + this.name + ").selectedItemChanged:", this.value + "/val:" + a);
   this.value = a;
   this.checkConstraints();
   this.fire("value-changed", this);
@@ -25001,20 +25189,21 @@ ready:function() {
 }, _attached:function() {
   this.alwaysFloatLabel = !0;
   this.placeholder = " ";
-  console.log("tree-field(" + this.name + ").attached");
   this.isDomReady = !0;
   this.compact && this.compactChanged();
 }, isEmpty:function(a) {
   return Array.isArray(a) ? 0 == a.length : null == a || "" == a ? !0 : !1;
 }, checkConstraints:function() {
-  console.log("tree-field(" + this.name + ").checkConstraints");
   this.setInvalid(!1);
-  this.isRequired() && this.isEmpty(this.value) && (console.log("tree-field(" + this.name + ").checkConstraints2"), this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
+  this.isRequired() && this.isEmpty(this.value) && (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
 }, setErrorMessage:function(a) {
   this.errorMessage = a;
 }, setInvalid:function(a) {
   this.isInvalid = a;
 }, isRequired:function() {
+  if (null == this.form) {
+    return !1;
+  }
   var a = this.form._getData();
   return this.form._maskedEval(this.required, a, !1);
 }});
@@ -25290,10 +25479,8 @@ Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Po
   !this.isRequired() || this.value && 0 < this.value.length || (this.setInvalid(!0), this.setErrorMessage(tr("This field is required")));
 }, setValue:function(a) {
   this.value = a;
-  console.log("setValue(" + this.entity + "," + this.name + "):", this.value);
   this.querySelector("#miniId").setData(a);
 }, getValue:function() {
-  console.log("getValue(" + this.entity + "," + this.name + "):", this.value);
   return this.value;
 }, setErrorMessage:function(a) {
   this.error = a;
@@ -25322,7 +25509,6 @@ Polymer({is:"embeddedprimitivecollection-field", behaviors:[Polymer.IronFormElem
     g.value = f;
     c.push(g);
   }
-  console.log("lines:", c);
   this.$.inputId.setValue(c);
 }, getValue:function() {
   this.checkConstraints();
@@ -25398,7 +25584,6 @@ Polymer({is:"linkedobj-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   console.log("getValue(" + this.entityName + "," + this.name + "):", this.value);
   return this.value;
 }, setValue:function(a) {
-  console.log("setValue(" + this.entityName + "," + this.name + "):", a);
   null != a ? _.isString(a) ? (a = a.split("/"), this.editValue = a[0], this.id = a[1]) : (this.data = a, this.editValue = this._maskedEval(this.props.title_expression, this.data) || this.data._id || this.data.id | NaN) : this.editValue = null;
 }, namespaceChanged:function() {
   simpl4.util.MessageManager.installMessages(this.namespace);
@@ -25451,7 +25636,6 @@ Polymer({is:"embeddedobj-field", behaviors:[Polymer.IronFormElementBehavior, Pol
   console.log("editValueChanged(" + this.name + "):", this.value);
   this.fire("value-changed", this);
 }, setValue:function(a) {
-  console.log("setValue(" + this.name + "):", a);
   null != a ? (this.data = a, this.editValue = this._maskedEval(this.props.title_expression, this.data) || this.data._id || ".") : this.editValue = null;
 }, namespaceChanged:function() {
   simpl4.util.MessageManager.installMessages(this.namespace);
@@ -25486,7 +25670,6 @@ Polymer({is:"embeddedobj-inline-field", behaviors:[Polymer.IronFormElementBehavi
   }
   return a;
 }, setValue:function(a) {
-  console.log("setValue(" + this.name + "):", a);
   this.formexpressionChanged();
   this.value = a || {};
   this.async(function() {
@@ -25497,7 +25680,7 @@ Polymer({is:"embeddedobj-inline-field", behaviors:[Polymer.IronFormElementBehavi
 }, formexpressionChanged:function() {
   var a = this._maskedEval(this.formexpression, this.getFormData(), null);
   console.log("formexpressionChanged(" + this.name + "," + this.formexpression + "):", a);
-  null != a && (this.formName = a);
+  null != a && (this.formName = a, this.variables = this.form.variables);
 }, onFormReady:function() {
   console.log("onFormReady:", this.value);
   this.getFormElement().setData(this.value);
@@ -25692,7 +25875,9 @@ Polymer({is:"form-element-renderer", properties:{item:{observer:"itemChanged", t
   this.fire("internal-xaction", null, {node:a.target || a.srcElement});
 }, attached:function() {
 }});
-Polymer({is:"form-tab-renderer", behaviors:[FormElementSelectorBehavior], properties:{item:{type:Object}, pagesStyle:{computed:"computePagesStyle(item)"}}, observers:["routeChanged(route)"], getElementStyle:function() {
+Polymer({is:"form-tab-renderer", behaviors:[FormElementSelectorBehavior], properties:{item:{type:Object}, pagesStyle:{computed:"computePagesStyle(item)"}}, observers:["routeChanged(route)"], getId:function(a) {
+  return "div" + a;
+}, getElementStyle:function() {
   return "display:block;padding-top:0px;padding-bottom:0px;";
 }, getPageStyle:function() {
   return "margin-top:0px;padding:0px;";
@@ -25794,6 +25979,7 @@ ScrollbarBehavior = {attached:function() {
   b || (c = this._toElementArray(a.querySelectorAll(".dataTables_scrollBody")));
   a = this._toElementArray(a.querySelectorAll(".smooth-scrollbar"));
   c = c.concat(a);
+  console.log("smoothElementArray(" + this.tagName + "):", c);
   for (a = 0; a < c.length; a++) {
     window.Scrollbar.init(c[a], {speed:b ? 1 : 4, damping:b ? 0.1 : 0.05, renderByPixels:!0, overscrollEffect:"bounce", alwaysShowTracks:!0, overscrollEffectColor:"#87ceeb", thumbMinSize:10}), c[a].setAttribute("scrollbar", "");
   }
@@ -26378,12 +26564,12 @@ Polymer({is:"simpl-xhr", request:function(a) {
       for (a = 0; a < c.length; a++) {
         d = c[a];
         var n = Math.floor(a % g);
-        var p = Math.floor(a / g);
+        var m = Math.floor(a / g);
         d.style.opacity = 1;
-        d.style.top = p * f + h + "px";
+        d.style.top = m * f + h + "px";
         d.style.left = n * e + l + "px";
       }
-      b.style.height = (p + 1) * f + h + "px";
+      b.style.height = (m + 1) * f + h + "px";
     }
   }});
 }();
@@ -27494,8 +27680,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var l = this.activeCells;
         var n = 0;
         for (a = l.length; n < a; n++) {
-          var p = l[n];
-          p.showInactive();
+          var m = l[n];
+          m.showInactive();
         }
         this.activeCells = [];
         var q = function() {
@@ -27512,12 +27698,12 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           }
           return h;
         }.apply(this);
-        var m = 0;
-        for (a = q.length; m < a; m++) {
-          var r = q[m];
+        var p = 0;
+        for (a = q.length; p < a; p++) {
+          var r = q[p];
           var u = 0;
           for (l = n.length; u < l; u++) {
-            p = n[u], this.rows[r].cells[p].addToSelection();
+            m = n[u], this.rows[r].cells[m].addToSelection();
           }
         }
       }
@@ -27530,10 +27716,10 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       for (a = g.length; h < a; h++) {
         var l = g[h];
         var n = [];
-        var p = l.cells;
+        var m = l.cells;
         var q = 0;
-        for (b = p.length; q < b; q++) {
-          l = p[q], n.push(l.value());
+        for (b = m.length; q < b; q++) {
+          l = m[q], n.push(l.value());
         }
         c.push(n);
       }
@@ -27609,9 +27795,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         } else {
           d = a + f - 1;
         }
-        var p = this.source.splice(a, f);
-        for (n = p.pop(); n;) {
-          this.source.splice(c, 0, n), n = p.pop();
+        var m = this.source.splice(a, f);
+        for (n = m.pop(); n;) {
+          this.source.splice(c, 0, n), n = m.pop();
         }
         g && this.addToStack({type:"move-rows", modifiedRowToMoveIndex:d, modifiedNewIndex:c, numRows:f, originalRowToMoveIndex:a, originalNewIndex:e});
         this.rebuild({rows:this.source, initialize:!0, selectedCell:[c, 0]});
@@ -27631,8 +27817,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           var l = this.cols;
           var n = 0;
           for (d = l.length; n < d; n++) {
-            var p = l[n];
-            e[p.valueKey] = p.defaultValue || "";
+            var m = l[n];
+            e[m.valueKey] = m.defaultValue || "";
           }
         }
         a || 0 === a ? this.source.splice(a, 0, e) : (a = this.source.length - 1, this.source.push(e));
@@ -27649,16 +27835,16 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       if (b.Hook.prototype.run(this, "beforeAddRows", a, f)) {
         var n = d = 0;
         for (e = f.length; d < e; n = ++d) {
-          var p = f[n];
+          var m = f[n];
           n = a + n;
-          if (p) {
-            var q = p;
+          if (m) {
+            var q = m;
           } else {
             q = {};
-            var m = this.cols;
+            var p = this.cols;
             var r = 0;
-            for (l = m.length; r < l; r++) {
-              p = m[r], q[p.valueKey] = p.defaultValue || "";
+            for (l = p.length; r < l; r++) {
+              m = p[r], q[m.valueKey] = m.defaultValue || "";
             }
           }
           n || 0 === n ? this.source.splice(n, 0, q) : this.source.push(q);
@@ -28014,13 +28200,13 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           var d = c.height > a.height;
           var e = a.bottom > c.height;
           var n = 0 > a.top;
-          var p = c.width > a.width;
+          var m = c.width > a.width;
           var q = a.right > c.width;
-          var m = 0 > a.left;
+          var p = 0 > a.left;
           d ? (b.style.overflowY = "hidden", b.style.height = "auto", e && (e = a.top - (a.bottom - c.height), b.style.top = e + "px"), n && (n = a.bottom + Math.abs(a.top), b.style.bottom = n + "px")) : (b.style.top = 0, b.style.height = c.height + "px", b.style.overflowY = "scroll");
-          if (p) {
-            if (b.style.overflowX = "hidden", b.style.width = "auto", q && (q = a.left - (a.right - c.width), b.style.left = q + "px"), m) {
-              return m = a.right + Math.abs(a.left), b.style.right = m + "px";
+          if (m) {
+            if (b.style.overflowX = "hidden", b.style.width = "auto", q && (q = a.left - (a.right - c.width), b.style.left = q + "px"), p) {
+              return p = a.right + Math.abs(a.left), b.style.right = p + "px";
             }
           } else {
             return b.style.left = 0, b.style.width = c.width + "px", b.style.overflowX = "scroll";
@@ -28259,15 +28445,15 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         }
         var l = document.documentElement;
         var n = (window.pageXOffset || l.scrollLeft) - (l.clientLeft || 0);
-        var p = (window.pageYOffset || l.scrollTop) - (l.clientTop || 0);
+        var m = (window.pageYOffset || l.scrollTop) - (l.clientTop || 0);
         l = a.element;
         var q = l.scrollLeft || 0;
-        var m = l.scrollTop || 0;
+        var p = l.scrollTop || 0;
         var r = g.getBoundingClientRect();
         l = document.createElement("table");
         l.className = a.tableEl.className + " ge-fixed-table-header";
         l.style.position = "absolute";
-        l.style.top = r.top + p + m + "px";
+        l.style.top = r.top + m + p + "px";
         l.style.left = r.left + n + q + "px";
         l.style.width = r.width + "px";
         l.style.zIndex = 1039;
@@ -28276,8 +28462,8 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         n.className = g.className;
         n.ondragenter = g.ondragenter;
         n.ondragleave = g.ondragleave;
-        p = document.createElement("tr");
-        var u = r = m = 0;
+        m = document.createElement("tr");
+        var u = r = p = 0;
         for (e = h.length; r < e; u = ++r) {
           var v = h[u];
           g = v.getBoundingClientRect();
@@ -28289,7 +28475,7 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           q.style.maxWidth = g.width + "px";
           q.style.minHeight = g.height + "px";
           q.style.maxHeight = g.height + "px";
-          q.style.left = m + "px";
+          q.style.left = p + "px";
           q.style.backgroundColor = b;
           q.setAttribute("col-id", u - f);
           q.onclick = function(b) {
@@ -28314,10 +28500,10 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
               v = u[d], q.style[d] = v;
             }
           }
-          m += g.width;
-          p.appendChild(q);
+          p += g.width;
+          m.appendChild(q);
         }
-        n.appendChild(p);
+        n.appendChild(m);
         l.appendChild(n);
         document.body.appendChild(l);
         return a.fixedHeader = {table:l, backgroundColor:b};
@@ -28534,11 +28720,11 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var f = this.table.cols;
       var n = d = 0;
       for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
-        p = this.createCell(this.attributes[p.valueKey]);
-        this.cells.push(p);
-        this.table.cols[n].cells.push(p);
-        this.element.appendChild(p.element);
+        var m = f[n];
+        m = this.createCell(this.attributes[m.valueKey]);
+        this.cells.push(m);
+        this.table.cols[n].cells.push(m);
+        this.element.appendChild(m.element);
       }
       delete this.attributes;
       this;
@@ -28575,17 +28761,17 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var f = this.table.cols;
       var n = d = 0;
       for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
+        var m = f[n];
         var q = new GridEdit.GenericCell("", this);
         q.editable = !1;
         if (this.labels) {
-          var m = this.labels[p.valueKey];
-          q.element.innerHTML = m || "";
+          var p = this.labels[m.valueKey];
+          q.element.innerHTML = p || "";
         }
         this.cells.push(q);
         this.table.cols[n].cells.push(q);
         this.element.appendChild(q.element);
-        this.attributes.subtotal[p.valueKey] && (this.subtotalColumns[p.valueKey] = n);
+        this.attributes.subtotal[m.valueKey] && (this.subtotalColumns[m.valueKey] = n);
       }
       this.table.subtotalRows.push(this);
       this.calculate();
@@ -28604,14 +28790,14 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         }
       }
       n = this.subtotalColumns;
-      var p = [];
+      var m = [];
       for (a in n) {
         l = n[a];
         var q = 0;
-        var m = this.table.rows;
+        var p = this.table.rows;
         b = 0;
-        for (d = m.length; b < d; b++) {
-          var r = m[b];
+        for (d = p.length; b < d; b++) {
+          var r = p[b];
           if (r.index > c) {
             if (r.index === this.index) {
               break;
@@ -28619,9 +28805,9 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
             "subtotal" !== r.type && "header" !== r.type && (r = r.cells[l]) && (q += Number(r.value()));
           }
         }
-        p.push(this.cells[l].value(q, !1));
+        m.push(this.cells[l].value(q, !1));
       }
-      return p;
+      return m;
     };
     c.prototype.afterEdit = function() {
     };
@@ -28638,12 +28824,12 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var f = this.table.cols;
       var n = d = 0;
       for (e = f.length; d < e; n = ++d) {
-        var p = f[n];
-        p = new GridEdit.HTMLCell(this.attributes[p.valueKey], this);
-        p.editable = !0;
-        this.cells.push(p);
-        this.table.cols[n].cells.push(p);
-        this.element.appendChild(p.element);
+        var m = f[n];
+        m = new GridEdit.HTMLCell(this.attributes[m.valueKey], this);
+        m.editable = !0;
+        this.cells.push(m);
+        this.table.cols[n].cells.push(m);
+        this.element.appendChild(m.element);
       }
       delete this.attributes;
       this;
@@ -28973,7 +29159,7 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
           if (b.lastClickCell = a, clearInterval(c), c = setTimeout(function() {
             return b.lastClickCell = null;
           }, 1000), GridEdit.Hook.prototype.run(a, "onClick", a, d)) {
-            var m = d.ctrlKey;
+            var p = d.ctrlKey;
             var r = d.metaKey;
             var u = d.shiftKey;
             d = function(a) {
@@ -28987,19 +29173,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
                 e = b.getCell(v, e), e.makeActive(!1);
               }
             }
-            (m || r) && a.toggleActive();
+            (p || r) && a.toggleActive();
             if (u) {
               var v = b.activeCells[0];
               r = v.address[0];
               f = v.address[1];
-              m = a.address[0];
+              p = a.address[0];
               g = a.address[1];
-              if (r <= m) {
-                for (v = u = r; r <= m ? u <= m : u >= m; v = r <= m ? ++u : --u) {
+              if (r <= p) {
+                for (v = u = r; r <= p ? u <= p : u >= p; v = r <= p ? ++u : --u) {
                   d(v);
                 }
               } else {
-                for (v = u = m; m <= r ? u <= r : u >= r; v = m <= r ? ++u : --u) {
+                for (v = u = p; p <= r ? u <= r : u >= r; v = p <= r ? ++u : --u) {
                   d(v);
                 }
               }
@@ -29265,19 +29451,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       var l = [];
       var n = 0;
       for (b = d.length; n < b; n++) {
-        var p = d[n];
+        var m = d[n];
         var q = document.createElement("option");
-        if (p instanceof Array) {
-          var m = a = 0;
-          for (c = p.length; a < c; m = ++a) {
-            var r = p[m];
-            0 === m && (q.value = r);
-            1 === m && (q.text = r);
+        if (m instanceof Array) {
+          var p = a = 0;
+          for (c = m.length; a < c; p = ++a) {
+            var r = m[p];
+            0 === p && (q.value = r);
+            1 === p && (q.text = r);
           }
         } else {
-          q.value = q.text = p;
+          q.value = q.text = m;
         }
-        this.value() === p && (q.selected = !0);
+        this.value() === m && (q.selected = !0);
         l.push(this.control.add(q));
       }
       return l;
@@ -29312,11 +29498,11 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
       a = this.control;
       var e = a.options;
       var n = [];
-      var p = b = 0;
-      for (c = e.length; b < c; p = ++b) {
-        var q = e[p];
+      var m = b = 0;
+      for (c = e.length; b < c; m = ++b) {
+        var q = e[m];
         if (d.test(q.value)) {
-          a.selectedIndex = p;
+          a.selectedIndex = m;
           break;
         } else {
           n.push(void 0);
@@ -29468,19 +29654,19 @@ Polymer({is:"dmn-testdialog", behaviors:[DialogBehavior, TranslationsBehavior], 
         var l = a.height();
         if (h < g || l < f) {
           var n = a.firstCell.row;
-          var p = a.firstCell.col;
-          this.apply(n, p);
+          var m = a.firstCell.col;
+          this.apply(n, m);
           return "copyGrid";
         }
         h = parseInt(h / g);
         l = parseInt(l / f);
         n = a.firstCell.row;
-        p = a.firstCell.col;
+        m = a.firstCell.col;
         for (b = a = 0; 0 <= l ? a < l : a > l; b = 0 <= l ? ++a : --a) {
           b = n + b * f;
           var q = d = 0;
           for (e = h; 0 <= e ? d < e : d > e; q = 0 <= e ? ++d : --d) {
-            q = p + q * g, this.apply(b, q);
+            q = m + q * g, this.apply(b, q);
           }
         }
       }
@@ -30662,13 +30848,13 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
       if (d) {
         n.name = this.currentTemplateName, d(n);
       } else {
-        var p = this;
+        var m = this;
         this.executeCommand({execute:function() {
-          p.clear();
-          p.setState(n);
+          m.clear();
+          m.setState(n);
         }, rollback:function() {
-          p.clear();
-          p.setState(f);
+          m.clear();
+          m.setState(f);
         }});
       }
       e.destroy();

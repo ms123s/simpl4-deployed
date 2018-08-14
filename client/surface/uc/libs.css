@@ -1926,11 +1926,11 @@ body > cmenu {
     padding: 0px 19px 0px 21px;
 }
 .osx10_7 ._contextmenu_screen_ cmenu menuitem:hover{
-    background: #3c6ff7 url(repeat-x.png) repeat-x;
+    background: #303e45 url(repeat-x.png) repeat-x;
     color: white;
 }
 .osx10_7 ._contextmenu_screen_ cmenu menuitem.submenu[open=true]{
-    background: #3c6ff7 url(repeat-x.png) repeat-x;
+    background: #303e45 url(repeat-x.png) repeat-x;
     color: white;
 }
 .osx10_7 ._contextmenu_screen_ cmenu hr {

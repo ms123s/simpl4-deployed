@@ -15784,6 +15784,32 @@ div.dtr-modal div.dtr-modal-background {
 }
 
 </style>
+<style>
+table.dataTable.dt-checkboxes-select tbody tr,
+table.dataTable thead th.dt-checkboxes-select-all,
+table.dataTable tbody td.dt-checkboxes-cell {
+  cursor: pointer;
+}
+
+table.dataTable thead th.dt-checkboxes-select-all,
+table.dataTable tbody td.dt-checkboxes-cell {
+  text-align: center;
+}
+
+div.dataTables_wrapper span.select-info,
+div.dataTables_wrapper span.select-item {
+  margin-left: 0.5em;
+}
+
+@media screen and (max-width: 640px) {
+  div.dataTables_wrapper span.select-info,
+  div.dataTables_wrapper span.select-item {
+    margin-left: 0;
+    display: block;
+  }
+}
+
+</style>
 <dom-module id="simpl-datatables" assetpath="src/simpl-datatables/">
 	<template>
 		<style is="custom-style" include="simpl-datatables-shared-styles"></style>
@@ -15829,14 +15855,22 @@ div.dtr-modal div.dtr-modal-background {
 				display: inline;
 				max-width: 70px;
 			}
+
+			:host /deep/ .info {
+				width: 20px;
+				min-width: 20px;
+				max-width: 20px ;
+				padding: 0 !important;
+			}
 			:host /deep/ .control {
-				width: 40px;
-				min-width: 40px;
+				width: 20px;
+				min-width: 20px;
+				max-width: 20px ;
 				padding: 0 !important;
 			}
 
 		</style>
-		<div class="layout horizontal" style="margin-bottom:10px;">
+		<div id="buttonWrapperId" class="layout horizontal" style="margin-bottom:10px;">
 			<template is="dom-repeat" items="{{buttonList}}">
 				<paper-button class="button button_secondary ripple flex" raised="" name$="{{item.name}}" on-tap="onTap" disabled$="{{item.disabled}}">
 					<iron-icon name$="{{item.name}}" icon="{{item.icon}}"></iron-icon>{{item.text}}</paper-button>
@@ -17678,6 +17712,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</style>
 	<template>
 		<div class="vertical layout">
+			<label id="label" hidden$="[[!label]]">[[label]]</label>
 			<gridinput-field id="inputId" class="flex" columns="[[columns]]" data-constraints$="{{regulaConstraints}}" raised=""></gridinput-field>
 			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
 				<iron-icon class="error-icon" icon="warning"></iron-icon>
@@ -18185,8 +18220,8 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		}
 	</style>
 	<template>
-		<div id="[[item.xf_id]]">
-			<paper-tabs selected="{{tabsId}}" style="margin-bottom:15px;" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
+		<div id="[[getId(item.xf_id)]]">
+			<paper-tabs id$="[[item.xf_id]]" selected="{{tabsId}}" style="margin-bottom:15px;" selectables="paper-tab" attr-for-selected="tabs-id" scrollable="">
 				<template is="dom-repeat" as="i" items="[[item.childShapes]]">
 					<template is="dom-if" if="[[i.label]]" restamp="">
 						<paper-tab tabs-id$="[[i.xf_id]]">[[tabTitle(i.label)]]</paper-tab>
@@ -18227,32 +18262,32 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template is="dom-repeat" items="{{items}}">
 
 			<template is="dom-if" if="{{isField(item.id)}}">
-				<form-element-renderer style="width:100%;" class="flex" item="[[item]]">
-			</form-element-renderer></template>
+				<form-element-renderer style="width:100%;" class="flex" item="[[item]]"></form-element-renderer> 
+			</template>
 			<template is="dom-if" if="{{isActionButton(item.id)}}" restamp="">
-				<form-element-renderer class="" style="min-width:100px;margin-top:20px;" item="[[item]]">
-			</form-element-renderer></template>
+				<form-element-renderer class="" style="min-width:100px;margin-top:20px;" item="[[item]]"></form-element-renderer>
+			</template>
 
 			<template is="dom-if" if="[[isTabView(item.id)]]">
-				<form-tab-renderer class="flex" item="[[item]]">
-			</form-tab-renderer></template>
+				<form-tab-renderer class="flex" item="[[item]]"></form-tab-renderer>
+			</template>
 
 			<template is="dom-if" if="{{isGroup(item.id)}}">
 				<simpl-group id$="[[item.xf_id]]" class="flex layout vertical group" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}">
 					<label for=".group">{{item.label}}</label>
-					<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
-				</form-element-selector></simpl-group>
+					<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
+				</simpl-group>
 			</template>
 
 			<template is="dom-if" if="{{isRow(item.id)}}">
 				<simpl-row class="horizontal layout center wrap">
-					<form-element-selector style="width:100%;" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
-				</form-element-selector></simpl-row>
+					<form-element-selector style="width:100%;" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
+				</simpl-row>
 			</template>
 
 			<template is="dom-if" if="{{isForm(item.id)}}" restamp="">
-				<form-element-selector items="[[item.childShapes]]">
-			</form-element-selector></template>
+				<form-element-selector items="[[item.childShapes]]"></form-element-selector>
+			</template>
 
 		</template>
 	</template>
@@ -18339,8 +18374,8 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	<template>
 
 		<fieldset style="width:1px;min-width:100%;" id="formdiv" verticax="" xayout="">
-			<form-element-selector items="{{shapes}}">
-		</form-element-selector></fieldset>
+			<form-element-selector items="{{shapes}}"></form-element-selector>
+		</fieldset>
 
 			<template is="dom-if" if="[[_errorMessage]]">
 				<paper-input-error id="globalErrorId" style="visibility:visible;display:block;"></paper-input-error>
