@@ -11376,13 +11376,14 @@ DialogBehavior = {closeDialog:function(a) {
   $(a).fadeOut({duration:400, complete:function() {
     $(a).dialog("destroy");
   }});
-}, openDialog:function(a, b, c, d) {
+}, openDialog:function(a, b, c, d, e, f) {
   b = b || "80%";
   window.matchMedia("(max-width: 480px)").matches && (b = "95%");
+  f = f || !0;
   c = $(a).dialog({open:function(b, c) {
     $(a).hide();
     $(a).fadeIn(1000);
-  }, resizable:!0, draggable:!0, closeText:"", close:function() {
+  }, resizable:f, draggable:!0, closeText:"", resize:e, close:function() {
     console.log("close");
     this.destroyDialog(a);
   }.bind(this), title:d || "", height:"auto", maxHeight:c, width:b, modal:!0});
@@ -30028,6 +30029,250 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   }
   return {columns:b};
 }, ready:function() {
+}});
+"use strict";
+(function(a, b) {
+  b = function(a) {
+    this.element = a;
+    this.reader = Polymer.dom(a.root).querySelector(".pdf-viewer");
+    this.viewportOut = this.reader.querySelector(".pdf-viewport-out");
+    this.toolbar = this.reader.querySelector(".pdf-toolbar");
+    this.toolbarHeight = 0;
+    this.title = this.toolbar.querySelector(".title");
+    this.enableTextSelection = a.enableTextSelection;
+    this.fitWidth = a.fitWidth;
+    this.HEIGHT = a.getAttribute("height");
+    this.viewport = this.reader.querySelector(".pdf-viewport");
+    this.enableTextSelection && (this.textLayerDiv = this.reader.querySelector(".textLayer"), this.textLayerDivStyle = this.textLayerDiv.style);
+    this.spinner = this.reader.querySelector(".spinner");
+    this.totalPages = this.reader.querySelector("#totalPages");
+    this.viewportStyle = this.viewport.style;
+    this.viewportOutStyle = this.viewportOut.style;
+    this.ctx = this.viewport.getContext("2d");
+    this.SRC = a.src;
+    this.pageRendering = !1;
+    this.pageNumPending = null;
+  };
+  b.prototype.setSize = function(a, b) {
+    this.WIDTH = this.viewportOut.offsetWidth;
+    this.HEIGHT || (this.HEIGHT = this.viewportOut.offsetHeight);
+    var c = this.HEIGHT;
+    "height" === a && (c = b);
+    this.viewportOutStyle.height = c + "px";
+    this.spinner.style.top = (c - this.toolbarHeight) / 2 + "px";
+  };
+  b.prototype.setSrc = function(a) {
+    this.SRC = a;
+  };
+  b.prototype.setFitWidth = function(a) {
+    this.fitWidth = a;
+  };
+  b.prototype.queueRenderPage = function(a) {
+    this.pageRendering ? this.pageNumPending = a : this.renderPDF(a);
+  };
+  b.prototype.notify = function(a, b, e, f) {
+    var c = "vaadin-icons:info-circle-o";
+    "success" == b ? c = "vaadin-icons:check-circle-o" : "warning" == b ? c = "vaadin-icons:warning" : "error" == b && (c = "vaadin-icons:exclamation");
+    f = $.extend({}, {delay:e, icon:c, msg:a}, f);
+    return Lobibox.notify(b, f);
+  };
+  b.prototype.clearCanvas = function() {
+    var a = document.querySelector("canvas.pdf-viewport");
+    console.log("xxx.clearCanvas:", a);
+    a.getContext("2d").clearRect(0, 0, a.width, a.height);
+  };
+  b.prototype.loadPDF = function() {
+    this.setSize();
+    var a = this;
+    pdfjsLib.getDocument(this.SRC).then(function(b) {
+      a.PDF = b;
+      a.queueRenderPage(1);
+      a.currentPage = 1;
+      a.totalPages.innerHTML = a.PDF.numPages;
+      a.totalPagesNum = a.PDF.numPages;
+      a.currentZoomVal = a.fitZoomVal = a.widthZoomVal = 0;
+      a.createDownloadLink();
+    }, function() {
+      var b = a.SRC.lastIndexOf("/") + 1, c = a.SRC.indexOf("?");
+      console.log("b:", b + "/" + c);
+      b = a.SRC.substr(b, c - b);
+      a.notify("Cannot load:" + b, "error", 5000);
+    });
+  };
+  b.prototype.renderPages = function(a) {
+    var b = this;
+    b.viewportOut.innerHTML = "";
+    pdfjsLib.getDocument(this.SRC).then(function(a) {
+      b.PDF = a;
+      for (var c = 1; c <= b.PDF.numPages; c++) {
+        a.getPage(c).then(b.renderPDF(c, null, !0));
+      }
+      b.currentPage = 1;
+      b.totalPages.innerHTML = b.PDF.numPages;
+      b.totalPagesNum = b.PDF.numPages;
+      b.currentZoomVal || (b.currentZoomVal = b.fitZoomVal = b.widthZoomVal = 0);
+      b.createDownloadLink();
+    });
+  };
+  b.prototype.renderPDF = function(a, b, e) {
+    if (null != a) {
+      var c = this;
+      c.pageRendering = !0;
+      c.spinner.active = !0;
+      this.PDF.getPage(a).then(function(d) {
+        var f = d.pageInfo.rotate * Math.PI / 180;
+        c.pageW = Math.abs(d.view[2] * Math.cos(f) + d.view[3] * Math.sin(f));
+        c.pageH = Math.abs(d.view[3] * Math.cos(f) + d.view[2] * Math.sin(f));
+        if (0 === c.currentZoomVal || b) {
+          f = Math.round(c.WIDTH / c.pageW * 100) / 100;
+          var g = Math.round((c.HEIGHT - c.toolbarHeight) / c.pageH * 100) / 100;
+          f = Math.min(g, f);
+          c.fitZoomVal = f;
+          c.widthZoomVal = c.WIDTH / c.pageW;
+          c.currentZoomVal = c.fitWidth ? c.widthZoomVal : c.fitZoomVal;
+        }
+        if (b) {
+          c.zoomPage({target:c.zoomLvl});
+        } else {
+          f = c.currentZoomVal;
+          var n = d.getViewport(f);
+          c.ctx.height = n.height;
+          c.ctx.width = n.width;
+          c.pageW *= f;
+          c.pageH *= f;
+          c.setViewportPos();
+          c.viewport.width = c.pageW;
+          c.viewport.height = c.pageH;
+          c.viewportStyle.width = c.pageW + "px";
+          c.viewportStyle.height = c.pageH + "px";
+          c.enableTextSelection && (c.textLayerDivStyle.width = c.pageW + "px", c.textLayerDivStyle.height = c.pageH + "px");
+          c.ctx.clearRect(0, 0, c.viewport.width, c.viewport.height);
+          if (e) {
+            f = document.createElement("div");
+            f.setAttribute("style", "position: relative");
+            g = document.createElement("canvas");
+            var m = document.createElement("div");
+            m.setAttribute("style", "left: " + c.viewportStyle.left);
+            m.className = "textLayer";
+            var q = g.getContext("2d");
+            m.height = n.height;
+            m.width = n.width;
+            c.viewportOut.appendChild(f);
+            f.appendChild(g);
+            f.appendChild(m);
+            d.render({canvasContext:q, viewport:n});
+            c.enableTextSelection && (c.textLayerDiv.innerHTML = "", d.getTextContent().then(function(b) {
+              pdfjsLib.renderTextLayer({textContent:b, container:m, pageIndex:a, viewport:n, textDivs:[]});
+            }));
+          } else {
+            d.render({canvasContext:c.ctx, viewport:n}).promise.then(function() {
+              c.pageRendering = !1;
+              c.spinner.active = !1;
+              null !== c.pageNumPending && (c.renderPDF(c.pageNumPending), c.pageNumPending = null);
+            });
+          }
+          c.enableTextSelection && (c.textLayerDiv.innerHTML = "", d.getTextContent().then(function(b) {
+            pdfjsLib.renderTextLayer({textContent:b, container:c.textLayerDiv, pageIndex:a, viewport:n, textDivs:[]});
+          }));
+        }
+      });
+    }
+  };
+  b.prototype.setViewportPos = function() {
+    this.viewportStyle.left = this.pageW < this.WIDTH ? (this.WIDTH - this.pageW) / 2 + "px" : 0;
+    this.pageH < this.HEIGHT ? (this.viewportStyle.top = (this.HEIGHT - this.pageH - this.toolbarHeight) / 2 + "px", this.viewportStyle.topNum = Math.floor((this.HEIGHT - this.pageH - this.toolbarHeight) / 2) + this.toolbarHeight, this.enableTextSelection && (this.textLayerDivStyle.topNum = Math.floor((this.HEIGHT - this.pageH - this.toolbarHeight) / 2) + this.toolbarHeight)) : this.viewportStyle.top = 0;
+    this.enableTextSelection && (this.textLayerDivStyle.left = this.viewportStyle.left, this.textLayerDivStyle.top = this.viewportStyle.top);
+  };
+  b.prototype.changePDFSource = function(a) {
+    this.setSrc(a);
+    this.loadPDF();
+  };
+  b.prototype.zoomInOut = function(a) {
+    this.currentZoomVal = Math.round(10 * (Math.round(10 * this.currentZoomVal) / 10 + a)) / 10;
+    this.queueRenderPage(this.currentPage);
+  };
+  b.prototype.zoomIn = function() {
+    this.currentZoomVal = Math.round(10 * (Math.round(10 * this.currentZoomVal) / 10 + 0.1)) / 10;
+    this.queueRenderPage(this.currentPage);
+  };
+  b.prototype.zoomOut = function() {
+    this.currentZoomVal = Math.round(10 * (Math.round(10 * this.currentZoomVal) / 10 + -0.1)) / 10;
+    this.queueRenderPage(this.currentPage);
+  };
+  b.prototype.zoomPageFit = function() {
+    this.currentZoomVal = this.fitZoomVal;
+    this.queueRenderPage(this.currentPage);
+  };
+  b.prototype.zoomWidthFit = function(a, b) {
+    a && (this.WIDTH = a, this.HEIGHT = b, this.currentZoomVal = 0);
+    this.queueRenderPage(this.currentPage);
+  };
+  b.prototype.getPageNum = function() {
+    return this.PDF.numPages;
+  };
+  b.prototype.createDownloadLink = function() {
+    var a = this;
+    this.PDF.getData().then(function(b) {
+      b = pdfjsLib.createBlob(b, "application/pdf");
+      a.downloadLink = URL.createObjectURL(b);
+    });
+  };
+  b.prototype.download = function(a) {
+    a = document.createElement("a");
+    var b = this.SRC.split("/");
+    a.href = this.downloadLink;
+    a.target = "_parent";
+    "download" in a && (a.download = decodeURIComponent(b[b.length - 1]));
+    this.reader.appendChild(a);
+    a.click();
+    a.parentNode.removeChild(a);
+  };
+  a.Polymer.Reader = b;
+})(window);
+Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0}, elevation:{type:Number, value:1}, downloadable:{type:Boolean, value:!1}, showFileName:{type:Boolean, value:!1}, showSpinner:{type:Boolean, value:!1}, enableTextSelection:{type:Boolean, value:!1}, fitWidth:{type:Boolean, value:!0}}, attached:function() {
+}, loadPDF:function() {
+  this.debounce("loadPdf", function() {
+    this._loadPDF();
+  }.bind(this), 500);
+}, _loadPDF:function() {
+  this.getAttribute("src") && (this.instance.changePDFSource(this.getAttribute("src")), this.currentPage = 1, this.totalPages = this.instance.totalPages, this.fileName = this.src.split("/").pop(), this._setFitWidth(), this.$.zoomIcon.icon = "fullscreen");
+}, attributeChanged:function(a, b) {
+  "src" === a && (this.resetScrollbar(), this.src = this.getAttribute("src"), this._initializeReader(), this.instance.clearCanvas(), this.async(function() {
+    this.src && this.instance.loadPDF();
+    this._setFitWidth();
+  }, 10));
+}, _initializeReader:function() {
+  this.instance = new Polymer.Reader(this);
+  null != this.src && (this.fileName = this.src.split("/").pop());
+  this.currentPage = 1;
+}, _setFitWidth:function() {
+  this.instance.setFitWidth(this.fitWidth);
+}, zoomWidthFit:function(a, b) {
+  b && (this.$.viewPortId.style.height = b + "px");
+  this.instance.zoomWidthFit(a, b);
+}, zoomInOut:function(a) {
+  2 <= this.instance.currentZoomVal ? this.instance.currentZoomVal = 2 : 0.1 >= this.instance.currentZoomVal ? this.instance.currentZoomVal = 0.1 : (this.$.zoomIcon.icon = "fullscreen", this.instance.zoomInOut(a));
+}, zoomIn:function() {
+  this.zoomInOut(0.1);
+}, zoomOut:function() {
+  this.instance.zoomInOut(-0.1);
+}, zoomFit:function() {
+  this.instance.currentZoomVal == this.instance.widthZoomVal ? (this.instance.zoomPageFit(), this.$.zoomIcon.icon = "fullscreen") : (this.instance.zoomWidthFit(), this.$.zoomIcon.icon = "fullscreen-exit");
+}, pageNoCommitted:function() {
+  var a = parseInt(this.$.input.value);
+  this.resetScrollbar();
+  1 <= a && a <= this.instance.totalPagesNum ? (this.instance.currentPage = a, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage = a) : this.$.input.value = this.currentPage;
+  this.$.input.blur();
+}, showPrev:function() {
+  1 < this.instance.currentPage && (this.resetScrollbar(), this.instance.currentPage--, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage--);
+}, showNext:function() {
+  this.instance.totalPagesNum > this.instance.currentPage && (this.resetScrollbar(), this.instance.currentPage++, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage++);
+}, resetScrollbar:function() {
+  Scrollbar.get(this.$.viewPortId).setPosition(0, 0);
+}, close:function() {
+  this.fire("close", {});
+}, download:function() {
+  this.instance.download();
 }});
 Polymer({is:"te-undo", behaviors:[TranslationsBehavior], attached:function() {
   null == this.undoStack && (this.facade = {update:this.update.bind(this)}, this.reset(), channel.subscribe("executeCommand", function(a) {
