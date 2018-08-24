@@ -23755,7 +23755,7 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
   disabled:!0}, detail:{action:this.detailAction, icon:"view-list", text:tr("button.details"), disabled:!0}, select:{action:this.selectAction, icon:"check", text:tr("button.select"), disabled:!0}, cancel:{action:this.cancelAction, icon:"cancel", text:tr("button.cancel"), disabled:!1}};
   this.buttonDef = a;
   var b = [];
-  this.buttons.split(",").forEach(function(c) {
+  _.isEmpty(this.buttons) || this.buttons.split(",").forEach(function(c) {
     var d = a[c];
     d.name = c;
     b.push(d);
@@ -24500,12 +24500,19 @@ FormBehavior = {_valueChanged:function(a) {
   b.children, console.log("treeitem:", e.items)) : d || this._isEmpty(l) ? this._isEmpty(h) ? null == e.items && g && 0 < g.totalCount && (q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(g)), e.items = q.getItems()) : (c = {totalCount:1, enumDescription:"sw.service:" + h, items:[]}, c.params = this._doParameterMapping(q), q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c), this.variables), e.items = this._doResultMapping(q.getItems(), 
   b)) : (c = {totalCount:1, enumDescription:"sw.filter:" + l, items:[]}, c.params = this._doParameterMapping(q), c.checkParams = !0, q = simpl4FormManager.createSelectableItems(r, this.formName, e.xf_id, JSON.stringify(c)), r = q.getItems(), q.getMissingParamList() ? (console.error("Filter:", c), console.error("Filter.misingParameters:", q.getMissingParamList())) : e.items = this._doResultMapping(r, b)) : (q = JSONPath({json:this._selectionLists, path:m, callback:function() {
   }}), e.items = null == q || 0 == q.length ? [] : q[0], e.items = this._doResultMapping(e.items, b)) : (e.items = this.variables[p], d || (e.items = this._doResultMapping(e.items, b)));
-  "tableselect" == a.stencil.id.toLowerCase() && (null == e.items && (e.items = []), b = (b = e.xf_columns) ? b.items : [], e.meta = [], b.forEach(function(a, b) {
+  if ("tableselect" == a.stencil.id.toLowerCase() && (null == e.items && (e.items = []), b = (b = e.xf_columns) ? b.items : [], e.meta = [], b.forEach(function(a, b) {
     var c = b = a.display;
     c && c.match(/^[@%]/) && (b = tr(c.substring(1)));
     null == b && (b = xf_id + "." + a.colname);
     e.meta.push({title:b, data:a.colname});
-  }, this), b = a.bounds, e.height = b.lowerRight.y - b.upperLeft.y, 75 > e.height && (e.height = 75));
+  }, this), !e.height)) {
+    if (b = a.bounds) {
+      e.height = b.lowerRight.y - b.upperLeft.y;
+    }
+    if (null == e.height || 75 > e.height) {
+      e.height = 75;
+    }
+  }
   if (e.items && 0 < e.items.length && !this._isEmpty(a.properties.xf_default) && a.properties.xf_default.startsWith("#")) {
     try {
       a.properties.xf_default = e.items[parseInt(a.properties.xf_default.substring(1))].value;
@@ -24788,6 +24795,8 @@ FieldBehavior = {properties:{readonly:{value:!1, type:Boolean}, autofocus:{value
 });
 Polymer({is:"html-echo", behaviors:[FieldBehavior], properties:{html:{observer:"htmlChanged", type:String}}, htmlChanged:function() {
   Polymer.dom(this).innerHTML = this.html;
+}, setValue:function(a) {
+  Polymer.dom(this).innerHTML = a;
 }});
 Polymer({is:"input-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, FieldBehavior, ModernizrBehavior], properties:{compact:{value:!1, type:Boolean}, noLabelFloat:{type:Boolean, computed:"_noLabelFloat(floatingLabel)"}, floatingLabel:{value:"true", type:String}, name:{type:String}, type:{value:"text", observer:"typeChanged", type:String}, step:{type:String}, max:{type:String}, min:{type:String}}, hasDate:!1, observers:["editValueChanged(editValue)", 
 "valueChanged(value)", "validateAttributes(type)"], _noLabelFloat:function() {
