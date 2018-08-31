@@ -18735,7 +18735,8 @@ Polymer({is:"simpl-filter", behaviors:[StyleScopeBehavior, TranslationsBehavior]
   less_or_equal:tr("querybuilder.less_or_equal"), greater:tr("querybuilder.greater"), greater_or_equal:tr("querybuilder.greater_or_equal"), begins_with:tr("querybuilder.begins_with"), not_begins_with:tr("querybuilder.not_begins_with"), contains:tr("querybuilder.contains"), not_contains:tr("querybuilder.not_contains"), ends_with:tr("querybuilder.ends_with"), not_ends_with:tr("querybuilder.not_ends_with"), is_empty:tr("querybuilder.is_empty"), is_not_empty:tr("querybuilder.is_not_empty"), is_null:tr("querybuilder.is_null"), 
   is_not_null:tr("querybuilder.is_not_null")}};
 }});
-Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, DialogBehavior, TranslationsBehavior], properties:{namespace:{value:null, type:String}, entity:{value:null, type:String}, mode:{value:"add", type:String}, height:{value:"150", type:String}, buttons:{value:"save,add,del,edit,cancel", type:String}, buttonList:{type:String}}, observers:["buttonsChanged(buttons)", "heightChanged(height)", "entityChanged(entity,namespace)"], buttonsChanged:function() {
+Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, DialogBehavior, TranslationsBehavior], properties:{namespace:{value:null, type:String}, entity:{value:null, type:String}, attributeGroup:{value:null, type:String}, complexName:{value:null, type:String}, mode:{value:"add", type:String}, height:{value:"150", type:String}, buttons:{value:"save,add,del,edit,cancel", type:String}, buttonList:{type:String}}, observers:["buttonsChanged(buttons)", "heightChanged(height)", "entityChanged(entity,namespace)", 
+"attributeGroupChanged(attributeGroup,complexName,namespace)"], buttonsChanged:function() {
   var a = {add:{action:this.addAction, icon:"add", position:"global", text:tr("button.new"), disabled:!1}, edit:{action:this.editAction, icon:"create", position:"global", text:tr("button.edit"), disabled:!0}, del:{action:this.delAction, icon:"delete", position:"global", text:tr("button.del"), disabled:!0}, save:{action:this.saveAction, icon:"undo", position:"form", text:tr("button.take_over"), disabled:!1}, cancel:{action:this.cancelAction, icon:"cancel", position:"form", text:tr("button.cancel"), 
   disabled:!1}};
   this.buttonDef = a;
@@ -18784,50 +18785,44 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   this.mode = "add";
   this.$.formid.setData({});
   this.async(function() {
-    this.openDialog(this.$.formDialog);
+    this.openDialog(this.$.formDialog, "50%", "50%");
   }, 50);
 }, editAction:function() {
   this.mode = "edit";
   this.$.formid.setData(this.currentData);
   this.async(function() {
-    this.openDialog(this.$.formDialog);
+    this.openDialog(this.$.formDialog, "50%", "50%");
   }, 50);
 }, delAction:function() {
   this.setButtonState("del", !1);
   this.mode = "del";
-  this._saveAction();
+  this._saveAction(!0);
 }, onDeleteOk:function(a) {
   console.log("deleteok:", a);
-  this._saveAction();
+  this._saveAction(!0);
 }, cancelAction:function(a) {
   this.closeDialog(this.$.formDialog);
 }, saveAction:function() {
   this.$.formid.validate() && this._saveAction();
-}, _saveAction:function() {
+}, _saveAction:function(a) {
   this.setButtonState("edit", !1);
   this.setButtonState("del", !1);
-  this.cancelAction();
-  var a = this.$.formid.getData(), b = clone(this.data) || [];
+  !0 !== a && this.cancelAction();
+  var b = this.$.formid.getData(), c = clone(this.data) || [];
   this.data = [];
-  if ("add" == this.mode) {
-    a._id = this.guid(), b.push(a);
-  } else {
-    if ("del" == this.mode) {
-      a = this.currentData;
-      var c = _.findIndex(b, function(b) {
-        return b._id == a._id;
-      });
-      b.splice(c, 1);
-    } else {
-      c = _.findIndex(b, function(b) {
-        return b._id == a._id;
-      }), simpl4.util.Merge.merge(!1, b[c], a);
-    }
-  }
+  "add" == this.mode ? (b._id = this.guid(), c.push(b)) : "del" == this.mode ? (b = this.currentData, a = _.findIndex(c, function(a) {
+    return a._id == b._id;
+  }), c.splice(a, 1)) : (a = _.findIndex(c, function(a) {
+    return a._id == b._id;
+  }), simpl4.util.Merge.merge(!1, c[a], b));
   this.async(function() {
-    this.data = b;
+    this.data = c;
     this.fire("changed", {data:this.data});
   }, 150);
+}, attributeGroupChanged:function() {
+  this.data = [];
+  this.getColumnsAG(this.attributeGroup);
+  this.setFormSpecFromAG(this.namespace, this.complexName, this.attributeGroup);
 }, entityChanged:function() {
   this.getColumns(this.entity);
   this._pack = this.getPackFromEntity(this.entity);
@@ -18866,10 +18861,38 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   }
   console.debug("embeddedlist.meta:", c);
   this.meta = c;
+}, setFormSpecFromAG:function(a, b, c) {
+  if (a !== this.prevNamespace || c !== this.prevAttributeGroup) {
+    this.currentNamespace = a, b = simpl4FormManager.getAttributeGroupForm(c, b, a), this.prevAttributeGroup = c, this.prevNamespace = a, "string" === typeof b ? this.formName = b : this.formSpec = [b];
+  }
+}, getColumnsAG:function(a) {
+  var b = null;
+  try {
+    b = simpl4.util.Rpc.rpcSync("complexFamily:getAttributesByFilter", {namespace:this.namespace, filter:this.getGroupFilter(a), complexName:this.complexName});
+  } catch (c) {
+    console.log("simpl-embeddedlist.getColumnsAG", c);
+    return;
+  }
+  this._buildMetaAG(b);
+  return b;
+}, _buildMetaAG:function(a) {
+  simpl4.util.MessageManager.installMessages(this.namespace);
+  this.fieldmap = {};
+  for (var b = [], c = simpl4.util.BaseManager.getLanguage(), d = 0; d < a.length; d++) {
+    var e = a[d], f = {};
+    f.label = e.labels[c];
+    f.title = f.label;
+    f.data = e.code;
+    b.push(f);
+  }
+  console.debug("embeddedlist.metaAG:", b);
+  this.meta = b;
 }, getPackFromEntity:function(a) {
   return 0 <= a.indexOf(":") ? a.split(":")[0] : "data";
 }, getSimpleEntityName:function(a) {
   return 0 <= a.indexOf(":") ? a.split(":")[1] : a;
+}, getGroupFilter:function(a) {
+  return {condition:"and", rules:[{id:"code", field:"group.code", type:"string", input:"text", operator:"equal", value:a}]};
 }, guid:function() {
   var a = 46656 * Math.random() | 0, b = 46656 * Math.random() | 0, a = ("000" + a.toString(36)).slice(-3), b = ("000" + b.toString(36)).slice(-3);
   return a + b;
@@ -23593,6 +23616,7 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:!1}, selectio
     d.fire("init-complete", {settings:a, json:b});
   }, language:this._getLang(), paging:!0, pagingType:"two_button", bSort:!1, bFilter:!0, bDestroy:!0, bLengthChange:!0, stateSave:!1, _columnDefs:[{className:"control", orderable:!1, targets:0}], data:b, columns:a}, c));
   $(this.root.querySelectorAll("table.dataTables")).attr("id", "dataTablesId");
+  this.querySelector("div.dataTables_scrollBody").classList.add("smooth-scrollbar");
   this._createRowListener();
   this._addDetailCopier(e, this._api);
 }, getApi:function() {
@@ -24406,7 +24430,7 @@ FormBehavior = {_valueChanged:function(a) {
       a.properties.columns = c;
     }
     if ("embeddedlist" == a.stencil.id.toLowerCase() || "linkedlist" == a.stencil.id.toLowerCase() || "linkedobj" == a.stencil.id.toLowerCase() || "embeddedobj" == a.stencil.id.toLowerCase()) {
-      a.properties.xf_namespace = this.namespace, b = a.bounds, a.properties.height = b.lowerRight.y - b.upperLeft.y;
+      null == a.properties.xf_namespace && (a.properties.xf_namespace = this.namespace), (b = a.bounds) ? a.properties.height = b.lowerRight.y - b.upperLeft.y : a.properties.xf_height && (a.properties.height = a.properties.xf_height);
     }
     if ("gridinput" == a.stencil.id.toLowerCase()) {
       c = a.properties;
@@ -25478,11 +25502,15 @@ Polymer({is:"linkedlist-field", behaviors:[Polymer.IronFormElementBehavior, Poly
   var a = this.form._getData();
   return this.form._maskedEval(this.required, a, !1);
 }});
-Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, entity:{value:null, type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["entityChanged(entity,namespace)"], onChanged:function(a) {
+Polymer({is:"embeddedlist-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.PaperInputBehavior, Polymer.IronControlState, TranslationsBehavior, FieldBehavior], properties:{required:{value:"", type:String}, entity:{value:null, type:String}, attributeGroup:{value:null, type:String}, complexName:{value:null, type:String}, namespace:{value:null, type:String}, meta:{type:Object}, height:{value:null, observer:"heightChanged", type:String}}, observers:["entityChanged(entity,namespace)", "attributeGroupChanged(attributeGroup,complexName, namespace)"], 
+onChanged:function(a) {
   console.log("onChanged:", a);
   this.value = a.detail.data;
 }, entityChanged:function() {
   console.log("Field.embeddedlist-field.entityChanged:", this.entity + "/" + this.namespace);
+  this.setInvalid(!1);
+}, attributeGroupChanged:function() {
+  console.log("Field.embeddedlist-field.attributeGroupChanged:", this.attributeGroup + "/" + this.namespace);
   this.setInvalid(!1);
 }, checkConstraints:function() {
   this.setInvalid(!1);
@@ -30231,7 +30259,7 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
     var b = this.SRC.split("/");
     a.href = this.downloadLink;
     a.target = "_parent";
-    "download" in a && (a.download = decodeURIComponent(b[b.length - 1]));
+    "download" in a && (a.download = decodeURIComponent(b[b.length - 1]), b = a.download.indexOf("?"), 0 < b && (a.download = a.download.substring(0, b)));
     this.reader.appendChild(a);
     a.click();
     a.parentNode.removeChild(a);
@@ -30262,11 +30290,13 @@ Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0},
 }, zoomInOut:function(a) {
   2 <= this.instance.currentZoomVal ? this.instance.currentZoomVal = 2 : 0.1 >= this.instance.currentZoomVal ? this.instance.currentZoomVal = 0.1 : (this.$.zoomIcon.icon = "fullscreen", this.instance.zoomInOut(a));
 }, zoomIn:function() {
-  this.zoomInOut(0.1);
+  this.zoomInOut(0.2);
 }, zoomOut:function() {
-  this.instance.zoomInOut(-0.1);
+  this.instance.zoomInOut(-0.2);
+}, zoomWidthFit2:function() {
+  this.instance.zoomWidthFit();
 }, zoomFit:function() {
-  this.instance.currentZoomVal == this.instance.widthZoomVal ? (this.instance.zoomPageFit(), this.$.zoomIcon.icon = "fullscreen") : (this.instance.zoomWidthFit(), this.$.zoomIcon.icon = "fullscreen-exit");
+  this.instance.zoomPageFit();
 }, pageNoCommitted:function() {
   var a = parseInt(this.$.input.value);
   this.resetScrollbar();

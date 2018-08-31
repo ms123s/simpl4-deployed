@@ -17661,7 +17661,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	</style>
 	<template>
 		<div class="vertical layout">
-			<simpl-embeddedlist id="miniId" on-changed="onChanged" height="[[height]]" namespace="[[namespace]]" entity="[[entity]]"></simpl-embeddedlist>
+			<simpl-embeddedlist id="miniId" on-changed="onChanged" height="[[height]]" namespace="[[namespace]]" complex-name="[[complexName]]" attribute-group="[[attributeGroup]]" entity="[[entity]]"></simpl-embeddedlist>
 			<div class="error layout horizontal center" hidden$="[[!isInvalid]]">
 				<div class="error-text flex auto" role="alert" aria-hidden$="[[!isInvalid]]"></div>
 				<div class="error-text" role="alert" aria-hidden$="[[!isInvalid]]">{{error}}<span>&nbsp;&nbsp;</span></div>
@@ -18153,7 +18153,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			</tableselect-field>
 		</template>
 		<template is="dom-if" if="{{isEmbeddedList(item.id)}}">
-			<embeddedlist-field field="" class="flex" entity="{{item.xf_module}}" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
+			<embeddedlist-field field="" class="flex" entity="{{item.xf_module}}" complex-name="[[item.xf_complexName]]" attribute-group="[[item.xf_attributeGroup]]" namespace="[[item.xf_namespace]]" name$="{{item.xf_id}}" tabindex$="[[item.xf_tabindex]]" multi-select="[[item.xf_multiselection]]" required="[[item.xf_required]]" height="[[item.height]]" items="[[item.items]]" meta="[[item.meta]]" data-constraints$="{{item.regulaConstraints}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" defaultvalue="{{item.xf_default}}" help$="{{item.help}}" label="{{item.label}}" raised="">
 			</embeddedlist-field>
 		</template>
 		<template is="dom-if" if="{{isEmbeddedPrimitiveCollection(item.id)}}">
@@ -20512,6 +20512,7 @@ Use the Help button for an technical overview.
 							<paper-icon-button icon="zoom-in" on-click="zoomIn"></paper-icon-button>
 							<paper-icon-button icon="zoom-out" on-click="zoomOut"></paper-icon-button>
 							<paper-icon-button id="zoomIcon" icon="fullscreen" on-click="zoomFit"></paper-icon-button>
+							
 							<paper-icon-button icon="file-download" hidden$="{{!downloadable}}" on-click="download"></paper-icon-button>
 						</paper-toolbar>
 						<div id="viewPortId" class="smooth-scrollbar pdf-viewport-out" style="position: relative;">
