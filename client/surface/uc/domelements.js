@@ -30287,16 +30287,21 @@ Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0},
 }, zoomWidthFit:function(a, b) {
   b && (this.$.viewPortId.style.height = b + "px");
   this.instance.zoomWidthFit(a, b);
+  this.updateScrollbar();
 }, zoomInOut:function(a) {
   2 <= this.instance.currentZoomVal ? this.instance.currentZoomVal = 2 : 0.1 >= this.instance.currentZoomVal ? this.instance.currentZoomVal = 0.1 : (this.$.zoomIcon.icon = "fullscreen", this.instance.zoomInOut(a));
+  this.updateScrollbar();
 }, zoomIn:function() {
   this.zoomInOut(0.2);
+  this.updateScrollbar();
 }, zoomOut:function() {
   this.instance.zoomInOut(-0.2);
+  this.updateScrollbar();
 }, zoomWidthFit2:function() {
   this.instance.zoomWidthFit();
 }, zoomFit:function() {
   this.instance.zoomPageFit();
+  this.updateScrollbar();
 }, pageNoCommitted:function() {
   var a = parseInt(this.$.input.value);
   this.resetScrollbar();
@@ -30306,6 +30311,11 @@ Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0},
   1 < this.instance.currentPage && (this.resetScrollbar(), this.instance.currentPage--, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage--);
 }, showNext:function() {
   this.instance.totalPagesNum > this.instance.currentPage && (this.resetScrollbar(), this.instance.currentPage++, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage++);
+}, updateScrollbar:function() {
+  var a = Scrollbar.get(this.$.viewPortId);
+  this.async(function() {
+    a.update();
+  }, 500);
 }, resetScrollbar:function() {
   Scrollbar.get(this.$.viewPortId).setPosition(0, 0);
 }, close:function() {
