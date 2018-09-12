@@ -2105,7 +2105,7 @@ window.CustomElements.addModule(function(scope) {
 					if( isAttached){
 						detachedNode(n);
 					}else{
-						console.log("WebComponents.dont.remove("+n.localName+","+isAttached+"):",n);
+						//console.log("WebComponents.dont.remove("+n.localName+","+isAttached+"):",n);
 					}
         });
       }

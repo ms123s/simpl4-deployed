@@ -25356,17 +25356,19 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
     }
   }, 100);
 }, _valueChanged:function(a) {
-  for (var b = a.target.parentNode.dataset.lid, c = {}, d = {}, e = 0; e < this.columns.length; e++) {
-    if (a = this.querySelector("#id" + b + "_" + e), null != a) {
-      var f = this.columns[e];
-      c[f.colname] = a.getValue();
-      d[f.colname] = a;
+  if (!this.inFire) {
+    for (var b = a.target.parentNode.dataset.lid, c = {}, d = {}, e = 0; e < this.columns.length; e++) {
+      if (a = this.querySelector("#id" + b + "_" + e), null != a) {
+        var f = this.columns[e];
+        c[f.colname] = a.getValue();
+        d[f.colname] = a;
+      }
     }
+    Object.keys(this.exprMap).forEach(function(a) {
+      var b = this.form._maskedEval(this.exprMap[a], c, "");
+      d[a] && d[a].setValue(b);
+    }.bind(this));
   }
-  Object.keys(this.exprMap).forEach(function(a) {
-    var b = this.form._maskedEval(this.exprMap[a], c, "");
-    d[a].setValue(b);
-  }.bind(this));
 }, getValue:function() {
   if (!0 === this.locked) {
     return null;
@@ -25436,7 +25438,9 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   }, 20);
 }, removeLine:function(a) {
   1 < this.lines.length && this.splice("lines", a.target.dataset.lid, 1);
+  this.inFire = !0;
   this.fire("value-changed", this);
+  this.inFire = !1;
 }, upLine:function(a) {
   a = parseInt(a.target.dataset.lid);
   0 != a && 1 != this.lines.length && this._upLine(a);
