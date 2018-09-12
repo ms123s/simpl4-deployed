@@ -18744,10 +18744,10 @@ Polymer({is:"simpl-filter", behaviors:[StyleScopeBehavior, TranslationsBehavior]
   less_or_equal:tr("querybuilder.less_or_equal"), greater:tr("querybuilder.greater"), greater_or_equal:tr("querybuilder.greater_or_equal"), begins_with:tr("querybuilder.begins_with"), not_begins_with:tr("querybuilder.not_begins_with"), contains:tr("querybuilder.contains"), not_contains:tr("querybuilder.not_contains"), ends_with:tr("querybuilder.ends_with"), not_ends_with:tr("querybuilder.not_ends_with"), is_empty:tr("querybuilder.is_empty"), is_not_empty:tr("querybuilder.is_not_empty"), is_null:tr("querybuilder.is_null"), 
   is_not_null:tr("querybuilder.is_not_null")}};
 }});
-Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, DialogBehavior, TranslationsBehavior], properties:{namespace:{value:null, type:String}, entity:{value:null, type:String}, attributeGroup:{value:null, type:String}, complexName:{value:null, type:String}, mode:{value:"add", type:String}, height:{value:"150", type:String}, buttons:{value:"save,add,del,edit,cancel", type:String}, buttonList:{type:String}}, observers:["buttonsChanged(buttons)", "heightChanged(height)", "entityChanged(entity,namespace)", 
-"attributeGroupChanged(attributeGroup,complexName,namespace)"], buttonsChanged:function() {
-  var a = {add:{action:this.addAction, icon:"add", position:"global", text:tr("button.new"), disabled:!1}, edit:{action:this.editAction, icon:"create", position:"global", text:tr("button.edit"), disabled:!0}, del:{action:this.delAction, icon:"delete", position:"global", text:tr("button.del"), disabled:!0}, save:{action:this.saveAction, icon:"undo", position:"form", text:tr("button.take_over"), disabled:!1}, cancel:{action:this.cancelAction, icon:"cancel", position:"form", text:tr("button.cancel"), 
-  disabled:!1}};
+Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, DialogBehavior, TranslationsBehavior], properties:{namespace:{value:null, type:String}, entity:{value:null, type:String}, attributeGroup:{value:null, type:String}, complexName:{value:null, type:String}, mode:{value:"add", type:String}, height:{value:"150", type:String}, buttons:{value:"save,add,del,edit,cancel,up,down", type:String}, buttonList:{type:String}}, observers:["buttonsChanged(buttons)", "heightChanged(height)", 
+"entityChanged(entity,namespace)", "attributeGroupChanged(attributeGroup,complexName,namespace)"], buttonsChanged:function() {
+  var a = {add:{action:this.addAction, icon:"add", position:"global", text:tr("button.new"), disabled:!1}, edit:{action:this.editAction, icon:"create", position:"global", text:tr("button.edit"), disabled:!0}, del:{action:this.delAction, icon:"delete", position:"global", text:tr("button.del"), disabled:!0}, up:{action:this.upAction, icon:"arrow-upward", position:"global", text:"", disabled:!0}, down:{action:this.downAction, icon:"arrow-downward", position:"global", text:"", disabled:!0}, save:{action:this.saveAction, 
+  icon:"undo", position:"form", text:tr("button.take_over"), disabled:!1}, cancel:{action:this.cancelAction, icon:"cancel", position:"form", text:tr("button.cancel"), disabled:!1}};
   this.buttonDef = a;
   var b = [];
   this.buttons.split(",").forEach(function(c) {
@@ -18764,6 +18764,7 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   return this.data;
 }, setData:function(a) {
   this.data = a;
+  this.buttonsChanged();
 }, setButtonState:function(a, b) {
   if (null != this.buttonDef) {
     this.buttonDef[a].disabled = !b;
@@ -18785,6 +18786,10 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   this.currentData = a.detail.rows[0];
   this.setButtonState("edit", !0);
   this.setButtonState("del", !0);
+  var b = a.detail.index.row;
+  this.currentIndex = b;
+  this.setButtonState("up", 0 < b ? !0 : !1);
+  this.setButtonState("down", b < this.data.length - 1 ? !0 : !1);
   a.detail.doubleTap && this.editAction();
 }, addAction:function() {
   this.entityName = this.entity;
@@ -18809,11 +18814,33 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
   this._saveAction(!0);
 }, cancelAction:function(a) {
   this.closeDialog(this.$.formDialog);
+}, downAction:function() {
+  this.upDownAction("down");
+}, upAction:function() {
+  this.upDownAction("up");
+}, upDownAction:function(a) {
+  var b = this.$.dataTablesId.getApi(), c = clone(this.data) || [];
+  this.data = [];
+  var d = this.currentIndex;
+  a = "down" == a ? c.splice(d++, 1)[0] : c.splice(d--, 1)[0];
+  c.splice(d, 0, a);
+  this.setButtonState("down", d < c.length - 1 ? !0 : !1);
+  this.setButtonState("up", 0 < d ? !0 : !1);
+  this.currentIndex = d;
+  this.async(function() {
+    this.data = c;
+    this.fire("changed", {data:this.data});
+    this.async(function() {
+      b.row(":eq(" + d + ")", {page:"current"}).nodes().to$().addClass("selected");
+    }, 150);
+  }, 150);
 }, saveAction:function() {
   this.$.formid.validate() && this._saveAction();
 }, _saveAction:function(a) {
   this.setButtonState("edit", !1);
   this.setButtonState("del", !1);
+  this.setButtonState("up", !1);
+  this.setButtonState("down", !1);
   !0 !== a && this.cancelAction();
   var b = this.$.formid.getData(), c = clone(this.data) || [];
   this.data = [];
@@ -30500,7 +30527,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   var b = simpl4.util.BaseManager.getNamespace(), b = {service:"simpl4", method:b + ".getAttributes", parameter:{namespace:b, family:a, lang:Simpl4.Cache.getItem("lang")}, async:!0, context:this, failed:function(a) {
     console.error("failed:", a);
   }, completed:function(b) {
-    console.log("getMdFields(" + a + "):", b);
+    console.log("getMdFields(" + a + "):", clone(b));
     b.map(function(b) {
       b.code = a + "." + b.code;
       return b;
