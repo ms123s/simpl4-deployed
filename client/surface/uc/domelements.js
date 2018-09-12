@@ -7677,6 +7677,10 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
       if (null == a) {
         return [];
       }
+      $jscomp.initSymbol();
+      $jscomp.initSymbolIterator();
+      $jscomp.initSymbol();
+      $jscomp.initSymbolIterator();
       window.Symbol && Symbol.iterator && Array.prototype.from && a[Symbol.iterator] && (a = Array.from(a));
       Array.isArray(a) || (a = c(a));
       var g = a.map(function(a) {
@@ -8609,6 +8613,10 @@ Polymer.NeonAnimationBehavior = {properties:{animationTiming:{type:Object, value
     if (!d) {
       var f = window.Element.prototype.animate;
       window.Element.prototype.animate = function(b, c) {
+        $jscomp.initSymbol();
+        $jscomp.initSymbolIterator();
+        $jscomp.initSymbol();
+        $jscomp.initSymbolIterator();
         return window.Symbol && Symbol.iterator && Array.prototype.from && b[Symbol.iterator] && (b = Array.from(b)), Array.isArray(b) || null === b || (b = a.convertToArrayForm(b)), f.call(this, b, c);
       };
     }
@@ -14083,7 +14091,9 @@ Polymer({is:"simpl-spinner", properties:{eventname:{type:String, value:"value-ch
     b.o(a, c) || Object.defineProperty(a, c, {enumerable:!0, get:f});
   };
   b.r = function(a) {
-    "undefined" !== typeof Symbol && Symbol.toStringTag && Object.defineProperty(a, Symbol.toStringTag, {value:"Module"});
+    $jscomp.initSymbol();
+    $jscomp.initSymbol();
+    "undefined" !== typeof Symbol && Symbol.toStringTag && ($jscomp.initSymbol(), Object.defineProperty(a, Symbol.toStringTag, {value:"Module"}));
     Object.defineProperty(a, "__esModule", {value:!0});
   };
   b.t = function(a, c) {
@@ -17615,11 +17625,13 @@ Polymer({is:"simpl-asciidoctor", properties:{data:{observer:"dataChanged", type:
   this.$.asciidoctorId.innerHTML = b;
   this.setStyleScope(this.$.asciidoctorId, a);
 }});
-Polymer({is:"simpl-lightbox", behaviors:[Polymer.IronOverlayBehavior], properties:{withBackdrop:{type:Boolean, value:!0}, items:{type:Array, value:function() {
+Polymer({is:"simpl-lightbox", behaviors:[Polymer.IronOverlayBehavior], properties:{withBackdrop:{type:Boolean, value:!0}, usePdfjs:{type:Boolean, value:!1}, items:{type:Array, value:function() {
   return [];
 }, observer:"_updateItems"}, selectedItem:{type:Object, value:function() {
   return {};
-}, notify:!0, readOnly:!0, observer:"_onSelect"}, selectedIndex:{type:Number, value:0, notify:!0, observer:"_onIndexChanged"}, autoplayVideos:{type:Boolean, value:!1}}, listeners:{"iron-overlay-opened":"_onOpen", "iron-overlay-closed":"_onClose", "iron-overlay-cancelled":"_onClose", keyup:"_onKeyup"}, _currentMediaElement:null, selectPrevious:function() {
+}, notify:!0, readOnly:!0, observer:"_onSelect"}, selectedIndex:{type:Number, value:0, notify:!0, observer:"_onIndexChanged"}, autoplayVideos:{type:Boolean, value:!1}}, listeners:{"iron-overlay-opened":"_onOpen", "iron-overlay-closed":"_onClose", "iron-overlay-cancelled":"_onClose", keyup:"_onKeyup"}, _currentMediaElement:null, showControls:function() {
+  return !1 === this.usePdfjs;
+}, selectPrevious:function() {
   0 === this.selectedIndex ? this.selectedIndex = this.items.length - 1 : this.selectedIndex--;
 }, selectNext:function() {
   this.selectedIndex === this.items.length - 1 ? this.selectedIndex = 0 : this.selectedIndex++;
@@ -17644,12 +17656,9 @@ Polymer({is:"simpl-lightbox", behaviors:[Polymer.IronOverlayBehavior], propertie
       if (window.navigator.msSaveBlob) {
         window.navigator.msSaveBlob(a, "download.pdf"), b.close();
       } else {
-        a = URL.createObjectURL(a);
-        var c = document.createElement("simpl-pdfviewer");
-        c.file = a;
-        c.height = "100%";
-        c.style = "position:absolute;";
-        b._replaceMedia(c);
+        var c = URL.createObjectURL(a);
+        b.usePdfjs ? (a = document.createElement("pdf-element"), a.src = c, a.height = "600", a.downloadable = !0, a.style = "position:relative;") : (a = document.createElement("simpl-pdfviewer"), a.file = c, a.height = "100%", a.style = "position:absolute;");
+        b._replaceMedia(a);
       }
       b.$.toastId.close();
     } else {
@@ -18763,10 +18772,8 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
     }
   }
 }, isGlobalButton:function(a) {
-  console.log("isGlobalButton:", a.position);
   return "global" == a.position;
 }, isFormButton:function(a) {
-  console.log("isFormButton:", a.position);
   return "form" == a.position;
 }, onTap:function(a) {
   a = a.srcElement || a.target;
@@ -18859,7 +18866,6 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
       c.push(f);
     }
   }
-  console.debug("embeddedlist.meta:", c);
   this.meta = c;
 }, setFormSpecFromAG:function(a, b, c) {
   if (a !== this.prevNamespace || c !== this.prevAttributeGroup) {
@@ -18878,15 +18884,26 @@ Polymer({is:"simpl-embeddedlist", behaviors:[Polymer.IronA11yKeysBehavior, Dialo
 }, _buildMetaAG:function(a) {
   simpl4.util.MessageManager.installMessages(this.namespace);
   this.fieldmap = {};
-  for (var b = [], c = simpl4.util.BaseManager.getLanguage(), d = 0; d < a.length; d++) {
+  var b = [];
+  a = this.sortAttributes(a);
+  for (var c = simpl4.util.BaseManager.getLanguage(), d = 0; d < a.length; d++) {
     var e = a[d], f = {};
     f.label = e.labels[c];
     f.title = f.label;
     f.data = e.code;
+    f.render = function(a, b, c, d) {
+      return c[d.settings.aoColumns[d.col].data];
+    };
     b.push(f);
   }
-  console.debug("embeddedlist.metaAG:", b);
   this.meta = b;
+}, sortAttributes:function(a) {
+  a.sort(function(a, c) {
+    a.sortOrder = a.sortOrder || 0;
+    c.sortOrder = c.sortOrder || 0;
+    return c.sortOrder - a.sortOrder;
+  });
+  return a;
 }, getPackFromEntity:function(a) {
   return 0 <= a.indexOf(":") ? a.split(":")[0] : "data";
 }, getSimpleEntityName:function(a) {
@@ -22631,7 +22648,6 @@ Polymer({is:"delete-dialog", behaviors:[TranslationsBehavior], onTap:function() 
       c._resizeAuto();
       c._resize();
     }), d.on("draw.dtr", function() {
-      console.log("redraw");
     }), a(d.table().node()).addClass("dtr-" + f.type));
     d.on("column-reorder.dtr", function(a, b, d) {
       c._classLogic();
@@ -23740,7 +23756,7 @@ DataTablesBehavior = {properties:{multiSelect:{type:Boolean, value:!1}, selectio
   sPrevious:tr("datatables.sPrevious"), sNext:tr("datatables.sNext"), sLast:tr("datatables.sLast")}, oAria:{sSortAscending:tr("datatables.sSortAscending"), sSortDescending:tr("datatables.sSortDescending")}};
 }};
 Polymer({is:"simpl-datatables", behaviors:[ModernizrBehavior, DataTablesBehavior]});
-Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior, StyleScopeBehavior], properties:{disableSpinner:{type:Boolean, value:!1}, dtOptions:{type:String, value:""}, buttons:{type:String}, filter:{type:Object}}, observers:["filterChanged(filter.*,dtOptions)", "buttonsChanged(buttons,isAttached)", "selectionChanged(selection)"], ready:function() {
+Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior, StyleScopeBehavior], properties:{selectButtonEnabled:{type:Boolean, value:!1}, disableSpinner:{type:Boolean, value:!1}, dtOptions:{type:String, value:""}, buttons:{type:String}, filter:{type:Object}}, observers:["filterChanged(filter.*,dtOptions)", "buttonsChanged(buttons,isAttached,selectButtonEnabled)", "selectionChanged(selection)"], ready:function() {
 }, attached:function() {
   this.isAttached = !0;
 }, addAction:function() {
@@ -23756,7 +23772,7 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
 }, refreshAction:function() {
   this.fire("refresh-action", {entity:this.entity, table:this, entityChild:this.id, namespace:this.namespace});
 }, selectAction:function() {
-  null != this.selection && this.fire("select-action", {data:this.selection[0]});
+  this.selectButtonEnabled ? this.fire("select-action", {data:{}}) : null != this.selection && this.fire("select-action", {data:this.selection[0]});
 }, cancelAction:function() {
   this.fire("cancel-action", {});
 }, copyAction:function() {
@@ -23771,12 +23787,13 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
   if (null != this.buttonDef) {
     this.buttonDef.edit.disabled = this.buttonDef.copy.disabled = this.buttonDef.show.disabled = this.buttonDef.select.disabled = this.buttonDef.detail.disabled = null == this.selection;
     for (var a = 0; a < this.buttonList.length; a++) {
-      "add" != this.buttonList[a].name && "cancel" != this.buttonList[a].name && "refresh" != this.buttonList[a].name && this.set("buttonList." + a + ".disabled", null == this.selection);
+      "add" != this.buttonList[a].name && "cancel" != this.buttonList[a].name && "refresh" != this.buttonList[a].name && (0 != this.selectButtonEnabled && "select" == this.buttonList[0].name || this.set("buttonList." + a + ".disabled", null == this.selection));
     }
+    this.selectButtonEnabled && (this.buttonDef.select.disabled = !1);
   }
 }, buttonsChanged:function() {
   var a = {add:{action:this.addAction, icon:"add", text:tr("button.new"), disabled:!1}, edit:{action:this.editAction, icon:"create", text:tr("button.edit"), disabled:!0}, del:{action:this.delAction, icon:"delete", text:tr("button.del"), disabled:!0}, refresh:{action:this.refreshAction, icon:"refresh", text:tr("button.refresh"), disabled:!1}, show:{action:this.showAction, icon:"bookmark-outline", text:tr("button.show"), disabled:!0}, copy:{action:this.copyAction, icon:"content-copy", text:tr("button.copy"), 
-  disabled:!0}, detail:{action:this.detailAction, icon:"view-list", text:tr("button.details"), disabled:!0}, select:{action:this.selectAction, icon:"check", text:tr("button.select"), disabled:!0}, cancel:{action:this.cancelAction, icon:"cancel", text:tr("button.cancel"), disabled:!1}};
+  disabled:!0}, detail:{action:this.detailAction, icon:"view-list", text:tr("button.details"), disabled:!0}, select:{action:this.selectAction, icon:"check", text:tr("button.select"), disabled:this.selectButtonEnabled ? !1 : !0}, cancel:{action:this.cancelAction, icon:"cancel", text:tr("button.cancel"), disabled:!1}};
   this.buttonDef = a;
   var b = [];
   _.isEmpty(this.buttons) || this.buttons.split(",").forEach(function(c) {
@@ -25298,6 +25315,19 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   }
   this.lines = b;
   this.setDefaultValue(0);
+}, insertLines:function(a) {
+  for (var b = clone(this.lines), c = 0; c < b.length; c++) {
+    b[c] = this.getLineValues(c);
+  }
+  for (var d = this._lid, c = 0; c < a.length; c++) {
+    0 == c ? b[d] = a[c] : b.splice(d + c, 0, a[c]);
+  }
+  this.lines = b;
+  this.async(function() {
+    for (var a = 0; a < b.length; a++) {
+      this.setDefaultValue(a), this.setLineValues(b[a], a);
+    }
+  }, 100);
 }, _valueChanged:function(a) {
   for (var b = a.target.parentNode.dataset.lid, c = {}, d = {}, e = 0; e < this.columns.length; e++) {
     if (a = this.querySelector("#id" + b + "_" + e), null != a) {
@@ -25345,11 +25375,9 @@ Polymer({is:"gridinput-field", behaviors:[Polymer.IronFormElementBehavior, Polym
   return tr(this.pack + "." + this.getSimpleEntityName(a));
 }, _search:function(a) {
   this._lid = parseInt(a.target.dataset.lid);
-  this._entityName = this.entityName;
-  this.$.filterId.doSearch();
-  this.async(function() {
+  (this._entityName = this.entityName) ? (this.$.filterId.doSearch(), this.async(function() {
     this.openDialog(this.$.searchDialog);
-  }, 250);
+  }, 250)) : this.fire("gridfield-search", this);
 }, rowsSelected:function(a) {
   a.detail.doubleTap && (a = a.detail.rows[0], this.closeDialog(this.$.searchDialog), console.log("data:", a), this.setLineValues(a, this._lid));
 }, cancelAction:function() {
@@ -25716,9 +25744,11 @@ Polymer({is:"embeddedobj-inline-field", behaviors:[Polymer.IronFormElementBehavi
 }, namespaceChanged:function() {
   simpl4.util.MessageManager.installMessages(this.namespace);
 }, formexpressionChanged:function() {
-  var a = this._maskedEval(this.formexpression, this.getFormData(), null);
-  console.log("formexpressionChanged(" + this.name + "," + this.formexpression + "):", a);
-  null != a && (this.formName = a, this.variables = this.form.variables);
+  if (null != this.formexpression) {
+    var a = this._maskedEval(this.formexpression, this.getFormData(), null);
+    console.log("formexpressionChanged(" + this.name + "," + this.formexpression + "):", a);
+    null != a && (this.formName = a, this.variables = this.form.variables);
+  }
 }, onFormReady:function() {
   console.log("onFormReady:", this.value);
   this.getFormElement().setData(this.value);
@@ -30115,8 +30145,10 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   };
   b.prototype.clearCanvas = function() {
     var a = document.querySelector("canvas.pdf-viewport");
-    console.log("xxx.clearCanvas:", a);
-    a.getContext("2d").clearRect(0, 0, a.width, a.height);
+    if (null != a) {
+      var b = a.getContext("2d");
+      null != b && b.clearRect(0, 0, a.width, a.height);
+    }
   };
   b.prototype.loadPDF = function() {
     this.setSize();
@@ -30266,7 +30298,7 @@ Polymer({is:"dmn-editor", properties:{regkey:{type:String}, namespace:{type:Stri
   };
   a.Polymer.Reader = b;
 })(window);
-Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0}, elevation:{type:Number, value:1}, downloadable:{type:Boolean, value:!1}, showFileName:{type:Boolean, value:!1}, showSpinner:{type:Boolean, value:!1}, enableTextSelection:{type:Boolean, value:!1}, fitWidth:{type:Boolean, value:!0}}, attached:function() {
+Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0}, elevation:{type:Number, value:1}, downloadable:{type:Boolean, value:!1}, showFileName:{type:Boolean, value:!1}, showSpinner:{type:Boolean, value:!1}, enableTextSelection:{type:Boolean, value:!1}, fitWidth:{type:Boolean, value:!0}}, behaviors:[ScrollbarBehavior], attached:function() {
 }, loadPDF:function() {
   this.debounce("loadPdf", function() {
     this._loadPDF();
@@ -30289,7 +30321,7 @@ Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0},
   this.instance.zoomWidthFit(a, b);
   this.updateScrollbar();
 }, zoomInOut:function(a) {
-  2 <= this.instance.currentZoomVal ? this.instance.currentZoomVal = 2 : 0.1 >= this.instance.currentZoomVal ? this.instance.currentZoomVal = 0.1 : (this.$.zoomIcon.icon = "fullscreen", this.instance.zoomInOut(a));
+  3 <= this.instance.currentZoomVal ? this.instance.currentZoomVal = 3 : 0.1 >= this.instance.currentZoomVal ? this.instance.currentZoomVal = 0.1 : (this.$.zoomIcon.icon = "fullscreen", this.instance.zoomInOut(a));
   this.updateScrollbar();
 }, zoomIn:function() {
   this.zoomInOut(0.2);
@@ -30312,12 +30344,14 @@ Polymer({is:"pdf-element", properties:{src:{type:String, reflectToAttribute:!0},
 }, showNext:function() {
   this.instance.totalPagesNum > this.instance.currentPage && (this.resetScrollbar(), this.instance.currentPage++, this.instance.queueRenderPage(this.instance.currentPage), this.currentPage++);
 }, updateScrollbar:function() {
-  var a = Scrollbar.get(this.$.viewPortId);
   this.async(function() {
-    a.update();
+    Scrollbar.get(this.$.viewPortId).update();
   }, 500);
 }, resetScrollbar:function() {
-  Scrollbar.get(this.$.viewPortId).setPosition(0, 0);
+  this.async(function() {
+    var a = Scrollbar.get(this.$.viewPortId);
+    a && a.setPosition(0, 0);
+  }, 500);
 }, close:function() {
   this.fire("close", {});
 }, download:function() {
@@ -30361,10 +30395,7 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   $(this.$.allId).hover(this.focus.bind(this), this.blur.bind(this));
   this.blur();
 }, attached:function() {
-  this.getMdFields("customer");
-  this.getMdFields("company");
-  this.leftSide = this.querySelector("#leftSide");
-  this.rightSide = this.querySelector("#rightSide");
+  !0 !== this.inited && (this.inited = !0, this.getMdFields("customer"), this.getMdFields("company"), this.leftSide = this.querySelector("#leftSide"), this.rightSide = this.querySelector("#rightSide"));
 }, getColStyle:function(a, b) {
   return "width:" + a + ";text-align:" + b + ";";
 }, isMacroBlock:function(a) {
@@ -30466,6 +30497,17 @@ Polymer({is:"te-block", properties:{rightAlign:{type:Boolean, value:!1}, positio
   console.log("overHeight:", e);
   0 < e && (f = b.height - e, e = f / c, $(this).width(e), $(this).height(f));
 }, getMdFields:function(a) {
+  var b = simpl4.util.BaseManager.getNamespace(), b = {service:"simpl4", method:b + ".getAttributes", parameter:{namespace:b, family:a, lang:Simpl4.Cache.getItem("lang")}, async:!0, context:this, failed:function(a) {
+    console.error("failed:", a);
+  }, completed:function(b) {
+    console.log("getMdFields(" + a + "):", b);
+    b.map(function(b) {
+      b.code = a + "." + b.code;
+      return b;
+    });
+    this[a + "MetaList"] = b;
+  }};
+  simpl4.util.Rpc.rpcAsync(b);
 }, tabSelected:function() {
 }, close:function() {
   this.fire("blockclose", {id:this.id});

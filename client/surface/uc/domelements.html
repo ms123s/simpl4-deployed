@@ -13507,6 +13507,7 @@ span.jqtree-dragging {
 			.container {
 				width: 100%;
 				height: 100%;
+				font-size:1.2em;
 			}
 			@media screen and (min-width: 768px) {
 				.container {
@@ -13619,18 +13620,20 @@ span.jqtree-dragging {
 			</div>
 			<div class="inner">
 				<div id="viewer"></div>
-				<div class="control previous" hidden$="[[_hideControls(items)]]" on-tap="selectPrevious">
-					<paper-icon-button icon="chevron-left"></paper-icon-button>
-				</div>
-				<div class="control next" hidden$="[[_hideControls(items)]]" on-tap="selectNext">
-					<paper-icon-button icon="chevron-right"></paper-icon-button>
-				</div>
-				<div class="control bottombar">
-					<content select=".overlay"></content>
-				</div>
-				<div class="control close" on-tap="close">
-					<paper-icon-button icon="close"></paper-icon-button>
-				</div>
+				<template is="dom-if" if="[[showControls(usePdfjs)]]">
+					<div class="control previous" hidden$="[[_hideControls(items)]]" on-tap="selectPrevious">
+						<paper-icon-button icon="chevron-left"></paper-icon-button>
+					</div>
+					<div class="control next" hidden$="[[_hideControls(items)]]" on-tap="selectNext">
+						<paper-icon-button icon="chevron-right"></paper-icon-button>
+					</div>
+					<div class="control bottombar">
+						<content select=".overlay"></content>
+					</div>
+					<div class="control close" on-tap="close">
+						<paper-icon-button icon="close"></paper-icon-button>
+					</div>
+				</template>
 			</div>
 			<div class="sidecontent after">
 				<content select="aside[after]"></content>
@@ -20430,10 +20433,10 @@ Use the Help button for an technical overview.
 				border: 0px solid #4d4d4d;
 			}
 			.pdf-viewport-out {
-				overflow: auto;
+				overflow: hidden;
 				background-color: #ffffff;
 				width: 100%;
-				height: 100%;
+				height: calc(100% - 64px);
 			}
 			.pdf-viewport {
 				display: block;
@@ -20493,11 +20496,11 @@ Use the Help button for an technical overview.
 
 		</style>
 
-		<paper-material elevation="{{elevation}}">
-			<div class="card-content">
-				<div style="width: 100%">
+		<paper-material style="height:100%;" elevation="{{elevation}}">
+			<div style="height:100%;" class="card-content">
+				<div style="width: 100%;height:100%;">
 
-					<div class="pdf-viewer">
+					<div class="pdf-viewer" style="height:100%;">
 						<paper-toolbar class="pdf-toolbar">
 							<paper-icon-button class="close" icon="close" on-click="close"></paper-icon-button>
 							<paper-icon-button icon="arrow-back" on-click="showPrev"></paper-icon-button>
@@ -20727,8 +20730,8 @@ Use the Help button for an technical overview.
 									<div style="max-height:450px;overflow:auto;">
 										<paper-listbox>
 											<template is="dom-repeat" items="[[companyMetaList]]">
-												<paper-item class="button" on-tap="insertText" data-name$="[[item.name]]">
-													<span>[[item.title]]</span>
+												<paper-item class="button" on-tap="insertText" data-name$="[[item.code]]">
+													<span>[[item.code]]</span>
 												</paper-item>
 											</template>
 										</paper-listbox>
@@ -20738,8 +20741,8 @@ Use the Help button for an technical overview.
 									<div style="max-height:430px;overflow:auto;">
 										<paper-listbox>
 											<template is="dom-repeat" items="[[customerMetaList]]">
-												<paper-item class="button" style="max-height:initial;" on-tap="insertText" data-name$="[[item.name]]">
-													<span>[[item.title]]</span>
+												<paper-item class="button" style="max-height:initial;" on-tap="insertText" data-name$="[[item.code]]">
+													<span>[[item.code]]</span>
 												</paper-item>
 											</template>
 										</paper-listbox>
