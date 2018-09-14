@@ -23856,14 +23856,16 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
     this._api.row.add(a);
   }.bind(this)), this._api.draw(), this._createRowListener());
 }, preProcessData:function(a) {
-  var b = Object.keys(this.selectableList || {}), c = Object.keys(this.dateList || {});
-  Object.keys(this.datetimeList || {});
+  var b = Object.keys(this.selectableList || {}), c = Object.keys(this.dateList || {}), d = Object.keys(this.datetimeList || {});
   a.forEach(function(a) {
     b.forEach(function(b) {
       a[b + "_display"] = this.selectableList[b][a[b]];
     }, this);
     c.forEach(function(b) {
       a[b + "_display"] = this.getDate(a[b]);
+    }, this);
+    d.forEach(function(b) {
+      a[b + "_display"] = this.getDatetime(a[b]);
     }, this);
   }, this);
   return a;
@@ -23907,6 +23909,8 @@ Polymer({is:"simpl-crudtable", behaviors:[DataTablesBehavior, ModernizrBehavior,
   return b;
 }, _getRpcHeader:function(a) {
   return {service:"data", method:"queryOne", params:{storeId:this.namespace + "_data", entity:"document", getContent:!0, id:a}};
+}, getDatetime:function(a) {
+  return null == a ? "--" : moment(parseInt(a)).format("L HH:mm");
 }, getDate:function(a) {
   return null == a ? "--" : moment(parseInt(a)).format("L");
 }, refresh:function() {
