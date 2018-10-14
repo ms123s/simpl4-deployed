@@ -25248,9 +25248,8 @@ Polymer({is:"tree-field", behaviors:[Polymer.IronFormElementBehavior, Polymer.Pa
   b && b.id && (b = b.id);
   if (Number.isInteger(b) || !_.isEmpty(b)) {
     b = this.jqtree.tree("getNodeById", b);
-    this.jqtree.tree("selectNode", b);
-    this.jqtree.tree("scrollToNode", b);
-    this.$.dropdownId.querySelector("#input").value = b.name;
+    console.log("node:", b);
+    b ? (this.jqtree.tree("selectNode", b), this.jqtree.tree("scrollToNode", b), this.$.dropdownId.querySelector("#input").value = b.name) : this.$.dropdownId.querySelector("#input").value = null;
     try {
       this.selectedItemChanged(a);
     } catch (c) {
@@ -31201,9 +31200,9 @@ Polymer({is:"template-editor", listeners:{}, properties:{mainTabId:{type:String,
 }, saveState:function(a, b) {
   var c = b || this.getState();
   null == b && (this.currentTemplateName = a);
-  a = {service:"registry", method:"set", parameter:{key:"/dashboard/template/" + a, attributes:{subject:"template"}, value:JSON.stringify(c)}, async:!0, context:this, failed:function(a) {
+  a = {service:"registry", method:"set", parameter:{key:"/dashboard/template/" + a, permissions:{"add:role:reader":"ALLOW_READ"}, attributes:{subject:"template"}, value:JSON.stringify(c)}, async:!0, context:this, failed:function(a) {
     console.error("saveTemplate:", a);
-    null != a && this.notify(tr("error"), "error", 8000);
+    null != a && (0 < a.message.indexOf("OSecurity") ? this.notify(tr("nopermission"), "error", 8000) : this.notify(tr("error"), "error", 8000));
   }, completed:function(a) {
     this.notify(tr("te.template_saved"), "success", 8000);
   }};

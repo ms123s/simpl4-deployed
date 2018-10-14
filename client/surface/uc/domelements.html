@@ -18178,10 +18178,10 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 			<linkedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></linkedobj-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isEmbeddedObj(item)}}">
-			<embeddedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-field>
+			<embeddedobj-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" mode="[[mode]]" tabindex$="[[item.xf_tabindex]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-field>
 		</template>
 		<template name="{{item.xf_id}}" is="dom-if" if="{{isEmbeddedObjInline(item)}}">
-			<embeddedobj-inline-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" formexpression="[[item.xf_formexpression]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-inline-field>
+			<embeddedobj-inline-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" mode="[[mode]]" tabindex$="[[item.xf_tabindex]]" formexpression="[[item.xf_formexpression]]" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></embeddedobj-inline-field>
 		</template>
 		<template is="dom-if" if="{{isModuleSelector(item.id)}}">
 			<db-selector-field field="" class="flex" name$="{{item.xf_id}}" namespace="{{item.xf_namespace}}" tabindex$="[[item.xf_tabindex]]" fieldlist="{{item.xf_fieldlist}}" entity="{{item.xf_module}}" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}" help$="{{item.help}}" label="{{item.label}}"></db-selector-field>
@@ -18195,12 +18195,12 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template is="dom-if" if="{{isGroup(item.id)}}">
 			<simpl-group id$="[[item.xf_id]]" class="group layout vertical" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}">
 				<label for=".group">{{item.label}}</label>
-				<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
+				<form-element-selector mode="[[mode]]" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
 			</form-element-selector></simpl-group>
 		</template>
 		<template is="dom-if" if="{{isRow(item.id)}}">
 			<simpl-row class="horizontal layout center wrap">
-				<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
+				<form-element-selector mode="[[mode]]" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}">
 			</form-element-selector></simpl-row>
 		</template>
 	</template>
@@ -18239,7 +18239,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 				<template is="dom-repeat" as="i" items="[[item.childShapes]]">
 					<simpl-animatable-page class="page" tabs-id$="[[i.xf_id]]" style$="[[getPageStyle()]]">
 						<template is="dom-repeat" as="j" items="[[i.childShapes]]">
-							<form-element-renderer style$="[[getElementStyle()]]" class="flex" item="[[j]]">
+							<form-element-renderer mode="[[mode]]" style$="[[getElementStyle()]]" class="flex" item="[[j]]">
 						</form-element-renderer></template>
 					</simpl-animatable-page>
 				</template>
@@ -18265,31 +18265,31 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 		<template is="dom-repeat" items="{{items}}">
 
 			<template is="dom-if" if="{{isField(item.id)}}">
-				<form-element-renderer style="width:100%;" class="flex" item="[[item]]"></form-element-renderer> 
+				<form-element-renderer mode="[[mode]]" style="width:100%;" class="flex" item="[[item]]"></form-element-renderer> 
 			</template>
 			<template is="dom-if" if="{{isActionButton(item.id)}}" restamp="">
-				<form-element-renderer class="" style="min-width:100px;margin-top:20px;" item="[[item]]"></form-element-renderer>
+				<form-element-renderer mode="[[mode]]" class="" style="min-width:100px;margin-top:20px;" item="[[item]]"></form-element-renderer>
 			</template>
 
 			<template is="dom-if" if="[[isTabView(item.id)]]">
-				<form-tab-renderer class="flex" item="[[item]]"></form-tab-renderer>
+				<form-tab-renderer mode="[[mode]]" class="flex" item="[[item]]"></form-tab-renderer>
 			</template>
 
 			<template is="dom-if" if="{{isGroup(item.id)}}">
 				<simpl-group id$="[[item.xf_id]]" class="flex layout vertical group" enabled-expr$="{{item.xf_enabled}}" readonly-expr$="{{item.xf_readonly}}" invisible-expr$="{{item.xf_invisible}}" exclude-expr$="{{item.xf_exclude}}">
 					<label for=".group">{{item.label}}</label>
-					<form-element-selector class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
+					<form-element-selector mode="[[mode]]" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
 				</simpl-group>
 			</template>
 
 			<template is="dom-if" if="{{isRow(item.id)}}">
 				<simpl-row class="horizontal layout center wrap">
-					<form-element-selector style="width:100%;" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
+					<form-element-selector style="width:100%;" mode="[[mode]]" class="flex layout horizontal baseline wrap" items="{{item.childShapes}}"></form-element-selector>
 				</simpl-row>
 			</template>
 
 			<template is="dom-if" if="{{isForm(item.id)}}" restamp="">
-				<form-element-selector items="[[item.childShapes]]"></form-element-selector>
+				<form-element-selector mode="[[mode]]" items="[[item.childShapes]]"></form-element-selector>
 			</template>
 
 		</template>
@@ -18377,7 +18377,7 @@ select[data-dropdownjs][disabled] + .dropdownjs > input[readonly] {
 	<template>
 
 		<fieldset style="width:1px;min-width:100%;" id="formdiv" verticax="" xayout="">
-			<form-element-selector items="{{shapes}}"></form-element-selector>
+			<form-element-selector mode="[[mode]]" items="{{shapes}}"></form-element-selector>
 		</fieldset>
 
 			<template is="dom-if" if="[[_errorMessage]]">
