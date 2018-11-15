@@ -1,4 +1,4 @@
 libs
 -----
-opencv-400.jar to  /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64
-liblept and libtesseract to /usr/lib/x86_64-linux-gnu
+cp libopencv_java400.so  /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64
+cp liblept.so libtesseract.so  /usr/lib/x86_64-linux-gnu
