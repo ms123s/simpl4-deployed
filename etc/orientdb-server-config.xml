@@ -88,7 +88,8 @@
     <entry value="1" name="db.pool.min" />
     <entry value="50" name="db.pool.max" />
     <entry value="etc/orientdb/www" name="orientdb.www.path" />
-    <entry value="../gitrepos/global_data/store/orientdb" name="server.database.path" />
+    <!--entry value="../gitrepos/global_data/store/orientdb" name="server.database.path" /-->
+		<entry value="/opt/orientdb" name="server.database.path" />
     <entry value="etc/security.json" name="server.security.file" />
     <entry value="false" name="profiler.enabled" />
   </properties>
