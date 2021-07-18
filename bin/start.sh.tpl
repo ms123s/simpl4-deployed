@@ -32,8 +32,9 @@ export PATH=.:/opt/java/bin:$PATH
 case "$ACTION" in
    start)
       echo  "Starting: $SIMPL4DIR"
+      rm -f log/simpl4.log
       cd server
-      run.sh >save 2>&1 &
+      run.sh >save 2>&1
       echo
    ;;
    
