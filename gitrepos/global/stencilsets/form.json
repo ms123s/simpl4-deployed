@@ -1,0 +1,3268 @@
+{
+  "title": "Forms",
+  "title_de": "Forms",
+  "namespace": "http://b3mn.org/stencilset/xforms#",
+  "description": "This is the XForms stencil set specification.",
+  "propertyPackages": [ {
+    "name": "getPackage",
+    "properties": [ {
+      "id": "xf_varname",
+      "type": "String",
+      "title": "Inputlist",
+      "title_de": "Eingabeliste",
+      "value": "",
+      "description": "Name of the list with the selectable elements",
+      "description_de": "Name der Liste mit den auszuwählenden Elementen",
+      "popular": false,
+      "readonly": "xf_jsonpath!='' || this.xf_enum!=null || this.xf_enumembed!=null || xf_service!=null || xf_filter!=null",
+      "optional": true,
+      "length": "50"
+    }, {
+			"id": "namespace",
+			"title": "Namespace",
+			"description": "optional",
+			"config": {
+				type: "ms123.util.RepoList"
+			},
+			"type": "Combo",
+			"value": null,
+			"items": []
+		}, {
+      "id": "xf_jsonpath",
+      "type": "String",
+      "title": "Json path",
+      "title_de": "Json Pfad",
+      "description": "Access to selectionlist with <b>jsonpath</b>, refer <b>'Selectionlists'</b> in the global form attributes<br/>eg. <br/><b>$.countrylist</b>",
+      "description_de": "Zugriff auf Auswahlliste mit <b>jsonpath</b>, siehe <b>'Selectionlisten'</b< in den globalen Form Eigenschaften<br/> z.B: <br/><b>$.countrylist</b>",
+      "prefix": "oryx",
+      "value": "",
+      "popular": false,
+      "optional": true,
+      "readonly": "xf_varname!='' || this.xf_enum!=null || this.xf_enumembed!=null || xf_service!=null || xf_filter!=null",
+      "refToView": ""
+    }, {
+      "id": "xf_enumembed",
+      "type": "Complex",
+      "title": "Embedded",
+      "title_de": "Eingeschlossen",
+      "value": "",
+      "description": "Enter selctionlist directly",
+      "description_de": "Auswahlliste direkt eingeben",
+      "popular": false,
+      "readonly": "xf_varname!='' || xf_jsonpath!='' || this.xf_enum!=null || xf_service!=null || xf_filter!=null",
+      "optional": true,
+      "include": "stencil=='enumselect'",
+      "complexItems": [ {
+        "id": "value",
+        "name": "Value",
+        "name_de": "Wert",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "label",
+        "name": "Label",
+        "name_de": "Label",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "tooltip",
+        "name": "Tooltip",
+        "name_de": "Tooltip",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_enum",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.enum" ],
+        "kind": "enum"
+      },
+      "title": "Get(Enum)",
+      "title_de": "Beziehen(Enum)",
+      "value": "",
+      "description_de": "Eine Aufzählung als Auswahliste laden",
+      "description": "Load a enumeration as selectionlist",
+      "popular": false,
+      "readonly": "xf_varname!='' || xf_jsonpath!='' || this.xf_enumembed!=null || xf_service!=null || xf_filter!=null",
+      "include": "stencil=='enumselect'",
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_filter",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.filter" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Filter)",
+      "title_de": "Beziehen(Filter)",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Load an predefinied filter as selectionlist</b>.<br/>The service can be parameterized",
+      "description_de": "<b>Einen vordefinierten Filter als Auswahliste verwenden</b>.<br/> Der Filter kann parametrisiert werden",
+      "popular": false,
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_service!=null || xf_varname!='' || xf_jsonpath!=''"
+    }, {
+      "id": "xf_service",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.camel" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Service)",
+      "title_de": "Beziehen(Service)",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Get selectionlist generated per servicecall</b>.<br/>The service must return a list, with these <b>properties (value, label, tooltip)</b>.<br/> However, the properties can be also assigned (mapped).<br/>The service can be parameterized",
+      "description_de": "<b>Auswahlliste erzeugen per Serviceaufruf</b>.<br/>Der Service muss eine Liste mit folgenden <b>Eigenschaften (value, label, tooltip)</b> liefern.<br/> Jedoch können die Eigenschaften auch zugewiesen(gemapped)  werden.<br/>Der Service kann parametrisiert werden",
+      "popular": false,
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_filter != null  || xf_varname!='' || xf_jsonpath!=''"
+    }, {
+      "id": "xf_parammapping",
+      "type": "Complex",
+      "title": "Parameter(Filter,Service)",
+      "value": "",
+      "description": "Parametermapping for filter and servicecall.<br/>In addition to form variables (field content) the following variables can also be used: <ul><li><b>$lang</b>: string, current language</li><li><b>$uuid</b> : string, value from <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li></ul>",
+      "description_de": "Parametermapping für Filter und Serviceaufruf.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li></ul>",
+      "popular": false,
+      "optional": true,
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_varname!='' || xf_jsonpath!=''",
+      "complexItems": [ {
+        "id": "formexpr",
+        "name": "Formexpression",
+        "name_de": "Form Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "param",
+        "name": "Service parameter",
+        "name_de": "Service Parameter",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_resultmapping",
+      "type": "Complex",
+      "title": "Result(Filter,Service)",
+      "value": "",
+      "description": "Resultmapping for filter and servicecall.<br/>Can be empty, if the properties of the list(value,label,tooltip) match",
+      "description_de": "Ergebniszuweisung für Filter und Serviceaufruf.<br/>Kann leer sein, wenn die Eigenschaft(value,label,tooltip) der Liste übereinstimmen",
+      "popular": false,
+      "optional": true,
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null",
+      "complexItems": [ {
+        "id": "resultexpr",
+        "name": "Result expression",
+        "name_de": "Ergebnis Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    }]},{
+    "name": "getPackageKey",
+    "properties": [ {
+      "id": "xf_enumembedKey",
+      "type": "Complex",
+      "title": "Embedded/key",
+      "title_de": "Eingeschlossen/key",
+      "value": "",
+      "description": "Enter selctionlist directly(Key)",
+      "description_de": "Auswahlliste direkt eingeben(Key)",
+      "popular": false,
+      "readonly": "this.xf_enum!=null || xf_service!=null || xf_filter!=null",
+      "optional": true,
+      "visible": "xf_collectiontype=='map'",
+      "complexItems": [ {
+        "id": "value",
+        "name": "Value",
+        "name_de": "Wert",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "label",
+        "name": "Label",
+        "name_de": "Label",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "tooltip",
+        "name": "Tooltip",
+        "name_de": "Tooltip",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_enumKey",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.enum" ],
+        "kind": "enum"
+      },
+      "title": "Get(Enum)/key",
+      "title_de": "Beziehen(Enum)/key",
+      "value": "",
+      "description_de": "Eine Aufzählung als Auswahliste laden(Key)",
+      "description": "Load a enumeration as selectionlist(Key)",
+      "popular": false,
+      "readonly": "this.xf_enumembed!=null || xf_service!=null || xf_filter!=null",
+      "visible": "xf_collectiontype=='map'",
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_filterKey",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.filter" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Filter)/key",
+      "title_de": "Beziehen(Filter)/key",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Load an predefinied filter as selectionlist</b>.<br/>The service can be parameterized(Key)",
+      "description_de": "<b>Einen vordefinierten Filter als Auswahliste verwenden</b>.<br/> Der Filter kann parametrisiert werden(Key)",
+      "popular": false,
+      "visible": "xf_collectiontype=='map'",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_service!=null"
+    }, {
+      "id": "xf_serviceKey",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.camel" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Service)/key",
+      "title_de": "Beziehen(Service)/key",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Get selectionlist generated per servicecall</b>.<br/>The service must return a list, with these <b>properties (value, label, tooltip)</b>.<br/> However, the properties can be also assigned (mapped).<br/>The service can be parameterized",
+      "description_de": "<b>Auswahlliste erzeugen per Serviceaufruf</b>.<br/>Der Service muss eine Liste mit folgenden <b>Eigenschaften (value, label, tooltip)</b> liefern.<br/> Jedoch können die Eigenschaften auch zugewiesen(gemapped)  werden.<br/>Der Service kann parametrisiert werden",
+      "popular": false,
+      "visible": "xf_collectiontype=='map'",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_filter != null"
+    }, {
+      "id": "xf_parammappingKey",
+      "type": "Complex",
+      "title": "Parameter(Filter,Service)/key",
+      "value": "",
+      "description": "Parametermapping for filter and servicecall.<br/>In addition to form variables (field content) the following variables can also be used: <ul><li><b>$lang</b>: string, current language</li><li><b>$uuid</b> : string, value from <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li></ul>",
+      "description_de": "Parametermapping für Filter und Serviceaufruf.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li></ul>",
+      "popular": false,
+      "optional": true,
+      "visible": "xf_collectiontype=='map'",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null",
+      "complexItems": [ {
+        "id": "formexpr",
+        "name": "Formexpression",
+        "name_de": "Form Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "param",
+        "name": "Service parameter",
+        "name_de": "Service Parameter",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_resultmappingKey",
+      "type": "Complex",
+      "title": "Result(Filter,Service)/key",
+      "value": "",
+      "description": "Resultmapping for filter and servicecall.<br/>Can be empty, if the properties of the list(value,label,tooltip) match",
+      "description_de": "Ergebniszuweisung für Filter und Serviceaufruf.<br/>Kann leer sein, wenn die Eigenschaft(value,label,tooltip) der Liste übereinstimmen",
+      "popular": false,
+      "optional": true,
+      "visible": "xf_collectiontype=='map'",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null",
+      "complexItems": [ {
+        "id": "resultexpr",
+        "name": "Result expression",
+        "name_de": "Ergebnis Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    } ]
+  }, {
+    "name": "getPackageValue",
+    "properties": [ {
+      "id": "xf_enumembedValue",
+      "type": "Complex",
+      "title": "Embedded/value",
+      "title_de": "Eingeschlossen/value",
+      "value": "",
+      "description": "Enter selctionlist directly(Value)",
+      "description_de": "Auswahlliste direkt eingeben(Value)",
+      "popular": false,
+      "readonly": "this.xf_enum!=null || xf_service!=null || xf_filter!=null",
+      "optional": true,
+      "visible": "true",
+      "complexItems": [ {
+        "id": "value",
+        "name": "Value",
+        "name_de": "Wert",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "label",
+        "name": "Label",
+        "name_de": "Label",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "tooltip",
+        "name": "Tooltip",
+        "name_de": "Tooltip",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_enumValue",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.enum" ],
+        "kind": "enum"
+      },
+      "title": "Get(Enum)/value",
+      "title_de": "Beziehen(Enum)/value",
+      "value": "",
+      "description_de": "Eine Aufzählung als Auswahliste laden(Value)",
+      "description": "Load a enumeration as selectionlist(Value)",
+      "popular": false,
+      "readonly": "this.xf_enumembed!=null || xf_service!=null || xf_filter!=null",
+      "visible": "xf_collectiontype=='map'",
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_filterValue",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.filter" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Filter)/value",
+      "title_de": "Beziehen(Filter)/value",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Load an predefinied filter as selectionlist</b>.<br/>The service can be parameterized(Value)",
+      "description_de": "<b>Einen vordefinierten Filter als Auswahliste verwenden</b>.<br/> Der Filter kann parametrisiert werden(Value)",
+      "popular": false,
+      "visible": "true",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_service!=null"
+    }, {
+      "id": "xf_serviceValue",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.camel" ],
+				"namespace":"${namespace}",
+        "prefix": ""
+      },
+      "title": "Get(Service)/value",
+      "title_de": "Beziehen(Service)/value",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Get selectionlist generated per servicecall</b>.<br/>The service must return a list, with these <b>properties (value, label, tooltip)</b>.<br/> However, the properties can be also assigned (mapped).<br/>The service can be parameterized",
+      "description_de": "<b>Auswahlliste erzeugen per Serviceaufruf</b>.<br/>Der Service muss eine Liste mit folgenden <b>Eigenschaften (value, label, tooltip)</b> liefern.<br/> Jedoch können die Eigenschaften auch zugewiesen(gemapped)  werden.<br/>Der Service kann parametrisiert werden",
+      "popular": false,
+      "visible": "true",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null || xf_filter != null"
+    }, {
+      "id": "xf_parammappingValue",
+      "type": "Complex",
+      "title": "Parameter(Filter,Service)/value",
+      "value": "",
+      "description": "Parametermapping for filter and servicecall.<br/>In addition to form variables (field content) the following variables can also be used: <ul><li><b>$lang</b>: string, current language</li><li><b>$uuid</b> : string, value from <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li></ul>",
+      "description_de": "Parametermapping für Filter und Serviceaufruf.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li></ul>",
+      "popular": false,
+      "optional": true,
+      "visible": "true",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null",
+      "complexItems": [ {
+        "id": "formexpr",
+        "name": "Formexpression",
+        "name_de": "Form Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "param",
+        "name": "Service parameter",
+        "name_de": "Service Parameter",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_resultmappingValue",
+      "type": "Complex",
+      "title": "Result(Filter,Service)/value",
+      "value": "",
+      "description": "Resultmapping for filter and servicecall.<br/>Can be empty, if the properties of the list(value,label,tooltip) match",
+      "description_de": "Ergebniszuweisung für Filter und Serviceaufruf.<br/>Kann leer sein, wenn die Eigenschaft(value,label,tooltip) der Liste übereinstimmen",
+      "popular": false,
+      "optional": true,
+      "visible": "true",
+      "readonly": "this.xf_enum!=null || this.xf_enumembed!=null",
+      "complexItems": [ {
+        "id": "resultexpr",
+        "name": "Result expression",
+        "name_de": "Ergebnis Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "value",
+          "title": "value",
+          "value": "value"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "tooltip",
+          "title": "tooltip",
+          "value": "tooltip"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    } ]
+  }, {
+    "name": "getPackageTree",
+    "properties": [ {
+      "id": "xf_varname",
+      "type": "String",
+      "title": "Inputtree",
+      "title_de": "Eingabebaum",
+      "value": "",
+      "description": "Name of the tree with the selectable elements",
+      "description_de": "Name der Baums mit den auszuwählenden Elementen",
+      "popular": false,
+      "readonly": "xf_jsonpath!='' || xf_service!=null",
+      "optional": true,
+      "length": "50"
+    }, {
+      "id": "xf_jsonpath",
+      "type": "String",
+      "title": "Json path",
+      "title_de": "Json Pfad",
+      "description": "Access to treestructur with <b>jsonpath</b>, refer <b>'Treestructure'</b> in the global form attributes<br/>eg. <br/><b>$.countrylist</b>",
+      "description_de": "Zugriff auf Baumstrukture mit <b>jsonpath</b>, siehe <b>'Baumstrukturen'</b< in den globalen Form Eigenschaften<br/> z.B: <br/><b>$.countrylist</b>",
+      "prefix": "oryx",
+      "value": "",
+      "popular": false,
+      "optional": true,
+      "readonly": "xf_varname!='' || xf_service!=null || xf_resource!=''",
+      "refToView": ""
+    }, {
+      "id": "xf_resource",
+      "type": "String",
+      "title": "Resourcetype",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Get a Resourcetree(eg.: sw.form)</b>",
+      "popular": false,
+      "readonly": "xf_varname!='' || xf_service!=null || xf_jsonpath!=''"
+    }, {
+      "id": "xf_service",
+      "type": "ResourceSelector",
+      "config": {
+        "type": [ "sw.camel" ],
+        "prefix": ""
+      },
+      "title": "Get(Service)",
+      "title_de": "Beziehen(Service)",
+      "prefix": "oryx",
+      "value": null,
+      "description": "<b>Get treestrukture generated per servicecall</b>.<br/>The service must return a tree, with these <b>properties (id, label, children)</b>.<br/> However, the properties can be also assigned (mapped).<br/>The service can be parameterized",
+      "description_de": "<b>Baumstruktur erzeugen per Serviceaufruf</b>.<br/>Der Service muss einen Baum mit folgenden <b>Eigenschaften (id, label, children)</b> liefern.<br/> Jedoch können die Eigenschaften auch zugewiesen(gemapped)  werden.<br/>Der Service kann parametrisiert werden",
+      "popular": false,
+      "readonly": "xf_varname!='' || xf_jsonpath!='' || xf_resource!=''"
+    }, {
+      "id": "xf_parammapping",
+      "type": "Complex",
+      "title": "Parameter(Service)",
+      "value": "",
+      "description": "Parametermapping servicecall.<br/>In addition to form variables (field content) the following variables can also be used: <ul><li><b>$lang</b>: string, current language</li><li><b>$uuid</b> : string, value from <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li></ul>",
+      "description_de": "Parametermapping Serviceaufruf.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li></ul>",
+      "popular": false,
+      "optional": true,
+      "readonly": "xf_varname!='' || xf_jsonpath!='' || xf_resource!=''",
+      "complexItems": [ {
+        "id": "formexpr",
+        "name": "Formexpression",
+        "name_de": "Form Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "param",
+        "name": "Service parameter",
+        "name_de": "Service Parameter",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_resultmapping",
+      "type": "Complex",
+      "title": "Result(Service)",
+      "value": "",
+      "description": "Resultmapping for the servicecall.<br/>Can be empty, if the nodes of the tree(id,label,children) match",
+      "description_de": "Ergebniszuweisung für den Serviceaufruf.<br/>Kann leer sein, wenn die Eigenschaft(id,label,children) des Baums übereinstimmen",
+      "popular": false,
+      "include": false,
+      "optional": true,
+      "readonly": "false",
+      "complexItems": [ {
+        "id": "resultexpr",
+        "name": "Result expression",
+        "name_de": "Ergebnis Expression",
+        "type": "String",
+        "value": "",
+        "width": 400,
+        "optional": false
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "id",
+          "title": "id",
+          "value": "id"
+        }, {
+          "id": "label",
+          "title": "label",
+          "value": "label"
+        }, {
+          "id": "children",
+          "title": "children",
+          "value": "children"
+        } ],
+        "width": 80,
+        "optional": false
+      } ]
+    } ]
+  }, {
+    "name": "visibilityPackage",
+    "properties": [ {
+      "id": "xf_exclude",
+      "type": "Text",
+      "title": "Exclude",
+      "title_de": "Ausschließen",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird nach jedem Tastendruck aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte true oder false zurückliefern.<br/>z.B.:<code> <br/>field1 == 'XYZ'</code><br/>",
+      "description": "The script is called after every keypress. <br/>Following variables in the script available <ul><li><b>$lang</b>: string, current Language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return true or false.<br/>eg.:<code> <br/>field1=='XYZ'</code><br/>",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_invisible",
+      "type": "Text",
+      "title": "Invisible",
+      "title_de": "Unsichtbar",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird nach jedem Tastendruck aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte true oder false zurückliefern.<br/>z.B.:<code> <br/>field1 == 'XYZ'</code><br/>",
+      "description": "The script is called after every keypress. <br/>Following variables in the script available <ul><li><b>$lang</b>: string, current Language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return true or false.<br/>eg.:<code> <br/>field1=='XYZ'</code><br/>",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_readonly",
+      "type": "Text",
+      "title": "Readonly",
+      "title_de": "Nur lesen",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird nach jedem Tastendruck aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte true oder false zurückliefern.<br/>z.B.:<code> <br/>field1 == 'XYZ'</code><br/>",
+      "description": "The script is called after every keypress. <br/>Following variables in the script available <ul><li><b>$lang</b>: string, current Language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return true or false.<br/>eg.:<code> <br/>field1=='XYZ'</code><br/>",
+      "popular": false,
+      "readonly": false,
+      "include": "stencil!='alert' && stencil!='upload'",
+      "optional": true,
+      "refToView": ""
+    } ]
+  }, {
+    "name": "tabindexPackage",
+    "properties": [ {
+      "id": "xf_tabindex",
+      "type": "Integer",
+      "title": "Tabindex",
+      "prefix": "oryx",
+      "value": null,
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    } ]
+  } ],
+  "stencils": [ {
+    "type": "node",
+    "id": "XForm",
+    "title": "XForm",
+    "groups": [ "Form" ],
+    "description": "A XForms form.",
+    "view": "new_form.svg",
+    "icon": "new_form.png",
+    "mayBeRoot": true,
+    "hide": true,
+    "roles": [ "standard_container" ],
+
+    "layout": [ {
+      "type": "layout.rows",
+      "marginTop": 30,
+      "marginLeft": 30,
+      "spacingX": 30,
+      "spacingY": 30
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "This is a unique Id that distinguishes the form from other forms.",
+      "readonly": false,
+      "popular": true,
+      "optional": true,
+      "length": "50"
+    }, {
+      "id": "xf_name",
+      "type": "String",
+      "title": "Form variablename",
+      "title_de": "Formvariablename",
+      "description": "Name of the form variable in a process,<br/>otherwise not used.<h4>Attention:</h4><b>if this name is changed, all references in the processes must be changed too.</b>",
+      "description_de": "Dieser Name wird als Formvariable im Prozess benutzt,<br/>Anderweitig nicht benutzt.<h4>Achtung:</h4><b> wenn der Name geändert wird, müssen alle Referenzen in den Prozessen ebenfalls geändert werden.</b>",
+      "prefix": "oryx",
+      "value": null,
+		  "filter": "[a-zA-Z0-9]",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "length": "50",
+      "refToView": "formcaption",
+      "wrapLines": true
+    }, {
+      "id": "xf_version",
+      "type": "String",
+      "title": "version",
+      "title_de": "Version",
+      "prefix": "oryx",
+      "value": "",
+      "description": "This defines the version number of the form model.",
+      "include": false,
+      "readonly": false,
+      "optional": true,
+      "length": "50"
+    }, {
+      "id": "xf_string_null_in_empty",
+      "type": "Boolean",
+      "title": "Nullwerte -> Leerstring",
+      "title_de": "Nullvalues -> Emptystring",
+      "prefix": "oryx",
+      "value": false,
+      "description": "Convert strings with nullvalues to emptystring",
+      "description_de": "Konvertieren von Strings mit Nullwerten in einen Leerstring",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_default_buttons",
+      "type": "Boolean",
+      "title": "Default buttons",
+      "title_de": "Standard Buttons",
+      "prefix": "oryx",
+      "value": true,
+      "description": "Buttons to be displayed automatically,<br/> without defining them in the formmodel.",
+      "description_de": "Buttons die automatisch angezeigt werden sollen, <br/>ohne sie im Formmodell zu definieren.",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_used_default_buttons",
+      "type": "Complex",
+      "config": {
+      },
+      "title": "Buttonconfig",
+      "title_de": "Buttonkonf.",
+    	"value": "{ \"totalCount\": 3, \"items\": [ { \"label\": \"@form.execute\", \"action\": \"execute\", \"icon\": \"check\" }, { \"label\": \"@button.reset\", \"action\": \"reset\", \"icon\": \"refresh\" }, { \"label\": \"@button.cancel\", \"action\": \"cancel\", \"icon\": \"clear\" } ] }",
+      "description_de": "Konfiguration der Standard Buttons",
+      "description": "Configuration of the default buttons",
+      "popular": true,
+      "include": "xf_default_buttons==true",
+      "readonly": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "label",
+        "name": "Label",
+        "name_de": "Label",
+        "type": "String",
+        "value": "",
+        "width": 250,
+        "optional": false
+      }, {
+        "id": "icon",
+        "name": "Icon",
+        "name_de": "Icon",
+        "type": "String",
+        "value": "",
+        "width": 120,
+        "optional": false
+      }, {
+        "id": "action",
+        "name": "Action",
+        "name_de": "Aktion",
+        "readonly": false,
+        "type": "combo",
+        "value": "value",
+        "items": [ {
+          "id": "execute",
+          "title": "execute",
+          "value": "execute"
+        }, {
+          "id": "reset",
+          "title": "reset",
+          "value": "reset"
+        }, {
+          "id": "cancel",
+          "title": "cancel",
+          "value": "cancel"
+        } ],
+        "width": 120,
+        "optional": false
+      }, {
+        "id": "enter",
+        "name": "Enter",
+        "name_de": "Enter",
+        "type": "Boolean",
+        "value": false,
+        "width": 60,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_method_fetch",
+      "type": "String",
+      "title": "Selectionlists",
+      "title_de": "Selectionslisten",
+      "description_de": "Mehrere Selectionslisten(Verwendung in Enumselect,Tableselect) mit einem Servicecall holen.<br/>Ziel die Listen nicht für jedes Feld einzeln beschaffen.<br/>Auf die einzelnen Listen kann dann mit jsonpath zugegriffen werden.<br/><br/>Der Service wird nach dem Erstellen der Form mit folgenden Parametern aufgerufen<ul><li><b>lang</b>: string, aktuelle Sprache</li><li><b>uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>mode</b> : string, <b>edit</b> oder <b>add</b></li></ul> Rückgabe ein Object mit Listen.<br/>z.B.:<code> <br/>{<br/>\u00a0\u00a0de : [{value:wer1,label:beschriftung1}], ..<br/>\u00a0\u00a0en : [{value:value1,label:label1}], .. <br/>}</code><br/><br/>Zugriff mit jsonpath:<br/><b>$.de</b> ist der Jsonpath für die erste(de) Liste.",
+      "description": "Get multiple selectionlists(used in Enumselect,Tableselect)  with one service call.<br/>Aim to procure the lists not for each field.<br/>Each list can be then accessed via jasonpath.<br/><br/>The service is called after form creation with the following parameters<ul><li><b>lang</b>: string, current language</li><li><b>uuid</b>: string, value  from from <b>window.uuid</b></li><li><b>mode</b> : string, <b>edit</b> or <b>add</b></li></ul> Return an object with  all lists.<br/>eg.<code> <br/>{<br/>\u00a0\u00a0de : [{value:wer1,label:beschriftung1}], ..<br/>\u00a0\u00a0en : [{value:value1,label:label1}], .. <br/>}</code><br/><br/>Access with jsonpath:<br/><b>$.de</b> is the jsonpath for the first(de) list",
+      "value": "",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "length": "50"
+    }, {
+      "id": "xf_preprocess_service",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.camel",
+        "prefix": ""
+      },
+      "title": "Preprocess(Service)",
+      "title_de": "Preprozess(Service)",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Der Service wird nach 'form.setData(formData)' mit folgenden Parametern aufgerufen<ul><li><b>formData</b>: Map</li><li><b>lang</b>: string, aktuelle Sprache</li><li><b>uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>mode</b> : string, <b>edit</b> oder <b>add</b></li></ul> Der Service sollte eine Map mit den <br/>geänderten oder hinzugefügten  Werten zurückliefern.<br/>z.B.:<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/></code>}<br/><br/>Der Service kann auch das Holen der Selectionslisten mit übernehmen:<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/>\u00a0\u00a0_selectionLists:object<br/></code>}<br/><br/>Hinweis: Wenn kein \"setData\", weder imperativ noch declarativ, existiert,<br/> dann sollte das \"data\" Attribute von simpl-form so <b>data=\"{}\"</b> gesetzt werden ",
+      "description": "The service is called after 'form.setData(formData)', with the following parameters<ul><li><b>formData</b>: Map</li><li><b>lang</b>: string, current language</li><li><b>uuid</b>: string, value  from from <b>window.uuid</b></li><li><b>mode</b> : string, <b>edit</b> or <b>add</b></li></ul> The service should return a map with the <br/>changed or added values.<br/>eg.<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/></code>}<br/><br/>The service can also fetch the selectionLists:<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/>\u00a0\u00a0_selectionLists:object<br/></code>}<br/><br/> Note: If no \"getData\", neither imperative nor declarativ exists, <br/> then should the \"data\" attribute of simpl-form as <b>data = \"{}\"</b> are set",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_preprocess_service_mode",
+      "type": "Choice",
+      "title": "Preprocess(Mode)",
+      "prefix": "oryx",
+      "value": "edit_add",
+      "description": "In which mode should the preprocess service invoked",
+      "description_de": "In welchen Modus soll der Preprocess-Service aufgerufen werden",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "edit,add",
+        "value": "edit_add"
+      }, {
+        "id": "c2",
+        "title": "edit",
+        "value": "edit"
+      }, {
+        "id": "c3",
+        "title": "add",
+        "value": "add"
+      } ]
+    }, {
+      "id": "xf_preprocess_local",
+      "config": {
+        "mode": "text/x-javascript"
+      },
+      "type": "Text",
+      "title": "Preprocess(local)",
+      "title_de": "Preprozess(lokal)",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird nach 'form.setData(formData)' aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte ein Object mit den <br/>geänderten oder hinzugefügten  Werten zurückliefern.<br/>z.B.:<code> <br/>data={apid:kl+'-'+ap}</code><br/><br/>Hinweis: Wenn kein \"setData\", weder imperativ noch declarativ, existiert,<br/> dann sollte das \"data\" Attribute von simpl-form so <b>data=\"{}\"</b> gesetzt werden ",
+      "description": "The script is called after 'form.setData(formData)'.<br/>Following variables in the script available <ul><li><b>$lang</b>: string, current  language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return a object with the <br/>changed or added  values..<br/>eg:<code> <br/>data={apid:kl+'-'+ap}</code><br/><br/> Note: If no \"getData\", neither imperative nor declarativ exists, <br/> then should the \"data\" attribute of simpl-form as <b>data = \"{}\"</b> are set",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_postprocess_service",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.camel",
+        "prefix": ""
+      },
+      "title": "Postprocess(Service)",
+      "title_de": "Postprozess(Service)",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Der Service wird vor der Validierung mit folgenden Parametern aufgerufen<ul><li><b>formData</b>: Map</li><li><b>lang</b>: string, aktuelle Sprache</li><li><b>uuid</b> : string, Wert der in <b>window.uuid</b> steht</li><li><b>mode</b> : string, <b>edit</b> oder <b>add</b></li></ul> Der Service sollte eine Map mit den <br/>geänderten oder hinzugefügten  Werten zurückliefern.<br/>z.B.:<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/></code>}",
+      "description": "The service is called before the validation with the following parameters<ul><li><b>formData</b>: Map</li><li><b>lang</b>: string, current language</li><li><b>uuid</b>: string, value  from from <b>window.uuid</b></li><li><b>mode</b> : string, <b>edit</b> or <b>add</b></li></ul> The service should return a map with the <br/>changed or added values.<br/>eg.<code> <br/>{<br/>\u00a0\u00a0fieldName1 : 'newValue',<br/>\u00a0\u00a0fieldName2 : 'newValue'<br/></code>}",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_postprocess_service_mode",
+      "type": "Choice",
+      "title": "Postprocess(Mode)",
+      "prefix": "oryx",
+      "value": "edit_add",
+      "description": "In which mode should the postprocess service invoked",
+      "description_de": "In welchen Modus soll der Postprocess-Service aufgerufen werden",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "edit,add",
+        "value": "edit_add"
+      }, {
+        "id": "c2",
+        "title": "edit",
+        "value": "edit"
+      }, {
+        "id": "c3",
+        "title": "add",
+        "value": "add"
+      } ]
+    }, {
+      "id": "xf_postprocess_local",
+      "config": {
+        "mode": "text/x-javascript"
+      },
+      "type": "Text",
+      "title": "Postprocess(local)",
+      "title_de": "Postprozess(lokal)",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird vor der Validierung aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte ein Object mit den <br/>geänderten oder hinzugefügten  Werten zurückliefern.<br/>z.B.:<code> <br/>data={apid:kl+'-'+ap}</code><br/>",
+      "description": "The script is called before the validation. <br/>Following variables in the script available <ul><li><b>$lang</b>: string, current Language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return a object with the <br/>changed or added  values.<br/>eg.:<code> <br/>data={apid:kl+'-'+ap}</code><br/>",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_save_disabled",
+      "config": {
+        "mode": "text/x-javascript"
+      },
+      "type": "Text",
+      "title": "SaveButton(Disabled)",
+      "title_de": "SaveButton(gesperrt)",
+      "prefix": "oryx",
+      "value": null,
+      "description_de": "Das Script wird nach jedem Tastendruck aufgerufen.<br/>Folgenden Variablen sind im Script vorhanden<ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li><li>alle Felder unter dem jeweiligen Namen</li></ul> Das Script sollte true oder false zurückliefern.<br/>z.B.:<code> <br/>field1 == 'XYZ'</code><br/>",
+      "description": "The script is called after every keypress. <br/>Following variables in the script available <ul><li><b>$lang</b>: string, current Language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li><li>all fields under the respective name</li></ul> The script should be return true or false.<br/>eg.:<code> <br/>field1=='XYZ'</code><br/>",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_validate_local",
+      "type": "Complex",
+      "title": "Global validate",
+      "title_de": "Globale Validierung",
+      "value": "",
+      "description": "Form global validation using javascript expressions.<br/>In addition to form variables (field content) the following variables can also be used: <ul><li><b>$lang</b>: string, current language</li><li><b>$mode</b> : string, <b>edit</b> or <b>add</b></li></ul>If an expression evaluates to true, the corresponding error message is displayed.",
+      "description_de": "Form globale Validierung mittels javascript expressions.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>$lang</b>: string, aktuelle Sprache</li><li><b>$mode</b> : string, <b>edit</b> oder <b>add</b></li></ul>Wenn ein Ausdruck true ergibt, wird die entsprechende Fehlermeldung angezeigt.",
+      "popular": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "expr",
+        "name": "Expression",
+        "type": "String",
+        "value": "",
+        "width": 200,
+        "optional": false
+      }, {
+        "id": "errormsg",
+        "name": "Error message",
+        "type": "String",
+        "value": "",
+        "width": 250,
+        "optional": false
+      } ]
+    }, {
+      "id": "xf_validate_service",
+      "type": "ResourceSelector",
+      "config": {
+				"editable":true,
+        "type": "sw.camel",
+        "prefix": ""
+      },
+      "title": "Global validate(Service)",
+      "title_de": "Globale Validierung(Service)",
+      "prefix": "oryx",
+      "value": null,
+      "description": "Form global validation using a service call.<br/>In addition to form variables (field content) the following variables can also be used: <ul> <li><b>uuid</b>: window.uuid</li><li><b>formData</b>: object, formData</li><li><b>lang</b>: string, current language</li><li><b>mode</b> : string, <b>edit</b> or <b>add</b></li></ul>., <br/><b>z.B.:</b><br/>def errors = [];<br/> def error = [:]<br/> error.message = 'Message1'<br/> error.path = 'fieldname1'<br/> errors.add( error);<br/> <br/> error = [:]<br/> error.message = 'Message2'<br/> error.path = 'fieldname2'<br/> errors.add( error);<br/> <br/> error = [:]<br/> error.message = 'Globalerrormessage'<br/> errors.add( error);<br/><br/><b>min.body=errors</b><br/><br/>",
+      "description_de": "Form globale Validierung mittels Serviceaufrufs.<br/>Neben den Formvariablen(Feldinhalte) können auch folgende Variablen benutzt werden: <ul><li><b>uuid</b>: window.uuid</li><li><b>formData</b>: object, formData</li><li><b>lang</b>: string, aktuelle Sprache</li><li><b>mode</b> : string, <b>edit</b> oder <b>add</b></li></ul> <br/><b>z.B.:</b><br/>def errors = [];<br/> def error = [:]<br/> error.message = 'Message1'<br/> error.path = 'fieldname1'<br/> errors.add( error);<br/> <br/> error = [:]<br/> error.message = 'Message2'<br/> error.path = 'fieldname2'<br/> errors.add( error);<br/> <br/> error = [:]<br/> error.message = 'Globalerrormessage'<br/> errors.add( error);<br/><br/><b>min.body=errors</b><br/><br/>",
+      "popular": false,
+      "readonly": false
+    }, {
+      "id": "xf_postprocess",
+      "config": {
+        "mode": "text/x-groovy"
+      },
+      "type": "Text",
+      "title": "Postprocess(process)",
+      "title_de": "Nachbearbeitung(Prozess)",
+      "value": "",
+			"description":"Can only be used in the context of a process. <br/> The script must be in groovy syntax and is executed before  the completion of a hauman task. <br/>It can be errors set, as seen in the example,  to prevent the completion the task.<br/>The form values are in the <b>\"request \"</b> object avalaible.<br/><br/><b>A example:</b><pre style=\"color:#212121;background:#EFF2F3;\">def mitarbeiter = executeNamedFilter(\"employee_check.filter\", [surname:request.name]).first()\ndef days = toDays(request.ende-request.start)\nif( days <= 0){\n  request.errors=[[\n    path:'ende',\n    message:'Das \"Ende\"-Datum muss nach dem \"Start\"-Datum sein.'\n  ]]\n}else if( days > mitarbeiter.remaining){\n  request.errors=[[\n    path:'ende',\n    message:'Sie haben nur noch '+mitarbeiter.remaining+ ' Tage Urlaub.'\n  ]]\n}</pre> ",
+			"description_de":"Wird nur ausgeführt, wenn die Form im Kontext eines Prozess benutzt wird.<br/>Das Script muss in groovy Syntax sein und wird vor dem komplettieren einer Human Task ausgeführt.<br/>Es können wie im Beipsiel zu sehen, Fehler gesetzt werden, die das komplettieren der Task verhindern<br/>Die Form Werte sind im <b>\"request\"</b> Object verfügbar.<br/><br/><b>Ein Beipiel:</b><pre  style=\"color:#212121;background:#EFF2F3;\">def mitarbeiter = executeNamedFilter(\"employee_check.filter\", [surname:request.name]).first()\ndef days = toDays(request.ende-request.start)\nif( days <= 0){\n  request.errors=[[\n    path:'ende',\n    message:'Das \"Ende\"-Datum muss nach dem \"Start\"-Datum sein.'\n  ]]\n}else if( days > mitarbeiter.remaining){\n  request.errors=[[\n    path:'ende',\n    message:'Sie haben nur noch '+mitarbeiter.remaining+ ' Tage Urlaub.'\n  ]]\n}</pre> ",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "length": "50"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Input",
+    "title": "Input",
+    "title_de": "Eingabefeld",
+    "groups": [ "Controls" ],
+    "description": "An input control.",
+    "view": "new_input.svg",
+    "icon": "new_input.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "description": "",
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_type",
+      "type": "Choice",
+      "title": "Input type",
+      "title_de": "Eingabetyp",
+      "prefix": "oryx",
+      "value": "text",
+      "description": "The input datatype",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "Text",
+        "value": "text",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "title": "Password",
+        "value": "password",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "Number",
+        "value": "number",
+        "refToView": ""
+      }, {
+        "id": "c4",
+        "title": "Boolean",
+        "value": "boolean",
+        "refToView": ""
+      }, {
+        "id": "c5",
+        "title": "Decimal",
+        "value": "decimal",
+        "refToView": ""
+      }, {
+        "id": "c6",
+        "title": "Date",
+        "value": "date",
+        "refToView": ""
+      }, {
+        "id": "c7",
+        "title": "DateTime",
+        "value": "datetime",
+        "refToView": ""
+      }, {
+        "id": "c8",
+        "title": "DateYearMonth",
+        "value": "dateyearmonth",
+        "refToView": ""
+      }, {
+        "id": "c9",
+        "title": "Computed",
+        "value": "computed",
+        "refToView": ""
+      } ]
+    }, {
+      "id": "xf_default",
+      "type": "String",
+      "title": "Defaultvalue",
+      "title_de": "Voreinstellung",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "description": "The default value is displayed, when the form is loaded.",
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_allowedpattern",
+      "type": "String",
+      "title_de": "Erlaubtes Muster",
+      "title": "Allowed Pattern",
+      "prefix": "oryx",
+      "description": "Example: <b>[0-9]</b> : allow only digits.",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_errormsg",
+      "type": "String",
+      "title": "Errormessage",
+      "title_de": "Fehlermeldung",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_expression_in",
+      "type": "text",
+      "title": "Convert(In)",
+      "title_de": "Konvertierung(Ein)",
+      "description": "The form assigned values can be manipulated, before they are put into the field.",
+      "description_de": "Der Form zugewiesene Werte manipulieren, bevor die sie ins Feld gestellt werden.",
+      "prefix": "oryx",
+      "value": "",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_expression_out",
+      "type": "text",
+      "title": "Convert(Out)",
+      "title_de": "Konvertierung(Aus)",
+      "description": "The script is called before the data readout from the form.",
+      "description_de": "Das Script wird aufgerufen vor dem Auslesen der Daten aus der Form.",
+      "prefix": "oryx",
+      "value": "",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_expression",
+      "type": "text",
+      "title": "Expression",
+      "title_de": "Ausdruck",
+      "description": "The field content is recalculated for each change in the form.",
+      "description_de": "Der Feldinhalt wird bei jeder Änderung in der Form neu berechnet.",
+      "prefix": "oryx",
+      "value": "",
+      "visible": "xf_type == 'computed'",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "include": false,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    }, {
+      "id": "xf_constraint_text",
+      "type": "Constraints",
+      "config": "###constraints_text",
+      "title": "Constraint(String)",
+      "title_de": "Prüfung(String)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type == 'string' || xf_type=='text' || xf_type=='password'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_date",
+      "type": "Constraints",
+      "config": "###constraints_date",
+      "title": "Constraint(Date)",
+      "title_de": "Prüfung(Datum)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='date'||xf_type=='datetime'||xf_type=='dateyearmonth'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_boolean",
+      "type": "Constraints",
+      "config": "###constraints_boolean",
+      "title": "Constraint(Boolean)",
+      "title_de": "Prüfung(Boolean)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='boolean'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_decimal",
+      "type": "Constraints",
+      "config": "###constraints_decimal",
+      "title": "Constraint(Decimal)",
+      "title_de": "Prüfung(Dezimal)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='decimal'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_number",
+      "type": "Constraints",
+      "config": "###constraints_number",
+      "title": "Constraint(Number)",
+      "title_de": "Prüfung(Nummer)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='number'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Label",
+    "title": "Label",
+    "title_de": "Label",
+    "groups": [ "Support Elements" ],
+    "description": "A label for form controls.",
+    "view": "new_label.svg",
+    "icon": "new_label.png",
+    "roles": [ "label" ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "readonly": false,
+      "include": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_text",
+      "type": "String",
+      "title": "text",
+      "prefix": "oryx",
+      "value": "Label",
+      "description_de": "Wenn Text mit  '@' beginnt, dann geht er durch den Übersetzungsmechanismus.",
+      "description": "If text begins with '@', then it goes through the translation mechanism.",
+      "readonly": false,
+      "optional": true,
+      "refToView": "labeltext",
+      "length": "100",
+      "wrapLines": true
+    } ]
+  }, {
+    "type": "node",
+    "id": "Textarea",
+    "title": "Textarea",
+    "title_de": "Texteingabe",
+    "groups": [ "Controls" ],
+    "description": "A textarea control.",
+    "view": "new_textarea.svg",
+    "icon": "new_textarea.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_default",
+      "type": "text",
+      "title": "Defaultvalue",
+      "title_de": "Voreinstellung",
+      "prefix": "oryx",
+      "value": "",
+      "description": "The default value is displayed, when the form is loaded.",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    }, {
+      "id": "xf_constraint",
+      "type": "String",
+      "title": "Constraint",
+      "title_de": "Eingabeprüfung",
+      "prefix": "oryx",
+      "value": "",
+      "description": "A predicate that needs to be satisfied for the associated instance data node to be considered valid",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Upload",
+    "title": "Upload",
+    "title_de": "Upload",
+    "groups": [ "Controls" ],
+    "view": "new_upload.svg",
+    "icon": "new_upload.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_maxsize",
+      "title": "Maxsize",
+      "title_de": "Max. Größe",
+      "description_de": "Maximale Dateigröße, 0 bedeutet unbegrenzt",
+      "description": "Maximum filesize,0 means unlimited",
+      "type": "Integer",
+      "value": 0,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+      "id": "xf_multi",
+      "title": "Multi",
+      "title_de": "Mehrere",
+      "description_de": "Mehrere Dateien hochladen",
+      "description": "Upload multi files",
+      "type": "Boolean",
+      "value": true,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Custom",
+    "title": "Custom",
+    "title_de": "Custom",
+    "groups": [ "Controls" ],
+    "view": "new_custom.svg",
+    "icon": "new_custom.png",
+    "roles": [ "core_form_controls", "controls_morph" ],
+
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_url",
+      "type": "String",
+      "title": "Url",
+      "prefix": "oryx",
+      "value": "",
+      "description": "Url",
+      "popular": true,
+      "readonly": false,
+      "optional": true
+    }, {
+      "id": "xf_elementname",
+      "type": "String",
+      "title": "Elementname",
+      "prefix": "oryx",
+      "value": "",
+      "description": "Element",
+      "popular": true,
+      "readonly": false,
+      "optional": true
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Moduleselector",
+    "title": "Values from database",
+    "title_de": "Werte aus Datenbank",
+    "groups": [ "Controls" ],
+    "description": "select a data set in order to fill the form fields",
+    "description_de": "selektieren eines Datansatzes um damit Felder der Form  zu füllen",
+    "view": "entity_select.svg",
+    "icon": "entity_select.png",
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der ein Objekt selektiert werden soll",
+      "description": "The class from which an object is to be selected",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_fieldlist",
+      "type": "FieldSelector",
+      "config": {
+        "helperTree": [ "sw.form" ],
+        "entityField": "xf_module"
+      },
+      "title": "Fields",
+      "title_de": "Felder",
+      "description_de": "Die Klassenfelder die berücksichtig werden sollen und die Zuweisung zu den Formfeldern",
+      "description": "The class fields you want to include and the assignment to the form fields",
+      "value": "",
+      "popular": true,
+      "readonly": "xf_module==''||xf_module==null",
+      "optional": true
+    } ]
+  }, {
+    "type": "node",
+    "id": "EmbeddedObj",
+    "title": "Embedded object",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to create a embedded object.",
+    "view": "new_embeddedobj.svg",
+    "icon": "new_embeddedobj.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der eine Form abgeleitet wird",
+      "description": "The class from which a form is derived<br>Only used if formExpression is empty",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_formexpression",
+      "type": "String",
+      "title": "formExpression",
+      "prefix": "oryx",
+      "value": "",
+      "description": "String from which the formname are build<br>Formvariables be evaluated here",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "60"
+    }, {
+      "id": "xf_inline",
+      "title": "Inline",
+      "description_de": "Display element inline",
+      "description": "Element inline darstellen",
+      "type": "Boolean",
+      "value": false,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    } ]
+  }, {
+    "type": "node",
+    "id": "EmbeddedList",
+    "title": "Embedded list",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to create,edit and delete a embedded object.",
+    "view": "new_embeddedlist.svg",
+    "icon": "new_embeddedlist.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der ein Objekt selektiert werden soll",
+      "description": "The class from which an object is to be selected",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_columns",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.form", "sw.filter", "sw.entitytype" ]
+      },
+      "title": "Tablecolumns",
+      "title_de": "Tabellenspalten",
+      "value": "",
+      "description": "Tablecolumns",
+      "description_de": "Angezeigte Tabellenspalten",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "display",
+        "name": "Header",
+        "name_de": "Anzeige",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": true
+      } ]
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "EmbeddedPrimitiveCollection",
+    "title": "Embedded primitive collection",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to create,edit and delete a embedded map/set or list with primitive values (String,Integer,Date).",
+    "view": "new_embeddedlist.svg",
+    "icon": "new_embeddedlist.png",
+    "propertyPackages": [ "getPackageKey","getPackageValue","visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_collectiontype",
+      "type": "Choice",
+      "title": "Collectiontype",
+      "prefix": "oryx",
+      "value": "map",
+      "description": "The collectiontype:map or list",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "Map",
+        "value": "map"
+      }, {
+        "id": "c2",
+        "title": "List",
+        "value": "list"
+      } ]
+    }, {
+      "id": "xf_keylabel",
+      "type": "String",
+      "title": "Label(Key)",
+      "title_de": "Bezeichnung(Schlüssel)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_collectiontype == 'map'",
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_valuelabel",
+      "type": "String",
+      "title": "Label(Value)",
+      "title_de": "Bezeichnung(Wert)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_type",
+      "type": "Choice",
+      "title": "Input type",
+      "title_de": "Eingabetyp",
+      "prefix": "oryx",
+      "value": "text",
+      "description": "The input datatype",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "Text",
+        "value": "text",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "title": "Password",
+        "value": "password",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "Number",
+        "value": "number",
+        "refToView": ""
+      }, {
+        "id": "c4",
+        "title": "Boolean",
+        "value": "boolean",
+        "refToView": ""
+      }, {
+        "id": "c5",
+        "title": "Decimal",
+        "value": "decimal",
+        "refToView": ""
+      }, {
+        "id": "c6",
+        "title": "Date",
+        "value": "date",
+        "refToView": ""
+      }, {
+        "id": "c7",
+        "title": "DateTime",
+        "value": "datetime",
+        "refToView": ""
+      }, {
+        "id": "c8",
+        "title": "DateYearMonth",
+        "value": "dateyearmonth",
+        "refToView": ""
+      }, {
+        "id": "c9",
+        "title": "Computed",
+        "value": "computed",
+        "refToView": ""
+      } ]
+    }, {
+      "id": "xf_constraint_text",
+      "type": "Constraints",
+      "config": "###constraints_text",
+      "title": "Constraint(String)",
+      "title_de": "Prüfung(String)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type == 'string' || xf_type=='text' || xf_type=='password'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_date",
+      "type": "Constraints",
+      "config": "###constraints_date",
+      "title": "Constraint(Date)",
+      "title_de": "Prüfung(Datum)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='date'||xf_type=='datetime'||xf_type=='dateyearmonth'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_boolean",
+      "type": "Constraints",
+      "config": "###constraints_boolean",
+      "title": "Constraint(Boolean)",
+      "title_de": "Prüfung(Boolean)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='boolean'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_decimal",
+      "type": "Constraints",
+      "config": "###constraints_decimal",
+      "title": "Constraint(Decimal)",
+      "title_de": "Prüfung(Dezimal)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='decimal'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_constraint_number",
+      "type": "Constraints",
+      "config": "###constraints_number",
+      "title": "Constraint(Number)",
+      "title_de": "Prüfung(Nummer)",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "visible": "xf_type=='number'",
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_errormsg",
+      "type": "String",
+      "title": "Errormessage",
+      "title_de": "Fehlermeldung",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "LinkedList",
+    "title": "Linked list",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to assign objects.",
+    "view": "new_linkedlist.svg",
+    "icon": "new_linkedlist.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der ein Objekt selektiert werden soll",
+      "description": "The class from which an object is to be selected",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_columns",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.form", "sw.filter", "sw.entitytype" ]
+      },
+      "title": "Tablecolumns",
+      "title_de": "Tabellenspalten",
+      "value": "",
+      "description": "Tablecolumns",
+      "description_de": "Angezeigte Tabellenspalten",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "display",
+        "name": "Header",
+        "name_de": "Anzeige",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": true
+      } ]
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "LinkedObj",
+    "title": "Linked object",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to link a object.",
+    "view": "new_linkedobj.svg",
+    "icon": "new_linkedobj.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der ein Objekt selektiert werden soll",
+      "description": "The class from which an object is to be selected",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Tableselect",
+    "title": "Tableselect",
+    "title_de": "Auswahl(Tabelle)",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to make single/multiple selections from a list.",
+    "view": "new_select.svg",
+    "icon": "new_select.png",
+    "propertyPackages": [ "getPackage", "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_multiselection",
+      "title": "Multiselection",
+      "title_de": "Mehrfachauswahl",
+      "type": "Boolean",
+      "value": false,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+      "id": "xf_columns",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.form", "sw.filter", "sw.entitytype" ]
+      },
+      "title": "Tablecolumns",
+      "title_de": "Tabellenspalten",
+      "value": "",
+      "description": "Tablecolumns",
+      "description_de": "Angezeigte Tabellenspalten",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": false
+      }, {
+        "id": "display",
+        "name": "Header",
+        "name_de": "Anzeige",
+        "type": "String",
+        "value": "",
+        "width": 150,
+        "optional": true
+      } ]
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Enumselect",
+    "title": "Enumselect",
+    "title_de": "Auswahl(Aufzählung)",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to make single/multiple selections from enums.",
+    "view": "new_select1.svg",
+    "icon": "new_select1.png",
+    "propertyPackages": [ "getPackage", "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_default",
+      "type": "String",
+      "title": "Defaultvalue",
+      "title_de": "Voreinstellung",
+      "description_de": "Der Wert oder  #0,#1 .. für ein Element der Liste",
+      "description": "The value or  #0,#1 .. for a element of the list",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_parent_field_name",
+      "type": "String",
+      "title": "Parentname",
+      "title_de": "Parentname",
+      "description_de": "Eine Selectbox, von der der die Optionliste dieser Selectbox abhängt",
+      "description": "A selectbox from which the option list of this selectbox depends",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_multiselection",
+      "title": "Multiselection",
+      "title_de": "Mehrfachauswahl",
+      "type": "Boolean",
+      "value": false,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+      "id": "xf_combobox",
+      "title_de": "Combobox",
+      "title": "Combobox",
+      "type": "Boolean",
+      "value": false,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Treeselect",
+    "title": "Treeselect",
+    "title_de": "Baumauswahl",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to make single/multiple selections from a tree.",
+    "view": "new_tree.svg",
+    "icon": "new_tree.png",
+    "propertyPackages": [ "getPackageTree", "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_default",
+      "type": "String",
+      "title": "Defaultvalue",
+      "title_de": "Voreinstellung",
+      "description_de": "Der Wert oder  #0,#1 .. für ein Element der Liste",
+      "description": "The value or  #0,#1 .. for a element of the list",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_multiselection",
+      "title": "Multiselection",
+      "title_de": "Mehrfachauswahl",
+      "type": "Boolean",
+      "value": false,
+      "popular": true,
+      "readonly": false,
+      "optional": false
+    }, {
+			"id": "xf_namespace",
+			"title": "Namespace",
+			"description": "optional",
+      "popular": true,
+			"config": {
+				type: "ms123.util.RepoList"
+			},
+			"type": "Combo",
+			"value": null,
+			"items": []
+    }, {
+      "id": "xf_required",
+      "type": "Combo",
+      "title": "Required",
+      "title_de": "Erforderlich",
+      "prefix": "oryx",
+      "value": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Gridinput",
+    "title": "Gridinput",
+    "title_de": "Eingabe(Grid)",
+    "groups": [ "Controls" ],
+    "description": "This form control allows the user to make single/multiple selections from a list.",
+    "view": "new_tableedit.svg",
+    "icon": "new_tableedit.png",
+    "propertyPackages": [ "visibilityPackage" ],
+    "roles": [ "core_form_controls", "controls_morph" ],
+    "layout": [ {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+     }, {
+			"id": "xf_search",
+			"title": "Search",
+			"title_de": "Suche",
+			"type": "boolean",
+      "popular": false,
+			"width": 100,
+			"value": false,
+			"optional": true
+    }, {
+			"id": "xf_namespace",
+			"title": "Namespace",
+			"description": "optional",
+			"config": {
+				type: "ms123.util.RepoList"
+			},
+			"type": "Combo",
+			"value": null,
+			"items": []
+    }, {
+      "id": "xf_module",
+      "type": "ResourceSelector",
+      "config": {
+        "type": "sw.entitytype",
+				"namespace":"${xf_namespace}",
+        "prefix": ""
+      },
+      "title": "Class",
+      "title_de": "Klasse",
+      "prefix": "oryx",
+      "value": "",
+      "description_de": "Die Klasse, aus der ein Objekt selektiert werden soll",
+      "description": "The class from which an object is to be selected",
+      "popular": false,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "100"
+    }, {
+      "id": "xf_columns",
+      "type": "Complex",
+      "config": {
+        "helperTree": [ "sw.form", "sw.entitytype" ]
+      },
+      "title": "Tablecolumns",
+      "title_de": "Tabellenspalten",
+      "value": "",
+      "description": "Tablecolumns",
+      "description_de": "Angezeigte Tabellenspalten",
+      "popular": false,
+      "readonly": false,
+      "optional": true,
+      "complexItems": [ {
+        "id": "colname",
+        "name": "Columnname",
+        "name_de": "Spaltenname",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": false
+      }, {
+        "id": "display",
+        "name": "Display",
+        "name_de": "Anzeige",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "mapping",
+        "name": "Mapping",
+        "name_de": "Mapping",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "width",
+        "name": "Width",
+        "name_de": "Breite",
+        "type": "integer",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "readonly",
+        "name": "Readonly",
+        "type": "boolean",
+        "width": 100,
+        "value": false,
+        "optional": true
+      }, {
+        "id": "xf_combobox",
+        "name": "Combobox",
+        "type": "boolean",
+        "width": 100,
+        "value": false,
+        "optional": true
+      }, {
+        "id": "xf_default",
+        "name": "Default",
+        "name_de": "Default",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "parameter",
+        "name": "Parameter",
+        "name_de": "Parameter",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "errormsg",
+        "name": "Errormessage",
+        "name_de": "Fehlermeldung",
+        "type": "String",
+        "value": "",
+        "width": 100,
+        "optional": true
+      }, {
+        "id": "type",
+        "name": "Type",
+        "name_de": "Type",
+        "readonly": false,
+        "type": "Choice",
+        "value": "text",
+        "width": 60,
+        "optional": false,
+
+        "items": [ {
+          "id": "c1",
+          "title": "Text",
+          "value": "text",
+          "refToView": ""
+        }, {
+          "id": "c2",
+          "title": "TextArea",
+          "value": "textarea",
+          "refToView": ""
+        }, {
+          "id": "c3",
+          "title": "Number",
+          "value": "number",
+          "refToView": ""
+        }, {
+          "id": "c4",
+          "title": "Boolean",
+          "value": "boolean",
+          "refToView": ""
+        }, {
+          "id": "c5",
+          "title": "Decimal",
+          "value": "decimal",
+          "refToView": ""
+        }, {
+          "id": "c6",
+          "title": "Date",
+          "value": "date",
+          "refToView": ""
+        }, {
+          "id": "c7",
+          "title": "DateTime",
+          "value": "datetime",
+          "refToView": ""
+        }, {
+          "id": "c8",
+          "title": "Selection",
+          "value": "selection",
+          "refToView": ""
+        }, {
+          "id": "c9",
+          "title": "TreeSelection",
+          "value": "Treeselection",
+          "refToView": ""
+        }, {
+          "id": "c10",
+          "title": "Search",
+          "title_de": "Suche",
+          "value": "search",
+          "refToView": ""
+        } ]
+      }, {
+        "id": "constraints",
+        "name": "Constraints",
+        "name_de": "Prüfung",
+        "config": {
+          "typecolumn": "type",
+          "text": "###constraints_text",
+          "textarea": "###constraints_text",
+          "selection": "###constraints_text",
+          "date": "###constraints_date",
+          "datetime": "###constraints_date",
+          "number": "###constraints_number",
+          "boolean": "###constraints_boolean",
+          "decimal": "###constraints_decimal"
+        },
+        "type": "Constraints",
+        "width": 40,
+        "optional": true,
+        "value": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "ActionButton",
+    "title": "ActionButton",
+    "title_de": "Auslösender Button",
+    "groups": [ "Controls" ],
+    "description": "Renders a actionbutton",
+    "view": "actionbutton.svg",
+    "icon": "actionbutton.png",
+    "roles": [ "core_form_controls" ],
+    "layout": [ {
+      "type": "layout.xforms.label.button"
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_action",
+      "type": "Combo",
+      "title": "Action",
+      "title_de": "Aktion",
+      "prefix": "oryx",
+      "value": "execute",
+      "description": "Button action",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "Execute",
+        "title_de": "Ausführen",
+        "value": "execute",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "title": "Cancel",
+        "title_de": "Abbrechen",
+        "value": "cancel",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "Reset",
+        "title_de": "Rücksetzen",
+        "value": "reset",
+        "refToView": ""
+      } ]
+    }, {
+      "id": "xf_enter",
+      "type": "Boolean",
+      "title": "Enter",
+      "title_de": "Enter",
+      "prefix": "oryx",
+      "value": true,
+      "description": "Execute the action if 'enter' pressed",
+      "description_de": "Ausführen der Aktion , wenn 'enter' gedrückt wird",
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_label",
+      "type": "String",
+      "title": "Label",
+      "prefix": "oryx",
+      "value": "",
+      "description": "Label",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": ""
+    }, {
+      "id": "xf_iconname",
+      "type": "String",
+      "title": "Iconname",
+      "prefix": "oryx",
+      "value": "",
+      "description": "Iconname",
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "64"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Alert",
+    "title": "Information",
+    "title_de": "Information",
+    "groups": [ "Controls" ],
+    "view": "new_alert.svg",
+    "icon": "infobox-20.png",
+    "propertyPackages": [ "visibilityPackage","tabindexPackage" ],
+    "roles": [ "core_form_controls" ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_message",
+      "type": "Text",
+      "title": "Text",
+      "title_de": "Text",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "length": "100",
+      "wrapLines": true
+    }, {
+      "id": "xf_message_de",
+      "type": "Text",
+      "title": "Text(de)",
+      "title_de": "Text(de)",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "length": "100",
+      "wrapLines": true
+    }, {
+      "id": "xf_message_en",
+      "type": "Text",
+      "title": "text(en)",
+      "title_de": "Text(en)",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "length": "100",
+      "wrapLines": true
+    } ]
+  }, {
+    "type": "node",
+    "id": "Group",
+    "title": "Group",
+    "title_de": "Gruppe",
+    "groups": [ "Containers" ],
+    "description": "A container for defining a hierarchy of form controls.",
+    "propertyPackages": [ "visibilityPackage" ],
+    "view": "new_group.svg",
+    "icon": "new_group.png",
+    "roles": [ "core_form_controls", "standard_container", "ui_common_container" ],
+
+    "layout": [ {
+      "type": "layout.rows",
+      "marginTop": 30,
+      "marginLeft": 30,
+      "spacingX": 30,
+      "spacingY": 30,
+      "exclude": [ "http://b3mn.org/stencilset/xforms#Label" ]
+    }, {
+      "type": "layout.xforms.label",
+      "moveY": -1,
+      "moveX": 0
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_place",
+      "type": "Choice",
+      "title": "Place",
+      "title_de": "Anordung",
+      "prefix": "oryx",
+      "value": "normal",
+      "description": "The place of this group",
+      "description_de": "Der Platz der Gruppe",
+      "readonly": false,
+      "optional": false,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "title": "Normal",
+        "value": "normal",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "title": "South",
+        "title_de": "Süden",
+        "value": "south",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "North",
+        "title_de": "Norden",
+        "value": "north",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "East",
+        "title_de": "Osten",
+        "value": "east",
+        "refToView": ""
+      }, {
+        "id": "c3",
+        "title": "West",
+        "value": "west",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Tabview",
+    "title": "Tabview",
+    "title_de": "Register",
+    "groups": [ "Containers" ],
+    "description": "This element contains one or more page elements, any one of which is rendered at a given time.",
+    "view": "new_switch.svg",
+    "icon": "new_switch.png",
+    "roles": [ "additional_form_controls", "page_container" ],
+
+    "layout": [ {
+      "type": "layout.xforms.page"
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": false,
+      "readonly": false,
+      "include": true,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_enabled",
+      "type": "String",
+      "title": "enabled",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "include": false,
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "100"
+    } ]
+  }, {
+    "type": "node",
+    "id": "Page",
+    "title": "Tabpage",
+    "title_de": "Registerkarte",
+    "groups": [ "Containers" ],
+    "description": "This element encloses markup to be conditionally rendered.",
+    "view": "new_case.svg",
+    "icon": "new_case.png",
+    "roles": [ "page", "labeled", "standard_container", "actions_container" ],
+
+    "layout": [ {
+      "type": "layout.rows",
+      "marginTop": 30,
+      "marginLeft": 10,
+      "spacingX": 30,
+      "spacingY": 30
+    } ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_label",
+      "type": "String",
+      "title": "Label",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_selected",
+      "type": "Combo",
+      "title": "selected",
+      "title_de": "Ausgewählte Karte",
+      "prefix": "oryx",
+      "value": false,
+      "description": "selection status for the page.",
+      "include": false,
+      "popular": true,
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "items": [ {
+        "id": "c1",
+        "value": "true",
+        "title": "true",
+        "refToView": ""
+      }, {
+        "id": "c2",
+        "value": "false",
+        "title": "false",
+        "refToView": ""
+      } ]
+    } ]
+  }, {
+    "type": "node",
+    "id": "Help",
+    "title": "Help",
+    "title_de": "Hilfe",
+    "groups": [ "Support Elements" ],
+    "description": "Help information for form controls.",
+    "view": "new_help.svg",
+    "icon": "new_help.png",
+    "roles": [ "ui_common", "support_morph" ],
+    "properties": [ {
+      "id": "xf_id",
+      "type": "String",
+      "title": "Id",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "readonly": false,
+      "optional": true,
+      "refToView": "",
+      "length": "30"
+    }, {
+      "id": "xf_message",
+      "type": "String",
+      "title": "Helptext",
+      "title_de": "Hilfetext",
+      "prefix": "oryx",
+      "value": "",
+      "description": "",
+      "readonly": false,
+      "optional": true,
+      "length": "100",
+      "wrapLines": true
+    } ]
+  } ],
+  "rules": {
+    "containmentRules": [ {
+      "role": "standard_container",
+      "contains": [ "core_form_controls", "additional_form_controls" ]
+    }, {
+      "role": "core_form_controls",
+      "contains": [ "label", "ui_common", "action" ]
+    }, {
+      "role": "labeled",
+      "contains": [ "label" ]
+    }, {
+      "role": "ui_common_container",
+      "contains": [ "ui_common" ]
+    }, {
+      "role": "actions_container",
+      "contains": [ "action" ]
+    }, {
+      "role": "list_ui_common_container",
+      "contains": [ "list_ui_common" ]
+    }, {
+      "role": "page_container",
+      "contains": [ "page" ]
+    } ],
+    "morphingRules": [ {
+      "role": "controls_morph",
+      "baseMorphs": [ "Input" ]
+    }, {
+      "role": "actions_morph",
+      "baseMorphs": [ "Action" ]
+    }, {
+      "role": "support_morph",
+      "baseMorphs": [ "Hint" ]
+    } ]
+  },
+  "definitions": {
+    "constraints_text": [ {
+      "clazz": "Pattern",
+      "label": "@Muster",
+      "options": [ {
+        "label": "",
+        "type": "string",
+        "optname": "regexp"
+      } ]
+    }, {
+      "clazz": "Size",
+      "options": [ {
+        "label": "Min",
+        "type": "int",
+        "optname": "min"
+      }, {
+        "label": "Max",
+        "type": "int",
+        "optname": "max"
+      } ]
+    }, {
+      "clazz": "NotBlank",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    }, {
+      "clazz": "CreditCardNumber",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    }, {
+      "clazz": "URL",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    }, {
+      "clazz": "Email",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    } ],
+    "constraints_date": [ {
+      "clazz": "Future",
+      "options": []
+    }, {
+      "clazz": "Past",
+      "options": []
+    }, {
+      "clazz": "DateMin",
+      "pkg": "org.ms123.common.form.constraints",
+      "options": [ {
+        "label": "",
+        "type": "date,long"
+      } ]
+    }, {
+      "clazz": "DateMax",
+      "pkg": "org.ms123.common.form.constraints",
+      "options": [ {
+        "label": "",
+        "type": "date,long"
+      } ]
+    }, {
+      "clazz": "NotBlank",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    }, {
+      "clazz": "NotNull",
+      "options": []
+    } ],
+    "constraints_boolean": [ {
+      "clazz": "AssertFalse"
+    }, {
+      "clazz": "AssertTrue"
+    }, {
+      "clazz": "NotNull",
+      "options": []
+    } ],
+    "constraints_decimal": [ {
+      "clazz": "Digits",
+      "options": [ {
+        "label": "@max.vor_komma",
+        "type": "int",
+        "optname": "integer"
+      }, {
+        "label": "@max.nach_komma",
+        "type": "int",
+        "optname": "fraction"
+      } ]
+    }, {
+      "clazz": "DecimalMin",
+      "options": [ {
+        "label": "",
+        "type": "decimal,string"
+      } ]
+    }, {
+      "clazz": "DecimalMax",
+      "options": [ {
+        "label": "",
+        "type": "decimal,string"
+      } ]
+    }, {
+      "clazz": "NotBlank",
+      "pkg": "org.hibernate.validator.constraints",
+      "options": []
+    }, {
+      "clazz": "NotNull",
+      "options": []
+    } ],
+    "constraints_number": [ {
+      "clazz": "Min",
+      "options": [ {
+        "label": "",
+        "type": "int,long"
+      } ]
+    }, {
+      "clazz": "Max",
+      "options": [ {
+        "label": "",
+        "type": "int,long"
+      } ]
+    }, {
+      "clazz": "NotNull",
+      "options": []
+    } ]
+  }
+}

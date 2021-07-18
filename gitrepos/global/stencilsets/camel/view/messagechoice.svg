@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Choice</text>
+    <g transform="scale(1,1) translate(8,3)">
+      <path d="m 0.85505966,17.864407 c 3.67322814,0 7.34645624,0 11.01968434,0" stroke-width="0.886" fill="none" stroke="#000000" id="path5342" stroke-linejoin="round" />
+      <path d="m 14.886555,14.817163 c 3.268918,-0.222307 4.224821,5.05932 1.018935,5.951491 -2.61539,0.976716 -5.276191,-2.325465 -3.544182,-4.592075 0.557926,-0.821489 1.521012,-1.37996 2.525247,-1.359416 z" id="path5347" />
+      <path d="m 51.240885,3.7974786 c 3.826772,0 7.653543,0 11.480315,0" stroke-width="0.886" fill="none" stroke="#000000" id="path5352" stroke-linejoin="round" />
+      <path d="m 48.654271,6.8447227 c -3.268918,0.2223068 -4.22482,-5.059319 -1.018934,-5.95149021 2.615389,-0.97671617 5.27619,2.32546421 3.544181,4.59207411 -0.557925,0.8214899 -1.521012,1.3799603 -2.525247,1.3594161 z" id="path5357" />
+      <path d="m 51.240885,17.864407 c 3.826772,0 7.653543,0 11.480315,0" stroke-width="0.886" fill="none" stroke="#000000" id="path5362" stroke-linejoin="round" />
+      <path d="m 48.654271,20.911651 c -3.268918,0.222308 -4.22482,-5.059319 -1.018934,-5.95149 2.615389,-0.976716 5.27619,2.325464 3.544181,4.592074 -0.557925,0.82149 -1.521012,1.379961 -2.525247,1.359416 z" id="path5367" />
+      <path d="m 51.240885,31.931336 c 3.826772,0 7.653543,0 11.480315,0" stroke-width="0.886" fill="none" stroke="#000000" id="path5372" stroke-linejoin="round" />
+      <path d="m 48.654271,34.97858 c -3.268918,0.222307 -4.22482,-5.059319 -1.018934,-5.95149 2.615389,-0.976716 5.27619,2.325464 3.544181,4.592074 -0.557925,0.82149 -1.521012,1.37996 -2.525247,1.359416 z" id="path5377" />
+      <path d="M 14.886555,17.864407 C 26.142466,13.175445 37.39836,8.4864407 48.654271,3.7974786" stroke-width="0.886" fill="none" stroke="#000000" id="path5382" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

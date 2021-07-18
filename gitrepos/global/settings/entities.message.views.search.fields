@@ -1,0 +1,22 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "msgid",
+            "enabled": true
+        },
+        {
+            "name": "msgstr",
+            "enabled": true
+        },
+        {
+            "name": "language",
+            "enabled": true
+        },
+        {
+            "name": "_team_list"
+        }
+    ]
+}

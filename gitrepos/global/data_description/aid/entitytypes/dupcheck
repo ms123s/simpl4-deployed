@@ -1,0 +1,53 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "dupcheck",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "threshold": {
+            "enabled": true,
+            "name": "threshold",
+            "default_value": 0.85,
+            "datatype": "decimal"
+        },
+        "innerThreshold": {
+            "enabled": true,
+            "name": "innerThreshold",
+            "default_value": 0.85,
+            "datatype": "decimal"
+        },
+        "expression": {
+            "enabled": true,
+            "name": "expression",
+            "edittype": "textarea",
+						"editoptions_rows": "4",
+            "datatype": "text"
+        },
+        "fields": {
+            "enabled": true,
+            "name": "fields",
+            "edittype": "multiselect",
+            "datatype": "array/string",
+            "search_options": "['bw','eq','ne']"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "annotation",
+            "enabled": true
+        },
+        {
+            "name": "parameter1",
+            "enabled": true
+        },
+        {
+            "name": "parameter2",
+            "enabled": true
+        },
+        {
+            "name": "message",
+            "enabled": true
+        }
+    ]
+}

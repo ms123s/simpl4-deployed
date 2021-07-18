@@ -1,0 +1,84 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "filter": "",
+    "primaryKeys": [
+
+    ],
+    "superclass": "vertex",
+    "restricted": true,
+    "name": "registry",
+    "description": "",
+    "index": 100,
+    "fields": {
+        "attributes": {
+            "linkedclass": "",
+            "vertextype": "single",
+            "description": "",
+            "linkedtype": "7",
+            "index": 2,
+            "primary_key": false,
+            "edgeclass": "",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "datatype": "12",
+            "name": "attributes"
+        },
+        "value": {
+            "linkedclass": "",
+            "vertextype": "single",
+            "editoptions_cols": null,
+            "search_options": null,
+            "editoptions_rows": null,
+            "description": "",
+            "linkedtype": "",
+            "searchable_items": null,
+            "index": 1,
+            "formula_client": null,
+            "default_value": null,
+            "formula_out": null,
+            "primary_key": false,
+            "edgeclass": "",
+            "constraints": "[]",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "selectable_items": null,
+            "datatype": "7",
+            "name": "value",
+            "form_enabled_expr": null,
+            "formula_in": null
+        },
+        "key": {
+            "linkedclass": "",
+            "vertextype": "single",
+            "editoptions_cols": null,
+            "search_options": null,
+            "editoptions_rows": null,
+            "description": "",
+            "linkedtype": "",
+            "searchable_items": null,
+            "index": 0,
+            "formula_client": null,
+            "default_value": null,
+            "formula_out": null,
+            "primary_key": false,
+            "edgeclass": "",
+            "constraints": "[]",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "selectable_items": null,
+            "datatype": "7",
+            "name": "key",
+            "form_enabled_expr": null,
+            "formula_in": null
+        }
+    },
+    "enabled": true
+}

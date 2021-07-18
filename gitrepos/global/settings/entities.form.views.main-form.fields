@@ -1,0 +1,23 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "fid",
+            "enabled": true
+        },
+        {
+            "name": "comment",
+            "enabled": true
+        },
+        {
+            "name": "json",
+            "enabled": true
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

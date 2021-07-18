@@ -1,0 +1,48 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "camellog",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+
+    "fields": {
+        "activitikey": {
+            "enabled": true,
+            "name": "activitikey",
+            "datatype": "string"
+        },
+        "time": {
+            "enabled": true,
+            "name": "time",
+            "datatype": "date"
+        },
+        "json": {
+            "enabled": true,
+            "name": "json",
+            "datatype": "text"
+        },
+        "body": {
+            "enabled": true,
+            "name": "body",
+            "datatype": "text"
+        },
+        "history": {
+            "enabled": true,
+            "name": "history",
+            "datatype": "text"
+        }
+    }
+}

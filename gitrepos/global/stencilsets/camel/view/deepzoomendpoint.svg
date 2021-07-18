@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">DeepZoom</text>
+    <g transform="scale(0.8,0.8) translate(5,2)">
+      <defs id="defs32">
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" markerUnits="strokeWidth" orient="auto" markerWidth="8" markerHeight="14">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+        <marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+          <path id="arrowhead2" d="M 0 0 L 10 5 L 0 10 L 0 0" fill="black" stroke="black" />
+        </marker>
+      </defs>
+		<g transform="scale(1.2,1.2)">
+			<foreignObject x="3" y="2" width="20" height="20">
+				<div xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+<img xidth="16" xeight="16" alt="tick" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABtlBMVEUAAABEREBEREBEREBEREBE
+REBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBEREBE
+REBEREBEREBEREBEREBFRUVERERFRUVFRUVERERHR0NKSkdFRURFRUVFRUVDQ0NFRUVERERHR0dF
+RUVERERFRUVFRUVDQ0NHR0dERENFRUVERERERERERERDQ0NFRUVERERDQ0NERER/f39FRUVFRUVD
+Q0NFRURFRUVFRUVDQ0JFRUVDQ0JFRUVGRkZDQ0NDQ0NDQ0NERERDQ0NERERERENDQ0NHR0dGRkZD
+Q0NDQ0NHR0dFRUVDQ0NDQ0NGRkZERERFRUVGRkZDQ0FFRUVFRUVHR0dFRUVFRUVFRUVDQ0NFRURC
+QkJDQ0NDQ0NERERFRUVBQUFGRkVGRkZGRkVGRkVFRUVDQ0NDQ0NFRUVFRUVDQ0NFRUVFRURERERE
+RENERENFRUVVVVVFRUVDQ0NERERERERFRUVERERFRUVFRUVERERERERFRUVERENDQ0NFRUVEREQA
+AABDQ0NERERDQ0JFRUVFRUVFRUVFRUVRjdciAAAAjnRSTlMAAQIDAwEEBQEFBgEHCAEICQIKCwIL
+DA4MAg8OAiyz9997EhF93/71sCkr85+h8CY0QKx08nsxlpjbcAJy/jVD8fBA8UHvM+719Leyrzby
+Jyi29DKxru0mJ60kN7j2Lbn397c0LPL2q7YjMzZBQrj28bX28TdCOENE3AN23pxzdfMwr5WZ8DL8
+2m8B/bAzvnW+KwAABkJJREFUeNrtm2lX20YUho3xgo2NHe9bSZe0QNyalKRpUoKpIUBciHEooU3p
+lu6tSOIE0zZJS7rvlfE/rm1pRiOh2W055zT6xLlHnucKad55517J5XrcjhG32z0yhBg4Rj0ez+gQ
+Yvrh9fn9fp/X8Rg4xgLBYDAw5ngMHOOhcDgcGnc8Bo6JSDQajUw4HgPHiVg8Ho+dcDwGjkQylUol
+E47HYG7JdDqdyZpi2czgY/DexFLpXL5gihXyudygYy5dj8Yj8VR6CHzvqFubm6FoPJVxnj/m8/QS
+8AbC0Xgy6zh/PODXEvAFw9FYwnH+RCjo93SfgVF/MBwx5uZTkyfV1lG73T5qqejRevqZZ9lYz516
+/gXLb7XxpqZnkHkXCQf93TVpxOMPhgxtOl1U7fmd2Its1/qS3W+1WGkWakIsGg76un+5Pf4Aos2T
+eH776AwL/2U8X1XngCYk49FwwKsl4EPXppMEfussy70+ReCr5/TzMql4NKRx3aOmtZnEV8+yPGuv
+EPiqqp+XTsUj4yYtAgeJr55nedbPkPiqfl46FbNfEwsk/qtsc+0Cga/q56WT9mtiIY/nX3xtnm2u
+z1+6uIDjq/p5mQSGnzOdXyrL68/i66br0c/L4vg5c76lcp/5qu2aiI5h+f9XlvrLb9H4eev9X77c
+V/4Rnp/Vxjj2/C0v9ZPfxvITGW0MePfhM1wp94G/Aq4Hx+94Qm0M8ItyCc6hUlmevwquB8M3PCGc
+LuWKsYaVpfku8P+kekJjvi4tQ00AGYjz4RpD9YTIfL28DOekloEEH64xVE+IztelirAmWvlwjaF6
+QtN8LZcENfEYH64xVE9onq9IBjyaiPDXVs1rDNUTWuYrzIBHE234cI2hekLrfNUz4NFEOz5cY6ie
+8Nh8LfNqoi0frjHMntCIcGqiPb/A7AmvaKwqEuLSRAzfVdViRaonfENjTaMxDk3E8V3rWnCD6gmv
+1rqslU3TuMyaiOW76r2HeW2W6glzV69tVac3LfeaURNR/puWPOvbxeIG4BM8IWauM2kiiU+sk7Cs
+tQyaOFA+gybK8rO08ymaKMsHnpBwPlETZfnQE5LOJ2iiLJ+xTojVRGE+b50Qo4mifIE6IaqJm1C7
+BPlCdUJEE6+D2DUxvmCd0FCkEohdEeLj6oTsmrgCYlURPs4TcmjiHIhNC/CxnpBlDC2DnbdAbLa3
+9dzh4eM9IdMY9e1q9frbRmxzuli88Q7P3gnvCR2pU5M8oTN8gid0hk/whM7wSZ7Qmd5Vdsj8whO+
+iCdEYrvvvje1jewd3v/gw5sffSzHZ/CEFv+xBvs/n3wqXk/k8oQW/3PDsp8UqSeK9I6h/1oBsZvC
+9USR3rHh/9ZA7DPReqJI7xjxn5+D2BeC9UQRT4jwd74E530lVk8U8YQY/62I1BNFPCHW/yMZVPYG
+5wkJ+w8F2TvfGpQnJO5/FGTvvDcYT0jZfynI3lkZhCek7v8UZO+s9N8TMuw/FWTvrPTbEzLtf/dq
+xt5ZEfaEu7fvbK3Xxeoft2pQExuKhX/67r2pyRm6J9ztjVGqi9U/9vahHnQzQPnnesEZqie8rV3D
+tmD9Q2kgGaDn3dWC61RPdqdlFJVF6h9IBvuoJt7TYlvMvWPh+gvMoHVUQzSRu3csXv/RM+hqQs3Q
+RO7esUT9qZeBpkn7CqYXRe8dU+vvBO1oNqAmNhRML4reOxbndzLYh5rYaGJ6UfTesTjfVTgwNFHP
+QKR3LM7P5xYRTWy6BHvHEvxc7gDRxKZY71iKny80EU1sivSOJfm9uQA18YC/d3y8/829//0a0cRF
+7t6xPB9m0NNE7t5xH/h6BubxuN8nlOH3MpB8n1CO38lgX+59Qlm+q/BNTeZ9Qnl+PvdtTeJ9QvSd
+xIX7l+bZ+A8efod9n5H3fULzGBfYrv97Fc/nfp/QPMZ5pn4Gic//PqFpjEOW+/+QxKd7winSO7mH
+LM/fIxL/B6on3CC9k/sjy/O/SuC3f6J6ws0Snv8z2/z7Bc//9Td6nbA+V/rdjr/wx59/sc3/B4f3
+bfl/L//z75NvTOR7x/+Db0yc4kv0jvsSk+od9yEm2TuWjxHqhE58Y9eJYT2hY98dxh7P7y6H/d3p
+sL+7HfZ3x8P+7nrY350P6bv7/wDRGwi/45JtFwAAAABJRU5ErkJggg=="/>
+				</div>
+			</foreignObject>
+      </g>
+      <line x1="1" y1="33" x2="42" y2="33" stroke="black" stroke-width="1" marker-end="url(#end)" />
+      <rect x="52" y="24" width="27" height="18" rx="1" ry="1" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+    </g>
+  </g>
+</svg>

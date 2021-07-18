@@ -1,0 +1,1160 @@
+{
+	"title": "Documents",
+	"title_de": "Documents",
+	"namespace": "http://b3mn.org/stencilset/xdocuments#",
+	"description": "This is the XDocuments stencil set specification.",
+	"propertyPackages": [{
+		"name": "geometry",
+		"properties": [{
+			"id": "xf_width",
+			"type": "Combo",
+			"title": "Width",
+			"title_de": "Breite",
+			"prefix": "oryx",
+			"value": "1*",
+			"popular": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"value": "1*",
+				"title": "1*",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"value": "2*",
+				"title": "2*",
+				"refToView": ""
+			}]
+		},{
+			"id": "xf_align",
+			"type": "Choice",
+			"title": "Alignment",
+			"title_de": "Hor.Ausrichtung",
+			"prefix": "oryx",
+			"value": "left",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Left",
+				"title_de": "Links",
+				"value": "left",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "Center",
+				"title_de": "Mitte",
+				"value": "center",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "Right",
+				"title_de": "Rechts",
+				"value": "right",
+				"refToView": ""
+			}]
+		},{
+			"id": "xf_valign",
+			"type": "Choice",
+			"title": "VAlignment",
+			"title_de": "Vert.Ausrichtung",
+			"prefix": "oryx",
+			"value": "top",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Top",
+				"title_de": "Oben",
+				"value": "top",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "Middle",
+				"title_de": "Mitte",
+				"value": "middle",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "Bottom",
+				"title_de": "Unten",
+				"value": "bottom",
+				"refToView": ""
+			}]
+		},{
+			"id": "xf_colsep",
+			"title": "Colsep",
+			"title_de": "Spaltentrenner",
+			"type": "Boolean",
+			"value": false,
+			"popular": false,
+			"readonly": false,
+			"optional": false
+		},{
+			"id": "xf_padding",
+			"title": "Padding",
+			"title_de": "Einrücken",
+			"type": "Boolean",
+			"value": false,
+			"popular": false,
+			"readonly": false,
+			"optional": false
+		},{
+			"id": "xf_enabled",
+			"title": "Enabled",
+			"title_de": "Verwenden",
+			"type": "Boolean",
+			"value": true,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		}]
+	}],
+	"stencils": [{
+		"type": "node",
+		"id": "XDocument",
+		"title": "XDocument",
+		"groups": ["Form"],
+		"description": "A XDocuments form.",
+		"view": "new_form.svg",
+		"icon": "new_form.png",
+		"mayBeRoot": true,
+		"hide": true,
+		"roles": ["standard_container"],
+
+		"layout": [{
+			"type": "layout.rows",
+			"verticalLayout":true,
+			"marginTop": 10,
+			"marginLeft": 30,
+			"spacingX": 30,
+			"spacingY": 10
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"include": false,
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "xf_name",
+			"type": "String",
+			"title": "Name",
+			"prefix": "oryx",
+			"value": "${diagramname}",
+			"popular": true,
+			"readonly": true,
+			"optional": false,
+			"length": "50",
+			"refToView": "formcaption",
+			"wrapLines": true
+		},
+		{
+			"id": "db_page.margin.top",
+			"type": "String",
+			"title": "Pagemargin(top)",
+			"title_de": "Seitenrand(o.)",
+			"description": "page.margin.top",
+			"prefix": "oryx",
+			"value": "5mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "db_body.margin.top",
+			"type": "String",
+			"description": "body.margin.top",
+			"title_de": "Bodyrand(o.)",
+			"title": "Bodymargin(top)",
+			"prefix": "oryx",
+			"value": "20mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		}, {
+			"id": "db_region.before.extent",
+			"type": "String",
+			"description": "region.before.extent",
+			"title": "Region extent(o.)",
+			"title_de": "Regionhöhe(o.)",
+			"prefix": "oryx",
+			"value": "0mm",
+			"readonly": false,
+			"include": true,
+			"length": "50"
+		}, {
+			"id": "db_body.margin.bottom",
+			"type": "String",
+			"title": "Bodymargin(bottom)",
+			"title_de": "Bodyrand(u.)",
+			"description": "body.margin.bottom, should be greater as region.after.extent",
+			"prefix": "oryx",
+			"value": "20mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_region.after.extent",
+			"type": "String",
+			"title": "Region extent(bottom)",
+			"title_de": "Regionhöhe(u.)",
+			"description": "region.after.extent, should be smaller as body.margin.botton",
+			"prefix": "oryx",
+			"value": "20mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		}, {
+			"id": "db_page.margin.bottom",
+			"type": "String",
+			"title": "Pagemargin(bottom)",
+			"title_de": "Seitenrand(u.)",
+			"description": "page.margin.bottom",
+			"prefix": "oryx",
+			"value": "5mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_page.margin.inner",
+			"description": "page.margin.inner",
+			"type": "String",
+			"title": "Left margin",
+			"title_de": "Linker Rand",
+			"prefix": "oryx",
+			"value": "20mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_page.margin.outer",
+			"description": "page.margin.outer",
+			"type": "String",
+			"title": "Right margin",
+			"title_de": "Rechter Rand",
+			"prefix": "oryx",
+			"value": "20mm",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_table.frame.border.color",
+			"type": "Color",
+			"description": "table.frame.border.color",
+			"title": "Framecolor",
+			"title_de": "Rahmenfarbe",
+			"prefix": "oryx",
+			"value": "#777777",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_table.frame.border.thickness",
+			"description": "table.frame.border.thickness",
+			"type": "String",
+			"title": "Framethickness",
+			"title_de": "Rahmenstärke",
+			"prefix": "oryx",
+			"value": "0.4pt",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_table.frame.border.style",
+			"description": "table.frame.border.style",
+			"type": "Choice",
+			"title": "Framestyle",
+			"title_de": "Rahmenstyle",
+			"prefix": "oryx",
+			"value": "solid",
+			"popular": false,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Solid",
+				"value": "solid",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "Dotted",
+				"value": "dotted",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "Dashed",
+				"value": "dashed",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "Double",
+				"value": "double",
+				"refToView": ""
+			},{
+				"id": "c5",
+				"title": "Ridge",
+				"value": "ridge",
+				"refToView": ""
+			},{
+				"id": "c6",
+				"title": "Groove",
+				"value": "groove",
+				"refToView": ""
+			},{
+				"id": "c7",
+				"title": "Outset",
+				"value": "outset",
+				"refToView": ""
+			},{
+				"id": "c8",
+				"title": "Inset",
+				"value": "inset",
+				"refToView": ""
+			} ]
+		},{
+			"id": "db_table.cell.border.color",
+			"description": "table.cell.border.color",
+			"type": "Color",
+			"title": "Cellcolor",
+			"title_de": "Zellenrahmenfarbe",
+			"prefix": "oryx",
+			"value": "#777777",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_table.cell.border.thickness",
+			"description": "table.cell.border.thickness",
+			"type": "String",
+			"title": "Cellthickness",
+			"title_de": "Zellenrahmenstärke",
+			"prefix": "oryx",
+			"value": "0.4pt",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_table.cell.border.style",
+			"description": "table.cell.border.style",
+			"type": "Choice",
+			"title": "Tablecellestyle",
+			"title_de": "Zellenrahmenstyle",
+			"prefix": "oryx",
+			"value": "solid",
+			"popular": false,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Solid",
+				"value": "solid",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "Dotted",
+				"value": "dotted",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "Dashed",
+				"value": "dashed",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "Double",
+				"value": "double",
+				"refToView": ""
+			},{
+				"id": "c5",
+				"title": "Ridge",
+				"value": "ridge",
+				"refToView": ""
+			},{
+				"id": "c6",
+				"title": "Groove",
+				"value": "groove",
+				"refToView": ""
+			},{
+				"id": "c7",
+				"title": "Outset",
+				"value": "outset",
+				"refToView": ""
+			},{
+				"id": "c8",
+				"title": "Inset",
+				"value": "inset",
+				"refToView": ""
+			} ]
+		},{
+			"id": "db_informal.object.space.before",
+			"description": "informal.object.space.before",
+			"type": "String",
+			"title": "Inf. object: space before",
+			"prefix": "oryx",
+			"value": "0.5em",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_informal.object.space.after",
+			"description": "informal.object.space.after",
+			"type": "String",
+			"title": "Inf. object: space after",
+			"prefix": "oryx",
+			"value": "0.5em",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "db_generate.section.toc.level",
+			"description": "generate.section.toc.level",
+			"type": "String",
+			"title": "TOC level",
+			"prefix": "oryx",
+			"value": "3",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+	}, {
+			"id": "db_extra.params",
+			"type": "Complex",
+			"title": "Extra Parameter",
+			"description": "Extra Parameter: <ul> <li>first.region.body.border = solid thick red</li> <li>odd.region.body.border = solid thick red</li> <li>odd.region.body.border.left = solid thick red</li> <li>odd.region.body.border.top = solid thick red</li> <li>odd.region.body.border.bottom = solid thick red</li> <li>odd.region.body.border.right = solid thick red</li> <li>even.region.body.border.right = solid thick red</li> <li>first.region.body.display.align = before</li> <li>odd.region.body.display.align = after</li></ul> ",
+			"value": "",
+			"readonly": false,
+			"optional": true,
+			"complexItems": [ {
+				"id": "name",
+				"name": "Name",
+				"type": "String",
+				"value": "",
+				"width": 250,
+				"optional": false
+			}, {
+				"id": "value",
+				"name_de": "Wert",
+				"name": "Value",
+				"type": "String",
+				"value": "",
+				"width": 250,
+				"optional": false
+			} ]
+		},{
+			"id": "db_paper.type",
+			"type": "Choice",
+			"title": "Papertype",
+			"title_de": "Papierformat",
+			"prefix": "oryx",
+			"value": "A4",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "A4",
+				"value": "A4",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "USletter",
+				"value": "USletter",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "A5",
+				"value": "A5",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "A3",
+				"value": "A3",
+				"refToView": ""
+			} ]
+		},
+		{
+			"id": "db_page.orientation",
+			"type": "Choice",
+			"title": "Orientation",
+			"title_de": "Orientierung",
+			"prefix": "oryx",
+			"value": "portrait",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Portrait",
+				"value": "portrait",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "Landscape",
+				"value": "landscape",
+				"refToView": ""
+			}]
+		}, {
+			"id": "db_body.font.family",
+			"type": "string",
+			"title": "Font",
+			"title_de": "Font",
+			"prefix": "oryx",
+			"value": null,
+			"popular": true,
+			"readonly": false,
+			"optional": true
+		}, {
+			"id": "db_body.font.master",
+			"type": "Combo",
+			"title": "Basic fontsize",
+			"title_de": "Basisfontgröße",
+			"prefix": "oryx",
+			"value": "8",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "8",
+				"value": "8",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "9",
+				"value": "9",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "10",
+				"value": "10",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "11",
+				"value": "11",
+				"refToView": ""
+			},{
+				"id": "c5",
+				"title": "12",
+				"value": "12",
+				"refToView": ""
+			}]
+		}]
+	},
+	{
+		"type": "node",
+		"id": "Textarea",
+		"title": "Textarea",
+		"title_de": "Texteingabe",
+		"groups": ["Controls"],
+		"description": "A textarea control.",
+		"view": "new_textarea.svg",
+		"icon": "markdown.png",
+		"roles": ["core_form_controls", "controls_morph"],
+
+		"layout": [{
+			"type": "layout.xforms.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"include": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"length": "30"
+		},{
+      "id" : "description",
+      "type" : "String",
+      "title" : "Description",
+			"title_de": "Beschreibung",
+      "value" : "",
+			"refToView": "text"
+		},{
+			"id": "bordercolor",
+			"type": "Color",
+			"title": "Border color",
+			"title_de": "Rahmenfarbe",
+			"value": "#000000",
+			"readonly": false,
+			"optional": false,
+			"refToView": "bg_frame",
+			"fill": false,
+			"stroke": true
+		}, {
+			"id": "xf_type",
+			"type": "Choice",
+			"title": "Texttype",
+			"title_de": "Texttyp",
+			"prefix": "oryx",
+			"value": "html",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Html",
+				"value": "html",
+				"refToView": "html"
+			},{
+				"id": "c2",
+				"title": "GroovyMarkup",
+				"value": "groovymarkup",
+				"refToView": "groovymarkup"
+			},{
+				"id": "c3",
+				"title": "Markdown",
+				"value": "markdown",
+				"refToView": "markdown"
+			},{
+				"id": "c4",
+				"title": "GroovyMarkupBuilder",
+				"value": "groovymarkupbuilder",
+				"refToView": "groovymarkupbuilder"
+			} ]
+		},
+		{
+			"id": "xf_markdown",
+			"type": "text",
+			"config":{"mode":"text/tiki", "helper":"DocumentMarkdown","toolbarAddon":"WikiMarkdown"},
+			"title": "Text",
+			"title_de": "Text",
+			"prefix": "oryx",
+			"value": "",
+			"visible": "xf_type=='markdown'",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},{
+			"id": "xf_syntax",
+			"type": "Choice",
+			"title": "Syntax",
+			"title_de": "Syntax",
+			"prefix": "oryx",
+			"visible": "xf_type=='markdown'",
+			"value": "asciidoctor",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Asciidoctor",
+				"value": "asciidoctor",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "Asciidoctor(over Html)",
+				"value": "asciidoctor_html",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "XWiki",
+				"value": "xwiki",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "Mediawiki",
+				"value": "mediawiki",
+				"refToView": ""
+			}]
+		}, {
+			"id": "xf_groovymarkup",
+			"type": "text",
+			"title": "GroovyMarkup",
+			"description": "MarkupTemplateEngine is used",
+			"prefix": "oryx",
+			"value": "",
+			"visible": "xf_type=='groovymarkup'",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}, {
+			"id": "xf_groovymarkupbuilder",
+			"type": "text",
+			"title": "GroovyMarkupBuilder",
+			"prefix": "oryx",
+			"description": "MarkupBuilder is used",
+			"value": "",
+			"visible": "xf_type=='groovymarkupbuilder'",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}, {
+			"id": "xf_html",
+			"type": "html",
+			"config":{"mode":"text/tiki", "helper":"DocumentMarkdown","toolbarAddon":"WikiMarkdown"},
+			"title": "Html",
+			"title_de": "Html",
+			"prefix": "oryx",
+			"value": "",
+			"visible": "xf_type=='html'",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		} ],
+		"propertyPackages": ["geometry" ]
+	},
+	{
+		"type": "node",
+		"id": "autogentable",
+		"title": "Auto. gen.Table",
+		"title_de": "Auto erz. Tabelle",
+		"groups": ["Controls"],
+		"view": "new_autogentable.svg",
+		"icon": "table.png",
+		"_roles": ["core_form_controls", "controls_morph"],
+		"layout": [{
+			"type": "layout.xforms.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"length": "30"
+		},
+		{
+			"id": "xf_filter",
+			"type": "ResourceSelector",
+			"config": {"type":"sw.filter","prefix":""},
+			"title": "Filtername",
+			"title_de": "Filtername",
+			"value": "",
+			"description": "Filtername",
+			"description_de": "Name des Filters",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"length": "50"
+		},
+		{
+			"id": "xf_columns",
+			"type": "Complex",
+			"config": {"helperTree":["sw.filter"]},
+			"title": "Tablecolumns",
+			"title_de": "Tabellenspalten",
+			"value": "",
+			"description": "Tablecolumns",
+			"description_de": "Angezeigte Tabellenspalten",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"complexItems": [{
+				"id": "colname",
+				"name": "Columnname",
+				"name_de": "Spaltenname",
+				"type": "String",
+				"value": "",
+				"width": 150,
+				"optional": false
+			}]
+		}],
+		"propertyPackages": ["geometry" ]
+	},
+	{
+		"type": "node",
+		"id": "Row",
+		"title": "Row",
+		"title_de": "Reihe",
+		"groups": ["Containers"],
+		"view": "new_group.svg",
+		"icon": "new_group.png",
+		"roles": ["additional_form_controls" ],
+
+		"layout": [{
+			"type": "layout.rows",
+			"marginTop": 20,
+			"marginLeft": 25,
+			"spacingX": 8,
+			"spacingY": 0,
+			"exclude": ["http://b3mn.org/stencilset/xforms#Label"]
+		},
+		{
+			"type": "layout.xforms.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"include":false,
+			"value": "",
+			"description": "",
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"length": "30"
+		},{
+			"id": "xf_enabled",
+			"title": "Enabled",
+			"title_de": "Verwenden",
+			"type": "Boolean",
+			"value": true,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},{
+      "id" : "description",
+      "type" : "String",
+      "title" : "Description",
+			"title_de": "Beschreibung",
+      "value" : "",
+			"refToView": "text"
+		},{
+			"id": "bordercolor",
+			"type": "Color",
+			"title": "Border color",
+			"title_de": "Rahmenfarbe",
+			"value": "#000000",
+			"readonly": false,
+			"optional": false,
+			"refToView": "bg_frame",
+			"fill": false,
+			"stroke": true
+		},{
+			"id": "xf_position",
+			"type": "Choice",
+			"title": "Position",
+			"title_de": "Position",
+			"prefix": "oryx",
+			"value": "body",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Body",
+				"title_de": "Körper",
+				"value": "body",
+				"refToView": "body"
+			},{
+				"id": "c2",
+				"title": "Header",
+				"title_de": "Kopf",
+				"value": "header",
+				"refToView": "header"
+			},
+			{
+				"id": "c3",
+				"title": "Footer",
+				"title_de": "Fuss",
+				"value": "footer",
+				"refToView": "footer"
+			}]
+		},{
+			"id": "xf_pages",
+			"type": "Choice",
+			"title": "Which page(s)",
+			"title_de": "Auf Seite(n)/nur bei Kopf/Fuß relevant",
+			"prefix": "oryx",
+			"value": "first",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "First",
+				"title_de": "Nur erste Seite",
+				"value": "first",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "All but first",
+				"title_de": "Alle ausser Erster",
+				"value": "allbf",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "All",
+				"title_de": "Alle",
+				"value": "all",
+				"refToView": ""
+			}]
+		},{
+			"id": "xf_colsep",
+			"type": "Boolean",
+			"title": "Colsep",
+			"title_de": "Spaltentrenner",
+			"prefix": "oryx",
+			"value": false,
+			"include": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": ""
+		},{
+			"id": "xf_frame",
+			"type": "Choice",
+			"title": "Frame",
+			"title_de": "Rahmen",
+			"prefix": "oryx",
+			"popular": true,
+			"value": "none",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "All",
+				"title_de": "Überall",
+				"value": "all",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "None",
+				"title_de": "Keiner",
+				"value": "none",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "Bottom",
+				"title_de": "Nur unten",
+				"value": "bottom",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "Left ad right",
+				"title_de": "Links und Rechts",
+				"value": "sides",
+				"refToView": ""
+			},{
+				"id": "c5",
+				"title": "Oben",
+				"title_de": "Oben",
+				"value": "top",
+				"refToView": ""
+			},{
+				"id": "c6",
+				"title": "Top and bottom",
+				"title_de": "Oben und unten",
+				"value": "topbot",
+				"refToView": ""
+			}]
+		},{
+			"id": "xf_need",
+			"type": "String",
+			"title": "Need height",
+			"title_de": "Verlangte Höhe",
+			"prefix": "oryx",
+			"value": "",
+			"include": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},{
+			"id": "xf_keeptogether",
+			"type": "Choice",
+			"title": "Keep together",
+			"title_de": "Block zus. halten",
+			"prefix": "oryx",
+			"value": "none",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "No",
+				"title_de": "Nein",
+				"value": "none",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "Yes",
+				"title_de": "Ja",
+				"value": "always",
+				"refToView": ""
+			}]
+		 }
+	 ]},
+	{
+		"type": "node",
+		"id": "Tabview",
+		"title": "Tabview",
+		"title_de": "Register",
+		"groups": ["Containers"],
+		"description": "This element contains one or more page elements, any one of which is rendered at a given time.",
+		"view": "new_switch.svg",
+		"icon": "new_switch.png",
+		"roles": ["__additional_form_controls", "page_container"],
+
+		"layout": [{
+			"type": "layout.xforms.page"
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"popular": false,
+			"readonly": false,
+			"include": false,
+			"optional": true,
+			"refToView": "",
+			"length": "30"
+		},
+		{
+			"id": "xf_enabled",
+			"type": "String",
+			"title": "enabled",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"include": false,
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"length": "100"
+		}]
+	},
+	{
+		"type": "node",
+		"id": "Page",
+		"title": "Tabpage",
+		"title_de": "Registerkarte",
+		"groups": ["Containers"],
+		"description": "This element encloses markup to be conditionally rendered.",
+		"view": "new_case.svg",
+		"icon": "new_case.png",
+		"roles": ["page", "labeled", "standard_container", "actions_container"],
+
+		"layout": [{
+			"type": "layout.rows",
+			"marginTop": 30,
+			"marginLeft": 10,
+			"spacingX": 30,
+			"spacingY": 30
+		}],
+		"properties": [{
+			"id": "xf_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"length": "30"
+		},
+		{
+			"id": "xf_selected",
+			"type": "Combo",
+			"title": "selected",
+			"title_de": "Ausgewählte Karte",
+			"prefix": "oryx",
+			"value": false,
+			"description": "selection status for the page.",
+			"include": false,
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"value": "true",
+				"title": "true",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"value": "false",
+				"title": "false",
+				"refToView": ""
+			} ]
+		}]
+	}],
+	"rules": {
+		"containmentRules": [{
+			"role": "standard_container",
+			"contains": ["additional_form_controls"]
+		},
+		{
+			"role": "additional_form_controls",
+			"contains": ["core_form_controls"]
+		}],
+		"xorphingRules": [{
+			"role": "controls_morph",
+			"baseMorphs": ["Input"]
+		},
+		{
+			"role": "actions_morph",
+			"baseMorphs": ["Action"]
+		},
+		{
+			"role": "support_morph",
+			"baseMorphs": ["Hint"]
+		}]
+	},
+	"definitions": {
+		"parameter_items": [ {
+			"title": "String",
+			"value": "string"
+		}, {
+			"title": "Integer",
+			"value": "integer"
+		}, {
+			"title": "Long",
+			"value": "long"
+		}, {
+			"title": "Double",
+			"value": "double"
+		}, {
+			"title": "Boolean",
+			"value": "boolean"
+		}, {
+			"title": "Date",
+			"value": "date"
+		}, {
+			"title": "List",
+			"value": "list"
+		}, {
+			"title": "Map",
+			"value": "map"
+		} ]
+	}
+}

@@ -1,0 +1,149 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_91D6FF87-3A32-4F08-962F-32330A23B0B6",
+  "properties": {
+    "xf_id": "",
+    "xf_name": "${diagramname}",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_E6FE2708-A5AE-4555-B4FD-20D690A42087",
+      "properties": {
+        "xf_id": "room",
+        "xf_multiselection": false,
+        "xf_columns": {
+          "totalCount": 2,
+          "items": [
+            {
+              "colname": "name",
+              "display": "@chat.name"
+            },
+            {
+              "colname": "description",
+              "display": "@chat.description"
+            }
+          ]
+        },
+        "xf_varname": "",
+        "xf_filter": null,
+        "xf_required": null
+      },
+      "stencil": {
+        "id": "Tableselect"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 390,
+          "y": 240
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_0B02A194-C5D1-4964-9D5A-57105840051F",
+      "properties": {
+        "xf_id": "room_selected",
+        "xf_action": "execute",
+        "xf_label": "@chat.connectButton",
+        "xf_iconname": ""
+      },
+      "stencil": {
+        "id": "ActionButton"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 294
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 270
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_AD2FB310-4A64-4DEB-A014-9E3A5847387D",
+      "properties": {
+        "xf_id": "canceled",
+        "xf_action": "cancel",
+        "xf_label": "@chat.cancel",
+        "xf_iconname": ""
+      },
+      "stencil": {
+        "id": "ActionButton"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 294
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 270
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_3E7CBA8D-8A85-47B3-A83C-DB7100E76F48",
+      "properties": {
+        "xf_id": "",
+        "xf_message": null,
+        "xf_message_de": "<h2>Bitte einen Raum auswählen</h2>",
+        "xf_message_en": "<h2>Please select one room</h2>",
+        "xf_exclude": ""
+      },
+      "stencil": {
+        "id": "Alert"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

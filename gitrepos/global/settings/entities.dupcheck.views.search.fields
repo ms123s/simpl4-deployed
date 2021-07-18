@@ -1,0 +1,24 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "dupname",
+            "enabled": true
+        },
+        {
+            "name": "fields",
+            "enabled": true,
+            "search_options": [
+                "bw",
+                "eq",
+                "ne"
+            ]
+        },
+        {
+            "name": "description",
+            "enabled": true
+        }
+    ]
+}

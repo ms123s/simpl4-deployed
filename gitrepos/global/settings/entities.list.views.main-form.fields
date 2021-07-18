@@ -1,0 +1,47 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "listid",
+            "enabled": true
+        },
+        {
+            "name": "filterid",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "filter",
+            "enabled": true
+        },
+        {
+            "name": "exclusion",
+            "enabled": true
+        },
+        {
+            "name": "mainmodule",
+            "enabled": true
+        },
+        {
+            "name": "properties",
+            "enabled": true
+        },
+        {
+            "name": "fieldsets",
+            "enabled": true
+        },
+        {
+            "name": "fields",
+            "enabled": true
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

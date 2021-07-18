@@ -1,0 +1,66 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "userid",
+            "enabled": true
+        },
+        {
+            "name": "email",
+            "enabled": true
+        },
+        {
+            "name": "givenname",
+            "enabled": true
+        },
+        {
+            "name": "surname",
+            "enabled": true
+        },
+        {
+            "name": "password",
+            "enabled": true
+        },
+        {
+            "name": "admin",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "team_manage",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "oroles",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "processengine",
+            "enabled": true,
+            "tab": "tab1"
+        },
+        {
+            "name": "homedir",
+            "enabled": true,
+            "tab": "tab1"
+        },
+        {
+            "name": "ftphomedir",
+            "enabled": true,
+            "tab": "tab1"
+        },
+        {
+            "name": "roles",
+            "enabled": true,
+            "tab": "tab3"
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

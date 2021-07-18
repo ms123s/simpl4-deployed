@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Aggregat</text>
+    <g transform="scale(1.1,1.1) translate(15,5)">
+      <path d="m 42.942806,10.629133 c 1.178699,0 2.357398,0 3.536097,0 0,2.357415 0,4.714831 0,7.072246 -2.357397,0 -4.714795,0 -7.072192,0 0,-2.357415 0,-4.714831 0,-7.072246 1.178698,0 2.357397,0 3.536095,0 z" fill="#ffffff" id="path2638" />
+      <path d="m 42.942806,10.629133 c 1.178699,0 2.357398,0 3.536097,0 0,2.357415 0,4.714831 0,7.072246 -2.357397,0 -4.714795,0 -7.072192,0 0,-2.357415 0,-4.714831 0,-7.072246 1.178698,0 2.357397,0 3.536095,0 z" stroke-width="0.937" fill="none" stroke="#000000" id="path2640" stroke-linejoin="round" />
+      <path d="m 14.624219,14.16523 c 2.892278,0 5.784555,0 8.676833,0" stroke-width="0.743" fill="none" stroke="#000000" id="path2645" stroke-linejoin="round" />
+      <path d="m 23.271341,10.718266 c 3.40735,1.148988 6.8147,2.297976 10.22205,3.446964 -3.40735,1.129181 -6.8147,2.258362 -10.22205,3.387543 0,-2.278169 0,-4.556338 0,-6.834507 z" id="path2650" />
+      <path d="m 4.0158766,10.629133 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.357415 0,4.714831 0,7.072246 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.357415 0,-4.714831 0,-7.072246 1.17869875,0 2.35739755,0 3.53609635,0 z" fill="#ffffff" id="path2655" />
+      <path d="m 4.0158766,10.629133 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.357415 0,4.714831 0,7.072246 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.357415 0,-4.714831 0,-7.072246 1.17869875,0 2.35739755,0 3.53609635,0 z" stroke-width="0.937" fill="none" stroke="#000000" id="path2657" stroke-linejoin="round" />
+      <path d="m 4.0158766,0.020791 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.3574153 0,4.7148306 0,7.0722459 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.3574153 0,-4.7148306 0,-7.0722459 1.17869875,0 2.35739755,0 3.53609635,0 z" fill="#ffffff" id="path2662" />
+      <path d="m 4.0158766,0.020791 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.3574153 0,4.7148306 0,7.0722459 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.3574153 0,-4.7148306 0,-7.0722459 1.17869875,0 2.35739755,0 3.53609635,0 z" stroke-width="0.937" fill="none" stroke="#000000" id="path2664" stroke-linejoin="round" />
+      <path d="m 4.0158766,21.237476 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.357398 0,4.714795 0,7.072193 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.357398 0,-4.714795 0,-7.072193 1.17869875,0 2.35739755,0 3.53609635,0 z" fill="#ffffff" id="path2669" />
+      <path d="m 4.0158766,21.237476 c 1.1786988,0 2.3573977,0 3.5360965,0 0,2.357398 0,4.714795 0,7.072193 -2.3573976,0 -4.7147952,0 -7.07219285,0 0,-2.357398 0,-4.714795 0,-7.072193 1.17869875,0 2.35739755,0 3.53609635,0 z" stroke-width="0.937" fill="none" stroke="#000000" id="path2671" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

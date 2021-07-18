@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="40" version="1.0">
+  <g stroke-width="0.25" class="SlideGroup">
+    <g>
+      <g class="Slide" clip-path="url(#presentation_clip_path)" id="id1">
+        <g class="Page">
+          <g class="Group">
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id3">
+                <path d="M 77,47 L 0,47 0,0 77,0 77,47 Z" fill="rgb(204,255,153)" stroke="none" />
+                <path d="M 77,47 L 0,47 0,0 77,0 77,47 Z" fill="none" stroke="rgb(15,15,15)" stroke-width="1.5" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id4">
+                <path d="M 67,28 L 58,28 58,19 67,19 67,28 Z" fill="rgb(255,255,255)" stroke="none" />
+                <path d="M 67,28 L 58,28 58,19 67,19 67,28 Z" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id5">
+                <path d="M 50,23 L 37,28 37,19 50,23 Z" fill="rgb(15,15,15)" stroke="none" />
+                <path d="M 50,23 L 37,28 37,19 50,23 Z" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.LineShape">
+              <g id="id6">
+                <path d="M 26,23 L 50,23" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id7">
+                <path d="M 18,28 L 9,28 9,19 18,19 18,28 Z" fill="rgb(255,255,255)" stroke="none" />
+                <path d="M 18,28 L 9,28 9,19 18,19 18,28 Z" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id8">
+                <path d="M 18,14 L 9,14 9,6 18,6 18,14 Z" fill="rgb(255,255,255)" stroke="none" />
+                <path d="M 18,14 L 9,14 9,6 18,6 18,14 Z" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+            <g class="com.sun.star.drawing.PolyPolygonShape">
+              <g id="id9">
+                <path d="M 18,41 L 9,41 9,32 18,32 18,41 Z" fill="rgb(255,255,255)" stroke="none" />
+                <path d="M 18,41 L 9,41 9,32 18,32 18,41 Z" fill="none" stroke="rgb(15,15,15)" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

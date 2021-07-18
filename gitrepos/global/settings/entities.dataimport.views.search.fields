@@ -1,0 +1,38 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "importid",
+            "enabled": true
+        },
+        {
+            "name": "source",
+            "enabled": true
+        },
+        {
+            "name": "defaults",
+            "enabled": true
+        },
+        {
+            "name": "mapping",
+            "enabled": true
+        },
+        {
+            "name": "filter",
+            "enabled": true
+        },
+        {
+            "name": "filetype",
+            "enabled": true
+        },
+        {
+            "name": "mainmodule",
+            "enabled": true
+        },
+        {
+            "name": "_team_list"
+        }
+    ]
+}

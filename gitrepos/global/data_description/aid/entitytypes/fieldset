@@ -1,0 +1,48 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "fieldset",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "search_options": {
+            "enabled": true,
+            "name": "search_options",
+            "edittype": "multiselect",
+            "datatype": "string",
+            "selectable_items": "{\n\t\t\t\t\"eq\":\"%meta.lists.eq\",\n\t\t\t\t\"ne\":\"%meta.lists.ne\",\n\t\t\t\t\"lt\":\"%meta.lists.lt\",\n\t\t\t\t\"le\":\"%meta.lists.le\",\n\t\t\t\t\"gt\":\"%meta.lists.gt\",\n\t\t\t\t\"ge\":\"%meta.lists.ge\",\n\t\t\t\t\"bw\":\"%meta.lists.bw\",\n\t\t\t\t\"bn\":\"%meta.lists.bn\",\n\t\t\t\t\"in\":\"%meta.lists.in\",\n\t\t\t\t\"ni\":\"%meta.lists.ni\",\n\t\t\t\t\"cn\":\"%meta.lists.cn\",\n\t\t\t\t\"nc\":\"%meta.lists.nc\" \n\t\t\t\t}"
+        },
+        "fsname": {
+            "enabled": true,
+            "name": "fsname",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"}]",
+            "primary_key": true,
+            "datatype": "string"
+        },
+        "fields": {
+            "enabled": true,
+            "name": "fields",
+            "edittype": "multiselect",
+            "datatype": "array/string",
+            "search_options": "['bw','eq','ne']"
+        }
+    }
+}

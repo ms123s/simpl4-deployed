@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Transacted</text>
+    <g transform="scale(1.0,1.0) translate(14,3)">
+      <path d="M 24.606419,31.600853 C 16.58899,31.61528 7.9796538,29.202753 2.6452423,22.876769 -0.65775002,18.92062 -0.7244844,12.597483 2.8113117,8.7573412 7.2477483,3.2841857 14.422589,0.98209318 21.208395,0.29958557 29.789388,-0.46569586 39.114252,1.5279508 45.480297,7.6404833 c 3.335448,3.3506137 4.802783,8.8761887 2.342767,13.1408277 -2.85661,5.455915 -8.825702,8.364096 -14.56221,9.805181 -2.827767,0.695295 -5.742192,1.041561 -8.654435,1.014361 z" fill="#eeeeee" id="path1318" />
+      <path d="M 24.606419,31.600853 C 16.58899,31.61528 7.9796538,29.202753 2.6452423,22.876769 -0.65775002,18.92062 -0.7244844,12.597483 2.8113117,8.7573412 7.2477483,3.2841857 14.422589,0.98209318 21.208395,0.29958557 29.789388,-0.46569586 39.114252,1.5279508 45.480297,7.6404833 c 3.335448,3.3506137 4.802783,8.8761887 2.342767,13.1408277 -2.85661,5.455915 -8.825702,8.364096 -14.56221,9.805181 -2.827767,0.695295 -5.742192,1.041561 -8.654435,1.014361 z" stroke-width="0.235" fill="none" stroke="#000000" id="path1320" stroke-linejoin="round" />
+      <path d="m 32.134067,8.6244363 c 2.327022,0 4.654044,0 6.981066,0 0,4.6540437 0,9.3080867 0,13.9621307 -4.654044,0 -9.308087,0 -13.962131,0 0,-4.654044 0,-9.308087 0,-13.9621307 2.327022,0 4.654043,0 6.981065,0 z" fill="#ffffff" id="path1325" />
+      <path d="m 32.134067,8.6244363 c 2.327022,0 4.654044,0 6.981066,0 0,4.6540437 0,9.3080867 0,13.9621307 -4.654044,0 -9.308087,0 -13.962131,0 0,-4.654044 0,-9.308087 0,-13.9621307 2.327022,0 4.654043,0 6.981065,0 z" stroke-width="0.235" fill="none" stroke="#000000" id="path1327" stroke-linejoin="round" />
+      <path d="m 0.34749542,16.152085 c 4.68795048,0 9.37590108,0 14.06385158,0" stroke-width="0.637" fill="none" stroke="#808080" id="path1332" stroke-linejoin="round" />
+      <path d="m 21.884972,15.878789 c -2.3368,1.173288 -4.673599,2.346577 -7.010399,3.519865 0,-2.336799 0,-4.673599 0,-7.010398 2.3368,1.163511 4.673599,2.327022 7.010399,3.490533 z" fill="#808080" id="path1337" />
+      <path d="m 21.884972,15.878789 c -2.3368,1.173288 -4.673599,2.346577 -7.010399,3.519865 0,-2.336799 0,-4.673599 0,-7.010398 2.3368,1.163511 4.673599,2.327022 7.010399,3.490533 z" stroke-width="0.733" fill="none" stroke="#808080" id="path1339" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

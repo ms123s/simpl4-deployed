@@ -1,0 +1,32 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "mapping",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "mapping": {
+            "enabled": true,
+            "name": "mapping",
+            "datatype": "string"
+        },
+        "mid": {
+            "enabled": true,
+            "name": "mid",
+            "datatype": "string"
+        }
+    }
+}

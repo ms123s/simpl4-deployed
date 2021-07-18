@@ -1,0 +1,1285 @@
+{
+	"title": "Website",
+	"title_de": "Website",
+	"namespace": "http://b3mn.org/stencilset/website#",
+	"description": "This is the XWebsite stencil set specification.",
+	"propertyPackages": [
+		{
+		"name": "base",
+		"properties": [{
+			"id": "ws_id",
+			"type": "String",
+			"title": "Id",
+			"value": "",
+			"readonly": false,
+			"popular": true,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "ws_atstartpage",
+			"title": "At startpage",
+			"title_de": "Auf Startseite",
+			"type": "Boolean",
+			"value": true,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},{
+      "id" : "description",
+      "type" : "String",
+      "title" : "Description",
+			"title_de": "Beschreibung",
+      "value" : "",
+			"refToView": "text"
+		},{
+			"id": "bordercolor",
+			"type": "Color",
+			"title": "Colormark",
+			"title_de": "Farbmarkierung",
+			"value": "#000000",
+			"readonly": false,
+			"optional": false,
+			"refToView": "bg_frame",
+			"fill": false,
+			"stroke": true
+		}]
+	},
+	{
+		"name": "menuitem",
+		"properties": [{
+			"id": "ws_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"include": false,
+			"description": "",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"length": "30"
+		},
+		{
+			"id": "ws_name",
+			"type": "String",
+			"title": "Name",
+			"title_de": "Name",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "menuitem",
+			"length": "60"
+		},
+		{
+			"id": "ws_enabled",
+			"title": "Enabled",
+			"title_de": "Anzeigen",
+			"type": "Boolean",
+			"value": true,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_locationid",
+			"type": "Choice",
+			"config": {"type":"ms123.graphicaleditor.plugins.propertyedit.ShapeSelect","criteria":{"parentStencil":"Pageelement", "roles":["content_element"]},"propertyNames":["ws_id"], "delimeter":":"},
+			"title": "LocationId",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": []
+		},
+		{
+			"id": "ws_linktype",
+			"type": "Choice",
+			"title": "Linktype",
+			"title_de": "Linktyp",
+			"prefix": "oryx",
+			"value": "content",
+			"description": "The link type",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Content",
+				"title_de": "Content",
+				"value": "content",
+				"icon": "markdown.png",
+				"refToView": "content"
+			},
+			{
+				"id": "c2",
+				"title": "ContentId",
+				"value": "contentid",
+				"icon": "contentid.png",
+				"refToView": "contentid"
+			},
+			{
+				"id": "c3",
+				"title": "Workflow",
+				"value": "workflow",
+				"icon": "system-run.png",
+				"refToView": "workflow"
+			},
+			{
+				"id": "c4",
+				"title": "Javascript",
+				"value": "js",
+				"icon": "js16.png",
+				"refToView": "js"
+			},
+			{
+				"id": "c5",
+				"title": "Webpage(Html)",
+				"value": "webpage",
+				"icon": "webpage.png",
+				"refToView": "webpage"
+			},
+			{
+				"id": "c6",
+				"title": "Swf(Flash)",
+				"value": "swf",
+				"icon": "swf.png",
+				"refToView": "swf"
+			},
+			{
+				"id": "c7",
+				"title": "Pdf",
+				"value": "pdf",
+				"icon": "pdf.png",
+				"refToView": "pdf"
+			},
+			{
+				"id": "c8",
+				"title": "Internet",
+				"value": "internet",
+				"icon": "internet.png",
+				"refToView": "internet"
+			} ]
+		},
+		{
+			"id": "ws_url",
+			"type": "String",
+			"title": "Url(Internet)",
+			"title_de": "Url(Internet)",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='internet'",
+			"value": "",
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+      "id": "ws_target",
+      "type": "String",
+      "title": "Target",
+      "title_de": "Ziel",
+      "prefix": "oryx",
+      "visible": "ws_linktype=='internet'",
+      "value": "blank",
+      "popular": true,
+      "optional": true,
+      "refToView": "",
+      "length": "128"
+    },
+		{
+			"id": "ws_workflow",
+			"type": "ResourceSelector",
+			"config": {"type":"sw.process","editable":true, "prefix":""},
+      "title" : "Workflow",
+      "title_de" : "Workflow",
+			"visible": "ws_linktype=='workflow'",
+			"prefix": "oryx",
+			"value": "",
+			"refToView": "",
+      "popular" : true
+		},
+		{
+			"id": "ws_swf",
+			"type": "String",
+			"title": "Swf(Flash)",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='swf'",
+			"value": "",
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+			"id": "ws_pdf",
+			"type": "String",
+			"title": "Pdf",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='pdf'",
+			"value": "",
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+			"id": "ws_js",
+			"type": "String",
+			"title": "Javascript",
+			"title_de": "Javascript",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='js'",
+			"value": "",
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+			"id": "ws_markdown",
+			"config":{"mode":"text/tiki", "helper":"DocumentMarkdown","toolbarAddon":"WikiMarkdown"},
+			"type": "text",
+			"title": "Content",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"visible": "ws_linktype=='content'",
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},
+		{
+			"id": "ws_webpage",
+			"type": "String",
+			"title": "Webpage(Html)",
+			"title_de": "Webpage(Html)",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='webpage'",
+			"value": "",
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+			"id": "ws_contentid",
+			"type": "Choice",
+			"config": {"type":"ms123.graphicaleditor.plugins.propertyedit.ShapeSelect","criteria":{"parentStencil":null, "fileType":"sw.website","roles":["content_element"]},"propertyNames":["fileName","ws_id"], "delimeter":":"},
+			"title": "ContentId",
+			"prefix": "oryx",
+			"visible": "ws_linktype=='contentid'",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"items": [ {
+				"id": "c1",
+				"title": "-",
+				"value": "none"
+			} ],
+			"refToView": ""
+		}
+	]
+	},
+	{
+		"name": "color",
+		"properties": [{
+			"id": "ws_backgroundcolor",
+			"type": "Color",
+			"title": "Backgroundcolor",
+			"title_de": "Hintergrundfarbe",
+			"prefix": "oryx",
+			"value": "none",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		}]
+	},
+	{
+		"name": "border",
+		"properties": [{
+			"id": "ws_bordercolor",
+			"type": "Color",
+			"title": "Bordercolor",
+			"title_de": "Rahmenfarbe",
+			"prefix": "oryx",
+			"value": "black",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "ws_borderwidth",
+			"type": "Integer",
+			"title": "Borderthickness",
+			"title_de": "Rahmenstärke",
+			"prefix": "oryx",
+			"value": 0,
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},{
+			"id": "ws_borderstyle",
+			"type": "Choice",
+			"title": "Borderstyle",
+			"title_de": "Rahmenstyle",
+			"prefix": "oryx",
+			"value": "none",
+			"popular": false,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [ {
+				"id": "c1",
+				"title": "None",
+				"value": "none",
+				"refToView": ""
+			},{
+				"id": "c2",
+				"title": "Solid",
+				"value": "solid",
+				"refToView": ""
+			},{
+				"id": "c3",
+				"title": "Dotted",
+				"value": "dotted",
+				"refToView": ""
+			},{
+				"id": "c4",
+				"title": "Dashed",
+				"value": "dashed",
+				"refToView": ""
+			},{
+				"id": "c5",
+				"title": "Double",
+				"value": "double",
+				"refToView": ""
+			},{
+				"id": "c6",
+				"title": "Ridge",
+				"value": "ridge",
+				"refToView": ""
+			},{
+				"id": "c7",
+				"title": "Groove",
+				"value": "groove",
+				"refToView": ""
+			},{
+				"id": "c8",
+				"title": "Outset",
+				"value": "outset",
+				"refToView": ""
+			},{
+				"id": "c9",
+				"title": "Inset",
+				"value": "inset",
+				"refToView": ""
+			}]
+		}]
+	},
+	{
+		"name": "html",
+		"properties": [{
+			"id": "ws_css",
+			"type": "text",
+			"config":{"mode":"text/css","width":"600","height":"800"},
+			"title": "CSS",
+			"title_de": "CSS",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},
+		{
+			"id": "ws_js",
+			"type": "text",
+			"config":{"mode":"text/javascript","width":"600","height":"800"},
+			"title": "Javascript",
+			"title_de": "Javascript",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}]
+	},
+	{
+		"name": "contentelement",
+		"properties": [{
+			"id": "ws_usetabs",
+			"title": "Tabs",
+			"title_de": "Tabs",
+			"type": "Boolean",
+			"value": false,
+			"visible": "parent=='pageelement'",
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_width",
+			"type": "Combo",
+			"title": "Width",
+			"title_de": "Breite",
+			"prefix": "oryx",
+			"value": "auto",
+			"popular": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "auto",
+				"value": "auto",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "100px",
+				"value": "100px",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_colspan",
+			"title": "Columnspan",
+			"title_de": "Spaltenumfassend",
+			"type": "Integer",
+			"value": 1,
+			"popular": false,
+			"readonly": false,
+			"optional": true
+		},
+		{
+			"id": "ws_weightx",
+			"title": "WeightX",
+			"title_de": "WichtungX",
+			"type": "Integer",
+			"value": 1,
+			"popular": false,
+			"readonly": false,
+			"optional": true
+		},
+		{
+			"id": "ws_alignx",
+			"type": "Choice",
+			"title": "AlignX",
+			"title_de": "AusrichtungX",
+			"prefix": "oryx",
+			"value": "center",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "center",
+				"title_de": "Mitte",
+				"value": "center",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "left",
+				"title_de": "Links",
+				"value": "left",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "right",
+				"title_de": "Rechts",
+				"value": "right",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_weighty",
+			"title": "WeightY",
+			"title_de": "WichtungY",
+			"type": "Integer",
+			"value": 1,
+			"popular": false,
+			"readonly": false,
+			"optional": true
+		},
+		{
+			"id": "ws_aligny",
+			"type": "Choice",
+			"title": "AlignY",
+			"title_de": "AusrichtungY",
+			"prefix": "oryx",
+			"value": "middle",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "middle",
+				"title_de": "Mitte",
+				"value": "middle",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "top",
+				"title_de": "Oben",
+				"value": "top",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "bottom",
+				"title_de": "Unten",
+				"value": "bottom",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_height",
+			"type": "Combo",
+			"title": "Height",
+			"title_de": "Höhe",
+			"prefix": "oryx",
+			"value": "auto",
+			"popular": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "auto",
+				"value": "auto",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "100px",
+				"value": "100px",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_minheight",
+			"title": "Min. height",
+			"title_de": "Als min. Höhe",
+			"type": "Boolean",
+			"value": false,
+			"popular": false,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_scrollbar",
+			"title": "Scrollbar",
+			"title_de": "Scrollbar",
+			"type": "Boolean",
+			"value": false,
+			"popular": false,
+			"include": true,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_padding",
+			"title": "Padding(t,r,b,l)",
+			"type": "String",
+			"value": "3",
+			"popular": false,
+			"include": true,
+			"readonly": false,
+			"optional": false
+		}]
+	},
+	{
+		"name": "layoutcontainer",
+		"properties": [ {
+			"id": "ws_align-content",
+			"type": "Choice",
+			"title": "Align content",
+			"title_de": "Inhaltausrichtung",
+			"prefix": "oryx",
+			"include": false,
+			"value": "flex-start",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Flex start",
+				"value": "flex-start",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "Flex end",
+				"value": "flex-end",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "Center",
+				"value": "center",
+				"refToView": ""
+			},
+			{
+				"id": "c4",
+				"title": "Space between",
+				"value": "space-between",
+				"refToView": ""
+			},
+			{
+				"id": "c5",
+				"title": "Space around",
+				"value": "space-around",
+				"refToView": ""
+			},
+			{
+				"id": "c6",
+				"title": "Stretch",
+				"value": "stretch",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_width",
+			"type": "Combo",
+			"title": "Width",
+			"title_de": "Breite",
+			"prefix": "oryx",
+			"value": "auto",
+			"popular": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "auto",
+				"value": "auto",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "100px",
+				"value": "100px",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "100%",
+				"value": "100%",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_height",
+			"type": "Combo",
+			"title": "Height",
+			"title_de": "Höhe",
+			"prefix": "oryx",
+			"value": "auto",
+			"popular": false,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "auto",
+				"value": "auto",
+				"refToView": ""
+			},
+			{
+				"id": "c2",
+				"title": "100px",
+				"value": "100px",
+				"refToView": ""
+			},
+			{
+				"id": "c3",
+				"title": "100%",
+				"value": "100%",
+				"refToView": ""
+			}]
+		},
+		{
+			"id": "ws_css",
+			"type": "text",
+			"config":{"mode":"text/css","width":"600","height":"800"},
+			"title": "CSS",
+			"title_de": "CSS",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}]
+	}
+],
+	"stencils": [{
+		"type": "node",
+		"id": "XWebsite",
+		"title": "XWebsite",
+		"groups": ["Form"],
+		"view": "new_form.svg",
+		"icon": "new_form.png",
+		"mayBeRoot": true,
+		"hide": true,
+		"roles": ["main_container"],
+
+		"layout": [{
+			"type": "layout.rows",
+			"marginTop": 10,
+			"marginLeft": 30,
+			"spacingX": 30,
+			"spacingY": 10
+		}],
+		"properties": [{
+			"id": "ws_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"include": false,
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "ws_name",
+			"type": "String",
+			"title": "Name",
+			"prefix": "oryx",
+			"value": "${diagramname}",
+			"popular": true,
+			"readonly": true,
+			"optional": false,
+			"length": "50",
+			"refToView": "formcaption",
+			"wrapLines": true
+		},
+		{
+			"id": "ws_title",
+			"type": "String",
+			"title": "Title",
+			"title_de": "Titel",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"length": "50",
+			"wrapLines": true
+		},
+		{
+			"id": "ws_css",
+			"type": "text",
+			"config":{"mode":"text/css","width":"600","height":"800"},
+			"title": "CSS",
+			"title_de": "CSS",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},
+		{
+			"id": "ws_js",
+			"type": "text",
+			"config":{"mode":"text/javascript","width":"600","height":"800"},
+			"title": "Javascript",
+			"title_de": "Javascript",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		},
+		{
+			"id": "ws_xspacing",
+			"title": "XSpacing",
+			"type": "Integer",
+			"value": 10,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_yspacing",
+			"title": "YSpacing",
+			"type": "Integer",
+			"value": 10,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		},
+		{
+			"id": "ws_padding",
+			"title": "Padding",
+			"type": "Integer",
+			"value": 5,
+			"popular": true,
+			"readonly": false,
+			"optional": false
+		}, 
+		{
+			"id": "css_headercolor",
+			"type": "Color",
+			"title": "Headercolor",
+			"title_de": "Überschriftfarbe",
+			"prefix": "oryx",
+			"value": "#3982b7",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "css_textcolor",
+			"type": "Color",
+			"title": "Textcolor",
+			"title_de": "Textfarbe",
+			"prefix": "oryx",
+			"value": "#4d5054",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "css_linkcolor",
+			"type": "Color",
+			"title": "Linkcolor",
+			"title_de": "Linkfarbe",
+			"prefix": "oryx",
+			"value": "#4d5054",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "ws_backgroundcolor",
+			"type": "Color",
+			"title": "Backgroundcolor",
+			"title_de": "Hintergrundfarbe",
+			"prefix": "oryx",
+			"value": "white",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		},
+		{
+			"id": "ws_backgroundcolor2",
+			"type": "Color",
+			"title": "Backgroundcolor2",
+			"title_de": "Hintergrundfarbe2",
+			"prefix": "oryx",
+			"value": "none",
+			"readonly": false,
+			"optional": true,
+			"length": "50"
+		}]
+	},
+	{
+		"type": "node",
+		"id": "Textarea",
+		"title": "Textarea",
+		"title_de": "Texteingabe",
+		"groups": ["Controls"],
+		"description": "A textarea control.",
+		"view": "new_textarea.svg",
+		"icon": "markdown.png",
+		"roles": ["content_element", "controls_morph"],
+
+		"layout": [{
+			"type": "layout.website.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "ws_markdown",
+			"type": "text",
+			"config":{"mode":"text/tiki", "helper":"DocumentMarkdown","toolbarAddon":"WikiMarkdown"},
+			"title": "Text",
+			"title_de": "Text",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}],
+		"propertyPackages": ["base", "html", "contentelement", "border","color" ]
+	},
+	{
+		"type": "node",
+		"id": "Htmlarea",
+		"title": "Htmlarea",
+		"title_de": "Htmleingabe",
+		"groups": ["Controls"],
+		"view": "new_htmlarea.svg",
+		"icon": "html.png",
+		"roles": ["content_element", "controls_morph"],
+
+		"layout": [{
+			"type": "layout.website.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "ws_html",
+			"type": "html",
+			"config":{},
+			"title": "Html",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": ""
+		}],
+		"propertyPackages": ["base", "html", "contentelement", "border","color" ]
+	},
+	{
+		"type": "node",
+		"id":"Menu",
+		"title":"Menu",
+		"title_de":"Menü",
+		"groups":["Controls"],
+		"view":"new_menu.svg",
+		"icon":"new_select.png",
+		"roles": ["content_element", "menu", "controls_morph"],
+		"layout" : [{"type" : "layout.website.menuitem"}],
+		"properties": [{
+				"id":"ws_xid",
+				"type":"String",
+				"title":"id",
+				"prefix":"oryx",
+				"value":"",
+				"description":"",
+				"readonly":false,
+				"include":false,
+				"optional":true,
+				"refToView":"",
+				"length":"30"
+		},
+		{
+			"id": "ws_title",
+			"type": "Text",
+			"title": "Title",
+			"title_de": "Überschrift",
+			"prefix": "oryx",
+			"value": null,
+			"popular": true,
+			"optional": true,
+			"refToView": "",
+			"length": "128"
+		},
+		{
+			"id": "ws_menutype",
+			"type": "Choice",
+			"title": "Menutype",
+			"title_de": "Menütyp",
+			"prefix": "oryx",
+			"value": "html",
+			"description": "The link type",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "Html",
+				"value": "html"
+			},
+			{
+				"id": "c2",
+				"title": "Tree",
+				"title_de": "Baum",
+				"value": "tree"
+			} ]
+		},
+		{
+			"id": "ws_css",
+			"type": "text",
+			"config":{"mode":"text/css","width":"600","height":"800"},
+			"title": "CSS",
+			"title_de": "CSS",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"visible": "ws_menutype=='html'",
+			"refToView": ""
+		},{
+			"id": "ws_js",
+			"type": "text",
+			"config":{"mode":"text/javascript","width":"600","height":"800"},
+			"title": "Javascript",
+			"title_de": "Javascript",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"visible": "ws_menutype=='html'",
+			"optional": true,
+			"refToView": ""
+		}], 
+		"propertyPackages": ["base", "contentelement", "border","color" ]
+	},
+	{
+		"type": "node",
+		"id":"Submenu",
+		"title":"Submenu",
+		"title_de":"Untermenü",
+		"groups":["Controls"],
+		"view":"new_submenu.svg",
+		"icon":"new_select1.png",
+		"roles": ["menu", "menu_item", "controls_morph"],
+		"layout" : [{"type" : "layout.website.menuitem"}],
+		"properties": [{
+			"id": "ws_name",
+			"type": "String",
+			"title": "Name",
+			"title_de": "Name",
+			"prefix": "oryx",
+			"value": "",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"refToView": "_submenu"
+		}], 
+		"propertyPackages": [ "menuitem"]
+	},
+	{
+		"type": "node",
+		"id":"Menuitem",
+		"title":"Menuitem",
+		"title_de":"Menüeeintag",
+		"groups":["Controls"],
+		"view":"new_item.svg",
+		"icon":"new_item.png",
+		"roles": [
+			"menu_item"
+		],
+		"layout":[{"type":"layout.website.label.menuitem"}],
+		"properties": [{
+			"id": "ws_scrollbar",
+			"title": "Scrollbar",
+			"title_de": "Scrollbar",
+			"type": "Boolean",
+			"value": true,
+			"popular": true,
+			"include": true,
+			"readonly": false,
+			"optional": false
+		}],
+		"propertyPackages": [ "menuitem"]
+	},
+	{
+		"type": "node",
+		"id": "autogentable",
+		"title": "Auto. gen.Table",
+		"title_de": "Auto erz. Tabelle",
+		"groups": ["Controls"],
+		"view": "new_autogentable.svg",
+		"icon": "table.png",
+		"roles": ["xflex_child", "controls_morph"],
+		"layout": [{
+			"type": "layout.website.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "ws_id",
+			"type": "String",
+			"title": "Id",
+			"prefix": "oryx",
+			"value": "",
+			"description": "",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"length": "30"
+		},
+		{
+			"id": "ws_filter",
+			"type": "ResourceSelector",
+			"config": {"type":"sw.filter","prefix":""},
+			"title": "Filtername",
+			"title_de": "Filtername",
+			"value": "",
+			"description": "Filtername",
+			"description_de": "Name des Filters",
+			"popular": true,
+			"readonly": false,
+			"optional": false,
+			"length": "50"
+		},
+		{
+			"id": "ws_columns",
+			"type": "Complex",
+			"config": {"helperTree":["sw.filter"]},
+			"title": "Tablecolumns",
+			"title_de": "Tabellenspalten",
+			"value": "",
+			"description": "Tablecolumns",
+			"description_de": "Angezeigte Tabellenspalten",
+			"popular": true,
+			"readonly": false,
+			"optional": true,
+			"complexItems": [{
+				"id": "colname",
+				"name": "Columnname",
+				"name_de": "Spaltenname",
+				"type": "String",
+				"value": "",
+				"width": 150,
+				"optional": false
+			}]
+		}],
+		"propertyPackages": ["html", "contentelement" ]
+	},
+	{
+		"type": "node",
+		"id": "Pageelement",
+		"title": "Pageelement",
+		"title_de": "Seitenelement",
+		"groups": ["Containers"],
+		"view": "new_dock.svg",
+		"icon": "dock.png",
+		"roles": ["layout_container" ],
+
+		"layout": [{
+			"type": "layout.rows",
+			"marginTop": 20,
+			"marginLeft": 25,
+			"spacingX": 8,
+			"spacingY": 0,
+			"exclude": ["http://b3mn.org/stencilset/website#Label"]
+		},
+		{
+			"type": "layout.website.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [{
+			"id": "ws_position",
+			"type": "Choice",
+			"title": "Position",
+			"title_de": "Position",
+			"prefix": "oryx",
+			"value": "center",
+			"readonly": false,
+			"optional": false,
+			"refToView": "",
+			"items": [{
+				"id": "c1",
+				"title": "North",
+				"title_de": "Norden",
+				"value": "north",
+				"refToView": "north"
+			},{
+				"id": "c2",
+				"title": "West",
+				"title_de": "Westen",
+				"value": "west",
+				"refToView": "west"
+			},{
+				"id": "c3",
+				"title": "East",
+				"title_de": "Osten",
+				"value": "east",
+				"refToView": "east"
+			},{
+				"id": "c4",
+				"title": "Center",
+				"title_de": "Zentrum",
+				"value": "center",
+				"refToView": "center"
+			},{
+				"id": "c5",
+				"title": "South",
+				"title_de": "Süden",
+				"value": "south",
+				"refToView": "south"
+			}]
+		 },{
+			"id": "ws_display",
+			"type": "String",
+			"title": "Display",
+			"title_de": "Anzeige",
+			"prefix": "oryx",
+			"value": null,
+			"readonly": false,
+			"optional": false,
+			"length": "50"
+		}
+	 ],
+		"propertyPackages": ["base","border","color","layoutcontainer" ]
+	},
+	{
+		"type": "node",
+		"id": "Secondarygroup",
+		"title": "Secondarygroup",
+		"title_de": "Sekundärgruppe",
+		"groups": ["Containers"],
+		"view": "new_secondary.svg",
+		"icon": "replace16.png",
+		"roles": ["layout_container" ],
+
+		"layout": [{
+			"type": "layout.rows",
+			"marginTop": 20,
+			"marginLeft": 25,
+			"spacingX": 8,
+			"spacingY": 0,
+			"exclude": ["http://b3mn.org/stencilset/website#Label"]
+		},
+		{
+			"type": "layout.website.label",
+			"moveY": -1,
+			"moveX": 0
+		}],
+		"properties": [ {
+			"id": "bordercolor",
+			"type": "Color",
+			"title": "Border color",
+			"title_de": "Rahmenfarbe",
+			"value": "#000000",
+			"readonly": false,
+			"optional": false,
+			"refToView": "bg_frame",
+			"fill": false,
+			"stroke": true
+		}],
+		"propertyPackages": [ ]
+	}],
+	"rules": {
+		"containmentRules": [{
+			"role": "main_container",
+			"contains": ["layout_container"]
+		},
+		{
+			"role": "layout_container",
+			"contains": ["content_element"]
+		},
+		{
+			"role": "menu",
+			"contains": ["menu_item"]
+		}
+    ],
+		"xorphingRules": [{
+			"role": "controls_morph",
+			"baseMorphs": ["Input"]
+		}]
+	}
+}

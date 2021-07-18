@@ -1,0 +1,46 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "tcondition",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "description": {
+            "enabled": true,
+            "editoptions_rows": "2",
+            "name": "description",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\".{2,128}\"}]",
+            "edittype": "textarea",
+            "datatype": "text",
+            "editoptions_cols": "50",
+            "search_options": "['cn']"
+        },
+        "value": {
+            "enabled": true,
+            "name": "value",
+            "edittype": "TriggerConditionEdit",
+            "datatype": "text"
+        },
+        "active": {
+            "enabled": true,
+            "default_value": true,
+            "name": "active",
+            "edittype": "checkbox",
+            "datatype": "boolean",
+            "search_options": "['eq']"
+        }
+    }
+}

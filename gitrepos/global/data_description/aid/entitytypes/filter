@@ -1,0 +1,78 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "filter",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "id": {
+            "enabled": true,
+            "form_enabled_expr": "false",
+            "name": "id",
+            "edittype": "functional",
+            "primary_key": true,
+            "datatype": "string",
+            "formula_client": "name+'_'+modulename"
+        },
+        "modulename": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "modulename",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "url:xconfig/modules?mapping=value:name,label:name&withInternal=false"
+        },
+        "exclusion": {
+            "enabled": true,
+            "name": "exclusion",
+            "datatype": "text"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "name": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "name",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-zA-Z][a-zA-Z0-9_.-]{2,64}\"}]",
+            "datatype": "string"
+        },
+        "type": {
+            "enabled": true,
+            "form_enabled_expr": "false",
+            "default_value": "report",
+            "name": "type",
+            "datatype": "string"
+        },
+        "user": {
+            "enabled": true,
+            "name": "user",
+            "datatype": "string"
+        },
+        "filter": {
+            "enabled": true,
+            "name": "filter",
+            "datatype": "text"
+        },
+        "fields": {
+            "enabled": true,
+            "name": "fields",
+            "datatype": "text"
+        }
+    }
+}

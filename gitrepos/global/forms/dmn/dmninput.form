@@ -1,0 +1,220 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_917760DA-E161-44C4-88AB-692F2B1FE6B4",
+  "properties": {
+    "xf_id": "dmninput.form",
+    "xf_name": "dmntype",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_used_default_buttons": {
+      "totalCount": 3,
+      "items": [
+        {
+          "label": "@form.execute",
+          "action": "execute",
+          "icon": "check"
+        },
+        {
+          "label": "@button.reset",
+          "action": "reset",
+          "icon": "refresh"
+        },
+        {
+          "label": "@button.cancel",
+          "action": "cancel",
+          "icon": "clear"
+        }
+      ]
+    },
+    "xf_method_fetch": "",
+    "xf_preprocess_service": null,
+    "xf_preprocess_service_mode": "edit_add",
+    "xf_preprocess_local": null,
+    "xf_postprocess_service": null,
+    "xf_postprocess_service_mode": "edit_add",
+    "xf_postprocess_local": null,
+    "xf_save_disabled": null,
+    "xf_validate_local": null,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_AC019651-D359-4454-B54D-357747AC0C77",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "name",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": null,
+        "xf_expression_out": null,
+        "xf_required": null,
+        "xf_constraint_text": "{\"Pattern\":[true,\"^[a-z][0-9a-zA-Z]+$\"],\"Size\":[false,null,null],\"NotBlank\":[true],\"CreditCardNumber\":[false],\"URL\":[false],\"Email\":[false]}",
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_44939C06-7AD8-4E5D-8F18-8AC32FCE98F5",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@dmn.name"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_BA25EFBD-5122-426D-A365-D42A8B67C302",
+      "properties": {
+        "xf_varname": "",
+        "xf_namespace": null,
+        "xf_jsonpath": "",
+        "xf_enumembed": {
+          "totalCount": 6,
+          "items": [
+            {
+              "value": "string",
+              "label": "String",
+              "tooltip": ""
+            },
+            {
+              "value": "integer",
+              "label": "Integer",
+              "tooltip": ""
+            },
+            {
+              "value": "double",
+              "label": "Double",
+              "tooltip": ""
+            },
+            {
+              "value": "boolean",
+              "label": "Boolean",
+              "tooltip": ""
+            },
+            {
+              "value": "date",
+              "label": "Date",
+              "tooltip": ""
+            },
+            {
+              "value": "list",
+              "label": "List",
+              "tooltip": ""
+            }
+          ]
+        },
+        "xf_enum": null,
+        "xf_filter": null,
+        "xf_service": null,
+        "xf_parammapping": null,
+        "xf_resultmapping": null,
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "type",
+        "xf_default": "string",
+        "xf_multiselection": false,
+        "xf_required": "true"
+      },
+      "stencil": {
+        "id": "Enumselect"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_00060A4C-BE05-400F-BA94-6575B9ED5E6D",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@dmn.type"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

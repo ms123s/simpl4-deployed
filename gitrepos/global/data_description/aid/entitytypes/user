@@ -1,0 +1,90 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "user",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "email": {
+            "enabled": true,
+            "name": "email",
+            "datatype": "string"
+        },
+        "admin": {
+            "enabled": true,
+            "name": "admin",
+            "edittype": "checkbox",
+            "datatype": "boolean"
+        },
+        "roles": {
+            "enabled": true,
+            "name": "roles",
+            "edittype": "multiselect",
+            "datatype": "array/string",
+            "selectable_items": "rpc:permission.getAllRoles,mapping:{value:'name',label:'name'}"
+        },
+        "givenname": {
+            "enabled": true,
+            "name": "givenname",
+            "datatype": "string"
+        },
+        "userid": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "userid",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-z][a-z0-9]{2,32}\"}]",
+            "primary_key": true,
+            "datatype": "string"
+        },
+        "surname": {
+            "enabled": true,
+            "name": "surname",
+            "datatype": "string"
+        },
+        "team_manage": {
+            "enabled": true,
+            "name": "team_manage",
+            "edittype": "checkbox",
+            "datatype": "boolean"
+        },
+        "oroles": {
+            "enabled": true,
+            "name": "oroles",
+            "datatype": "string"
+        },
+        "processengine": {
+            "enabled": true,
+            "name": "processengine",
+            "datatype": "string"
+        },
+
+        "homedir": {
+            "enabled": true,
+            "name": "homedir",
+            "datatype": "string"
+        },
+        "ftphomedir": {
+            "enabled": true,
+            "name": "ftphomedir",
+            "datatype": "string"
+        },
+        "password": {
+            "enabled": true,
+            "name": "password",
+            "datatype": "string"
+        }
+    }
+}

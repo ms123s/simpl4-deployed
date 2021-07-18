@@ -1,0 +1,317 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_0EBD471F-087D-4A4B-A8CE-7C01E9F13387",
+  "properties": {
+    "xf_id": "",
+    "xf_name": "${diagramname}",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_85EA60CF-A54C-4245-9E0C-9AF87CDB85C4",
+      "properties": {
+        "xf_id": "infoid",
+        "xf_message": "<h2 style=\"color:#D50303;\">Login</h2>",
+        "xf_message_de": null,
+        "xf_message_en": null,
+        "xf_exclude": ""
+      },
+      "stencil": {
+        "id": "Alert"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 314,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_9E8E7DC9-2E6C-4C0C-B60C-EC92417911B5",
+      "properties": {
+        "xf_id": "username",
+        "xf_type": "text",
+        "xf_default": "chat1",
+        "xf_exclude": "",
+        "xf_invisible": "",
+        "xf_readonly": null,
+        "xf_required": null,
+        "xf_filtercheck": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_8B35E765-BFF2-4EEE-A72F-DACB236CD11D",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@chat.login"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 309,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_829AF6BE-A39A-4872-AB33-0437161CFE46",
+      "properties": {
+        "xf_id": "password",
+        "xf_type": "text",
+        "xf_default": "chat1",
+        "xf_exclude": "",
+        "xf_invisible": "",
+        "xf_readonly": null,
+        "xf_required": null,
+        "xf_filtercheck": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_1976EEAD-B60E-4953-A896-504A1AF05EBC",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@data.user.password"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 309,
+          "y": 162
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 138
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_AEBB6F1C-9997-43FB-9B8A-079CD6855484",
+      "properties": {
+        "xf_id": "domain",
+        "xf_type": "text",
+        "xf_default": "simpl4.org",
+        "xf_exclude": "",
+        "xf_invisible": "",
+        "xf_readonly": null,
+        "xf_required": null,
+        "xf_filtercheck": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_8979E0E3-844C-4732-9024-31585C052551",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "Domain"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 312,
+          "y": 216
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 192
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_8E060503-2390-40AF-8ACF-119D4C2D8DAE",
+      "properties": {
+        "xf_id": "connectbutton",
+        "xf_action": "execute",
+        "xf_label": "@chat.connectButton",
+        "xf_iconname": "communication:chat"
+      },
+      "stencil": {
+        "id": "ActionButton"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 314,
+          "y": 324
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 300
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_3393FC7B-61F9-4256-8DAC-2B37E2934C47",
+      "properties": {
+        "xf_id": "resource",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_exclude": "",
+        "xf_invisible": "",
+        "xf_readonly": null,
+        "xf_required": null,
+        "xf_filtercheck": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_3B1464C4-0140-4D94-9204-14728E4A2ACE",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "Resource"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 313,
+          "y": 270
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 246
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

@@ -1,0 +1,37 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "importcsv",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "importid": {
+            "enabled": true,
+            "name": "importid",
+            "datatype": "string"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "setup": {
+            "enabled": true,
+            "name": "setup",
+            "datatype": "text"
+        }
+    }
+}

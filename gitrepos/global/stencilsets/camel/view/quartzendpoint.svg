@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">QUARTZ</text>
+    <g transform="scale(0.60,0.60) translate(7,4)">
+      <defs id="defs32">
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" markerUnits="strokeWidth" orient="auto" markerWidth="8" markerHeight="14">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+        <marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+          <path id="arrowhead2" d="M 0 0 L 10 5 L 0 10 L 0 0" fill="black" stroke="black" />
+        </marker>
+      </defs>
+<path d="M 17.3022,7.9856308 C 7.746478,7.9856308 0,15.732109 0,25.287831 c 0,9.555723 7.746478,17.302201 17.3022,17.302201 9.555723,0 17.3022,-7.746478 17.3022,-17.302201 0,-9.555722 -7.746477,-17.3022002 -17.3022,-17.3022002 z m 0,31.9425242 c -8.074055,0 -14.640323,-6.56893 -14.640323,-14.640324 0,-8.074055 6.5663509,-14.640323 14.640323,-14.640323 8.071394,0 14.640324,6.566351 14.640324,14.640323 0,8.071394 -6.56893,14.640324 -14.640324,14.640324 z M 4.3489247,8.1780348 C 3.9824175,7.5385186 4.2007746,6.7274783 4.83505,6.3583923 L 7.1433965,5.0274538 C 7.777672,4.6582848 8.5939529,4.8766419 8.9604608,5.5161577 L 10.3928,7.9961121 C 8.7238862,8.6668217 7.1798306,9.571444 5.7865048,10.668387 L 4.3489247,8.1780348 Z M 28.817979,10.668304 C 27.427232,9.5712778 25.880515,8.6666555 24.211685,7.9960287 l 1.432339,-2.479954 c 0.366507,-0.6395161 1.18021,-0.8578731 1.819642,-0.4887041 l 2.30319,1.3309383 c 0.636853,0.3691694 0.855211,1.1802097 0.488703,1.8196425 l -1.43758,2.4903526 z m -15.508594,-6.6754885 0,-2.661877 C 13.309385,0.59526226 13.904647,0 14.640324,0 l 5.323753,0 c 0.735676,0 1.33094,0.59526226 1.33094,1.3309385 l 0,2.661877 c 0,0.7356763 -0.595264,1.3309386 -1.33094,1.3309386 l 0,1.5441383 c -0.873428,-0.1247759 -1.757254,-0.2132 -2.661877,-0.2132 -0.904622,0 -1.788448,0.088424 -2.661876,0.2132 l 0,-1.5441383 c -0.735677,0 -1.330939,-0.5952623 -1.330939,-1.3309386 z m 3.992815,9.3165695 2.661877,11.978446 c 0,1.471353 -1.190608,2.661877 -2.661877,2.661877 -1.471269,0 -2.661876,-1.190607 -2.661876,-2.661877 L 17.3022,13.309385 Z" id="path3" />
+    </g>
+    <g transform="scale(0.8,0.8) translate(4,4)">
+      <line x1="1" y1="33" x2="42" y2="33" stroke="black" stroke-width="1" marker-end="url(#end)" />
+      <rect x="52" y="24" width="27" height="18" rx="1" ry="1" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+		</g>
+  </g>
+</svg>

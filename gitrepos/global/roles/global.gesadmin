@@ -1,0 +1,13 @@
+[sw]
+	type = sw.role
+--
+{
+    "permissions": [
+        {
+            "permission": "ges:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        }
+    ],
+    "name": "global.gesadmin"
+}

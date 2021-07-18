@@ -1,0 +1,31 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "groupid",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "config",
+            "enabled": true
+        },
+        {
+            "name": "admin",
+            "enabled": true
+        },
+        {
+            "name": "trait_manage",
+            "enabled": true
+        },
+        {
+            "name": "module_access",
+            "enabled": true
+        }
+    ]
+}

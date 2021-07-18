@@ -1,0 +1,43 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "id",
+            "enabled": true
+        },
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "modulename",
+            "enabled": true
+        },
+        {
+            "name": "user",
+            "enabled": true
+        },
+        {
+            "name": "type",
+            "enabled": true
+        },
+        {
+            "name": "fields",
+            "enabled": true
+        },
+        {
+            "name": "exclusion",
+            "enabled": true
+        },
+        {
+            "name": "filter",
+            "enabled": true
+        }
+    ]
+}

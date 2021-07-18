@@ -1,0 +1,231 @@
+--
+{
+    "permissions": [
+        {
+            "permission": "booklet:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "crm:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "kfzplan:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "firstapp:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "tutorials:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "contact:entities",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:benachrichtigung",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:fahrer",
+            "actions": "read",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:verkaufszeilelager",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "energie:entities:data",
+            "actions": "read",
+            "enabled": true
+        },
+        {
+            "permission": "docu:entities:data:friend",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:article",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:unit",
+            "actions": "read",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:vat",
+            "actions": "read",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:supplier",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:payment",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:paymentMethod",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:bank",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:deliveryTerms",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:deliveryType",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:salutation",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:professionalFunction",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:department",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:country",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "playground:entities:odata:article",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "purchase:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "playground:entities:odata:person",
+            "actions": "read",
+            "enabled": true
+        },
+        {
+            "permission": "playground:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:customer",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:company",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:contact",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:address",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "mdm:entities:odata:communication",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "modeldata:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "boschetk:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:verkaufszeile_lager",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:verkaufsbemerkungszeile",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:regalnr",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:nve_wareneingang",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:fahrer",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:artikel_eancode",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:data:artikel",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "pim:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "ges:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        },
+        {
+            "permission": "complex:entities:odata",
+            "actions": "read,write",
+            "enabled": true
+        }
+    ],
+    "name": "global.guest"
+}

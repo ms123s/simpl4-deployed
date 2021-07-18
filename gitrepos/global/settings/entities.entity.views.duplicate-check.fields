@@ -1,0 +1,12 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "name",
+            "enabled": true,
+            "check_type": "equal"
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="162" height="105" version="1.0">
+  <defs></defs>
+  <g oryx:minimumSize="40 34">
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="160" height="103" stroke="#777777" stroke-width="1" fill="#f2f4fd" />
+		<text 
+			font-size="9" 
+			id="text" 
+			x="23" 
+			y="2" 
+			oryx:align="left top"
+			oryx:fittoelem="bg_frame"
+			stroke="black">
+		</text>
+    <g id="header" transform="scale(1,1)">
+      <foreignObject x="2" y="3" width="20" height="98">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;zoom:0.001;overflow:hidden;xisplay:none;background:white;border:solid 1px gray;margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+          <table cellpadding="1" style="height:100%;color:#ffffff;font-size:3pt;border:none;border-collapse:collapse;width:50%;">
+            <tr>
+              <td colspan="1" style="border:0px solid gray;background:#000000;color:#000000;">Tablename</td>
+            </tr>
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+          </table>
+        </div>
+      </foreignObject>
+    </g>
+    <g id="footer" transform="scale(1,1)">
+      <foreignObject x="2" y="3" width="20" height="98">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="zoom:0.001;height:100%;overflow:hidden;xisplay:none;background:white;border:solid 1px gray;margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+          <table cellpadding="1" style="height:100%;color:#ffffff;font-size:3pt;border:none;border-collapse:collapse;width:50%;margin:5px;">
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+            <tr>
+              <td colspan="1" style="border:0px solid gray;background:#000000;color:#000000;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+          </table>
+        </div>
+      </foreignObject>
+    </g>
+    <g id="body" transform="scale(1,1)">
+      <foreignObject x="2" y="3" width="20" height="98">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;zoom:0.001;overflow:hidden;xisplay:none;background:white;border:solid 1px gray;margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+          <table cellpadding="1" style="height:100%;color:#ffffff;font-size:3pt;border:none;border-collapse:collapse;width:50%;">
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+            <tr>
+              <td colspan="1" style="border:0px solid gray;background:#000000;color:#000000;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+            <tr>
+              <td style="border:0px solid gray;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+            </tr>
+          </table>
+        </div>
+      </foreignObject>
+    </g>
+  </g>
+</svg>

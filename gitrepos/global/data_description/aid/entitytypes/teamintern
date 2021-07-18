@@ -1,0 +1,63 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "teamintern",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "validTo": {
+            "enabled": true,
+            "name": "validTo",
+            "datatype": "date"
+        },
+        "userCreate": {
+            "enabled": true,
+            "name": "userCreate",
+            "datatype": "list_string"
+        },
+        "teamid": {
+            "enabled": true,
+            "name": "teamid",
+            "primary_key": true,
+            "datatype": "string"
+        },
+        "userRead": {
+            "enabled": true,
+            "name": "userRead",
+            "datatype": "list_string"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "name": {
+            "enabled": true,
+            "name": "name",
+            "datatype": "string"
+        },
+        "userManage": {
+            "enabled": true,
+            "name": "userManage",
+            "datatype": "list_string"
+        },
+        "validFrom": {
+            "enabled": true,
+            "name": "validFrom",
+            "datatype": "date"
+        }
+    }
+}

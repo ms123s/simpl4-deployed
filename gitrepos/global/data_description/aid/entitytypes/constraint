@@ -1,0 +1,44 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "constraint",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "message": {
+            "enabled": true,
+            "name": "message",
+            "datatype": "string"
+        },
+        "annotation": {
+            "enabled": true,
+            "name": "annotation",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "[\n\t\t\t\t{\"value\":\"AssertFalse\",\"label\":\"AssertFalse/Boolean\"},\n\t\t\t\t{\"value\":\"AssertTrue\",\"label\":\"AssertTrue/Boolean\"},\n\t\t\t\t{\"value\":\"CreditCardNumber\",\"label\":\"CreditCardNumber/String\"},\n\t\t\t\t{\"value\":\"DecimalMax\",\"label\":\"DecimalMax(value)/Number,Decimal\"},\n\t\t\t\t{\"value\":\"DecimalMin\",\"label\":\"DecimalMin(value)/Number,Decimal\"},\n\t\t\t\t{\"value\":\"Digits\",\"label\":\"Digits(integer,fraction)/Number,Decimal,String\"},\n\t\t\t\t{\"value\":\"Email\",\"label\":\"Email/String\"},\n\t\t\t\t{\"value\":\"Future\",\"label\":\"Future/Date\"},\n\t\t\t\t{\"value\":\"Length\",\"label\":\"Length([min[,max]])/String\"},\n\t\t\t\t{\"value\":\"Max\",\"label\":\"Max(value)/Number,Decimal\"},\n\t\t\t\t{\"value\":\"Min\",\"label\":\"Min(value)/Number,Decimal\"},\n\t\t\t\t{\"value\":\"NotBlank\",\"label\":\"NotBlank/String\"},\n\t\t\t\t{\"value\":\"NotEmpty\",\"label\":\"NotEmpty/String\"},\n\t\t\t\t{\"value\":\"NotNull\",\"label\":\"NotNull/Any\"},\n\t\t\t\t{\"value\":\"Null\",\"label\":\"Null/Any\"},\n\t\t\t\t{\"value\":\"Past\",\"label\":\"Past/Date\"},\n\t\t\t\t{\"value\":\"Pattern\",\"label\":\"Pattern(regexp[,flags])/String\"},\n\t\t\t\t{\"value\":\"Range\",\"label\":\"Range([min[,max]])/Number,Decimal\"},\n\t\t\t\t{\"value\":\"Size\",\"label\":\"Size([min[,max]])/String\"},\n\t\t\t\t{\"value\":\"URL\",\"label\":\"URL/String\"}\n\t\t\t\t]"
+        },
+        "parameter2": {
+            "enabled": true,
+            "name": "parameter2",
+            "datatype": "string"
+        },
+        "parameter1": {
+            "enabled": true,
+            "name": "parameter1",
+            "datatype": "string"
+        }
+    }
+}

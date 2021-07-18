@@ -1,0 +1,23 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "fsname",
+            "enabled": true
+        },
+        {
+            "name": "fields",
+            "enabled": true
+        },
+        {
+            "name": "search_options",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        }
+    ]
+}

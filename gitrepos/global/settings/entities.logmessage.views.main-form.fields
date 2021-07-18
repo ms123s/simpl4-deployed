@@ -1,0 +1,31 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "topic",
+            "enabled": true
+        },
+        {
+            "name": "param1",
+            "enabled": true
+        },
+        {
+            "name": "param2",
+            "enabled": true
+        },
+        {
+            "name": "date",
+            "enabled": true
+        },
+        {
+            "name": "msg",
+            "enabled": true
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

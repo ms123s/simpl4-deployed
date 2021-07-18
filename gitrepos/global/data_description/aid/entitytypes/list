@@ -1,0 +1,67 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "list",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "exclusion": {
+            "enabled": true,
+            "name": "exclusion",
+            "datatype": "string"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "properties": {
+            "enabled": true,
+            "name": "properties",
+            "datatype": "string"
+        },
+        "listid": {
+            "enabled": true,
+            "name": "listid",
+            "datatype": "string"
+        },
+        "fieldsets": {
+            "enabled": true,
+            "name": "fieldsets",
+            "datatype": "string"
+        },
+        "mainmodule": {
+            "enabled": true,
+            "name": "mainmodule",
+            "datatype": "mainmodule"
+        },
+        "filter": {
+            "enabled": true,
+            "name": "filter",
+            "datatype": "string"
+        },
+        "filterid": {
+            "enabled": true,
+            "name": "filterid",
+            "datatype": "string"
+        },
+        "fields": {
+            "enabled": true,
+            "name": "fields",
+            "datatype": "string"
+        }
+    }
+}

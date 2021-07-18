@@ -1,0 +1,87 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "enabled",
+            "enabled": true
+        },
+        {
+            "name": "primary_key",
+            "enabled": true
+        },
+        {
+            "name": "datatype",
+            "enabled": true
+        },
+        {
+            "name": "edittype",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "search_options",
+            "enabled": true
+        },
+        {
+            "name": "selectable_items",
+            "enabled": true
+        },
+        {
+            "name": "searchable_items",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_cols",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_rows",
+            "enabled": true
+        },
+        {
+            "name": "default_value",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_config",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_value",
+            "enabled": true
+        },
+        {
+            "name": "formula_client",
+            "enabled": true
+        },
+        {
+            "name": "formula_in",
+            "enabled": true
+        },
+        {
+            "name": "formula_out",
+            "enabled": true
+        },
+        {
+            "name": "form_enabled_expr",
+            "enabled": true
+        },
+        {
+            "name": "constraints",
+            "enabled": true
+        }
+    ]
+}

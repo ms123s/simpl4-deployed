@@ -1,0 +1,100 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "primary_key",
+            "enabled": true
+        },
+        {
+            "name": "enabled",
+            "enabled": true
+        },
+        {
+            "name": "datatype",
+            "enabled": true
+        },
+        {
+            "name": "edittype",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "search_options",
+            "enabled": true
+        },
+        {
+            "name": "selectable_items",
+            "enabled": true
+        },
+        {
+            "name": "searchable_items",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_cols",
+            "enabled": true
+        },
+        {
+            "name": "editoptions_rows",
+            "enabled": true
+        },
+        {
+            "name": "default_value",
+            "enabled": true
+        },
+        {
+            "name": "nullable",
+            "enabled": true
+        },
+        {
+            "name": "sqltype",
+            "enabled": true
+        },
+        {
+            "name": "columnName",
+            "enabled": true
+        },
+        {
+            "name": "formula_client",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "formula_in",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "formula_out",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "form_enabled_expr",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "constraints",
+            "enabled": true,
+            "tab": "tab3"
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

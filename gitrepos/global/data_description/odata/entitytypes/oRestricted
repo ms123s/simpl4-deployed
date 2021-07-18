@@ -1,0 +1,77 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "filter": "",
+    "primaryKeys": [
+
+    ],
+    "superclass": "vertex",
+    "restricted": false,
+    "name": "oRestricted",
+    "description": "",
+    "index": 100,
+    "fields": {
+        "_allowDelete": {
+            "linkedclass": "Object",
+            "vertextype": "single",
+            "description": "",
+            "linkedtype": "",
+            "index": 1,
+            "primary_key": false,
+            "edgeclass": "",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "datatype": "15",
+            "name": "_allowDelete"
+        },
+        "_allowUpdate": {
+            "linkedclass": "Object",
+            "vertextype": "single",
+            "description": "",
+            "linkedtype": "",
+            "index": 3,
+            "primary_key": false,
+            "edgeclass": "",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "datatype": "15",
+            "name": "_allowUpdate"
+        },
+        "_allow": {
+            "linkedclass": "Object",
+            "vertextype": "single",
+            "description": "",
+            "linkedtype": "",
+            "index": 0,
+            "primary_key": false,
+            "edgeclass": "",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "datatype": "15",
+            "name": "_allow"
+        },
+        "_allowRead": {
+            "linkedclass": "Object",
+            "vertextype": "single",
+            "description": "",
+            "linkedtype": "",
+            "index": 2,
+            "primary_key": false,
+            "edgeclass": "",
+            "enabled": true,
+            "edittype": "",
+            "edgeconn": false,
+            "vertexclass": "",
+            "datatype": "15",
+            "name": "_allowRead"
+        }
+    },
+    "enabled": true
+}

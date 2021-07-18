@@ -1,0 +1,10 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "_team_list"
+        }
+    ]
+}

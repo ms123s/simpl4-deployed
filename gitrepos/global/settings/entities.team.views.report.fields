@@ -1,0 +1,43 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "teamid",
+            "enabled": true
+        },
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "validFrom",
+            "enabled": true
+        },
+        {
+            "name": "validTo",
+            "enabled": true
+        },
+        {
+            "name": "disabled",
+            "enabled": true
+        },
+        {
+            "name": "property1",
+            "enabled": true
+        },
+        {
+            "name": "property2",
+            "enabled": true
+        },
+        {
+            "name": "property3",
+            "enabled": true
+        }
+    ]
+}

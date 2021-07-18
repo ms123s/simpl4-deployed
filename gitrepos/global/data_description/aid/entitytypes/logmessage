@@ -1,0 +1,47 @@
+[sw]
+  type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "logmessage",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "key": {
+            "enabled": true,
+            "name": "key",
+            "datatype": "string"
+        },
+        "time": {
+            "enabled": true,
+            "name": "time",
+            "datatype": "date"
+        },
+        "type": {
+            "enabled": true,
+            "name": "type",
+            "datatype": "string"
+        },
+        "hint": {
+            "enabled": true,
+            "name": "hint",
+            "datatype": "string"
+        },
+        "msg": {
+            "enabled": true,
+            "name": "msg",
+            "datatype": "text"
+        }
+    }
+}

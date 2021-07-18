@@ -1,0 +1,53 @@
+[sw]
+  type = sw.schema
+--
+{
+	"init": {},
+	"save": {},
+	"form": {
+		"title": "Live queries OrientDB",
+		"type": "object",
+		"properties": {
+			"live": {
+				"type": "array",
+				"format": "tabs",
+				"title": "Queries",
+				"uniqueItems": true,
+				"items": {
+					"type": "object",
+					"title": "Query",
+					"headerTemplate": "{{ i1 }} - {{ self.name }}",
+					"properties": {
+						"name": {
+							"title": "Name",
+							"type": "string",
+							"propertyOrder": 10
+						},
+						"sql": {
+							"title": "Sql",
+							"type": "string",
+							"format": "textarea",
+							"propertyOrder": 20
+						},
+						"database": {
+							"title": "Database",
+							"type": "string",
+							"propertyOrder": 30
+						},
+						"call": {
+							"title": "Call",
+							"type": "string",
+							"propertyOrder": 40
+						},
+						"enabled": {
+							"title": "Enabled",
+							"type": "boolean",
+							"format": "checkbox",
+							"propertyOrder": 50
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,212 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_3E22B331-063D-4954-BC1D-FBD897B10E4D",
+  "properties": {
+    "xf_id": "macroEdit.form",
+    "xf_name": "macroEdit",
+    "xf_version": "",
+    "xf_string_null_in_empty": false,
+    "xf_default_buttons": false,
+    "xf_used_default_buttons": {
+      "totalCount": 3,
+      "items": [
+        {
+          "label": "@form.execute",
+          "action": "execute",
+          "icon": "check"
+        },
+        {
+          "label": "@button.reset",
+          "action": "reset",
+          "icon": "refresh"
+        },
+        {
+          "label": "@button.cancel",
+          "action": "cancel",
+          "icon": "clear"
+        }
+      ]
+    },
+    "xf_method_fetch": "",
+    "xf_preprocess_service": null,
+    "xf_preprocess_service_mode": "edit_add",
+    "xf_preprocess_local": null,
+    "xf_postprocess_service": null,
+    "xf_postprocess_service_mode": "edit_add",
+    "xf_postprocess_local": null,
+    "xf_save_disabled": null,
+    "xf_validate_local": null,
+    "xf_validate_service": null,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_0563A665-B5C3-4FC0-9446-E82AEE7DAF57",
+      "properties": {
+        "xf_varname": "",
+        "namespace": null,
+        "xf_jsonpath": "",
+        "xf_enumembed": {
+          "totalCount": 3,
+          "items": [
+            {
+              "value": "1",
+              "label": "@te.macroOne",
+              "tooltip": ""
+            },
+            {
+              "value": "2",
+              "label": "@te.macroTwo",
+              "tooltip": ""
+            },
+            {
+              "value": "3",
+              "label": "@te.macroThree",
+              "tooltip": ""
+            }
+          ]
+        },
+        "xf_enum": null,
+        "xf_filter": null,
+        "xf_service": null,
+        "xf_parammapping": null,
+        "xf_resultmapping": null,
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "macroNum",
+        "xf_default": "1",
+        "xf_parent_field_name": "",
+        "xf_multiselection": false,
+        "xf_combobox": false,
+        "xf_required": null,
+        "xf_namespace": null
+      },
+      "stencil": {
+        "id": "Enumselect"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_72F513E3-A685-4066-853D-377F1F034839",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.macroNum"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_1BB4CD2F-BC82-44DC-B167-BEF565C960A8",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": "loop == 0",
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "collection",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_allowedpattern": "",
+        "xf_errormsg": "",
+        "xf_expression_in": null,
+        "xf_expression_out": null,
+        "xf_expression": null,
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_474D608A-21F0-4BC5-BDBE-4257AC3D3F21",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.loop_collection"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

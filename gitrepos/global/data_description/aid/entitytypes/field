@@ -1,0 +1,145 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "admin",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "field",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "enabled": {
+            "enabled": true,
+            "default_value": true,
+            "name": "enabled",
+            "datatype": "boolean"
+        },
+        "form_enabled_expr": {
+            "enabled": true,
+            "name": "form_enabled_expr",
+            "datatype": "string"
+        },
+        "editoptions_config": {
+            "enabled": true,
+            "name": "editoptions_config",
+            "datatype": "string"
+        },
+        "formula_in": {
+            "enabled": true,
+            "name": "formula_in",
+            "datatype": "text"
+        },
+        "constraints": {
+            "enabled": true,
+            "editoptions_config": "constraint",
+            "name": "constraints",
+            "edittype": "ConstraintEdit",
+            "datatype": "text"
+        },
+        "formula_client": {
+            "enabled": true,
+            "name": "formula_client",
+            "datatype": "text"
+        },
+        "editoptions_value": {
+            "enabled": true,
+            "name": "editoptions_value",
+            "datatype": "text"
+        },
+        "editoptions_cols": {
+            "enabled": true,
+            "name": "editoptions_cols",
+            "datatype": "string"
+        },
+        "selectable_items": {
+            "enabled": true,
+            "name": "selectable_items",
+            "datatype": "text"
+        },
+        "formula_out": {
+            "enabled": true,
+            "name": "formula_out",
+            "datatype": "text"
+        },
+        "editoptions_rows": {
+            "enabled": true,
+            "name": "editoptions_rows",
+            "datatype": "string"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "sqltype": {
+            "enabled": true,
+            "name": "sqltype",
+            "datatype": "string"
+        },
+        "columnName": {
+            "enabled": true,
+            "name": "columnName",
+            "datatype": "string"
+        },
+        "default_value": {
+            "enabled": true,
+            "name": "default_value",
+            "datatype": "string"
+        },
+        "nullable": {
+            "enabled": true,
+            "name": "nullable",
+            "datatype": "boolean"
+        },
+        "name": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "name",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-zA-Z][a-zA-Z0-9_]{1,64}\"}]",
+            "filter": "[a-zA-Z0-9_]",
+            "datatype": "string"
+        },
+        "edittype": {
+            "enabled": true,
+            "name": "edittype",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "[\n\t\t\t\t{\"value\":\"text\",\"label\":\"Textfield\"},\n\t\t\t\t{\"value\":\"select\",\"label\":\"SelectBox\"},\n\t\t\t\t{\"value\":\"checkbox\",\"label\":\"Checkbox\"},\n\t\t\t\t{\"value\":\"date\",\"label\":\"Date\"},\n\t\t\t\t{\"value\":\"datetime\",\"label\":\"DateTime\"},\n\t\t\t\t{\"value\":\"textarea\",\"label\":\"Textarea\"},\n\t\t\t\t{\"value\":\"multiselect\",\"label\":\"DoubleSelectBox\"},\n\t\t\t\t{\"value\":\"auto\",\"label\":\"Autoincrement\"},\n\t\t\t\t{\"value\":\"functional\",\"label\":\"Computed\"}\n\t\t\t\t]"
+        },
+        "primary_key": {
+            "enabled": true,
+            "name": "primary_key",
+            "default_value": false,
+            "datatype": "boolean"
+        },
+        "searchable_items": {
+            "enabled": true,
+            "name": "searchable_items",
+            "datatype": "text"
+        },
+        "datatype": {
+            "enabled": true,
+            "name": "datatype",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "[\n\t\t\t\t{\"value\":\"string\",\"label\":\"String\"},\n\t\t\t\t{\"value\":\"text\",\"label\":\"BigString\"},\n\t\t\t\t{\"value\":\"number\",\"label\":\"Number\"},\n\t\t\t\t{\"value\":\"decimal\",\"label\":\"Decimal\"},\n\t\t\t\t{\"value\":\"boolean\",\"label\":\"Boolean\"},\n\t\t\t\t{\"value\":\"date\",\"label\":\"Date\"},\n\t\t\t\t{\"value\":\"array/string\",\"label\":\"StringArray\"}\n\t\t\t\t]"
+        },
+        "search_options": {
+            "enabled": true,
+            "name": "search_options",
+            "edittype": "multiselect",
+            "datatype": "string",
+            "selectable_items": "[\n\t\t\t\t{\"value\":\"eq\",\"label\":\"%meta.lists.eq\"},\n\t\t\t\t{\"value\":\"ne\",\"label\":\"%meta.lists.ne\"},\n\t\t\t\t{\"value\":\"lt\",\"label\":\"%meta.lists.lt\"},\n\t\t\t\t{\"value\":\"le\",\"label\":\"%meta.lists.le\"},\n\t\t\t\t{\"value\":\"gt\",\"label\":\"%meta.lists.gt\"},\n\t\t\t\t{\"value\":\"ge\",\"label\":\"%meta.lists.ge\"},\n\t\t\t\t{\"value\":\"bw\",\"label\":\"%meta.lists.bw\"},\n\t\t\t\t{\"value\":\"bn\",\"label\":\"%meta.lists.bn\"},\n\t\t\t\t{\"value\":\"in\",\"label\":\"%meta.lists.in\"},\n\t\t\t\t{\"value\":\"ni\",\"label\":\"%meta.lists.ni\"},\n\t\t\t\t{\"value\":\"cn\",\"label\":\"%meta.lists.cn\"},\n\t\t\t\t{\"value\":\"nc\",\"label\":\"%meta.lists.nc\"} \n\t\t\t\t]"
+        }
+    }
+}

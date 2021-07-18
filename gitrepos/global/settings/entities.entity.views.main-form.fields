@@ -1,0 +1,59 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "index",
+            "enabled": false
+        },
+        {
+            "name": "enabled",
+            "enabled": true
+        },
+        {
+            "name": "default_fields",
+            "enabled": true
+        },
+        {
+            "name": "state_fields",
+            "enabled": true
+        },
+        {
+            "name": "team_security",
+            "enabled": true
+        },
+        {
+            "name": "multiple_tabs",
+            "enabled": false
+        },
+        {
+            "name": "exclusion_list",
+            "enabled": false
+        },
+        {
+            "name": "multi_add",
+            "enabled": false
+        },
+        {
+            "name": "sidebar",
+            "enabled": false
+        },
+        {
+            "name": "add_self_to_subpanel",
+            "enabled": false
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

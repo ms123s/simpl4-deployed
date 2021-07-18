@@ -1,0 +1,32 @@
+[sw]
+	type = sw.relations
+--
+[
+    {
+        "leftfield": "children",
+        "rightfield": "parent",
+        "leftmodule": "aid.Teamintern",
+        "rightmodule": "aid.Teamintern",
+        "dependent": true,
+        "relation": "one-to-many"
+    },
+    {
+        "leftfield": "teamintern",
+        "leftmodule": "aid.Team",
+        "rightmodule": "aid.Teamintern",
+        "dependent": false,
+        "relation": "one-to-one"
+    },
+    {
+        "leftmodule": "aid.Trigger",
+        "rightmodule": "aid.Taction",
+        "dependent": true,
+        "relation": "one-to-many-bi"
+    },
+    {
+        "leftmodule": "aid.Trigger",
+        "rightmodule": "aid.Tcondition",
+        "dependent": true,
+        "relation": "one-to-many-bi"
+    }
+]

@@ -1,0 +1,91 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_70775F89-8B27-4408-A26D-B8A5EE987340",
+  "properties": {
+    "xf_id": "cropperUpload.form",
+    "xf_name": "cropperUpload",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_used_default_buttons": {
+      "totalCount": 3,
+      "items": [
+        {
+          "label": "@form.execute",
+          "action": "execute",
+          "icon": "check"
+        },
+        {
+          "label": "@button.reset",
+          "action": "reset",
+          "icon": "refresh"
+        },
+        {
+          "label": "@button.cancel",
+          "action": "cancel",
+          "icon": "clear"
+        }
+      ]
+    },
+    "xf_method_fetch": "",
+    "xf_preprocess_service": null,
+    "xf_preprocess_service_mode": "edit_add",
+    "xf_preprocess_local": null,
+    "xf_postprocess_service": null,
+    "xf_postprocess_service_mode": "edit_add",
+    "xf_postprocess_local": null,
+    "xf_save_disabled": null,
+    "xf_validate_local": null,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_F8416989-17EE-4FC7-8A43-C0788F3E02C9",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "uploadId",
+        "xf_multi": false,
+        "xf_required": null
+      },
+      "stencil": {
+        "id": "Upload"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

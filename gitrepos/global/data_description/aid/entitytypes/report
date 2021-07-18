@@ -1,0 +1,39 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "report",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "jsonBody": {
+            "enabled": true,
+            "name": "jsonBody",
+            "datatype": "text"
+        },
+        "name": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "name",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-zA-Z][a-zA-Z0-9_.-]{2,64}\"}]",
+            "datatype": "string"
+        },
+        "userid": {
+            "enabled": true,
+            "name": "userid",
+            "datatype": "string"
+        }
+    }
+}

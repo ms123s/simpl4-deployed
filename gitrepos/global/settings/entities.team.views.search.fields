@@ -1,0 +1,19 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "validFrom",
+            "enabled": true
+        },
+        {
+            "name": "validTo",
+            "enabled": true
+        },
+        {
+            "name": "disabled",
+            "enabled": true
+        }
+    ]
+}

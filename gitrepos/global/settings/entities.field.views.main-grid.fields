@@ -1,0 +1,27 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "datatype",
+            "enabled": true
+        },
+        {
+            "name": "edittype",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        }
+    ]
+}

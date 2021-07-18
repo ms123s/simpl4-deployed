@@ -1,0 +1,43 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "userid",
+            "enabled": true
+        },
+        {
+            "name": "email",
+            "enabled": true
+        },
+        {
+            "name": "givenname",
+            "enabled": true
+        },
+        {
+            "name": "surname",
+            "enabled": true
+        },
+        {
+            "name": "password",
+            "enabled": true
+        },
+        {
+            "name": "admin",
+            "enabled": true
+        },
+        {
+            "name": "team_manage",
+            "enabled": true
+        },
+        {
+            "name": "roles",
+            "enabled": true
+        },
+        {
+            "name": "groups",
+            "enabled": true
+        }
+    ]
+}

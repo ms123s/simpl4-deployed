@@ -1,0 +1,18 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "filter": "",
+    "primaryKeys": [
+
+    ],
+    "superclass": "orientDocument",
+    "restricted": false,
+    "name": "oIdentity",
+    "description": "",
+    "index": 100,
+    "fields": {
+
+    },
+    "enabled": true
+}

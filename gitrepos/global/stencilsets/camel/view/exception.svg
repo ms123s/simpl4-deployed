@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">onException</text>
+    <g fill="#555555" transform="scale(0.6,0.6) translate(30,2)">
+      <path stroke="#555555" d="M36.617,6.988l-0.245-0.244c-0.921-0.922-2.145-1.429-3.448-1.429c-1.302,0-2.526,0.507-3.447,1.428l-0.245,0.245 L4.453,46.914c-1.005,1.179-1.29,2.61-0.756,3.899c0.581,1.403,1.968,2.241,3.709,2.241h51.039c1.742,0,3.128-0.838,3.709-2.241 c0.534-1.289,0.249-2.721-0.756-3.899L36.617,6.988z M11.427,47.055l21.498-34.637l21.499,34.637H11.427z" id="path5" />
+      <path stroke="#555555" d="M29.863,22.122v13.125c0,1.691,1.371,3.062,3.062,3.062c1.691,0,3.062-1.371,3.062-3.062V22.122 c0-1.691-1.371-3.062-3.062-3.062C31.234,19.06,29.863,20.431,29.863,22.122z" id="path7" />
+      <circle stroke="#555555" cx="32.894" cy="42.88" r="3.03" id="circle9" />
+    </g>
+  </g>
+</svg>

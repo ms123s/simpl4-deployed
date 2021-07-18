@@ -1,0 +1,313 @@
+[sw]
+	type = sw.camel
+--
+{
+  "resourceId": "oryx_8A851C39-5CD5-4AE7-9582-1FDA5D8B5530",
+  "properties": {
+    "overrideid": "schema.service",
+    "documentation": null,
+    "autostart": true,
+    "enabled": true,
+    "logExceptionsOnly": false,
+    "version": "",
+    "author": "",
+    "creationdate": null,
+    "modificationdate": null,
+    "settings": null,
+    "rpc": false,
+    "rpcParameter": null,
+    "startableGroups": null,
+    "startableUsers": null
+  },
+  "stencil": {
+    "id": "Camelrouting"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_B00EB2C5-41F4-4A79-AEB3-F241C6C03006",
+      "properties": {
+        "shared": "no",
+        "shareRef": "",
+        "enrich": "no",
+        "enrich_timeout": "",
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": "schemaInitTest",
+        "type_direct": "Direct",
+        "uri_template": "direct:${name}",
+        "urivalue_name": "schemaInitTest",
+        "rpc": true,
+        "rpcParameter": {
+          "totalCount": 1,
+          "items": [
+            {
+              "name": "form",
+              "destname": null,
+              "defaultvalue": null,
+              "optional": false,
+              "type": "map",
+              "destination": "property"
+            }
+          ]
+        },
+        "rpcReturn": "body",
+        "mimetype": "",
+        "rpcReturnHeaders": null,
+        "startableGroups": null,
+        "startableUsers": null
+      },
+      "stencil": {
+        "id": "DirectEndpoint"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "oryx_9572310D-58C7-44FB-841A-CDC260E7FC65"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 125,
+          "y": 255
+        },
+        "upperLeft": {
+          "x": 45,
+          "y": 195
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_9572310D-58C7-44FB-841A-CDC260E7FC65",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": ""
+      },
+      "stencil": {
+        "id": "SimpleConnection"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "oryx_4D48BBA3-0026-4D56-BBE3-20224E18B930"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 223.84375,
+          "y": 225
+        },
+        "upperLeft": {
+          "x": 125.15625,
+          "y": 225
+        }
+      },
+      "dockers": [
+        {
+          "x": 40,
+          "y": 30
+        },
+        {
+          "x": 40,
+          "y": 30
+        }
+      ],
+      "target": {
+        "resourceId": "oryx_4D48BBA3-0026-4D56-BBE3-20224E18B930"
+      }
+    },
+    {
+      "resourceId": "oryx_4D48BBA3-0026-4D56-BBE3-20224E18B930",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": "",
+        "ref": "",
+        "srcFile": null,
+        "code": "print(\"Hello\")",
+        "script": "print(\"Hello\",p.form);\n\n//p.form.title=\"Manfred\";\nmsg.body=p.form\n",
+        "codeKind": "completeClass",
+        "addImport": null,
+        "codeLanguage": "njs",
+        "isEndpoint": false
+      },
+      "stencil": {
+        "id": "Processor"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 304,
+          "y": 255
+        },
+        "upperLeft": {
+          "x": 224,
+          "y": 195
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_29E73850-51E9-4C2A-B7E7-C1EECBB799A7",
+      "properties": {
+        "shared": "no",
+        "shareRef": "",
+        "enrich": "no",
+        "enrich_timeout": "",
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": "schemaSaveTest",
+        "type_direct": "Direct",
+        "uri_template": "direct:${name}",
+        "urivalue_name": "schemaSaveTest",
+        "rpc": true,
+        "rpcParameter": {
+          "totalCount": 1,
+          "items": [
+            {
+              "name": "formData",
+              "destname": null,
+              "defaultvalue": null,
+              "optional": false,
+              "type": "map",
+              "destination": "property"
+            }
+          ]
+        },
+        "rpcReturn": "body",
+        "mimetype": "",
+        "rpcReturnHeaders": null,
+        "startableGroups": null,
+        "startableUsers": null
+      },
+      "stencil": {
+        "id": "DirectEndpoint"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "oryx_D3B7A662-1ABB-4A19-85FD-15CDB020993E"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 133,
+          "y": 146
+        },
+        "upperLeft": {
+          "x": 46,
+          "y": 75
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_149C31E3-3F38-477A-BAC9-A000B6E5CF6F",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": "",
+        "ref": "",
+        "srcFile": null,
+        "code": "msg.body=p.data",
+        "script": "msg.body=p.formData",
+        "codeKind": "completeClass",
+        "addImport": null,
+        "codeLanguage": "njs",
+        "isEndpoint": false
+      },
+      "stencil": {
+        "id": "Processor"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 303,
+          "y": 135
+        },
+        "upperLeft": {
+          "x": 223,
+          "y": 75
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_D3B7A662-1ABB-4A19-85FD-15CDB020993E",
+      "properties": {
+        "overrideid": "",
+        "name": "",
+        "documentation": null,
+        "bgcolor": "white",
+        "bordercolor": "#000000",
+        "caption": ""
+      },
+      "stencil": {
+        "id": "SimpleConnection"
+      },
+      "childShapes": [],
+      "outgoing": [
+        {
+          "resourceId": "oryx_149C31E3-3F38-477A-BAC9-A000B6E5CF6F"
+        }
+      ],
+      "bounds": {
+        "lowerRight": {
+          "x": 222.69190832576209,
+          "y": 109.09331562776191
+        },
+        "upperLeft": {
+          "x": 133.87449792423791,
+          "y": 106.27777812223809
+        }
+      },
+      "dockers": [
+        {
+          "x": 43.5,
+          "y": 35.5
+        },
+        {
+          "x": 40,
+          "y": 30
+        }
+      ],
+      "target": {
+        "resourceId": "oryx_149C31E3-3F38-477A-BAC9-A000B6E5CF6F"
+      }
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "camel",
+    "namespace": "http://b3mn.org/stencilset/camel#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

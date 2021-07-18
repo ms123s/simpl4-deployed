@@ -1,0 +1,29 @@
+[sw]
+	type = sw.messageslang
+--
+[
+    {
+        "msgstr": "Sök:",
+        "msgid": "datatables.sSearch"
+    },
+    {
+        "msgstr": "Tabellen innehåller ingen data",
+        "msgid": "datatables.sEmptyTable"
+    },
+    {
+        "msgstr": "Inga matchande uppgifter hittades.",
+        "msgid": "datatables.sZeroRecords"
+    },
+    {
+        "msgstr": "Listar 0 till 0 av 0 (filtrerat utifrån _MAX_ poster)",
+        "msgid": "datatables.sInfoEmpty"
+    },
+    {
+        "msgstr": "",
+        "msgid": "datatables.sInfoPostFix"
+    },
+    {
+        "msgstr": "Visar _START_ till _END_ av totalt _TOTAL_ rader",
+        "msgid": "datatables.sInfo"
+    }
+]

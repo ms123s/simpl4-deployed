@@ -1,0 +1,28 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "description",
+            "enabled": true,
+            "search_options": [
+                "cn"
+            ]
+        },
+        {
+            "name": "active",
+            "enabled": true,
+            "search_options": [
+                "eq"
+            ]
+        },
+        {
+            "name": "value",
+            "enabled": true
+        },
+        {
+            "name": "_team_list"
+        }
+    ]
+}

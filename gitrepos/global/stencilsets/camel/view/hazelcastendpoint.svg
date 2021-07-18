@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Hazelcast</text>
+    <g transform="scale(0.8,0.8) translate(5,2)">
+      <defs id="defs32">
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" markerUnits="strokeWidth" orient="auto" markerWidth="8" markerHeight="14">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+        <marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+          <path id="arrowhead2" d="M 0 0 L 10 5 L 0 10 L 0 0" fill="black" stroke="black" />
+        </marker>
+      </defs>
+		<g transform="scale(1.2,1.2)">
+			<foreignObject x="3" y="2" width="20" height="20">
+				<div xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+<img xidth="16" xeight="16" alt="tick" src="data:image/gif;base64,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
+ALTkd2NWGhfG8MeyAAAAAElFTkSuQmCC"/>
+				</div>
+			</foreignObject>
+      </g>
+      <line x1="1" y1="33" x2="42" y2="33" stroke="black" stroke-width="1" marker-end="url(#end)" />
+      <rect x="52" y="24" width="27" height="18" rx="1" ry="1" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+    </g>
+  </g>
+</svg>

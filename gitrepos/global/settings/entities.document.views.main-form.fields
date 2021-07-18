@@ -1,0 +1,33 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "docid",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "type",
+            "enabled": true
+        },
+        {
+            "name": "filename",
+            "enabled": true,
+            "tab": "tab1"
+        },
+        {
+            "name": "content",
+            "enabled": true,
+            "tab": "tab1"
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

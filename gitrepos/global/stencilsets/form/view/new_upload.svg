@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="152"
+   height="52"
+   version="1.0">
+  <defs> </defs>  
+
+   <g oryx:minimumSize="30 24" oryx:maximumSize="350 24" >
+    <rect oryx:anchor="top" oryx:resize="horizontal" x="0" y="0" width="150" height="24" stroke="black" stroke-width="1" fill="white" />
+    <g id="html" transform="scale(1,1)">
+      <foreignObject x="2" y="2" width="100%" height="18">
+<div xmlns="http://www.w3.org/1999/xhtml"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFySURB
+VDiNhZMxT1RREIW/M+8Zo0FNtCCxkMKCf0AwsfEXEAilBRUJtSEStrSwYImtiVZib2zxH5CQjXQG
+dw0kFBaEkEAIuu8ei11w8/buMuXMme+eO5PRUmNzlqJ6h/UUKBkRhluCiVr6IEkrJZE+9wFjQ/n0
+VNgfArhzE2BcGC5KpDXsN8BURnMy3p5/kPSxlNNziI7tbdB9RIzsId1O6O5/hp5ILJbJ7EleRrwA
+32Bdw7ORvkW4aI3thK9AGk12J7qX6TtQ5V92E3kyCjUM3ZxGoh1bzdVzYH+4mjYEC1izqfJruVgH
+LuuyCNrRc+Tal9zAxSPQ1forqKYpWKqb/XPGrwAQqkH0Cjwf8KVXZwfxjIr3NcjvrebqeQkQ0KpN
+7iFAkoyNIYB7wIMapN3vh271N7shWwYwFGQ2pEHIp7frx8DhsMhHwK7wzxzEpnMN6UfOzcueWjPk
+ziLUgcHTNy3E3IAkgR9f+QZOhyCV9gH+AZbahaxsOtZwAAAAAElFTkSuQmCC
+" /></div> </foreignObject>
+    </g>
+    	
+  </g>
+</svg>

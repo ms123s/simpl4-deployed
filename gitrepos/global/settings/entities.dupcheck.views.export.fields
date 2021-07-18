@@ -1,0 +1,7 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+    ]
+}

@@ -1,0 +1,35 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "enumfield",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"}]",
+            "datatype": "string"
+        },
+        "fieldname": {
+            "enabled": true,
+            "name": "fieldname",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"}]",
+            "primary_key": true,
+            "datatype": "string"
+        }
+    }
+}

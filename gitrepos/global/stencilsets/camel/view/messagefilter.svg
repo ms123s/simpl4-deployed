@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Filter</text>
+    <g transform="scale(1.2,1.2) translate(19,3)">
+      <defs id="defs35">
+        <radialGradient cx="6.595" cy="6.453" r="70.29" gradientTransform="matrix(1.1523319,0,0,0.86780552,33.889831,-1.3135593)" gradientUnits="userSpaceOnUse" id="radialGradient15113" />
+        <radialGradient cx="50.34" cy="6.38" r="17.493" gradientTransform="scale(0.51449576,1.9436506)" gradientUnits="userSpaceOnUse" id="radialGradient15115" />
+      </defs>
+      <path d="m 8.9985281,15.066194 c 0,4.570866 0,9.177165 0,13.748031 3.2952749,0 6.5551179,0 9.8503929,0 0,-4.570866 0,-9.177165 0,-13.748031 2.692914,-4.641733 5.385827,-9.3188977 8.07874,-13.9606302 -8.681102,0 -17.3267709,0 -26.0078729,0 2.692913,4.6417325 5.385826,9.3188972 8.07874,13.9606302 z" stroke-width="0.983" fill="#767676" stroke="#1e1515" id="path13488" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>

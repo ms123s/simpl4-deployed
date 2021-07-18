@@ -1,0 +1,70 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "team",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "teamid": {
+            "enabled": true,
+            "name": "teamid",
+            "datatype": "string"
+        },
+        "name": {
+            "enabled": true,
+            "name": "name",
+            "datatype": "string"
+        },
+        "validFrom": {
+            "search_options": "['gt','eq', 'lt', 'ne','in','inn']",
+            "enabled": true,
+            "name": "validFrom",
+            "datatype": "date"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "property1": {
+            "enabled": true,
+            "name": "property1",
+            "datatype": "string"
+        },
+        "property2": {
+            "enabled": true,
+            "name": "property2",
+            "datatype": "string"
+        },
+        "property3": {
+            "enabled": true,
+            "name": "property3",
+            "datatype": "string"
+        },
+        "disabled": {
+            "enabled": true,
+            "name": "disabled",
+            "edittype": "checkbox",
+            "datatype": "boolean"
+        },
+        "validTo": {
+            "search_options": "['gt','eq', 'lt', 'ne','in','inn']",
+            "enabled": true,
+            "name": "validTo",
+            "datatype": "date"
+        }
+    }
+}

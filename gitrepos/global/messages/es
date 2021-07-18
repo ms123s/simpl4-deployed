@@ -1,0 +1,77 @@
+[sw]
+        type = sw.messageslang
+--
+[
+    {
+        "msgstr": "Filtrar los resultados",
+        "msgid": "datatables.sSearch"
+    },
+    {
+        "msgstr": "No se encontraron artículos",
+        "msgid": "datatables.sEmptyTable"
+    },
+    {
+        "msgstr": "Nuevo",
+        "msgid": "button.new"
+    },
+    {
+        "msgstr": "Editar",
+        "msgid": "button.edit"
+    },
+    {
+        "msgstr": "Copia",
+        "msgid": "button.copy"
+    },
+    {
+        "msgstr": "Borrar",
+        "msgid": "button.del"
+    },
+    {
+        "msgstr": "Refrescar",
+        "msgid": "button.refresh"
+    },
+    {
+        "msgstr": "GUARDAR",
+        "msgid": "data.form.save"
+    },
+    {
+        "msgstr": "VOLVER",
+        "msgid": "button.back"
+    },
+    {
+        "msgstr": "Eliminar realmente ?",
+        "msgid": "entitytypes.confirm_delete"
+    },
+    {
+        "msgstr": "no debe estar vacío",
+        "msgid": "validation.NotBlank"
+    },
+    {
+        "msgstr": "no debe estar vacío",
+        "msgid": "validation.NotEmpty"
+    },
+    {
+        "msgstr": "Selección con doble clic",
+        "msgid": "crud2.select_with"
+    },
+    {
+        "msgstr": "Por favor seleccione un archivo",
+        "msgid": "import.select_file"
+    },
+    {
+        "msgstr": "o",
+        "msgid": "import.or"
+    },
+    {
+        "msgstr": "Por favor, arrastre un archivo aquí",
+        "msgid": "import.drop_file2"
+    },
+    {
+        "msgstr": "Error",
+        "msgid": "error"
+    },
+    {
+        "msgstr": "Nombre de usuario desconocido o contraseña incorrecta",
+        "msgid": "login.error"
+    }
+]

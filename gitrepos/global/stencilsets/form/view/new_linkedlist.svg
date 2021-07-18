@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="152"
+   height="52"
+   version="1.0">
+  <defs> </defs>  
+
+   <g oryx:minimumSize="30 24" oryx:maximumSize="350 540" >
+    <rect oryx:anchor="top" oryx:resize="vertical horizontal" x="0" y="0" width="150" height="24" stroke="black" stroke-width="1" fill="white" />
+    <g id="html" transform="scale(1,1)">
+      <foreignObject x="2" y="2" width="100%" height="18">
+<div xmlns="http://www.w3.org/1999/xhtml"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
+WXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH4QQFEAkZeh2EjAAAAR9JREFUOMudkL1KA0EUhb+ZncSg
+EX/AIKKEqIUgpvIdLARLK4u1EH0EQYO1SrBWwdLGxsKHsZJsYVCwEERM9meuzQph2bhkvu7eM/ee
+O8ejmDNgD3gBQqDPiCwBP0AMPAN3wOqfqIBTYG5goASMZ+odoJpZHAAHBuimDgJ8ATbzcBLYzvS+
+gft0SSEbQA94Bx6B3UFR7Z+0162WxbzJykQ1frq92pqpLfTnGyud+lozAIijUANKi7wpv3X5CUwN
+s9eeh1iLiOTJ1qR/H4pNkn9UsUZ5YUNH5RoO6FL5w2DHNhNP6kWX5KCsjbpGhAdg2uUCgUSDRLgT
+K4Cj85vKyO4iXB8f9pTfuvBBLztkAEpeDeg2yCxuIUQaJHBOQKnOL4WmWaCXJ5VBAAAAAElFTkSu
+QmCC
+" /></div> </foreignObject>
+    </g>
+    	
+  </g>
+</svg>

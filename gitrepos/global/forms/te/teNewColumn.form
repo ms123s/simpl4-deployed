@@ -1,0 +1,246 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_89CB0643-6E3A-49DC-B5BA-C5306A87321F",
+  "properties": {
+    "xf_id": "teNewColumn.form",
+    "xf_name": "teNewColumn",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_used_default_buttons": {
+      "totalCount": 3,
+      "items": [
+        {
+          "label": "@form.execute",
+          "action": "execute",
+          "icon": "check"
+        },
+        {
+          "label": "@button.reset",
+          "action": "reset",
+          "icon": "refresh"
+        },
+        {
+          "label": "@button.cancel",
+          "action": "cancel",
+          "icon": "clear"
+        }
+      ]
+    },
+    "xf_method_fetch": "",
+    "xf_preprocess_service": null,
+    "xf_preprocess_service_mode": "edit_add",
+    "xf_preprocess_local": null,
+    "xf_postprocess_service": null,
+    "xf_postprocess_service_mode": "edit_add",
+    "xf_postprocess_local": null,
+    "xf_save_disabled": null,
+    "xf_validate_local": null,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_8BD58B80-8C37-4C6B-A299-5672B2BE8849",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "id",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": null,
+        "xf_expression_out": null,
+        "xf_required": null,
+        "xf_constraint_text": "{\"Pattern\":[false,null],\"Size\":[false,null,null],\"NotBlank\":[true],\"CreditCardNumber\":[false],\"URL\":[false],\"Email\":[false]}",
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_49F60BA9-5178-4163-AAD3-C4A673750F76",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.columnId"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_95D59D8A-DC82-4F3E-AC17-F6FF725E7C13",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "header1",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": null,
+        "xf_expression_out": null,
+        "xf_required": null,
+        "xf_constraint_text": "{\"Pattern\":[false,null],\"Size\":[false,null,null],\"NotBlank\":[true],\"CreditCardNumber\":[false],\"URL\":[false],\"Email\":[false]}",
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_C323A155-E634-4828-A221-9F2CCD8A5C03",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.columnHeader"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_3FA57205-7E65-446E-BE85-14B983F759F0",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 0,
+        "xf_id": "text",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": null,
+        "xf_expression_out": null,
+        "xf_required": null,
+        "xf_constraint_text": "{\"Pattern\":[false,null],\"Size\":[false,null,null],\"NotBlank\":[true],\"CreditCardNumber\":[false],\"URL\":[false],\"Email\":[false]}",
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_E67109E3-7831-4968-BA9B-283D2C32A341",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.columnText"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 162
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 138
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

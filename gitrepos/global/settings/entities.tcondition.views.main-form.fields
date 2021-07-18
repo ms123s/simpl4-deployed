@@ -1,0 +1,24 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "active",
+            "enabled": true
+        },
+        {
+            "name": "value",
+            "enabled": true,
+            "tab": "tab2"
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

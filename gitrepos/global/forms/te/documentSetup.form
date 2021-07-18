@@ -1,0 +1,590 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_C8E9446D-2742-41EC-8FBD-7C0D712DA3E1",
+  "properties": {
+    "xf_id": "documentSetup.form",
+    "xf_name": "documentSetup",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_used_default_buttons": {
+      "totalCount": 3,
+      "items": [
+        {
+          "label": "@form.execute",
+          "action": "execute",
+          "icon": "check"
+        },
+        {
+          "label": "@button.reset",
+          "action": "reset",
+          "icon": "refresh"
+        },
+        {
+          "label": "@button.cancel",
+          "action": "cancel",
+          "icon": "clear"
+        }
+      ]
+    },
+    "xf_method_fetch": "",
+    "xf_preprocess_service": null,
+    "xf_preprocess_service_mode": "edit_add",
+    "xf_preprocess_local": null,
+    "xf_postprocess_service": null,
+    "xf_postprocess_service_mode": "edit_add",
+    "xf_postprocess_local": null,
+    "xf_save_disabled": null,
+    "xf_validate_local": null,
+    "xf_postprocess": null,
+    "xf_tabindex": 3
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_E179E3D4-F960-495F-A7C7-C565BA1C4963",
+      "properties": {
+        "xf_varname": "",
+        "xf_jsonpath": "",
+        "xf_enumembed": {
+          "totalCount": 4,
+          "items": [
+            {
+              "value": "A4",
+              "label": "A4",
+              "tooltip": ""
+            },
+            {
+              "value": "USLetter",
+              "label": "US Letter",
+              "tooltip": ""
+            },
+            {
+              "value": "A3",
+              "label": "A3",
+              "tooltip": ""
+            },
+            {
+              "value": "A5",
+              "label": "A5",
+              "tooltip": ""
+            }
+          ]
+        },
+        "xf_enum": null,
+        "xf_filter": null,
+        "xf_service": null,
+        "xf_parammapping": null,
+        "xf_resultmapping": null,
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": "true",
+        "xf_tabindex": 1,
+        "xf_id": "paperFormat",
+        "xf_default": "A4",
+        "xf_multiselection": false,
+        "xf_required": "true"
+      },
+      "stencil": {
+        "id": "Enumselect"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_FD73D8CF-4687-42F6-B12A-C4746C3805A0",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.paperFormat"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_61CE3900-13E3-4CAC-841B-39287A722ABF",
+      "properties": {
+        "xf_varname": "",
+        "xf_jsonpath": "",
+        "xf_enumembed": {
+          "totalCount": 2,
+          "items": [
+            {
+              "value": "portrait",
+              "label": "Portrait",
+              "tooltip": ""
+            },
+            {
+              "value": "landscape",
+              "label": "Landscape",
+              "tooltip": ""
+            }
+          ]
+        },
+        "xf_enum": null,
+        "xf_filter": null,
+        "xf_service": null,
+        "xf_parammapping": null,
+        "xf_resultmapping": null,
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": "true",
+        "xf_tabindex": 5,
+        "xf_id": "orientation",
+        "xf_default": "portrait",
+        "xf_multiselection": false,
+        "xf_required": "true"
+      },
+      "stencil": {
+        "id": "Enumselect"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_6FACA367-1272-49D8-9425-8B46E76958D5",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.orientation"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_46DA61DE-B8E5-4D7E-AFA4-5F93CD2584AF",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "leftMargin",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_CB46E7C6-EDA7-4A2E-9AB1-2336BB604D60",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.leftMargin"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_11EB88F7-445C-4B6B-AEDC-9D77771A5D1C",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "rightMargin",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_697ECE9B-F591-47C2-A280-4A6BD98A5F5A",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.rightMargin"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_41975E29-5951-4977-98DB-4963C2961605",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "topMargin",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_275A7164-0A67-44BC-BE37-8782F01EFC43",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.topMargin"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 162
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 138
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_716CAB78-B5A6-4389-B045-E35BE74167D8",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "bottomMargin",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_A455EC32-CC67-424E-8080-61B2AF36C4B4",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.bottomMargin"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 216
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 192
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_D838677B-938D-4571-BC9C-3737962583A9",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "footerHeight",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_1DC2D5B6-784F-4B7A-85EE-3286D3A4D007",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.footerHeight"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 216
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 192
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_59208691-E283-4834-A75D-425C02C1E51D",
+      "properties": {
+        "xf_exclude": null,
+        "xf_invisible": null,
+        "xf_readonly": null,
+        "xf_tabindex": 5,
+        "xf_id": "headerHeight",
+        "xf_type": "number",
+        "xf_default": "",
+        "xf_errormsg": "",
+        "xf_expression_in": "Math.round10($self*0.353)",
+        "xf_expression_out": "Math.round10($self/0.353)",
+        "xf_required": null,
+        "xf_constraint_text": null,
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": "{\"Min\":[true,0],\"Max\":[false,null],\"NotNull\":[true]}"
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_9836EE31-C91E-40D0-B461-21C3D90153CE",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@te.headerHeight"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 162
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 138
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

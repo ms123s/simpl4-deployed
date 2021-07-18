@@ -1,0 +1,46 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "activitiprocess",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "deploymentid": {
+            "enabled": true,
+            "name": "deploymentid",
+            "datatype": "string"
+        },
+        "json": {
+            "enabled": true,
+            "form_enabled_expr": "isEdit",
+            "name": "json",
+            "edittype": "graphical/bpmn",
+            "datatype": "text"
+        },
+        "pid": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "pid",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-zA-Z][a-zA-Z0-9_.-]{2,64}\"}]",
+            "datatype": "string"
+        },
+        "comment": {
+            "enabled": true,
+            "name": "comment",
+            "datatype": "string"
+        }
+    }
+}

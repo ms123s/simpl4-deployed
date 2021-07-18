@@ -1,0 +1,53 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "document",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "content": {
+            "enabled": true,
+            "name": "content",
+            "datatype": "binary"
+        },
+        "text": {
+            "enabled": true,
+            "name": "text",
+            "datatype": "fulltext",
+            "search_options": "['cn']"
+        },
+        "description": {
+            "enabled": true,
+            "name": "description",
+            "datatype": "string"
+        },
+        "filename": {
+            "enabled": true,
+            "form_enabled_expr": false,
+            "name": "filename",
+            "edittype": "functional",
+            "datatype": "string",
+            "formula_client": "content"
+        },
+        "type": {
+            "enabled": true,
+            "form_enabled_expr": false,
+            "name": "type",
+            "edittype": "text",
+            "readonly": true,
+            "datatype": "string"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+[sw]
+  type = sw.schema
+--
+{
+  "title": " ",
+  "type": "object",
+  "properties": {
+    "properties": {
+      "type": "array",
+      "format": "table",
+      "title": "Eigenschaften",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "title": "Eigenschaft",
+        "properties": {
+          "key": {
+            "type": "string",
+          },
+          "value": {
+          }
+        }
+      }
+    }
+  }
+}

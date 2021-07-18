@@ -1,0 +1,76 @@
+[sw]
+	type = sw.entitytype
+--
+{
+    "enabled": true,
+    "index": 1000,
+    "default_fields": false,
+    "pack": "aid",
+    "team_security": false,
+    "add_self_to_subpanel": false,
+    "description": "",
+    "name": "trigger",
+    "multi_add": false,
+    "multiple_tabs": false,
+    "exclusion_list": false,
+    "filter": "",
+    "__hints__": {
+
+    },
+    "fields": {
+        "processing_order": {
+            "enabled": true,
+            "name": "processing_order",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "{ \n\t\t\t\t\"alerts-actions-processes\":\"%meta.triggers.alerts-actions-processes\",\n\t\t\t\t\"alerts-processes-actions\":\"%meta.triggers.alerts-processes-actions\",\n\t\t\t\t\"actions-alerts-processes\":\"%meta.triggers.actions-alerts-processes\",\n\t\t\t\t\"actions-processes-alerts\":\"%meta.triggers.actions-processes-alerts\",\n\t\t\t\t\"processes-actions-alerts\":\"%meta.triggers.processes-actions-alerts\",\n\t\t\t\t\"processes-alerts-actions\":\"%meta.triggers.processes-alerts-actions\"\n\t\t\t\t}"
+        },
+        "description": {
+            "enabled": true,
+            "editoptions_rows": "2",
+            "name": "description",
+            "edittype": "textarea",
+            "datatype": "text",
+            "editoptions_cols": "50",
+            "search_options": "['cn']"
+        },
+        "trigger_id": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "trigger_id",
+            "constraints": "[{\"annotation\":\"NotEmpty\",\"parameter1\":\"\"},{\"annotation\":\"Pattern\",\"parameter1\":\"[a-z][a-z0-9_]{2,32}\"}]",
+            "primary_key": true,
+            "datatype": "string"
+        },
+        "active": {
+            "enabled": true,
+            "name": "active",
+            "edittype": "checkbox",
+            "datatype": "boolean",
+            "search_options": "['eq']"
+        },
+        "execution_occurs": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "execution_occurs",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "{ \n\t\t\t\t\"when-record-saved\":\"%meta.triggers.when-record-saved\"\n\t\t\t\t}"
+        },
+        "targetmodule": {
+            "enabled": true,
+            "form_enabled_expr": "!isEdit",
+            "name": "targetmodule",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "rpc:entity:getEntities,storeId:\"@{STORE_ID}\",ignorePack:true,withChilds:false, sortField:\"name\",mapping:{value:\"('data.'+inflector.getClassName(name))\",label:\"(inflector.getClassName(name))\" }"
+        },
+        "applies_to": {
+            "enabled": true,
+            "name": "applies_to",
+            "edittype": "select",
+            "datatype": "string",
+            "selectable_items": "{ \n\t\t\t\t\"new-updated\":\"%meta.triggers.new-and-updated-records\",\n\t\t\t\t\"new\":\"%meta.triggers.new-records\",\n\t\t\t\t\"updated\":\"%meta.triggers.updated-records\"\n\t\t\t\t}"
+        }
+    }
+}

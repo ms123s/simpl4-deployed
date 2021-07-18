@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Database</text>
+    <g transform="scale(0.8,0.8) translate(5,2)">
+      <defs id="defs32">
+        <linearGradient x1="10.317" x2="111.14" xlink:href="#SVGID_1_" gradientUnits="userSpaceOnUse" id="linearGradient3197" />
+        <linearGradient x1="24.455" x2="97.03" xlink:href="#SVGID_2_" gradientUnits="userSpaceOnUse" id="linearGradient3199" />
+        <linearGradient x1="14.618" x2="130.14" xlink:href="#SVGID_3_" gradientUnits="userSpaceOnUse" id="linearGradient3201" />
+        <linearGradient x1="10.317" x2="111.14" gradientUnits="userSpaceOnUse" id="SVGID_1_">
+          <stop stop-color="#ffffff" id="stop3126" />
+          <stop offset="1" id="stop3128" />
+        </linearGradient>
+        <linearGradient x1="24.455" x2="97.03" gradientUnits="userSpaceOnUse" id="SVGID_2_">
+          <stop stop-color="#ffffff" id="stop3133" />
+          <stop offset="1" id="stop3135" />
+        </linearGradient>
+        <linearGradient x1="14.618" x2="130.14" gradientUnits="userSpaceOnUse" id="SVGID_3_">
+          <stop stop-color="#ffffff" id="stop3140" />
+          <stop offset="1" id="stop3142" />
+        </linearGradient>
+        <linearGradient x1="14.618" x2="130.14" xlink:href="#SVGID_3_" gradientTransform="matrix(0.34479354,0,0,0.34479354,-7.5029996,-6.2346701)" gradientUnits="userSpaceOnUse" id="linearGradient3260" />
+        <linearGradient x1="24.455" x2="97.03" xlink:href="#SVGID_2_" gradientTransform="matrix(0.34479354,0,0,0.34479354,-7.5029996,-6.2346701)" gradientUnits="userSpaceOnUse" id="linearGradient3263" />
+        <linearGradient x1="10.317" x2="111.14" xlink:href="#SVGID_1_" gradientTransform="matrix(0.34479354,0,0,0.34479354,-7.5029996,-6.2346701)" gradientUnits="userSpaceOnUse" id="linearGradient3266" />
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" markerUnits="strokeWidth" orient="auto" markerWidth="8" markerHeight="14">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+        <marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+          <path id="arrowhead2" d="M 0 0 L 10 5 L 0 10 L 0 0" fill="black" stroke="black" />
+        </marker>
+      </defs>
+      <path d="m 16.347036,7.8429432 c 3.425363,0.014856 6.852321,-0.0302 10.276655,0.023418 1.264998,0.1221943 3.078676,0.5874763 3.185569,2.0982405 -0.01276,2.9064667 0.0256,5.8152927 -0.01934,8.7202747 -0.519089,1.512491 -2.414738,1.811422 -3.822289,1.830522 -3.459628,-0.02527 -6.922953,0.05197 -10.38014,-0.0413 -1.251782,-0.139256 -3.067648,-0.709051 -3.000066,-2.2444 0.01275,-2.851788 -0.0256,-5.705934 0.01934,-8.5562377 0.457966,-1.4770424 2.397614,-1.8007696 3.74027,-1.8305221 z" fill="#ffffff" id="rect3963" />
+      <path d="M 15.762876,20.670702 C 11.070564,20.602824 6.2472769,20.363427 1.8173161,18.676144 0.93780407,18.147169 -0.01689994,17.666982 0.24447424,19.08604 c 0.0439057,1.143092 -0.0982544,2.306285 0.0921521,3.433861 0.8304177,1.717752 2.9182498,2.187573 4.5906154,2.693503 5.4771773,1.26744 11.1752193,1.344145 16.7539533,0.831049 2.916946,-0.372644 6.014334,-0.701148 8.538817,-2.332137 0.901916,-0.53448 1.162865,-1.579063 1.064495,-2.555525 -0.06363,-1.065852 0.146364,-2.172446 -0.145121,-3.205962 -3.173287,1.810202 -6.919174,2.183152 -10.489244,2.535021 -1.625779,0.126556 -3.256661,0.184516 -4.887266,0.184852 z m 0,-6.540085 C 11.070917,14.062681 6.24788,13.823553 1.8183385,12.136059 0.94023202,11.607498 -0.01627313,11.126525 0.24446724,12.545081 c 0.0439056,1.143093 -0.0982543,2.306286 0.0921521,3.433863 0.8304181,1.717751 2.91825,2.187572 4.5906154,2.693501 5.4771773,1.26744 11.1752193,1.344145 16.7539533,0.831049 2.916946,-0.372644 6.014333,-0.701147 8.538817,-2.332136 0.901916,-0.53448 1.162865,-1.579062 1.064495,-2.555524 -0.06362,-1.065856 0.146349,-2.172416 -0.145121,-3.205962 -3.173021,1.810916 -6.919119,2.183949 -10.489244,2.535877 -1.625774,0.126572 -3.256668,0.184532 -4.887259,0.184868 z m 0.0016,-12.9815678 C 11.45714,1.2060528 7.0502063,1.4327362 2.9611566,2.900589 1.6767909,3.3912813 0.04789711,4.3117018 0.24446024,5.922979 0.28892169,7.0930669 0.14538934,8.2834382 0.3366123,9.4379851 1.16703,11.155737 3.2548621,11.625558 4.9272277,12.131488 c 5.4771773,1.26744 11.1752193,1.344145 16.7539533,0.831049 2.916946,-0.372644 6.014334,-0.701148 8.538817,-2.332137 0.901916,-0.53448 1.162865,-1.579063 1.064495,-2.555525 -0.04158,-1.0336702 0.09482,-2.0866853 -0.09215,-3.1049443 C 30.361976,3.2519749 28.274206,2.7815312 26.601725,2.2752102 23.06331,1.4094141 19.397087,1.1682301 15.764476,1.1490492 z m 0,6.9807438 C 12.137654,8.0684528 8.4154657,7.9480103 4.9534041,6.7598601 3.4378087,6.577547 3.0089975,4.7190311 4.6818743,4.3774248 8.1024095,3.0896437 11.834014,2.9879493 15.447147,2.8950913 c 3.731714,0.044386 7.564149,0.1519155 11.128403,1.3694654 1.51586,0.1822302 1.944256,2.0409401 0.27153,2.3828092 -3.420528,1.2877703 -7.152202,1.3886623 -10.765275,1.4815728 l -0.317329,8.543e-4 z" fill="#666666" id="path3950" />
+      <line x1="1" y1="33" x2="42" y2="33" stroke="black" stroke-width="1" marker-end="url(#end)" />
+      <rect x="52" y="24" width="27" height="18" rx="1" ry="1" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,39 @@
+[sw]
+	type = sw.schema
+--
+{
+  "init": {
+    "method": "global.schemaInitTest"
+  },
+  "save": {
+    "method": "global.schemaSaveTest"
+  },
+  "form": {
+    "title": "Additional building blocks",
+    "type": "object",
+    "properties": {
+      "registry": {
+        "type": "array",
+        "format": "tabs",
+        "title": "Registry",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "title": "Building block",
+          "description": "register building blocks(camel components)",
+          "headerTemplate": "{{ i1 }} - {{ self.name }}",
+          "properties": {
+            "name": {
+              "title": "Registration name",
+              "type": "string"
+            },
+            "clazz": {
+              "title": "Component class",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

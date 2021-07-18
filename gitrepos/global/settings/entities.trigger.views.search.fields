@@ -1,0 +1,44 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "trigger_id",
+            "enabled": true
+        },
+        {
+            "name": "active",
+            "enabled": true,
+            "search_options": [
+                "eq"
+            ]
+        },
+        {
+            "name": "description",
+            "enabled": true,
+            "search_options": [
+                "cn"
+            ]
+        },
+        {
+            "name": "targetmodule",
+            "enabled": true
+        },
+        {
+            "name": "execution_occurs",
+            "enabled": true
+        },
+        {
+            "name": "processing_order",
+            "enabled": true
+        },
+        {
+            "name": "applies_to",
+            "enabled": true
+        },
+        {
+            "name": "_team_list"
+        }
+    ]
+}

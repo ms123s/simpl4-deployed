@@ -1,0 +1,23 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "searchid",
+            "enabled": true
+        },
+        {
+            "name": "filter",
+            "enabled": true
+        },
+        {
+            "name": "exclusion",
+            "enabled": true
+        },
+        {
+            "name": "_team_list",
+            "tab": "tab2"
+        }
+    ]
+}

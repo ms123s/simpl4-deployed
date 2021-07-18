@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Mail</text>
+    <g transform="scale(0.8,0.8) translate(5,2)">
+      <defs id="defs32">
+        <marker id="arrow" viewBox="0 0 10 10" refX="1" refY="5" markerUnits="strokeWidth" orient="auto" markerWidth="8" markerHeight="14">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+        <marker id="end" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto">
+          <path id="arrowhead2" d="M 0 0 L 10 5 L 0 10 L 0 0" fill="black" stroke="black" />
+        </marker>
+      </defs>
+      <path stroke-miterlimit="10" d="m 39.775932,23.750073 c 0.05228,1.564924 -1.52933,2.656031 -2.993895,2.422452 -11.062166,-0.0083 -22.125174,0.01666 -33.1868145,-0.01251 C 2.0751791,26.055116 1.2093129,24.483668 1.4204381,23.08339 1.4287404,16.748018 1.4038096,10.411808 1.4329459,4.0769626 1.5378472,2.5569191 3.1092955,1.6910531 4.5095737,1.9021782 15.539993,1.9105063 26.571254,1.8855151 37.601148,1.914686 c 1.520043,0.1049013 2.385909,1.6763497 2.174784,3.0766278 0,6.2529202 0,12.5058392 0,18.7587592 z" stroke-width="1.615" fill="#ffffff" stroke="#000000" id="path3234" />
+      <path stroke-miterlimit="10" d="M 2.558385,2.5903565 C 8.5533487,9.7720527 14.548312,16.953748 20.543276,24.135445 26.449483,17.030191 32.355692,9.9249363 38.261899,2.819682" stroke-width="1.615" fill="#ffffff" stroke="#000000" id="polyline3237" />
+      <path stroke-miterlimit="10" d="M 2.3381438,25.208994 C 6.1461713,22.425597 9.9541987,19.6422 13.762226,16.858803" stroke-width="1.615" fill="#ffffff" stroke="#000000" id="line3239" />
+      <path stroke-miterlimit="10" d="m 26.470816,16.170826 c 4.068037,3.012723 8.136074,6.025445 12.204111,9.038168" stroke-width="1.615" fill="#ffffff" stroke="#000000" id="line3241" />
+      <line x1="1" y1="33" x2="42" y2="33" stroke="black" stroke-width="1" marker-end="url(#end)" />
+      <rect x="52" y="24" width="27" height="18" rx="1" ry="1" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+    </g>
+  </g>
+</svg>

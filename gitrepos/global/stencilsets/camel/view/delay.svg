@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">Delay</text>
+    <g transform="scale(1.4,1.4) translate(0,0)">
+      <path d="m 38.936282,14.205521 c 0.128604,5.61272 -4.53947,10.780811 -10.133851,11.229703 -5.481585,0.684465 -11.017299,-3.278798 -12.153061,-8.680457 -1.363171,-5.3639 1.887102,-11.3561118 7.117744,-13.1522759 5.071921,-1.971929 11.308767,0.3894811 13.80677,5.2225075 0.895346,1.6421664 1.365684,3.5105434 1.362398,5.3805224 z" stroke-width="1.105" fill="#ffffff" fill-rule="evenodd" stroke="#2c3a4e" id="path3755" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 16.773124,14.278557 c 1.416058,0 2.832115,0 4.248173,0" stroke-width="0.977" fill="none" stroke="#2c3a4e" id="path3757" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 34.275439,14.278557 c 1.416058,0 2.832115,0 4.248173,0" stroke-width="0.977" fill="none" stroke="#2c3a4e" id="path3759" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 27.648307,3.3182858 c 0,1.4160543 0,2.8321085 0,4.2481628" stroke-width="0.977" fill="none" stroke="#2c3a4e" id="path3761" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 27.648307,20.820724 c 0,1.416056 0,2.832112 0,4.248168" stroke-width="0.977" fill="none" stroke="#2c3a4e" id="path3763" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 32.02264,21.781232 c 0.364973,0.632157 0.729947,1.264314 1.09492,1.896471" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3765" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 22.251859,4.7698887 c 0.364975,0.6321537 0.72995,1.2643074 1.094925,1.8964611" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3767" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 18.262831,8.7245005 c 0.632155,0.3649749 1.264311,0.7299499 1.896466,1.0949248" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3769" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 35.181579,18.525016 c 0.632154,0.364977 1.264307,0.729953 1.896461,1.09493" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3790" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="M 35.184119,9.902515 C 35.816276,9.5375417 36.448433,9.1725684 37.08059,8.8075951" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3792" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 18.206758,19.597679 c 0.632154,-0.364973 1.264307,-0.729947 1.896461,-1.09492" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3794" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 32.012016,6.6926089 c 0.364977,-0.6321553 0.729953,-1.2643107 1.09493,-1.896466" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3796" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 22.225949,23.632161 c 0.364972,-0.632155 0.729943,-1.264311 1.094915,-1.896466" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3798" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="m 27.593928,14.236066 c 0.940685,-2.52879 1.88137,-5.0575804 2.822055,-7.5863706" stroke-width="0.85" fill="none" stroke="#2c3a4e" id="path3802" stroke-linecap="square" inkscape:connector-curvature="0" />
+      <path stroke-miterlimit="0" d="M 31.180652,16.657527 C 30.007309,15.848252 28.833967,15.038976 27.660624,14.229701" stroke-width="0.977" fill="none" stroke="#2c3a4e" id="path3804" stroke-linecap="square" inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

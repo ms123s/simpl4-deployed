@@ -1,0 +1,17 @@
+[sw]
+	type = sw.setting
+--
+{
+    "schema": "orientDBlive.schema",
+    "data": {
+        "live": [
+            {
+                "call": "playground.liveTest",
+                "database": "playground",
+                "name": "test",
+                "enabled": false,
+                "sql": "live select  from street where name='ManfredY'"
+            }
+        ]
+    }
+}

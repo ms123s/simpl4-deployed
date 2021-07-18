@@ -1,0 +1,18 @@
+[sw]
+	type = sw.setting
+--
+{
+    "schema": "camelcomponent.schema",
+    "data": {
+        "registry": [
+            {
+                "name": "name1",
+                "clazz": "class1"
+            },
+            {
+                "name": "rrrrrr",
+                "clazz": "org.ms123.common.system.registzry..ServiceHandler"
+            }
+        ]
+    }
+}

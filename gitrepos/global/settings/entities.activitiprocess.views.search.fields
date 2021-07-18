@@ -1,0 +1,26 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "pid",
+            "enabled": true
+        },
+        {
+            "name": "comment",
+            "enabled": true
+        },
+        {
+            "name": "deploymentid",
+            "enabled": true
+        },
+        {
+            "name": "json",
+            "enabled": true
+        },
+        {
+            "name": "_team_list"
+        }
+    ]
+}

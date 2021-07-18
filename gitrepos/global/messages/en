@@ -1,0 +1,4829 @@
+[sw]
+  type = sw.messageslang
+--
+[
+    {
+        "msgstr": "AM",
+        "msgid": "AM"
+    },
+    {
+        "msgstr": "Plausibility",
+        "msgid": "aid.field.constraints"
+    },
+    {
+        "msgstr": "Columnname",
+        "msgid": "aid.field.columnName"
+    },
+    {
+        "msgstr": "Data type",
+        "msgid": "aid.field.datatype"
+    },
+    {
+        "msgstr": "Default value",
+        "msgid": "aid.field.default_value"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "aid.field.description"
+    },
+    {
+        "msgstr": "Columns in textarea",
+        "msgid": "aid.field.editoptions_cols"
+    },
+    {
+        "msgstr": "Lines in textarea",
+        "msgid": "aid.field.editoptions_rows"
+    },
+    {
+        "msgstr": "Edittype",
+        "msgid": "aid.field.edittype"
+    },
+    {
+        "msgstr": "Used",
+        "msgid": "aid.field.enabled"
+    },
+    {
+        "msgstr": "Expression(editable)",
+        "msgid": "aid.field.form_enabled_expr"
+    },
+    {
+        "msgstr": "Formula (clientside)",
+        "msgid": "aid.field.formula_client"
+    },
+    {
+        "msgstr": "Formula (backend,ingoing)",
+        "msgid": "aid.field.formula_in"
+    },
+    {
+        "msgstr": "Formula (backend,outgoing)",
+        "msgid": "aid.field.formula_out"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "aid.field.name"
+    },
+    {
+        "msgstr": "Nullable",
+        "msgid": "aid.field.nullable"
+    },
+    {
+        "msgid": "aid.field.primary_key",
+        "msgstr": "Primary key"
+    },
+    {
+        "msgstr": "Search (list)",
+        "msgid": "aid.field.searchable_items"
+    },
+    {
+        "msgstr": "Search options",
+        "msgid": "aid.field.search_options"
+    },
+    {
+        "msgstr": "Enumeration",
+        "msgid": "aid.field.selectable_items"
+    },
+    {
+        "msgstr": "Sqltype",
+        "msgid": "aid.field.sqltype"
+    },
+    {
+        "msgstr": "Restore",
+        "msgid": "baseeditor.edit_redo"
+    },
+    {
+        "msgstr": "Undo",
+        "msgid": "baseeditor.edit_undo"
+    },
+    {
+        "msgstr": "Basic Colors",
+        "msgid": "Basic Colors"
+    },
+    {
+        "msgstr": "Big",
+        "msgid": "Big"
+    },
+    {
+        "msgstr": "BACK",
+        "msgid": "button.back"
+    },
+    {
+        "msgstr": "Cancel",
+        "msgid": "button.cancel"
+    },
+    {
+        "msgstr": "Delete",
+        "msgid": "button.del"
+    },
+    {
+        "msgstr": "Help",
+        "msgid": "button.help"
+    },
+    {
+        "msgstr": "New",
+        "msgid": "button.new"
+    },
+    {
+        "msgstr": "Next",
+        "msgid": "button.continue"
+    },
+    {
+        "msgstr": "Next",
+        "msgid": "button.next"
+    },
+    {
+        "msgstr": "Previos",
+        "msgid": "button.prev"
+    },
+    {
+        "msgstr": "Refresh",
+        "msgid": "button.refresh"
+    },
+    {
+        "msgstr": "Reset",
+        "msgid": "button.reset"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "button.save"
+    },
+    {
+        "msgstr": "Select",
+        "msgid": "button.select"
+    },
+    {
+        "msgstr": "Take over",
+        "msgid": "button.take_over"
+    },
+    {
+        "msgstr": "Edit",
+        "msgid": "button.edit"
+    },
+    {
+        "msgstr": "Copy",
+        "msgid": "button.copy"
+    },
+    {
+        "msgstr": "Detail",
+        "msgid": "button.details"
+    },
+    {
+        "msgstr": "Show",
+        "msgid": "button.show"
+    },
+    {
+        "msgstr": "Save search",
+        "msgid": "button.save-search"
+    },
+    {
+        "msgstr": "Load search",
+        "msgid": "button.load-search"
+    },
+    {
+        "msgstr": "Complex search",
+        "msgid": "button.complex-search"
+    },
+    {
+        "msgstr": "Simple search",
+        "msgid": "button.simple-search"
+    },
+    {
+        "msgstr": "Cancel",
+        "msgid": "Cancel"
+    },
+    {
+        "msgstr": "Add",
+        "msgid": "chat.add"
+    },
+    {
+        "msgstr": "New contact",
+        "msgid": "chat.add_contact"
+    },
+    {
+        "msgstr": "New group",
+        "msgid": "chat.add_group"
+    },
+    {
+        "msgstr": "Cancel",
+        "msgid": "chat.cancel"
+    },
+    {
+        "msgstr": "Connect",
+        "msgid": "chat.connectButton"
+    },
+    {
+        "msgstr": "Beschreibung",
+        "msgid": "chat.description"
+    },
+    {
+        "msgstr": "Disconnect",
+        "msgid": "chat.disconnectButton"
+    },
+    {
+        "msgstr": "Group",
+        "msgid": "chat.groupname"
+    },
+    {
+        "msgstr": "Login",
+        "msgid": "chat.login"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "chat.name"
+    },
+    {
+        "msgstr": "Not authorized",
+        "msgid": "chat.not-authorized"
+    },
+    {
+        "msgstr": "Adding a new contact",
+        "msgid": "chat.new_contact_header1"
+    },
+    {
+        "msgstr": "Adding a participant to your contact list",
+        "msgid": "chat.new_contact_header2"
+    },
+    {
+        "msgstr": "Adding new group",
+        "msgid": "chat.new_group_header"
+    },
+    {
+        "msgstr": "Registration required",
+        "msgid": "chat.registration-required"
+    },
+    {
+        "msgstr": "Roomlist",
+        "msgid": "chat.roomlist"
+    },
+    {
+        "msgstr": "Leave room",
+        "msgid": "chat.leaveRoom"
+    },
+    {
+        "msgstr": "Join room",
+        "msgid": "chat.joinRoom"
+    },
+    {
+        "msgstr": "Participants",
+        "msgid": "chat.occupiants"
+    },
+    {
+        "msgstr": "send to",
+        "msgid": "chat.participant"
+    },
+    {
+        "msgstr": "Send",
+        "msgid": "chat.sendButton"
+    },
+    {
+        "msgstr": "or single chat",
+        "msgid": "chat.singleChat"
+    },
+    {
+        "msgstr": "Chatstate",
+        "msgid": "chat.state"
+    },
+    {
+        "msgstr": "active",
+        "msgid": "chat.state_active"
+    },
+    {
+        "msgstr": "composing",
+        "msgid": "chat.state_composing"
+    },
+    {
+        "msgstr": "inactive",
+        "msgid": "chat.state_inactive"
+    },
+    {
+        "msgstr": "gone",
+        "msgid": "chat.state_gone"
+    },
+    {
+        "msgstr": "paused",
+        "msgid": "chat.state_paused"
+    },
+    {
+        "msgstr": "Chat usage",
+        "msgid": "chat.usage"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "chat.username"
+    },
+    {
+        "msgstr": "vorm.",
+        "msgid": "cldr_am"
+    },
+    {
+        "msgstr": "dd.MM.y",
+        "msgid": "cldr_date_format_medium"
+    },
+    {
+        "msgstr": "cldr_date_time_format_yyyyMMMM",
+        "msgid": "cldr_date_time_format_yyyyMMMM"
+    },
+    {
+        "msgstr": "Fri",
+        "msgid": "cldr_day_format_abbreviated_fri"
+    },
+    {
+        "msgstr": "Mo.",
+        "msgid": "cldr_day_format_abbreviated_mon"
+    },
+    {
+        "msgstr": "Sat",
+        "msgid": "cldr_day_format_abbreviated_sat"
+    },
+    {
+        "msgstr": "Sun",
+        "msgid": "cldr_day_format_abbreviated_sun"
+    },
+    {
+        "msgstr": "Thu",
+        "msgid": "cldr_day_format_abbreviated_thu"
+    },
+    {
+        "msgstr": "Tue",
+        "msgid": "cldr_day_format_abbreviated_tue"
+    },
+    {
+        "msgstr": "Wed",
+        "msgid": "cldr_day_format_abbreviated_wed"
+    },
+    {
+        "msgstr": "F",
+        "msgid": "cldr_day_format_narrow_fri"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_day_format_narrow_mon"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_day_format_narrow_sat"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_day_format_narrow_sun"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_day_format_narrow_thu"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_day_format_narrow_tue"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_day_format_narrow_wed"
+    },
+    {
+        "msgstr": "Friday",
+        "msgid": "cldr_day_format_wide_fri"
+    },
+    {
+        "msgstr": "Monday",
+        "msgid": "cldr_day_format_wide_mon"
+    },
+    {
+        "msgstr": "Saturday",
+        "msgid": "cldr_day_format_wide_sat"
+    },
+    {
+        "msgstr": "Sunday",
+        "msgid": "cldr_day_format_wide_sun"
+    },
+    {
+        "msgstr": "Thursday",
+        "msgid": "cldr_day_format_wide_thu"
+    },
+    {
+        "msgstr": "Tuesday",
+        "msgid": "cldr_day_format_wide_tue"
+    },
+    {
+        "msgstr": "Wednesday",
+        "msgid": "cldr_day_format_wide_wed"
+    },
+    {
+        "msgstr": "Fr",
+        "msgid": "cldr_day_stand-alone_abbreviated_fri"
+    },
+    {
+        "msgstr": "Mo",
+        "msgid": "cldr_day_stand-alone_abbreviated_mon"
+    },
+    {
+        "msgstr": "Sa",
+        "msgid": "cldr_day_stand-alone_abbreviated_sat"
+    },
+    {
+        "msgstr": "so",
+        "msgid": "cldr_day_stand-alone_abbreviated_sun"
+    },
+    {
+        "msgstr": "do",
+        "msgid": "cldr_day_stand-alone_abbreviated_thu"
+    },
+    {
+        "msgstr": "di",
+        "msgid": "cldr_day_stand-alone_abbreviated_tue"
+    },
+    {
+        "msgstr": "mi",
+        "msgid": "cldr_day_stand-alone_abbreviated_wed"
+    },
+    {
+        "msgstr": "F",
+        "msgid": "cldr_day_stand-alone_narrow_fri"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_day_stand-alone_narrow_mon"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_day_stand-alone_narrow_sat"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_day_stand-alone_narrow_sun"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_day_stand-alone_narrow_thu"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_day_stand-alone_narrow_tue"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_day_stand-alone_narrow_wed"
+    },
+    {
+        "msgstr": "Friday",
+        "msgid": "cldr_day_stand-alone_wide_fri"
+    },
+    {
+        "msgstr": "Monday",
+        "msgid": "cldr_day_stand-alone_wide_mon"
+    },
+    {
+        "msgstr": "Saturday",
+        "msgid": "cldr_day_stand-alone_wide_sat"
+    },
+    {
+        "msgstr": "Sunday",
+        "msgid": "cldr_day_stand-alone_wide_sun"
+    },
+    {
+        "msgstr": "Thursday",
+        "msgid": "cldr_day_stand-alone_wide_thu"
+    },
+    {
+        "msgstr": "Tuesday",
+        "msgid": "cldr_day_stand-alone_wide_tue"
+    },
+    {
+        "msgstr": "Wednesday",
+        "msgid": "cldr_day_stand-alone_wide_wed"
+    },
+    {
+        "msgstr": "October",
+        "msgid": "cldr_month_format_abbreviated_10"
+    },
+    {
+        "msgstr": "Nov.",
+        "msgid": "cldr_month_format_abbreviated_11"
+    },
+    {
+        "msgstr": "December",
+        "msgid": "cldr_month_format_abbreviated_12"
+    },
+    {
+        "msgstr": "Jan.",
+        "msgid": "cldr_month_format_abbreviated_1"
+    },
+    {
+        "msgstr": "Feb.",
+        "msgid": "cldr_month_format_abbreviated_2"
+    },
+    {
+        "msgstr": "March",
+        "msgid": "cldr_month_format_abbreviated_3"
+    },
+    {
+        "msgstr": "Apr.",
+        "msgid": "cldr_month_format_abbreviated_4"
+    },
+    {
+        "msgstr": "May",
+        "msgid": "cldr_month_format_abbreviated_5"
+    },
+    {
+        "msgstr": "June",
+        "msgid": "cldr_month_format_abbreviated_6"
+    },
+    {
+        "msgstr": "July",
+        "msgid": "cldr_month_format_abbreviated_7"
+    },
+    {
+        "msgstr": "Aug.",
+        "msgid": "cldr_month_format_abbreviated_8"
+    },
+    {
+        "msgstr": "September",
+        "msgid": "cldr_month_format_abbreviated_9"
+    },
+    {
+        "msgstr": "O",
+        "msgid": "cldr_month_format_narrow_10"
+    },
+    {
+        "msgstr": "N",
+        "msgid": "cldr_month_format_narrow_11"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_month_format_narrow_12"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_format_narrow_1"
+    },
+    {
+        "msgstr": "F",
+        "msgid": "cldr_month_format_narrow_2"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_month_format_narrow_3"
+    },
+    {
+        "msgstr": "A",
+        "msgid": "cldr_month_format_narrow_4"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_month_format_narrow_5"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_format_narrow_6"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_format_narrow_7"
+    },
+    {
+        "msgstr": "A",
+        "msgid": "cldr_month_format_narrow_8"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_month_format_narrow_9"
+    },
+    {
+        "msgstr": "October",
+        "msgid": "cldr_month_format_wide_10"
+    },
+    {
+        "msgstr": "November",
+        "msgid": "cldr_month_format_wide_11"
+    },
+    {
+        "msgstr": "December",
+        "msgid": "cldr_month_format_wide_12"
+    },
+    {
+        "msgstr": "January",
+        "msgid": "cldr_month_format_wide_1"
+    },
+    {
+        "msgstr": "February",
+        "msgid": "cldr_month_format_wide_2"
+    },
+    {
+        "msgstr": "March",
+        "msgid": "cldr_month_format_wide_3"
+    },
+    {
+        "msgstr": "April",
+        "msgid": "cldr_month_format_wide_4"
+    },
+    {
+        "msgstr": "May",
+        "msgid": "cldr_month_format_wide_5"
+    },
+    {
+        "msgstr": "June",
+        "msgid": "cldr_month_format_wide_6"
+    },
+    {
+        "msgstr": "July",
+        "msgid": "cldr_month_format_wide_7"
+    },
+    {
+        "msgstr": "August",
+        "msgid": "cldr_month_format_wide_8"
+    },
+    {
+        "msgstr": "September",
+        "msgid": "cldr_month_format_wide_9"
+    },
+    {
+        "msgstr": "October",
+        "msgid": "cldr_month_stand-alone_abbreviated_10"
+    },
+    {
+        "msgstr": "November",
+        "msgid": "cldr_month_stand-alone_abbreviated_11"
+    },
+    {
+        "msgstr": "December",
+        "msgid": "cldr_month_stand-alone_abbreviated_12"
+    },
+    {
+        "msgstr": "January",
+        "msgid": "cldr_month_stand-alone_abbreviated_1"
+    },
+    {
+        "msgstr": "February",
+        "msgid": "cldr_month_stand-alone_abbreviated_2"
+    },
+    {
+        "msgstr": "March",
+        "msgid": "cldr_month_stand-alone_abbreviated_3"
+    },
+    {
+        "msgstr": "April",
+        "msgid": "cldr_month_stand-alone_abbreviated_4"
+    },
+    {
+        "msgstr": "May",
+        "msgid": "cldr_month_stand-alone_abbreviated_5"
+    },
+    {
+        "msgstr": "June",
+        "msgid": "cldr_month_stand-alone_abbreviated_6"
+    },
+    {
+        "msgstr": "July",
+        "msgid": "cldr_month_stand-alone_abbreviated_7"
+    },
+    {
+        "msgstr": "August",
+        "msgid": "cldr_month_stand-alone_abbreviated_8"
+    },
+    {
+        "msgstr": "September",
+        "msgid": "cldr_month_stand-alone_abbreviated_9"
+    },
+    {
+        "msgstr": "O",
+        "msgid": "cldr_month_stand-alone_narrow_10"
+    },
+    {
+        "msgstr": "N",
+        "msgid": "cldr_month_stand-alone_narrow_11"
+    },
+    {
+        "msgstr": "D",
+        "msgid": "cldr_month_stand-alone_narrow_12"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_stand-alone_narrow_1"
+    },
+    {
+        "msgstr": "F",
+        "msgid": "cldr_month_stand-alone_narrow_2"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_month_stand-alone_narrow_3"
+    },
+    {
+        "msgstr": "A",
+        "msgid": "cldr_month_stand-alone_narrow_4"
+    },
+    {
+        "msgstr": "M",
+        "msgid": "cldr_month_stand-alone_narrow_5"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_stand-alone_narrow_6"
+    },
+    {
+        "msgstr": "J",
+        "msgid": "cldr_month_stand-alone_narrow_7"
+    },
+    {
+        "msgstr": "A",
+        "msgid": "cldr_month_stand-alone_narrow_8"
+    },
+    {
+        "msgstr": "S",
+        "msgid": "cldr_month_stand-alone_narrow_9"
+    },
+    {
+        "msgstr": "October",
+        "msgid": "cldr_month_stand-alone_wide_10"
+    },
+    {
+        "msgstr": "November",
+        "msgid": "cldr_month_stand-alone_wide_11"
+    },
+    {
+        "msgstr": "December",
+        "msgid": "cldr_month_stand-alone_wide_12"
+    },
+    {
+        "msgstr": "January",
+        "msgid": "cldr_month_stand-alone_wide_1"
+    },
+    {
+        "msgstr": "February",
+        "msgid": "cldr_month_stand-alone_wide_2"
+    },
+    {
+        "msgstr": "March",
+        "msgid": "cldr_month_stand-alone_wide_3"
+    },
+    {
+        "msgstr": "April",
+        "msgid": "cldr_month_stand-alone_wide_4"
+    },
+    {
+        "msgstr": "May",
+        "msgid": "cldr_month_stand-alone_wide_5"
+    },
+    {
+        "msgstr": "June",
+        "msgid": "cldr_month_stand-alone_wide_6"
+    },
+    {
+        "msgstr": "July",
+        "msgid": "cldr_month_stand-alone_wide_7"
+    },
+    {
+        "msgstr": "August",
+        "msgid": "cldr_month_stand-alone_wide_8"
+    },
+    {
+        "msgstr": "September",
+        "msgid": "cldr_month_stand-alone_wide_9"
+    },
+    {
+        "msgstr": ",",
+        "msgid": "cldr_number_decimal_separator"
+    },
+    {
+        "msgstr": ".",
+        "msgid": "cldr_number_group_separator"
+    },
+    {
+        "msgstr": "nachm .",
+        "msgid": "cldr_pm"
+    },
+    {
+        "msgstr": "Exclusion list",
+        "msgid": "composite.exclusion_list"
+    },
+    {
+        "msgstr": "Start quality check",
+        "msgid": "composite.quality.start_dupcheck"
+    },
+    {
+        "msgstr": "abort",
+        "msgid": "composite.select_dialog.cancel"
+    },
+    {
+        "msgstr": "Please confirm the delete?",
+        "msgid": "composite.select_dialog.confirm_delete"
+    },
+    {
+        "msgstr": "computer code",
+        "msgid": "Computer Code"
+    },
+    {
+        "msgstr": "CSV",
+        "msgid": "CSV"
+    },
+    {
+        "msgstr": "Activity",
+        "msgid": "data.activity"
+    },
+    {
+        "msgstr": "Address",
+        "msgid": "data.address"
+    },
+    {
+        "msgstr": "Address Book",
+        "msgid": "data.addressbook"
+    },
+    {
+        "msgstr": "Address Group",
+        "msgid": "data.addressgroup"
+    },
+    {
+        "msgstr": "Inquiry",
+        "msgid": "data.anfrage"
+    },
+    {
+        "msgstr": "Article",
+        "msgid": "data.artikel"
+    },
+    {
+        "msgstr": "Order",
+        "msgid": "data.auftrag"
+    },
+    {
+        "msgstr": "COMMUNICATION",
+        "msgid": "data.communication"
+    },
+    {
+        "msgstr": "Company",
+        "msgid": "data.company"
+    },
+    {
+        "msgstr": "Contact",
+        "msgid": "data.contact"
+    },
+    {
+        "msgstr": "Created on",
+        "msgid": "data._created_at"
+    },
+    {
+        "msgstr": "Created by",
+        "msgid": "data._created_by"
+    },
+    {
+        "msgstr": "Settings",
+        "msgid": "data.dupcheck.tab1"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "data.dupcheck.tab2"
+    },
+    {
+        "msgstr": "Employee",
+        "msgid": "data.employee"
+    },
+    {
+        "msgstr": "Additional display in subpanel",
+        "msgid": "data.entity.add_self_to_subpanel"
+    },
+    {
+        "msgstr": "Autogen . ",
+        "msgid": "data.entity.default_fields"
+    },
+    {
+        "msgstr": "Description of Class",
+        "msgid": "data.entity.description"
+    },
+    {
+        "msgstr": "Class enabled",
+        "msgid": "data.entity.enabled"
+    },
+    {
+        "msgstr": "Exclusion list",
+        "msgid": "data.entity.exclusion_list"
+    },
+    {
+        "msgstr": "Series production",
+        "msgid": "data.entity.multi_add"
+    },
+    {
+        "msgstr": "Combine filters",
+        "msgid": "data.entity.multiple_tabs"
+    },
+    {
+        "msgstr": "Name of the class",
+        "msgid": "data.entity.name"
+    },
+    {
+        "msgstr": "No Add / Del buttons as Master",
+        "msgid": "data.entity.no_add_del_in_master"
+    },
+    {
+        "msgstr": "Do not show number of lines",
+        "msgid": "data.entity.no_resultset_count"
+    },
+    {
+        "msgstr": "No entry in the main menu",
+        "msgid": "data.entity.not_in_menu"
+    },
+    {
+        "msgstr": "Sidebar",
+        "msgid": "data.entity.sidebar"
+    },
+    {
+        "msgstr": "no select distinct",
+        "msgid": "data.entity.selectdistinct"
+    },
+    {
+        "msgstr": "Status fields",
+        "msgid": "data.entity.state_fields"
+    },
+    {
+        "msgstr": "Status change (duplicate candidates)",
+        "msgid": "data.entity.stateselect"
+    },
+    {
+        "msgstr": "Tab1",
+        "msgid": "data.entity.tab1"
+    },
+    {
+        "msgstr": "Team management",
+        "msgid": "data.entity.team_security"
+    },
+    {
+        "msgstr": "Display Team in subpanel",
+        "msgid": "data.entity.teams_in_subpanel"
+    },
+    {
+        "msgstr": "Record validation",
+        "msgid": "data.entity.record_validation"
+    },
+    {
+        "msgstr": "Title expression (e.g.: first name + '' + last_name)",
+        "msgid": "data.entity.titel_expression"
+    },
+		{
+        "msgstr": "Id expression(e.g.:_id+'/'+code,def:_id)",
+        "msgid": "data.entity.id_expression"
+    },
+    {
+        "msgstr": "Processes in Aktionmenu",
+        "msgid": "data.entity.workflow_list"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.enumfield.description"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "data.enumfield.fieldname"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.fieldset.tab1"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "data.fieldset.tab2"
+    },
+    {
+        "msgstr": "Operators",
+        "msgid": "data.fieldset.tab3"
+    },
+    {
+        "msgstr": "Primarily",
+        "msgid": "data.field.tab1"
+    },
+    {
+        "msgstr": "Scripts",
+        "msgid": "data.field.tab2"
+    },
+    {
+        "msgstr": "Plausibility",
+        "msgid": "data.field.tab3"
+    },
+    {
+        "msgstr": "Tablename",
+        "msgid": "data.field.tablename"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "data.form.save"
+    },
+    {
+        "msgstr": "data set created",
+        "msgid": "data.form.created"
+    },
+    {
+        "msgstr": "data set stored",
+        "msgid": "data.form.saved"
+    },
+    {
+        "msgstr": "Select",
+        "msgid": "data.form.select"
+    },
+    {
+        "msgstr": "Customer",
+        "msgid": "data.kunde"
+    },
+    {
+        "msgstr": "The process was deployed",
+        "msgid": "data.process.deployed"
+    },
+    {
+        "msgstr": "The process was undeployed",
+        "msgid": "data.process.undeployed"
+    },
+    {
+        "msgstr": "New",
+        "msgid": "datamapper.add"
+    },
+    {
+        "msgstr": "Classes adjust (Problematic by data type changes)",
+        "msgid": "datamapper.change_classes"
+    },
+    {
+        "msgstr": "Child fields",
+        "msgid": "datamapper.children_fields"
+    },
+    {
+        "msgstr": "This classes exists",
+        "msgid": "datamapper.classes_exists"
+    },
+    {
+        "msgstr": "Creating classes (EntityTypes)",
+        "msgid": "datamapper.create_classes"
+    },
+    {
+        "msgstr": "Create the mapping",
+        "msgid": "datamapper.create_mapping"
+    },
+    {
+        "msgstr": "Approach to existing classes",
+        "msgid": "datamapper.exist_classes"
+    },
+    {
+        "msgstr": "Datatype",
+        "msgid": "datamapper.datatype"
+    },
+    {
+        "msgstr": "Accept the default scripts",
+        "msgid": "datamapper.default_script"
+    },
+    {
+        "msgstr": "Define format :",
+        "msgid": "datamapper.define"
+    },
+    {
+        "msgstr": "Down",
+        "msgid": "datamapper.down"
+    },
+    {
+        "msgstr": "Editing",
+        "msgid": "datamapper.edit"
+    },
+    {
+        "msgstr": "Edit attribute",
+        "msgid": "datamapper.edit_attribute"
+    },
+    {
+        "msgstr": "Mapping fields",
+        "msgid": "datamapper.edit_fields"
+    },
+    {
+        "msgstr": "Structure mapping",
+        "msgid": "datamapper.element_mapping"
+    },
+		{
+        "msgstr": "Delete only data,Classes are untouched",
+        "msgid": "datamapper.only_delete_data"
+    },
+    {
+				'msgid': "datasource.packagename",
+				'msgstr': "Packagename"
+		}, 
+		{
+				'msgid': "datasource.create_jooq_metadata",
+				'msgstr': "generate JOOQ metadata"
+		}, 
+		{
+				'msgid': "datasource.jooq_inputschema",
+				'msgstr': "JOOQ inputschema"
+		}, 
+		{
+				'msgid': "datasource.jooq_includes",
+				'msgstr': "JOOQ includes(Pattern <b>without</b> databasename)"
+		}, 
+		{
+				'msgid': "datasource.jooq_excludes",
+				'msgstr': "JOOQ excludes(Pattern <b>without</b> databasename)"
+		}, 
+    {
+        "msgstr": "Generate Defaulvalue",
+        "msgid": "datasource.datanucleus_generate_defaultvalue"
+    },
+		{
+				'msgid': "datasource.create_datanucleus_metadata",
+				'msgstr': "generate DATANUCLEUS metadata"
+		}, 
+		{
+				'msgid': "datasource.datanucleus_inputschema",
+				'msgstr': "DATANUCLEUS inputschema"
+		}, 
+		{
+				'msgid': "datasource.datanucleus_includes",
+				'msgstr': "DATANUCLEUS includes(Pattern <b>with</b> databasename)"
+		}, 
+		{
+				'msgid': "datasource.datanucleus_excludes",
+				'msgstr': "DATANUCLEUS excludes(Pattern <b>with</b> databasename)"
+		},
+    {
+        "msgstr": "Creating classes (Entitytypes)",
+        "msgid": "datamapper.entitytypes_create_nucleus"
+    },
+    {
+        "msgstr": "Creating classes for orientDB",
+        "msgid": "datamapper.entitytypes_create_orient"
+    },
+    {
+        "msgstr": "Class",
+        "msgid": "datamapper.entity"
+    },
+    {
+        "msgstr": "Create",
+        "msgid": "datamapper.entity_create"
+    },
+    {
+        "msgstr": "Dependent",
+        "msgid": "datamapper.entity_depend"
+    },
+    {
+        "msgstr": "Import data",
+        "msgid": "datamapper.execute"
+    },
+    {
+        "msgstr": "Preview",
+        "msgid": "datamapper.execute_preview"
+    },
+    {
+        "msgstr": "Sample file",
+        "msgid": "datamapper.from_example"
+    },
+    {
+        "msgstr": "Format",
+        "msgid": "datamapper.format"
+    },
+    {
+        "msgstr": "Generate classes",
+        "msgid": "datamapper.generate_classes"
+    },
+    {
+        "msgstr": "Input",
+        "msgid": "datamapper.input"
+    },
+    {
+        "msgstr": "Like input",
+        "msgid": "datamapper.like_input"
+    },
+    {
+        "msgstr": "Upload a import file",
+        "msgid": "datamapper.load_import_file"
+    },
+    {
+        "msgstr": "Change the metadata",
+        "msgid": "datamapper.metadata_edit"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "datamapper.name"
+    },
+    {
+        "msgstr": "The following classes will be created",
+        "msgid": "datamapper.new_classes"
+    },
+    {
+        "msgstr": "Output",
+        "msgid": "datamapper.output"
+    },
+    {
+        "msgstr": "<b>Relation</b>",
+        "msgid": "datamapper.parent_relation"
+    },
+    {
+        "msgstr": "<b>Update Object</b>, when exist, insteed create always a new one",
+        "msgid": "datamapper.parent_update"
+    },
+    {
+        "msgstr": "Object lookup:, ways of entering<ul><li>Fieldname</li><li>JDO-Filterexpression<br/>Integer: <b>countryId==${countryId}</b><br/> String: <b>countryId=='${countryId}'</b></li></ul>",
+        "msgid": "datamapper.parent_update_expr"
+    },
+    {
+        "msgstr": "Parent lookup, ways of entering<ul><li>fieldname: One field, comparison field has the same name in parent and child</li><li>parentfield,childfield</li><li>countryId==${countryId}: JDO-Filterexpression</li></ul>",
+        "msgid": "datamapper.parent_lookup"
+    },
+    {
+        "msgstr": "Please wait ...",
+        "msgid": "datamapper.please_wait"
+    },
+    {
+        "msgstr": "Create new, first delete (Caution data loss!)",
+        "msgid": "datamapper.overwrite_classes"
+    },
+    {
+        "msgstr": "Remove",
+        "msgid": "datamapper.remove"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "datamapper.save"
+    },
+    {
+        "msgstr": "Ready",
+        "msgid": "datamapper.status_ready"
+    },
+    {
+        "msgstr": "Not ready",
+        "msgid": "datamapper.status_notready"
+    },
+    {
+        "msgstr": "Result (text)",
+        "msgid": "datamapper.text"
+    },
+    {
+        "msgstr": "Type",
+        "msgid": "datamapper.type"
+    },
+    {
+        "msgstr": "Up",
+        "msgid": "datamapper.up"
+    },
+    {
+        "msgstr": "User defined",
+        "msgid": "datamapper.user_defined"
+    },
+    {
+        "msgstr": "Create default messages and settings",
+        "msgid": "datamapper.with_msgs_and_settings"
+    },
+    {
+        "msgstr": "Defaults",
+        "msgid": "datamapper.viewswitch_defaults"
+    },
+    {
+        "msgstr": "Editor",
+        "msgid": "datamapper.viewswitch_editor"
+    },
+    {
+        "msgstr": "Import",
+        "msgid": "datamapper.viewswitch_import"
+    },
+    {
+        "msgstr": "Preview",
+        "msgid": "datamapper.viewswitch_preview"
+    },
+    {
+        "msgstr": "scripts",
+        "msgid": "datamapper.viewswitch_script"
+    },
+    {
+        "msgstr": "Database",
+        "msgid": "datasource.database"
+    },
+    {
+        "msgstr": "error when creating the database metadata",
+        "msgid": "datasource.create_metadata_ok"
+    },
+    {
+        "msgstr": "",
+        "msgid": "datasource.create_metadata_failed"
+    },
+    {
+        "msgstr": "Datasourcename",
+        "msgid": "datasource.datasourcename"
+    },
+    {
+        "msgstr": "Not complete",
+        "msgid": "datasource.form_incomplete"
+    },
+    {
+        "msgstr": "Maindatabase in this namespace",
+        "msgid": "datasource.is_main_db"
+    },
+    {
+        "msgstr": "Schema readonly",
+        "msgid": "datasource.is_schema_readonly"
+    },
+    {
+        "msgstr": "Schema validate",
+        "msgid": "datasource.is_schema_validate"
+    },
+    {
+        "msgstr": "Packagename \"data\" amd Orientdb not allowed",
+        "msgid": "datasource.orient_pack_data_not_ok"
+    },
+    {
+        "msgstr": "Url(No input, means, share a  other datasource)",
+        "msgid": "datasource.url"
+    },
+    {
+        "msgstr": "Username",
+        "msgid": "datasource.username"
+    },
+    {
+        "msgstr": "Passwort",
+        "msgid": "datasource.password"
+    },
+    {
+        "msgstr": "Databasename",
+        "msgid": "datasource.databasename"
+    },
+    {
+        "msgstr": "Packagename",
+        "msgid": "datasource.packagename"
+    },
+    {
+        "msgstr": "generate JOOQ metadata",
+        "msgid": "datasource.create_jooq_metadata"
+    },
+    {
+        "msgstr": "JOOQ inputschema",
+        "msgid": "datasource.jooq_inputschema"
+    },
+    {
+        "msgstr": "JOOQ includes(Pattern <b>without</b> databasename)",
+        "msgid": "datasource.jooq_includes"
+    },
+    {
+        "msgstr": "JOOQ excludes(Pattern <b>without</b> databasename)",
+        "msgid": "datasource.jooq_excludes"
+    },
+    {
+        "msgstr": "generate DATANUCLEUS metadata",
+        "msgid": "datasource.create_datanucleus_metadata"
+    },
+    {
+        "msgstr": "DATANUCLEUS inputschema",
+        "msgid": "datasource.datanucleus_inputschema"
+    },
+    {
+        "msgstr": "DATANUCLEUS includes(Pattern <b>with</b> databasename)",
+        "msgid": "datasource.datanucleus_includes"
+    },
+    {
+        "msgstr": "DATANUCLEUS excludes(Pattern <b>with</b> databasename)",
+        "msgid": "datasource.datanucleus_excludes"
+    },
+    {
+        "msgstr": "begin",
+        "msgid": "data.multiedit.start"
+    },
+    {
+        "msgstr": "owner",
+        "msgid": "data._owner"
+    },
+    {
+        "msgstr": "position",
+        "msgid": "data.position"
+    },
+    {
+        "msgstr": "Active",
+        "msgid": "data.taction.active"
+    },
+    {
+        "msgstr": "Action",
+        "msgid": "data.taction"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.taction.description"
+    },
+    {
+        "msgstr": "Tab1",
+        "msgid": "data.taction.tab1"
+    },
+    {
+        "msgstr": "Value",
+        "msgid": "data.taction.value"
+    },
+    {
+        "msgstr": "Condition",
+        "msgid": "data.tcondition"
+    },
+    {
+        "msgstr": "Active",
+        "msgid": "data.tcondition.active"
+    },
+    {
+        "msgstr": "Condition",
+        "msgid": "data.tcondition"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.tcondition.description"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.tcondition.tab1"
+    },
+    {
+        "msgstr": "Conditions",
+        "msgid": "data.tcondition.tab2"
+    },
+    {
+        "msgstr": "value",
+        "msgid": "data.tcondition.value"
+    },
+    {
+        "msgstr": "Disabled",
+        "msgid": "data.team.disabled"
+    },
+    {
+        "msgstr": "Teams",
+        "msgid": "data._team_list"
+    },
+    {
+        "msgstr": "Team",
+        "msgid": "data._team"
+    },
+    {
+        "msgstr": "Team",
+        "msgid": "data.team"
+    },
+    {
+        "msgstr": "Id",
+        "msgid": "data.team.teamid"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "data.team.name"
+    },
+    {
+        "msgstr": "Valid from",
+        "msgid": "data.team.validFrom"
+    },
+    {
+        "msgstr": "Date of Expiry",
+        "msgid": "data.team.validTo"
+    },
+    {
+        "msgstr": "Active",
+        "msgid": "data.trigger.active"
+    },
+    {
+        "msgstr": "Applied to",
+        "msgid": "data.trigger.applies_to"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "data.trigger.description"
+    },
+    {
+        "msgstr": "Executed if",
+        "msgid": "data.trigger.execution_occurs"
+    },
+    {
+        "msgstr": "Order",
+        "msgid": "data.trigger.processing_order"
+    },
+    {
+        "msgstr": "Tab1",
+        "msgid": "data.trigger.tab1"
+    },
+    {
+        "msgstr": "Target entity",
+        "msgid": "data.trigger.targetmodule"
+    },
+    {
+        "msgstr": "Id",
+        "msgid": "data.trigger.trigger_id"
+    },
+    {
+        "msgstr": "Modified on",
+        "msgid": "data._updated_at"
+    },
+    {
+        "msgstr": "Modified by",
+        "msgid": "data._updated_by"
+    },
+    {
+        "msgstr": "Administrator rights",
+        "msgid": "aid.user.admin"
+    },
+    {
+        "msgstr": "Orientdb roles,Comma delimited",
+        "msgid": "aid.user.oroles"
+    },
+    {
+        "msgstr": "EMail",
+        "msgid": "aid.user.email"
+    },
+    {
+        "msgstr": "First name",
+        "msgid": "aid.user.givenname"
+    },
+    {
+        "msgstr": "Homedirectory",
+        "msgid": "aid.user.homedir"
+    },
+    {
+        "msgstr": "Ftp-Homedirectory",
+        "msgid": "aid.user.ftphomedir"
+    },
+    {
+        "msgstr": "Processengine",
+        "msgid": "aid.user.processengine"
+    },
+    {
+        "msgstr": "Password",
+        "msgid": "aid.user.password"
+    },
+    {
+        "msgstr": "Roles",
+        "msgid": "data.user.roles"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "aid.user.surname"
+    },
+    {
+        "msgstr": "Data",
+        "msgid": "data.user.tab1"
+    },
+    {
+        "msgstr": "Rights",
+        "msgid": "data.user.tab2"
+    },
+    {
+        "msgstr": "Roles",
+        "msgid": "data.user.tab3"
+    },
+    {
+        "msgstr": "Can create teams on level 1",
+        "msgid": "aid.user.team_manage"
+    },
+    {
+        "msgstr": "User ID",
+        "msgid": "aid.user.userid"
+    },
+    {
+        "msgstr": "Vacation",
+        "msgid": "data.vacation"
+    },
+    {
+        "msgstr": "Emphasis",
+        "msgid": "Emphasis"
+    },
+    {
+        "msgstr": "Take field",
+        "msgid": "entitytypes.attribute_takeit"
+    },
+    {
+        "msgstr": "Not yet created class",
+        "msgid": "entitytypes.class_not_created"
+    },
+    {
+        "msgstr": "Klassenname",
+        "msgid": "entitytypes.create_class.name"
+    },
+    {
+        "msgstr": "Generate form settings",
+        "msgid": "entitytypes.create_form_settings"
+    },
+    {
+        "msgstr": "Generate messages",
+        "msgid": "entitytypes.create_messages"
+    },
+    {
+        "msgstr": "Generate search settings",
+        "msgid": "entitytypes.create_search_settings"
+    },
+    {
+        "msgstr": "Create table settings",
+        "msgid": "entitytypes.create_table_settings"
+    },
+    {
+        "msgstr": "Data Description",
+        "msgid": "entitytypes.data_description"
+    },
+    {
+        "msgstr": "Delete the scheme? <b>You lost all data!</b>",
+        "msgid": "entitytypes.databasescheme_clean.confirm"
+    },
+    {
+        "msgstr": "Delete the scheme for selected classes? <b>Yout lost all data for this class!</b>",
+        "msgid": "entitytypes.databasescheme_clean.klass_confirm"
+    },
+    {
+        "msgstr": "Delete the databasescheme complete",
+        "msgid": "entitytypes.databasescheme_clean"
+    },
+    {
+        "msgstr": "Delete databasescheme for selected classes",
+        "msgid": "entitytypes.databasescheme_table_clean"
+    },
+    {
+        "msgstr": "Delete class",
+        "msgid": "entitytypes.delete_class"
+    },
+    {
+        "msgstr": "Entitytype can not be deleted",
+        "msgid": "entitytypes.delete_not_possible"
+    },
+    {
+        "msgstr": "Delete settings",
+        "msgid": "entitytypes.delete_settings"
+    },
+    {
+        "msgstr": "Delete messages",
+        "msgid": "entitytypes.delete_messages"
+    },
+    {
+        "msgstr": "EntityType is contained in relation(s)",
+        "msgid": "entitytypes.entitytype_exists_in_relations"
+    },
+    {
+        "msgstr": "Field saved",
+        "msgid": "entitytypes.field_saved"
+    },
+    {
+        "msgstr": "Form incomplete",
+        "msgid": "entitytypes.form_incomplete"
+    },
+    {
+        "msgstr": "Primary class",
+        "msgid": "entitytypes.leftmodule"
+    },
+    {
+        "msgstr": "Field in primary class",
+        "msgid": "entitytypes.leftfield"
+    },
+    {
+        "msgstr": "Relations saved",
+        "msgid": "entitytypes.relations_saved"
+    },
+    {
+        "msgstr": "Secondary class",
+        "msgid": "entitytypes.rightmodule"
+    },
+    {
+        "msgstr": "Field in secondary class",
+        "msgid": "entitytypes.rightfield"
+    },
+    {
+        "msgstr": "Relation",
+        "msgid": "entitytypes.relation"
+    },
+    {
+        "msgstr": "Dependent",
+        "msgid": "entitytypes.dependent"
+    },
+    {
+        "msgstr": "One-to-Many-Bi: Primary class has an subpanel from the secondary class. The secondary have a reference to the primary",
+        "msgid": "relations.one-to-many-bi"
+    },
+    {
+        "msgstr": "One-to-Many: Primary class has an subpanel from the secondary class .",
+        "msgid": "relations.one-to-many"
+    },
+    {
+        "msgstr": "One-to-Many(Map): Primary class has an subpanel from the secondary class .",
+        "msgid": "relations.one-to-many-map"
+    },
+    {
+        "msgstr": "One-to-One-Bi: Both classes have a reference to the respective other class.",
+        "msgid": "relations.one-to-one-bi"
+    },
+    {
+        "msgstr": "One-to-One: Primary class have an reference from the secondary class.",
+        "msgid": "relations.one-to-one"
+    },
+    {
+        "msgstr": "Really delete?",
+        "msgid": "entitytypes.confirm_delete"
+    },
+    {
+        "msgstr": "Delete",
+        "msgid": "entitytypes.delete"
+    },
+    {
+        "msgstr": "Class details",
+        "msgid": "entitytypes.edit_entitytype"
+    },
+    {
+        "msgstr": "Classes",
+        "msgid": "entitytypes.entitytypes"
+    },
+    {
+        "msgstr": "Generate classes",
+        "msgid": "entitytypes.generate_class"
+    },
+    {
+        "msgstr": "New Class",
+        "msgid": "entitytypes.new_entitytype"
+    },
+    {
+        "msgstr": "New Class",
+        "msgid": "entitytypes.new_fast_entitytype_create"
+    },
+    {
+        "msgstr": "New Field",
+        "msgid": "entitytypes.new_field"
+    },
+    {
+        "msgstr": "Relations",
+        "msgid": "entitytypes.relations"
+    },
+    {
+        "msgstr": "Class saved",
+        "msgid": "entitytypes.entitytype_saved"
+    },
+    {
+        "msgstr": "Update databasescheme",
+        "msgid": "entitytypes.update_db"
+    },
+    {
+        "msgstr": "Databasescheme updated",
+        "msgid": "entitytypes.update_db_successfull"
+    },
+    {
+        "msgstr": "Delete enumeration ?",
+        "msgid": "enumerations.confirm_delete"
+    },
+    {
+        "msgstr": "Enumerations",
+        "msgid": "enumerations.enumeration_dir"
+    },
+    {
+        "msgstr": "New Enumeration",
+        "msgid": "enumerations.new_enum"
+    },
+    {
+        "msgstr": "Close",
+        "msgid": "export.close_button"
+    },
+    {
+        "msgstr": "Always use quotes",
+        "msgid": "export.csv.always_quote"
+    },
+    {
+        "msgstr": "Column separator",
+        "msgid": "export.csv.col_delimeter"
+    },
+    {
+        "msgstr": "Excel compatible",
+        "msgid": "export.csv.excel_compatible"
+    },
+    {
+        "msgstr": "File name",
+        "msgid": "export.csv.filename"
+    },
+    {
+        "msgstr": "With column heading",
+        "msgid": "export.csv.include_column_header"
+    },
+    {
+        "msgstr": "Landscape",
+        "msgid": "export.csv.landscape"
+    },
+    {
+        "msgstr": "Sort the first n-columns",
+        "msgid": "export.csv.order_first_n_field"
+    },
+    {
+        "msgstr": "Quote characters",
+        "msgid": "export.csv.quote"
+    },
+    {
+        "msgstr": "Newline",
+        "msgid": "export.csv.row_delimeter"
+    },
+    {
+        "msgstr": "Export",
+        "msgid": "export.export_button"
+    },
+    {
+        "msgstr": "Value not found in database",
+        "msgid": "field_not_in_database"
+    },
+    {
+        "msgstr": "Remove all",
+        "msgid": "fieldselector.removeall"
+    },
+    {
+        "msgstr": "Select all",
+        "msgid": "fieldselector.selectall"
+    },
+    {
+        "msgstr": "All (No system properties)",
+        "msgid": "fieldselector.selectall_without"
+    },
+    {
+        "msgstr": "Add up to",
+        "msgid": "filter.text.add_to"
+    },
+    {
+        "msgstr": "all",
+        "msgid": "filter.text.and"
+    },
+    {
+        "msgstr": "Conditions in this branch must be true / <b>AND</b>",
+        "msgid": "filter.text.and_help"
+    },
+    {
+        "msgstr": "the conditions in this branch must be true / <b>NOT AND</b>",
+        "msgid": "filter.text.and_not_help"
+    },
+    {
+        "msgstr": "not all",
+        "msgid": "filter.text.and_not"
+    },
+    {
+        "msgstr": "Set parameter name",
+        "msgid": "filter.text.change_label"
+    },
+    {
+        "msgstr": "Composite condition",
+        "msgid": "filter.text.change_to_compound"
+    },
+    {
+        "msgstr": "Copy after",
+        "msgid": "filter.text.copy_to"
+    },
+    {
+        "msgstr": "delete Condition",
+        "msgid": "filter.text.del_condition"
+    },
+    {
+        "msgstr": "Insert Parent node",
+        "msgid": "filter.text.insert_parent"
+    },
+    {
+        "msgstr": "Change all sets of filter",
+        "msgid": "filter.text.multi_edit"
+    },
+    {
+        "msgstr": "New Condition",
+        "msgid": "filter.text.new_condition"
+    },
+    {
+        "msgstr": "Subselect",
+        "msgid": "filter.text.new_exists_subselect"
+    },
+    {
+        "msgstr": "New Search",
+        "msgid": "filter.text.new_search"
+    },
+    {
+        "msgstr": "New Window",
+        "msgid": "filter.text.new_win"
+    },
+    {
+        "msgstr": "the conditions in this tree may be true / <b>OR NOT</b>",
+        "msgid": "filter.text.not_help"
+    },
+    {
+        "msgstr": "no",
+        "msgid": "filter.text.not"
+    },
+    {
+        "msgstr": "the conditions in this branch is true / <b>OR</b>",
+        "msgid": "filter.text.or_help"
+    },
+    {
+        "msgstr": "each",
+        "msgid": "filter.text.or"
+    },
+    {
+        "msgstr": "subtract from",
+        "msgid": "filter.text.sub_from"
+    },
+    {
+        "msgstr": "Mainentity",
+        "msgid": "filtereditor.mainmodule"
+    },
+    {
+        "msgstr": "Package",
+        "msgid": "filtereditor.pack"
+    },
+    {
+        "msgstr": "Sortfield is the first field without an dot",
+        "msgid": "filtereditor.sorthelp"
+    },
+    {
+        "msgstr": "Execute",
+        "msgid": "form.execute"
+    },
+    {
+        "msgstr": "The key already exists",
+        "msgid": "form.key_exists"
+    },
+    {
+        "msgstr": "Add record",
+        "msgid": "graphicaleditor.add_record"
+    },
+    {
+        "msgstr": "Delete record",
+        "msgid": "graphicaleditor.delete_record"
+    },
+    {
+        "msgstr": "Formtest",
+        "msgid": "graphicaleditor.plugins.save.formtest"
+    },
+    {
+        "msgstr": "Messagekey prefix",
+        "msgid": "graphicaleditor.plugins.form.msgkey_prefix"
+    },
+    {
+        "msgstr": "Database fieldname",
+        "msgid": "graphicaleditor.fieldselectorfield.db_fieldname"
+    },
+    {
+        "msgstr": "Form fieldname",
+        "msgid": "graphicaleditor.fieldselectorfield.form_fieldname"
+    },
+    {
+        "msgstr": "Select a ressource",
+        "msgid": "graphicaleditor.select_resource"
+    },
+    {
+        "msgstr": "Select the datatype",
+        "msgid": "graphicaleditor.select_entity"
+    },
+    {
+        "msgstr": "Constraints",
+        "msgid": "graphicaleditor.constraints"
+    },
+    {
+        "msgstr": "Groovy/Bean",
+        "msgid": "Groovy/Bean"
+    },
+    {
+        "msgstr": "Groovy",
+        "msgid": "Groovy"
+    },
+    {
+        "msgstr": "Groovy/Processor",
+        "msgid": "Groovy/Processor"
+    },
+    {
+        "msgstr": "<div style='position:relative;left:15%;top:50%;font-size:300%;'>Please drop a file</div>",
+        "msgid": "import.drop_file"
+    },
+    {
+        "msgstr": "Please drop a file",
+        "msgid": "import.drop_file2"
+    },
+    {
+        "msgstr": "Filename missing",
+        "msgid": "import.no_filename"
+    },
+    {
+        "msgstr": "Delete",
+        "msgid": "importing.deleteImport"
+    },
+    {
+        "msgstr": "Filetype",
+        "msgid": "importing.fileType"
+    },
+    {
+        "msgstr": "Import was created",
+        "msgid": "importing.importingCreated"
+    },
+    {
+        "msgstr": "Import deleted",
+        "msgid": "importing.importingDeleted"
+    },
+    {
+        "msgstr": "Name of the import",
+        "msgid": "importing.importName"
+    },
+    {
+        "msgstr": "Mainclass",
+        "msgid": "importing.mainEntity"
+    },
+    {
+        "msgstr": "New Import",
+        "msgid": "importing.newImport"
+    },
+    {
+        "msgstr": "Imports",
+        "msgid": "Importing.title"
+    },
+    {
+        "msgstr": "Setup saved",
+        "msgid": "import.import_saved"
+    },
+    {
+        "msgstr": "Search",
+        "msgid": "import.select_button"
+    },
+    {
+        "msgstr": "Please select a file",
+        "msgid": "import.select_file"
+    },
+    {
+        "msgstr": "Upload",
+        "msgid": "import.upload_button"
+    },
+    {
+        "msgstr": "Inline Quotation",
+        "msgid": "Inline Quotation"
+    },
+    {
+        "msgstr": "JSON",
+        "msgid": "JSON"
+    },
+    {
+        "msgstr": "formatted",
+        "msgid": "jsondisplay.formatted"
+    },
+    {
+        "msgstr": "plain",
+        "msgid": "jsondisplay.plain"
+    },
+    {
+        "msgstr": "collapse",
+        "msgid": "jsondisplay.collapse"
+    },
+    {
+        "msgstr": "expand",
+        "msgid": "jsondisplay.expand"
+    },
+    {
+        "msgstr": "toggle",
+        "msgid": "jsondisplay.toggle"
+    },
+    {
+        "msgstr": "togle2",
+        "msgid": "jsondisplay.level2"
+    },
+    {
+        "msgstr": "key_short_A",
+        "msgid": "key_short_A"
+    },
+    {
+        "msgstr": "key_short_C",
+        "msgid": "key_short_C"
+    },
+    {
+        "msgstr": "key_short_Control",
+        "msgid": "key_short_Control"
+    },
+    {
+        "msgstr": "key_short_E",
+        "msgid": "key_short_E"
+    },
+    {
+        "msgstr": "key_short_M",
+        "msgid": "key_short_M"
+    },
+    {
+        "msgstr": "key_short_N",
+        "msgid": "key_short_N"
+    },
+    {
+        "msgstr": "key_short_S",
+        "msgid": "key_short_S"
+    },
+    {
+        "msgstr": "key_short_W",
+        "msgid": "key_short_W"
+    },
+    {
+        "msgstr": "Last month",
+        "msgid": "Last month"
+    },
+    {
+        "msgstr": "Last year",
+        "msgid": "Last year"
+    },
+    {
+        "msgstr": "Unknown Username or Password wrong",
+        "msgid": "login.error"
+    },
+    {
+        "msgstr": "you are logged in",
+        "msgid": "login.ok"
+    },
+    {
+        "msgstr": "Home Page",
+        "msgid": "mainmenu.start"
+    },
+    {
+        "msgstr": "MAP(k,v)",
+        "msgid": "MAP(k,v)"
+    },
+    {
+        "msgstr": "Filter (incremental)",
+        "msgid": "messages.filter"
+    },
+    {
+        "msgstr": "Translations",
+        "msgid": "messages.messages_dir"
+    },
+    {
+        "msgstr": "Messages saved",
+        "msgid": "messages.messages_saved"
+    },
+    {
+        "msgstr": "Message - ID",
+        "msgid": "messages.msgid"
+    },
+    {
+        "msgstr": "Displayed text",
+        "msgid": "messages.msgstr"
+    },
+    {
+        "msgstr": "New Language",
+        "msgid": "messages.new_messageslang"
+    },
+    {
+        "msgstr": "Takeover (then still save)",
+        "msgid": "messages.takeover"
+    },
+    {
+        "msgstr": "Translations",
+        "msgid": "messages.title"
+    },
+    {
+        "msgstr": "Plausibility",
+        "msgid": "meta.constraint.annotation"
+    },
+    {
+        "msgstr": "Message",
+        "msgid": "meta.constraint.message"
+    },
+    {
+        "msgstr": "Parameter1",
+        "msgid": "meta.constraint.parameter1"
+    },
+    {
+        "msgstr": "Parameter2",
+        "msgid": "meta.constraint.parameter2"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "meta.dupcheck.description"
+    },
+    {
+        "msgstr": "or as an expression",
+        "msgid": "meta.dupcheck.expression"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "meta.dupcheck.fields"
+    },
+    {
+        "msgstr": "Internal threshold",
+        "msgid": "meta.dupcheck.innerThreshold"
+    },
+    {
+        "msgstr": "Threshold",
+        "msgid": "meta.dupcheck.threshold"
+    },
+    {
+        "msgstr": "Invalid",
+        "msgid": "meta.enumdata.invalid"
+    },
+    {
+        "msgstr": "Invalid from",
+        "msgid": "meta.enumdata.invalid_from"
+    },
+    {
+        "msgstr": "Value",
+        "msgid": "meta.enumdata.value"
+    },
+    {
+        "msgstr": "Label",
+        "msgid": "meta.enumdata.label"
+    },
+    {
+        "msgstr": "Tooltip",
+        "msgid": "meta.enumdata.tooltip"
+    },
+    {
+        "msgstr": "Data",
+        "msgid": "meta.enums.data"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "meta.enums.fields"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "meta.enums.new_enum_name"
+    },
+    {
+        "msgstr": "New enumeration created",
+        "msgid": "meta.enums.enum_created"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "meta.fieldset.description"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "meta.fieldset.fields"
+    },
+    {
+        "msgstr": "Fieldset name",
+        "msgid": "meta.fieldset.fsname"
+    },
+    {
+        "msgstr": "Search options",
+        "msgid": "meta.fieldset.search_options"
+    },
+    {
+        "msgstr": "does not begin with",
+        "msgid": "meta.lists.bn"
+    },
+    {
+        "msgstr": "starts with",
+        "msgid": "meta.lists.bw"
+    },
+    {
+        "msgstr": "contains",
+        "msgid": "meta.lists.cn"
+    },
+    {
+        "msgstr": "Clear filters",
+        "msgid": "meta.lists.del_filter"
+    },
+    {
+        "msgstr": "Clear list",
+        "msgid": "meta.lists.del_list"
+    },
+    {
+        "msgstr": "equal",
+        "msgid": "meta.lists.eq"
+    },
+    {
+        "msgstr": "changed",
+        "msgid": "meta.lists.field_changed"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "meta.lists.fieldtab"
+    },
+    {
+        "msgstr": "Name of the filter",
+        "msgid": "meta.lists.filter_name"
+    },
+    {
+        "msgstr": "Filter",
+        "msgid": "meta.lists.filtertab"
+    },
+    {
+        "msgstr": "Column",
+        "msgid": "meta.lists.fs.column"
+    },
+    {
+        "msgstr": "Display",
+        "msgid": "meta.lists.fs.display"
+    },
+    {
+        "msgstr": "Down",
+        "msgid": "meta.lists.fs.down"
+    },
+    {
+        "msgstr": "Mapping",
+        "msgid": "meta.lists.fs.mapping"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "meta.lists.fs.save"
+    },
+    {
+        "msgstr": "Up",
+        "msgid": "meta.lists.fs.up"
+    },
+    {
+        "msgstr": "greater than or equal",
+        "msgid": "meta.lists.ge"
+    },
+    {
+        "msgstr": "greater",
+        "msgid": "meta.lists.gt"
+    },
+    {
+        "msgstr": "is in",
+        "msgid": "meta.lists.in"
+    },
+    {
+        "msgstr": "less than or equal",
+        "msgid": "meta.lists.le"
+    },
+    {
+        "msgstr": "Name of list",
+        "msgid": "meta.lists.list_name"
+    },
+    {
+        "msgstr": "minor",
+        "msgid": "meta.lists.lt"
+    },
+    {
+        "msgstr": "does not contain",
+        "msgid": "meta.lists.nc"
+    },
+    {
+        "msgstr": "unequal",
+        "msgid": "meta.lists.ne"
+    },
+    {
+        "msgstr": "New filter",
+        "msgid": "meta.lists.new_filter"
+    },
+    {
+        "msgstr": "New list",
+        "msgid": "meta.lists.new_list"
+    },
+    {
+        "msgstr": "is not in",
+        "msgid": "meta.lists.ni"
+    },
+    {
+        "msgstr": "['equal','not equal','less than','less than or equal','greater','greater or equal','begins with','does not begin with' ,'empty','is not empty','ends with','end not with','include','not include']",
+        "msgid": "meta.lists.odata"
+    },
+    {
+        "msgstr": "Result",
+        "msgid": "meta.lists.resulttab"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "meta.lists.savebutton"
+    },
+    {
+        "msgstr": "Take",
+        "msgid": "meta.lists.takeit"
+    },
+    {
+        "msgstr": "Changed Team (without assignment tasks)",
+        "msgid": "meta.lists.team_changed"
+    },
+    {
+        "msgstr": "Changed team/sub-team (without assignment tasks)",
+        "msgid": "meta.lists.team_hierarchy_changed"
+    },
+    {
+        "msgstr": "Filter rules",
+        "msgid": "meta.lists.windowtitle"
+    },
+    {
+        "msgstr": "Add new member",
+        "msgid": "meta.teams.add_member"
+    },
+    {
+        "msgstr": "Teams with members",
+        "msgid": "meta.teams.all_user"
+    },
+    {
+        "msgstr": "Create a Team",
+        "msgid": "meta.teams.create_header"
+    },
+    {
+        "msgstr": "Name of the team",
+        "msgid": "meta.teams.create_team1"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "meta.teams.create_team2"
+    },
+    {
+        "msgstr": "Delete Member",
+        "msgid": "meta.teams.delete_member"
+    },
+    {
+        "msgstr": "Clear Team",
+        "msgid": "meta.teams.delete_team"
+    },
+    {
+        "msgstr": "Team Group Member",
+        "msgid": "meta.teams.group_header"
+    },
+    {
+        "msgstr": "Manage team (change)",
+        "msgid": "meta.teams.manage_header"
+    },
+    {
+        "msgstr": "Team Group Members",
+        "msgid": "meta.teams.member_groups"
+    },
+    {
+        "msgstr": "Who Is where member",
+        "msgid": "meta.teams.member_list"
+    },
+    {
+        "msgstr": "Team members",
+        "msgid": "meta.teams.member_users"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "meta.teams.name"
+    },
+    {
+        "msgstr": "Teams",
+        "msgid": "meta.teams.root.title"
+    },
+    {
+        "msgstr": "Save team",
+        "msgid": "meta.teams.save_team"
+    },
+    {
+        "msgstr": "Please select one User",
+        "msgid": "meta.teams.select_user"
+    },
+    {
+        "msgstr": "Teamid",
+        "msgid": "meta.teams.teamid"
+    },
+    {
+        "msgstr": "Team saved",
+        "msgid": "meta.teams.team_saved"
+    },
+    {
+        "msgstr": "User (create)",
+        "msgid": "meta.teams.user_create"
+    },
+    {
+        "msgstr": "Already selected users",
+        "msgid": "meta.teams.user_exists"
+    },
+    {
+        "msgstr": "Team Member",
+        "msgid": "meta.teams.user_header"
+    },
+    {
+        "msgstr": "User (manage)",
+        "msgid": "meta.teams.user_manage"
+    },
+    {
+        "msgstr": "User (read)",
+        "msgid": "meta.teams.user_read"
+    },
+    {
+        "msgstr": "meta.triggers.actions -alerts - Processes",
+        "msgid": "meta.triggers.actions-alerts-processes"
+    },
+    {
+        "msgstr": "meta.triggers.actions - Processes -alerts",
+        "msgid": "meta.triggers.actions-processes-alerts"
+    },
+    {
+        "msgstr": "meta.triggers.alerts -actions - Processes",
+        "msgid": "meta.triggers.alerts-actions-processes"
+    },
+    {
+        "msgstr": "meta.triggers.alerts - Processes -actions",
+        "msgid": "meta.triggers.alerts-processes-actions"
+    },
+    {
+        "msgstr": "New and updated records",
+        "msgid": "meta.triggers.new-and-updated-records"
+    },
+    {
+        "msgstr": "New records",
+        "msgid": "meta.triggers.new-records"
+    },
+    {
+        "msgstr": "meta.triggers.processes -actions -alerts",
+        "msgid": "meta.triggers.processes-actions-alerts"
+    },
+    {
+        "msgstr": "meta.triggers.processes -alerts -actions",
+        "msgid": "meta.triggers.processes-alerts-actions"
+    },
+    {
+        "msgstr": "Actions",
+        "msgid": "meta.triggers.tactions"
+    },
+    {
+        "msgstr": "Conditions",
+        "msgid": "meta.triggers.tconditions"
+    },
+    {
+        "msgstr": "Updated records",
+        "msgid": "meta.triggers.updated-records"
+    },
+    {
+        "msgstr": "If data is stored",
+        "msgid": "meta.triggers.when-record-saved"
+    },
+    {
+        "msgstr": "&#160;",
+        "msgid": "mmenu.title"
+    },
+    {
+        "msgstr": "No result",
+        "msgid": "mmenu.noResults"
+    },
+    {
+        "msgstr": "Menufilter",
+        "msgid": "mmenu.search.placeholder"
+    },
+    {
+        "msgstr": "Duplicate check",
+        "msgid": "moduleeditor.duplicate-check"
+    },
+    {
+        "msgstr": "Export",
+        "msgid": "moduleeditor.export"
+    },
+    {
+        "msgstr": "Global Search",
+        "msgid": "moduleeditor.global-search"
+    },
+    {
+        "msgstr": "Main form",
+        "msgid": "moduleeditor.main-form"
+    },
+    {
+        "msgstr": "Main table",
+        "msgid": "moduleeditor.main-grid"
+    },
+    {
+        "msgstr": "Report",
+        "msgid": "moduleeditor.report"
+    },
+    {
+        "msgstr": "Search",
+        "msgid": "moduleeditor.search"
+    },
+    {
+        "msgstr": "BOMPdfViewer",
+        "msgid": "ms123.bomviewer.BOMPdfViewer"
+    },
+    {
+        "msgstr": "BOMViewer",
+        "msgid": "ms123.bomviewer.BOMViewer"
+    },
+    {
+        "msgstr": "Global Search",
+        "msgid": "ms123.GlobalSearch"
+    },
+    {
+        "msgstr": "Data imports",
+        "msgid": "ms123.importing.Importing"
+    },
+    {
+        "msgstr": "Manage applications",
+        "msgid": "ms123.namespaces.Manager"
+    },
+    {
+        "msgstr": "Managing Permissions",
+        "msgid": "ms123.permissions.PermissionEditor"
+    },
+    {
+        "msgstr": "History",
+        "msgid": "ms123.processexplorer.ProcessExplorer"
+    },
+    {
+        "msgstr": "Lists/reports",
+        "msgid": "ms123.report.Report"
+    },
+    {
+        "msgstr": "Global Settings",
+        "msgid": "ms123.settings.SettingEditor"
+    },
+    {
+        "msgstr": "already exists",
+        "msgid": "shell.asset_exists"
+    },
+    {
+        "msgstr": "Delete the file?",
+        "msgid": "shell.confirm_delete"
+    },
+    {
+        "msgstr": "copy failed",
+        "msgid": "shell.copy_failed"
+    },
+    {
+        "msgstr": "File copied",
+        "msgid": "shell.copy_ready"
+    },
+    {
+        "msgstr": "copy to",
+        "msgid": "shell.copy_to"
+    },
+    {
+        "msgstr": "Destinationname",
+        "msgid": "shell.dest_filename"
+    },
+    {
+        "msgstr": "Directory created",
+        "msgid": "shell.directory_created"
+    },
+    {
+        "msgstr": "Directoryname",
+        "msgid": "shell.directory_name"
+    },
+    {
+        "msgstr": "Filecreation failed",
+        "msgid": "shell.file_create_failed"
+    },
+    {
+        "msgstr": "for",
+        "msgid": "shell.for"
+    },
+    {
+        "msgstr": "File moved",
+        "msgid": "shell.move_ready"
+    },
+    {
+        "msgstr": "move to",
+        "msgid": "shell.move_to"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "shell.name"
+    },
+    {
+        "msgstr": "Translations",
+        "msgid": "ms123.shell.Messages"
+    },
+    {
+        "msgstr": "Project management",
+        "msgid": "ms123.shell.ProjectShell"
+    },
+    {
+        "msgstr": "Tasks",
+        "msgid": "ms123.Task"
+    },
+    {
+        "msgstr": "Team Editor",
+        "msgid": "ms123.team.TeamEditor"
+    },
+    {
+        "msgstr": "Trigger Editor",
+        "msgid": "ms123.Triggereditor"
+    },
+    {
+        "msgstr": "User",
+        "msgid": "ms123.Users"
+    },
+    {
+        "msgstr": "Add items",
+        "msgid": "multiusebox.add"
+    },
+    {
+        "msgstr": "Do not use",
+        "msgid": "multiusebox.ignore"
+    },
+    {
+        "msgstr": "Remove elements",
+        "msgid": "multiusebox.remove"
+    },
+    {
+        "msgstr": "Replace elements",
+        "msgid": "multiusebox.replace"
+    },
+    {
+        "msgstr": "New App",
+        "msgid": "namespacesmanager.add"
+    },
+    {
+        "msgstr": "The app was updated",
+        "msgid": "namespacesmanager.app_updated"
+    },
+    {
+        "msgstr": "The repository updated",
+        "msgid": "namespacesmanager.changes_pushed"
+    },
+    {
+        "msgstr": "Create application",
+        "msgid": "namespacesmanager.create_namespace"
+    },
+    {
+        "msgstr": "Remove App",
+        "msgid": "namespacesmanager.del"
+    },
+    {
+        "msgstr": "Update the App?",
+        "msgid": "namespacesmanager.confirm_pull"
+    },
+    {
+        "msgstr": "Update the Repository?",
+        "msgid": "namespacesmanager.confirm_push"
+    },
+    {
+        "msgstr": "Install app",
+        "msgid": "namespacesmanager.install"
+    },
+    {
+        "msgstr": "Installed ?",
+        "msgid": "namespacesmanager.is_installed"
+    },
+    {
+        "msgstr": "Modified ?",
+        "msgid": "namespacesmanager.is_modified"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "namespacesmanager.name"
+    },
+    {
+        "msgstr": "Application Name",
+        "msgid": "namespacesmanager.namespace_name"
+    },
+    {
+        "msgstr": "Password",
+        "msgid": "namespacesmanager.password"
+    },
+    {
+        "msgstr": "Update app(pull)",
+        "msgid": "namespacesmanager.pull"
+    },
+    {
+        "msgstr": "Update repo(push)",
+        "msgid": "namespacesmanager.push"
+    },
+    {
+        "msgstr": "Reload",
+        "msgid": "namespacesmanager.reload"
+    },
+    {
+        "msgstr": "Application management",
+        "msgid": "namespacesmanager.title"
+    },
+    {
+        "msgstr": "Uninstall app",
+        "msgid": "namespacesmanager.uninstall"
+    },
+    {
+        "msgstr": "Username",
+        "msgid": "namespacesmanager.username"
+    },
+    {
+        "msgstr": "App deinstalled",
+        "msgid": "namespacesmanager.uninstalled"
+    },
+    {
+        "msgstr": "Deinstall?",
+        "msgid": "namespacesmanager.confirm_uninstall"
+    },
+    {
+        "msgstr": "Updates available ?",
+        "msgid": "namespacesmanager.update_available"
+    },
+    {
+        "msgstr": "Clone url (meta-repository)",
+        "msgid": "namespacesmanager.url_meta"
+    },
+    {
+        "msgstr": "Data Repository exits",
+        "msgid": "namespacesmanager.with_data_repo"
+    },
+    {
+        "msgstr": "Next month",
+        "msgid": "Next month"
+    },
+    {
+        "msgstr": "Next year",
+        "msgid": "Next year"
+    },
+    {
+        "msgstr": "no",
+        "msgid": "no"
+    },
+    {
+        "msgstr": "Ok",
+        "msgid": "Ok"
+    },
+    {
+        "msgstr": "OK",
+        "msgid": "OK"
+    },
+    {
+        "msgstr": "Actions",
+        "msgid": "permissions.actions"
+    },
+    {
+        "msgstr": "Enabled",
+        "msgid": "permissions.enabled"
+    },
+    {
+        "msgstr": "Entities (classes)",
+        "msgid": "permissions.entities"
+    },
+    {
+        "msgstr": "Fileaccess",
+        "msgid": "permissions.file"
+    },
+    {
+        "msgstr": "Permission",
+        "msgid": "permissions.permission"
+    },
+    {
+        "msgstr": "Roles",
+        "msgid": "permissions.roles"
+    },
+    {
+        "msgstr": "Permissions saved",
+        "msgid": "permissions.role_permission_saved"
+    },
+    {
+        "msgstr": "PM",
+        "msgid": "PM"
+    },
+    {
+        "msgstr": "POJO",
+        "msgid": "POJO"
+    },
+    {
+        "msgstr": "The form is not fully completed.",
+        "msgid": "process.form_incomplete"
+    },
+    {
+        "msgstr": "Started process",
+        "msgid": "processes.startform.started"
+    },
+    {
+        "msgstr": "Task can not be started",
+        "msgid": "processes.taskform.notstarted"
+    },
+    {
+        "msgstr": "started Task",
+        "msgid": "processes.taskform.started"
+    },
+    {
+        "msgstr": "Activity",
+        "msgid": "processexplorer.activityName"
+    },
+    {
+        "msgstr": "Type of activity",
+        "msgid": "processexplorer.activityType"
+    },
+    {
+        "msgstr": "Assignee",
+        "msgid": "processexplorer.assignee"
+    },
+    {
+        "msgstr": "Services",
+        "msgid": "processexplorer.camel"
+    },
+    {
+        "msgstr": "Done",
+        "msgid": "processexplorer.completed"
+    },
+    {
+        "msgstr": "Delete selected processdefinitions?",
+        "msgid": "processexplorer.definition.confirm_delete"
+    },
+    {
+        "msgstr": "Processdefinitions deleted",
+        "msgid": "processexplorer.definition.definitions_deleted"
+    },
+    {
+        "msgstr": "Key",
+        "msgid": "processexplorer.definition.key"
+    },
+    {
+        "msgstr": "Latest Version Only",
+        "msgid": "processexplorer.definition.onlyLatest"
+    },
+    {
+        "msgstr": "Start Process",
+        "msgid": "processexplorer.definition.start_process"
+    },
+    {
+        "msgstr": "Execute process",
+        "msgid": "processexplorer.definition.start_workflow"
+    },
+    {
+        "msgstr": "Activities",
+        "msgid": "processexplorer.details_activity"
+    },
+    {
+        "msgstr": "Body",
+        "msgid": "processexplorer.details_body"
+    },
+    {
+        "msgstr": "Service",
+        "msgid": "processexplorer.details_camel"
+    },
+    {
+        "msgstr": "Exception",
+        "msgid": "processexplorer.details_exception"
+    },
+    {
+        "msgstr": "Headers",
+        "msgid": "processexplorer.details_headers"
+    },
+    {
+        "msgstr": "Information",
+        "msgid": "processexplorer.details_info"
+    },
+    {
+        "msgstr": "Properties",
+        "msgid": "processexplorer.details_properties"
+    },
+    {
+        "msgstr": "Out-Body",
+        "msgid": "processexplorer.details_outbody"
+    },
+    {
+        "msgstr": "Variables",
+        "msgid": "processexplorer.details_variables"
+    },
+    {
+        "msgstr": "Duration",
+        "msgid": "processexplorer.duration"
+    },
+    {
+        "msgstr": "end time",
+        "msgid": "processexplorer.endTime"
+    },
+    {
+        "msgstr": "Filter",
+        "msgid": "processexplorer.filter"
+    },
+    {
+        "msgstr": "Duration",
+        "msgid": "processexplorer.history.duration"
+    },
+    {
+        "msgstr": "End",
+        "msgid": "processexplorer.history.endtime"
+    },
+    {
+        "msgstr": "PID",
+        "msgid": "processexplorer.history.id"
+    },
+    {
+        "msgstr": "DefId",
+        "msgid": "processexplorer.history.processDefinitionId"
+    },
+    {
+        "msgstr": "Started on :",
+        "msgid": "processexplorer.history.started_from"
+    },
+    {
+        "msgstr": "Started by",
+        "msgid": "processexplorer.history.started_to"
+    },
+    {
+        "msgstr": "Start time",
+        "msgid": "processexplorer.history.starttime"
+    },
+    {
+        "msgstr": "User",
+        "msgid": "processexplorer.history.startUserId"
+    },
+    {
+        "msgstr": "Process status",
+        "msgid": "processexplorer.history.state"
+    },
+    {
+        "msgstr": "Status",
+        "msgid": "processexplorer.history.status"
+    },
+    {
+        "msgstr": "Id",
+        "msgid": "processexplorer.id"
+    },
+    {
+        "msgstr": "Instance diagram",
+        "msgid": "processexplorer.instance_diagram"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "processexplorer.name"
+    },
+    {
+        "msgstr": "Node",
+        "msgid": "processexplorer.node"
+    },
+    {
+        "msgstr": "Processes",
+        "msgid": "processexplorer.processes"
+    },
+    {
+        "msgstr": "Service",
+        "msgid": "processexplorer.route"
+    },
+    {
+        "msgstr": "Start time",
+        "msgid": "processexplorer.startTime"
+    },
+    {
+        "msgstr": "Time",
+        "msgid": "processexplorer.time"
+    },
+    {
+        "msgstr": "Variable name",
+        "msgid": "processexplorer.variableName"
+    },
+    {
+        "msgstr": "Variable type",
+        "msgid": "processexplorer.variableType"
+    },
+    {
+        "msgstr": "Variable value",
+        "msgid": "processexplorer.variableValue"
+    },
+    {
+        "msgstr": "Value",
+        "msgid": "processexplorer.value"
+    },
+    {
+        "msgstr": "Recent Colors",
+        "msgid": "Recent Colors"
+    },
+    {
+        "msgstr": "Accept change",
+        "msgid": "ruleseditor.apply_changes"
+    },
+    {
+        "msgstr": "Condition",
+        "msgid": "ruleseditor.bedingung"
+    },
+    {
+        "msgstr": "Abort",
+        "msgid": "ruleseditor.cancel"
+    },
+    {
+        "msgstr": "Change column",
+        "msgid": "ruleseditor.change_column"
+    },
+    {
+        "msgstr": "Configuring the condition column",
+        "msgid": "ruleseditor.condition_column_config"
+    },
+    {
+        "msgstr": "Delete Column",
+        "msgid": "ruleseditor.delete_column"
+    },
+    {
+        "msgstr": "Input variables",
+        "msgid": "ruleseditor.inputvariables"
+    },
+    {
+        "msgstr": "Last Action column",
+        "msgid": "ruleseditor.insert_action_column"
+    },
+    {
+        "msgstr": "New Condition column",
+        "msgid": "ruleseditor.insert_condition_column"
+    },
+    {
+        "msgstr": "New Rule",
+        "msgid": "ruleseditor.insert_rule"
+    },
+    {
+        "msgstr": "No defined variables",
+        "msgid": "ruleseditor.no_variables_defined"
+    },
+    {
+        "msgstr": "operators",
+        "msgid": "ruleseditor.operators"
+    },
+    {
+        "msgstr": "Output variables",
+        "msgid": "ruleseditor.outputvariables"
+    },
+    {
+        "msgstr": "Delete rule",
+        "msgid": "ruleseditor.remove_rule"
+    },
+    {
+        "msgstr": "Rule Down",
+        "msgid": "ruleseditor.rule_down"
+    },
+    {
+        "msgstr": "Rule up",
+        "msgid": "ruleseditor.rule_up"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "ruleseditor.save"
+    },
+    {
+        "msgstr": "Testing",
+        "msgid": "ruleseditor.test"
+    },
+    {
+        "msgstr": "Rule variables",
+        "msgid": "ruleseditor.variables"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "ruleseditor.variable"
+    },
+    {
+        "msgstr": "Type",
+        "msgid": "ruleseditor.vartype"
+    },
+    {
+        "msgstr": "Actions",
+        "msgid": "searchfilter.actionbutton"
+    },
+    {
+        "msgstr": "Menu",
+        "msgid": "searchfilter.menubutton"
+    },
+    {
+        "msgstr": "Reset",
+        "msgid": "searchfilter.resetbutton"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "searchfilter.savebutton"
+    },
+    {
+        "msgstr": "Search",
+        "msgid": "searchfilter.searchbutton"
+    },
+    {
+        "msgstr": "Select",
+        "msgid": "searchfilter.selectbutton"
+    },
+    {
+        "msgstr": "Configuration created",
+        "msgid": "settings.config_created"
+    },
+    {
+        "msgstr": "Configurationname",
+        "msgid": "settings.configname"
+    },
+    {
+        "msgstr": "Compare mechanism",
+        "msgid": "settings.check_type"
+    },
+    {
+        "msgstr": "Display name (from messages)",
+        "msgid": "settings.displayname"
+    },
+    {
+        "msgstr": "Save duplicate check",
+        "msgid": "settings.dupcheck.save"
+    },
+    {
+        "msgstr": "Enabled",
+        "msgid": "settings.enabled"
+    },
+    {
+        "msgstr": "new configuration",
+        "msgid": "settings.config_new"
+    },
+    {
+        "msgstr": "Configurations",
+        "msgid": "settings.configs"
+    },
+    {
+        "msgstr": "Classes",
+        "msgid": "settings.entities"
+    },
+    {
+        "msgstr": "Fieldset save",
+        "msgid": "settings.fieldset.save"
+    },
+    {
+        "msgstr": "Fieldsets (common search)",
+        "msgid": "settings.fieldsets"
+    },
+    {
+        "msgstr": "Fieldsets saved",
+        "msgid": "settings.fieldsets_saved"
+    },
+    {
+        "msgstr": "Fields",
+        "msgid": "settings.fields"
+    },
+    {
+        "msgstr": "Invisible(web)",
+        "msgid": "settings.invisible"
+    },
+    {
+        "msgstr": "Load data before edit(web)",
+        "msgid": "settings.loadBeforeEdit"
+    },
+    {
+        "msgstr": "Transfer from selection",
+        "msgid": "settings.fillin"
+    },
+    {
+        "msgstr": "Hide on",
+        "msgid": "settings.hide"
+    },
+    {
+        "msgstr": "Internal threshold",
+        "msgid": "settings.innerThreshold"
+    },
+    {
+        "msgstr": "Modal",
+        "msgid": "settings.modal"
+    },
+    {
+        "msgstr": "Fieldname",
+        "msgid": "settings.name"
+    },
+    {
+        "msgstr": "Error in form",
+        "msgid": "settings.not_valid"
+    },
+    {
+        "msgstr": "Properties",
+        "msgid": "settings.properties"
+    },
+    {
+        "msgstr": "Properties saved",
+        "msgid": "settings.properties_saved"
+    },
+    {
+        "msgstr": "Read Only",
+        "msgid": "settings.readonly"
+    },
+    {
+        "msgstr": "Tab",
+        "msgid": "settings.tab"
+    },
+    {
+        "msgstr": "Threshold(0-1)",
+        "msgid": "settings.threshold"
+    },
+    {
+        "msgstr": "Order by",
+        "msgid": "settings.views.propertyedit.orderby"
+    },
+    {
+        "msgstr": "Settings saved",
+        "msgid": "settings.views_selected_items_saved"
+    },
+    {
+        "msgstr": "Properties",
+        "msgid": "settings.view_properties"
+    },
+    {
+        "msgstr": "Custom Form(web only)",
+        "msgid": "settings.views.propertyedit.customForm"
+    },
+    {
+        "msgstr": "Form layout",
+        "msgid": "settings.views.propertyedit.formlayout"
+    },
+    {
+        "msgstr": "Custom service,read(web)",
+        "msgid": "settings.views.propertyedit.customServiceRead"
+    },
+    {
+        "msgstr": "Custom service,update(web)",
+        "msgid": "settings.views.propertyedit.customServiceUpdate"
+    },
+    {
+        "msgstr": "Custom service,insert(web)",
+        "msgid": "settings.views.propertyedit.customServiceInsert"
+    },
+    {
+        "msgstr": "Custom service,delete(web)",
+        "msgid": "settings.views.propertyedit.customServiceDelete"
+    },
+    {
+        "msgstr": "Schema",
+        "msgid": "settings.schema"
+    },
+    {
+        "msgstr": "Views",
+        "msgid": "settings.views"
+    },
+    {
+        "msgstr": "Service saved",
+        "msgid": "shell.camel_saved"
+    },
+    {
+        "msgstr": "Error in service(s)",
+        "msgid": "shell.camel_save_failed"
+    },
+    {
+        "msgstr": "Mapping saved",
+        "msgid": "shell.datamapper_saved"
+    },
+    {
+        "msgstr": "Copy",
+        "msgid": "shell.copy_node"
+    },
+    {
+        "msgstr": "Delete",
+        "msgid": "shell.del_node"
+    },
+    {
+        "msgstr": "Document save",
+        "msgid": "shell.document_saved"
+    },
+    {
+        "msgstr": "Editor",
+        "msgid": "shell.editor"
+    },
+    {
+        "msgstr": "Created File",
+        "msgid": "shell.file_created"
+    },
+    {
+        "msgstr": "Filename",
+        "msgid": "shell.file_name"
+    },
+    {
+        "msgstr": "Filter",
+        "msgid": "shell.filter_dir"
+    },
+    {
+        "msgstr": "Filter saved",
+        "msgid": "shell.filter_saved"
+    },
+    {
+        "msgstr": "Forms",
+        "msgid": "shell.forms_dir"
+    },
+    {
+        "msgstr": "Form saved",
+        "msgid": "shell.form_saved"
+    },
+    {
+        "msgstr": "File saved and compilied",
+        "msgid": "shell.groovy_saved"
+    },
+    {
+        "msgstr": "Error compiling groovy file",
+        "msgid": "shell.groovy_save_failed"
+    },
+    {
+        "msgstr": "File saved",
+        "msgid": "shell.njs_saved"
+    },
+    {
+        "msgstr": "Warnings and/or errors",
+        "msgid": "shell.njs_save_failed"
+    },
+    {
+        "msgstr": "File saved and compilied",
+        "msgid": "shell.java_saved"
+    },
+    {
+        "msgstr": "Error compiling java file",
+        "msgid": "shell.java_save_failed"
+    },
+    {
+        "msgstr": "Schema saved",
+        "msgid": "shell.schema_saved"
+    },
+    {
+        "msgstr": "Structure saved",
+        "msgid": "shell.structure_saved"
+    },
+    {
+        "msgstr": "Schema saving failed",
+        "msgid": "shell.schema_save_failed"
+    },
+    {
+        "msgstr": "Structure saving failed",
+        "msgid": "shell.structure_save_failed"
+    },
+    {
+        "msgstr": "Edit source",
+        "msgid": "shell.jsoneditor"
+    },
+    {
+        "msgstr": "Edit text",
+        "msgid": "shell.texteditor"
+    },
+    {
+        "msgstr": "New Directory",
+        "msgid": "shell.new_directory"
+    },
+    {
+        "msgstr": "New File",
+        "msgid": "shell.new_file"
+    },
+    {
+        "msgstr": "File deletet",
+        "msgid": "shell.node_deleted"
+    },
+    {
+        "msgstr": "Type",
+        "msgid": "shell.node_type"
+    },
+    {
+        "msgstr": "Service",
+        "msgid": "shell.nt_camel"
+    },
+    {
+        "msgstr": "Datamapper",
+        "msgid": "shell.nt_datamapper"
+    },
+    {
+        "msgstr": "Datasource",
+        "msgid": "shell.nt_datasource"
+    },
+    {
+        "msgstr": "Datasource saved",
+        "msgid": "shell.datasource_saved"
+    },
+    {
+        "msgstr": "Document",
+        "msgid": "shell.nt_document"
+    },
+    {
+        "msgstr": "Filter",
+        "msgid": "shell.nt_filter"
+    },
+    {
+        "msgstr": "Form",
+        "msgid": "shell.nt_form"
+    },
+    {
+        "msgstr": "Process",
+        "msgid": "shell.nt_process"
+    },
+    {
+        "msgstr": "Rule",
+        "msgid": "shell.nt_rule"
+    },
+    {
+        "msgstr": "JsonSchema",
+        "msgid": "shell.nt_schema"
+    },
+    {
+        "msgstr": "Structure",
+        "msgid": "shell.nt_structure"
+    },
+    {
+        "msgstr": "Stencil saved",
+        "msgid": "shell.stencil_saved"
+    },
+    {
+        "msgstr": "Webpage",
+        "msgid": "shell.nt_webpage"
+    },
+    {
+        "msgstr": "Website",
+        "msgid": "shell.nt_website"
+    },
+    {
+        "msgstr": "Processes",
+        "msgid": "shell.processes_dir"
+    },
+    {
+        "msgstr": "Process saved",
+        "msgid": "shell.process_saved"
+    },
+    {
+        "msgstr": "Project",
+        "msgid": "shell.project"
+    },
+    {
+        "msgstr": "Move",
+        "msgid": "shell.rename_node"
+    },
+    {
+        "msgstr": "Rules",
+        "msgid": "shell.rules_dir"
+    },
+    {
+        "msgstr": "Rules saved",
+        "msgid": "shell.rule_saved"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "shell.save"
+    },
+    {
+        "msgstr": "Content saved",
+        "msgid": "shell.saved"
+    },
+    {
+        "msgstr": "Speichern fehlgeschlagen",
+        "msgid": "shell.save_failed"
+    },
+    {
+        "msgstr": "Webpage saved",
+        "msgid": "shell.webpage_saved"
+    },
+    {
+        "msgstr": "Website saved",
+        "msgid": "shell.website_saved"
+    },
+    {
+        "msgstr": "small",
+        "msgid": "Small"
+    },
+    {
+        "msgstr": "Stencil",
+        "msgid": "Stencil"
+    },
+    {
+        "msgstr": "Strike",
+        "msgid": "Strike"
+    },
+    {
+        "msgstr": "Title",
+        "msgid": "structure.title"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "structure.description"
+    },
+    {
+        "msgstr": "Update",
+        "msgid": "structure.update"
+    },
+    {
+        "msgstr": "Insert",
+        "msgid": "structure.insert"
+    },
+    {
+        "msgstr": "Append",
+        "msgid": "structure.append"
+    },
+    {
+        "msgstr": "ADOC-Include",
+        "msgid": "structure.adoc_include"
+    },
+    {
+        "msgstr": "is this a asciidoctor include",
+        "msgid": "structure.adoc_include_help"
+    },
+    {
+        "msgstr": "URI",
+        "msgid": "structure.uri"
+    },
+    {
+        "msgstr": "Document file",
+        "msgid": "structure.doc_file"
+    },
+    {
+        "msgstr": "Menu file",
+        "msgid": "structure.menu_file"
+    },
+    {
+        "msgstr": "<b>If \"URI \" is empty, then a node is generated, else a leaf</b>",
+        "msgid": "structure.uri_help"
+    },
+    {
+        "msgstr": "Icon",
+        "msgid": "structure.icon"
+    },
+    {
+        "msgstr": "Used only in the menu",
+        "msgid": "structure.icon_help"
+    },
+    {
+        "msgstr": "Enabled",
+        "msgid": "structure.enabled"
+    },
+    {
+        "msgstr": "Id",
+        "msgid": "structure.id"
+    },
+    {
+        "msgstr": "If the ID is not specified, then it is generated from the title<br/>(to lowercase and replace all with  '-', but not:[a-z0-9_]). <br/> If the menu item serve as a link destination, it is maybe better to provide an ID.",
+        "msgid": "structure.id_help"
+    },
+    {
+        "msgstr": "Help",
+        "msgid": "structure.help"
+    },
+    {
+        "msgstr": "Use",
+        "msgid": "structure.use"
+    },
+    {
+        "msgstr": "The  node can be used in the menu, as well in the documentation",
+        "msgid": "structure.use_help"
+    },
+    {
+        "msgstr": "Delete the record?",
+        "msgid": "table.confirm.delete"
+    },
+    {
+        "msgstr": "First",
+        "msgid": "tabulator.first"
+    },
+    {
+        "msgstr": "First page",
+        "msgid": "tabulator.firstPage"
+    },
+    {
+        "msgstr": "Last",
+        "msgid": "tabulator.last"
+    },
+    {
+        "msgstr": "Last page",
+        "msgid": "tabulator.lastPage"
+    },
+    {
+        "msgstr": "Prev",
+        "msgid": "tabulator.prev"
+    },
+    {
+        "msgstr": "Prev page",
+        "msgid": "tabulator.prevPage"
+    },
+    {
+        "msgstr": "Next",
+        "msgid": "tabulator.next"
+    },
+    {
+        "msgstr": "Next page",
+        "msgid": "tabulator.nextPage"
+    },
+    {
+        "msgstr": "Active",
+        "msgid": "tactions.active"
+    },
+    {
+        "msgstr": "Execute Camel",
+        "msgid": "tactions.camelaction"
+    },
+    {
+        "msgstr": "ServiceId",
+        "msgid": "tactions.camellabel"
+    },
+    {
+        "msgstr": "Create a record in a related module",
+        "msgid": "tactions.create-record"
+    },
+    {
+        "msgstr": "Select Fields",
+        "msgid": "tactions.editfields"
+    },
+    {
+        "msgstr": "Edit fields",
+        "msgid": "tactions.fieldaction"
+    },
+    {
+        "msgstr": "Execute Process",
+        "msgid": "tactions.processaction"
+    },
+    {
+        "msgstr": "Admin",
+        "msgid": "tactions.process.admin"
+    },
+    {
+        "msgstr": "User",
+        "msgid": "tactions.process.callinguser"
+    },
+    {
+        "msgstr": "Process",
+        "msgid": "tactions.processlabel"
+    },
+    {
+        "msgstr": "Perform service",
+        "msgid": "tactions.serviceaction"
+    },
+    {
+        "msgstr": "Service",
+        "msgid": "tactions.servicelabel"
+    },
+    {
+        "msgstr": "Launching User",
+        "msgid": "tactions.startProcessUser"
+    },
+    {
+        "msgstr": "Class",
+        "msgid": "tactions.targetmodule"
+    },
+    {
+        "msgstr": "Action",
+        "msgid": "tactions.type"
+    },
+    {
+        "msgstr": "Modifying properties in a linked module",
+        "msgid": "tactions.update-related"
+    },
+    {
+        "msgstr": "Changing properties in the target module",
+        "msgid": "tactions.update-target"
+    },
+    {
+        "msgstr": "Abort",
+        "msgid": "tasks.form.cancel"
+    },
+    {
+        "msgstr": "Start Task",
+        "msgid": "tasks.form.start"
+    },
+    {
+        "msgstr": "Reset",
+        "msgid": "tasks.form.reset"
+    },
+    {
+        "msgstr": "My duties",
+        "msgid": "tasks.table.assigned"
+    },
+    {
+        "msgstr": "Complete task",
+        "msgid": "tasks.table.complete"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "tasks.table.description"
+    },
+    {
+        "msgstr": "Task Name",
+        "msgid": "tasks.table.name"
+    },
+    {
+        "msgstr": "Queued",
+        "msgid": "tasks.table.not_assigned"
+    },
+    {
+        "msgstr": "Application",
+        "msgid": "tasks.table.processCategory"
+    },
+    {
+        "msgstr": "Pid",
+        "msgid": "tasks.table.processInstanceId"
+    },
+    {
+        "msgstr": "Process",
+        "msgid": "tasks.table.processName"
+    },
+    {
+        "msgstr": "TaskId",
+        "msgid": "tasks.table.taskid"
+    },
+    {
+        "msgstr": "Created on",
+        "msgid": "tasks.table.time"
+    },
+    {
+        "msgstr": "Task completed",
+        "msgid": "tasks.task.completed"
+    },
+    {
+        "msgstr": "Task complete",
+        "msgid": "tasks.task.complete"
+    },
+    {
+        "msgstr": "Task claim?",
+        "msgid": "tasks.task.claim"
+    },
+    {
+        "msgstr": "Task claimed",
+        "msgid": "tasks.task.claimed"
+    },
+    {
+        "msgstr": "Check",
+        "msgid": "tasks.usertasks.dublettencheck.checkit"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "team.description"
+    },
+    {
+        "msgstr": "The field must be filled .",
+        "msgid": "This field is required"
+    },
+    {
+        "msgstr": "This field is required",
+        "msgid": "This field is required"
+    },
+    {
+        "msgstr": "trigger-1",
+        "msgid": "trigger-1"
+    },
+    {
+        "msgstr": "Typewriter",
+        "msgid": "Typewriter"
+    },
+    {
+        "msgstr": "Loading ...",
+        "msgid": "tr.loading"
+    },
+    {
+        "msgstr": "use",
+        "msgid": "usebox.use"
+    },
+    {
+        "msgstr": "user-1",
+        "msgid": "user-1"
+    },
+    {
+        "msgstr": "Resources",
+        "msgid": "util.resources"
+    },
+    {
+        "msgstr": "Align vertical",
+        "msgid": "Vertikal ausrichten"
+    },
+    {
+        "msgstr": "Expression",
+        "msgid": "widgets.form.multiedit_expression"
+    },
+    {
+        "msgstr": "New record",
+        "msgid": "widgets.table.add_button"
+    },
+    {
+        "msgstr": "Duplicate Record",
+        "msgid": "widgets.table.copy_button"
+    },
+    {
+        "msgstr": "Delete Record",
+        "msgid": "widgets.table.del_button"
+    },
+    {
+        "msgstr": "Edit record",
+        "msgid": "widgets.table.edit_button"
+    },
+    {
+        "msgstr": "Export records",
+        "msgid": "widgets.table.export_button"
+    },
+    {
+        "msgstr": "Form is not filled out completely",
+        "msgid": "widgets.table.form_incomplete"
+    },
+    {
+        "msgstr": "Import Records",
+        "msgid": "widgets.table.import_button"
+    },
+    {
+        "msgstr": "Assign record",
+        "msgid": "widgets.table.select_button"
+    },
+    {
+        "msgstr": "Unassign record",
+        "msgid": "widgets.table.unassign_button"
+    },
+    {
+        "msgstr": "Record selection",
+        "msgid": "widgets.table.select_record"
+    },
+    {
+        "msgstr": "XML",
+        "msgid": "XML"
+    },
+    {
+        "msgstr": "yes",
+        "msgid": "yes"
+    },
+    {
+        "msgstr": "Add an Docker by clicking on the edge",
+        "msgid": "ge.AddDocker.addDesc"
+    },
+    {
+        "msgstr": "Add Docker",
+        "msgid": "ge.AddDocker.add"
+    },
+    {
+        "msgstr": "Delete an docker by clicking the Docker",
+        "msgid": "ge.AddDocker.delDesc"
+    },
+    {
+        "msgstr": "Docker Delete",
+        "msgid": "ge.AddDocker.del"
+    },
+    {
+        "msgstr": "Docker",
+        "msgid": "ge.AddDocker.group"
+    },
+    {
+        "msgstr": "Align vertical",
+        "msgid": "ge.Arrangement.acDesc"
+    },
+    {
+        "msgstr": "Align vertical",
+        "msgid": "ge.Arrangement.ac"
+    },
+    {
+        "msgstr": "Align horizontal",
+        "msgid": "ge.Arrangement.amDesc"
+    },
+    {
+        "msgstr": "Align horizontal",
+        "msgid": "ge.Arrangement.am"
+    },
+    {
+        "msgstr": "Size approximation",
+        "msgid": "ge.Arrangement.asDesc"
+    },
+    {
+        "msgstr": "Size approximation",
+        "msgid": "ge.Arrangement.as"
+    },
+    {
+        "msgstr": "Alignment",
+        "msgid": "ge.Arrangement.groupA"
+    },
+    {
+        "msgstr": "Edge",
+        "msgid": "ge.Edge"
+    },
+    {
+        "msgstr": "Copy the selected elements",
+        "msgid": "ge.Edit.copyDesc"
+    },
+    {
+        "msgstr": "copy",
+        "msgid": "ge.Edit.copy"
+    },
+    {
+        "msgstr": "cut out",
+        "msgid": "ge.Edit.cut"
+    },
+    {
+        "msgstr": "Cut the selected elements",
+        "msgid": "ge.Edit.cutDesc"
+    },
+    {
+        "msgstr": "Delete the selected elements",
+        "msgid": "ge.Edit.delDesc"
+    },
+    {
+        "msgstr": "delete",
+        "msgid": "ge.Edit.del"
+    },
+    {
+        "msgstr": "Edit",
+        "msgid": "ge.Edit.group"
+    },
+    {
+        "msgstr": "Pasting copied / cut items",
+        "msgid": "ge.Edit.pasteDesc"
+    },
+    {
+        "msgstr": "insert",
+        "msgid": "ge.Edit.paste"
+    },
+    {
+        "msgstr": "Grouping of the selected elements",
+        "msgid": "ge.Grouping.groupDesc"
+    },
+    {
+        "msgstr": "group",
+        "msgid": "ge.Grouping.group"
+    },
+    {
+        "msgstr": "Grouping",
+        "msgid": "ge.Grouping.grouping"
+    },
+    {
+        "msgstr": "Cancel all groups of selected elements",
+        "msgid": "ge.Grouping.ungroupDesc"
+    },
+    {
+        "msgstr": "Ungroup",
+        "msgid": "ge.Grouping.ungroup"
+    },
+    {
+        "msgstr": "JSON Import",
+        "msgid": "ge.JSONImport.title"
+    },
+    {
+        "msgstr": "node",
+        "msgid": "ge.Node"
+    },
+    {
+        "msgstr": "d/m/y",
+        "msgid": "ge.PropertyWindow.dateFormat"
+    },
+    {
+        "msgstr": "More attributes",
+        "msgid": "ge.PropertyWindow.moreProps"
+    },
+    {
+        "msgstr": "Main attributes",
+        "msgid": "ge.PropertyWindow.oftenUsed"
+    },
+    {
+        "msgstr": "Properties",
+        "msgid": "ge.PropertyWindow.title"
+    },
+    {
+        "msgstr": "Deploy",
+        "msgid": "ge.Save.deploy"
+    },
+    {
+        "msgstr": "File",
+        "msgid": "ge.Save.group"
+    },
+    {
+        "msgstr": "Renew IDs",
+        "msgid": "ge.Save.renewResourceIdsDesc"
+    },
+    {
+        "msgstr": "Renew the IDs",
+        "msgid": "ge.Save.renewResourceIds"
+    },
+    {
+        "msgstr": "Save as ...",
+        "msgid": "ge.Save.saveAs"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "ge.Save.saveDesc"
+    },
+    {
+        "msgstr": "Saved",
+        "msgid": "ge.Save.saved"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "ge.Save.save"
+    },
+    {
+        "msgstr": "Save/Deploy",
+        "msgid": "ge.Save.savedeploy"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "ge.Save.saving"
+    },
+    {
+        "msgstr": "View json",
+        "msgid": "ge.Save.showJsonDesc"
+    },
+    {
+        "msgstr": "View json",
+        "msgid": "ge.Save.showJson"
+    },
+    {
+        "msgstr": "Undeploy",
+        "msgid": "ge.Save.undeploy"
+    },
+    {
+        "msgstr": "Click or drag",
+        "msgid": "ge.ShapeMenuPlugin.clickDrag"
+    },
+    {
+        "msgstr": "Pull",
+        "msgid": "ge.ShapeMenuPlugin.drag"
+    },
+    {
+        "msgstr": "Morph shape",
+        "msgid": "ge.ShapeMenuPlugin.morphMsg"
+    },
+    {
+        "msgstr": "Checking the connections",
+        "msgid": "ge.SyntaxChecker.desc"
+    },
+    {
+        "msgstr": "Verification",
+        "msgid": "ge.SyntaxChecker.group"
+    },
+    {
+        "msgstr": "Link Checker",
+        "msgid": "ge.SyntaxChecker.name"
+    },
+    {
+        "msgstr": "There were no errors .",
+        "msgid": "ge.SyntaxChecker.noErrors"
+    },
+    {
+        "msgstr": "Error near red cross(es).",
+        "msgid": "ge.SyntaxChecker.notice"
+    },
+    {
+        "msgstr": "Undo",
+        "msgid": "ge.Undo.group"
+    },
+    {
+        "msgstr": "Restore",
+        "msgid": "ge.Undo.redoDesc"
+    },
+    {
+        "msgstr": "Restore",
+        "msgid": "ge.Undo.redo"
+    },
+    {
+        "msgstr": "Undo",
+        "msgid": "ge.Undo.undoDesc"
+    },
+    {
+        "msgstr": "Undo",
+        "msgid": "ge.Undo.undo"
+    },
+    {
+        "msgstr": "Zoom",
+        "msgid": "ge.View.group"
+    },
+    {
+        "msgstr": "Model size",
+        "msgid": "ge.View.zoomFitToModelDesc"
+    },
+    {
+        "msgstr": "Model size",
+        "msgid": "ge.View.zoomFitToModel"
+    },
+    {
+        "msgstr": "Enlarge",
+        "msgid": "ge.View.zoomInDesc"
+    },
+    {
+        "msgstr": "Enlarge",
+        "msgid": "ge.View.zoomIn"
+    },
+    {
+        "msgstr": "Reduce",
+        "msgid": "ge.View.zoomOutDesc"
+    },
+    {
+        "msgstr": "Reduce",
+        "msgid": "ge.View.zoomOut"
+    },
+    {
+        "msgstr": "Original size",
+        "msgid": "ge.View.zoomStandardDesc"
+    },
+    {
+        "msgstr": "Original size",
+        "msgid": "ge.View.zoomStandard"
+    },
+    {
+        "msgstr": "must be false",
+        "msgid": "validation.AssertFalse"
+    },
+    {
+        "msgstr": "must be true",
+        "msgid": "validation.AssertTrue"
+    },
+    {
+        "msgstr": "numeric value out of bounds (<{integer} digits>.<{fraction} digits> expected)",
+        "msgid": "validation.Digits"
+    },
+    {
+        "msgstr": "must be in the future",
+        "msgid": "validation.Future"
+    },
+    {
+        "msgstr": "must be less than or equal to {value}",
+        "msgid": "validation.Max"
+    },
+    {
+        "msgstr": "must be greater than or equal to {value}",
+        "msgid": "validation.Min"
+    },
+    {
+        "msgstr": "may not be empty",
+        "msgid": "validation.NotNull"
+    },
+    {
+        "msgstr": "must be null",
+        "msgid": "validation.Null"
+    },
+    {
+        "msgstr": "must be in the past",
+        "msgid": "validation.Past"
+    },
+    {
+        "msgstr": "must match '{regexp}'",
+        "msgid": "validation.Pattern"
+    },
+    {
+        "msgstr": "size must be between {min} and {max}",
+        "msgid": "validation.Size"
+    },
+    {
+        "msgstr": "invalid credit card number",
+        "msgid": "validation.CreditCardNumber"
+    },
+    {
+        "msgstr": "not a well-formed email address",
+        "msgid": "validation.Email"
+    },
+    {
+        "msgstr": "length must be between {min} and {max}",
+        "msgid": "validation.Length"
+    },
+    {
+        "msgstr": "may not be empty",
+        "msgid": "validation.NotBlank"
+    },
+    {
+        "msgstr": "may not be empty",
+        "msgid": "validation.NotEmpty"
+    },
+    {
+        "msgstr": "must be between {min} and {max}",
+        "msgid": "validation.Range"
+    },
+    {
+        "msgstr": "must be a valid URL",
+        "msgid": "validation.URL"
+    },
+    {
+        "msgstr": "Fulltextsearch",
+        "msgid": "querybuilder.fulltextsearch"
+    },
+    {
+        "msgstr": "Add rule",
+        "msgid": "querybuilder.add_rule"
+    },
+    {
+        "msgstr": "Add group",
+        "msgid": "querybuilder.add_group"
+    },
+    {
+        "msgstr": "Delete rule",
+        "msgid": "querybuilder.delete_rule"
+    },
+    {
+        "msgstr": "Delete group",
+        "msgid": "querybuilder.delete_group"
+    },
+    {
+        "msgstr": "AND",
+        "msgid": "querybuilder.condition_and"
+    },
+    {
+        "msgstr": "OR",
+        "msgid": "querybuilder.condition_or"
+    },
+    {
+        "msgstr": "------",
+        "msgid": "querybuilder.filter_select_placeholder"
+    },
+    {
+        "msgstr": "Fulltext",
+        "msgid": "querybuilder.fulltext"
+    },
+    {
+        "msgstr": "equal",
+        "msgid": "querybuilder.equal"
+    },
+    {
+        "msgstr": "not equal",
+        "msgid": "querybuilder.not_equal"
+    },
+    {
+        "msgstr": "in",
+        "msgid": "querybuilder.in"
+    },
+    {
+        "msgstr": "not between",
+        "msgid": "querybuilder.not_between"
+    },
+    {
+        "msgstr": "between",
+        "msgid": "querybuilder.between"
+    },
+    {
+        "msgstr": "not in",
+        "msgid": "querybuilder.not_in"
+    },
+    {
+        "msgstr": "less",
+        "msgid": "querybuilder.less"
+    },
+    {
+        "msgstr": "less or equal",
+        "msgid": "querybuilder.less_or_equal"
+    },
+    {
+        "msgstr": "greater",
+        "msgid": "querybuilder.greater"
+    },
+    {
+        "msgstr": "greater or equal",
+        "msgid": "querybuilder.greater_or_equal"
+    },
+    {
+        "msgstr": "between",
+        "msgid": "querybuilder.between"
+    },
+    {
+        "msgstr": "begins with",
+        "msgid": "querybuilder.begins_with"
+    },
+    {
+        "msgstr": "doesn't begin with",
+        "msgid": "querybuilder.not_begins_with"
+    },
+    {
+        "msgstr": "contains",
+        "msgid": "querybuilder.contains"
+    },
+    {
+        "msgstr": "doesn't contain",
+        "msgid": "querybuilder.not_contains"
+    },
+    {
+        "msgstr": "ends with",
+        "msgid": "querybuilder.ends_with"
+    },
+    {
+        "msgstr": "doesn't end with",
+        "msgid": "querybuilder.not_ends_with"
+    },
+    {
+        "msgstr": "is empty",
+        "msgid": "querybuilder.is_empty"
+    },
+    {
+        "msgstr": "is not empty",
+        "msgid": "querybuilder.is_not_empty"
+    },
+    {
+        "msgstr": "is null",
+        "msgid": "querybuilder.is_null"
+    },
+    {
+        "msgstr": "is not null",
+        "msgid": "querybuilder.is_not_null"
+    },
+    {
+        "msgstr": "No items found",
+        "msgid": "datatables.sEmptyTable"
+    },
+    {
+        "msgstr": "Showing _START_ to _END_ of _TOTAL_",
+        "msgid": "datatables.sInfo"
+    },
+    {
+        "msgstr": "Showing 0 to 0 of 0",
+        "msgid": "datatables.sInfoEmpty"
+    },
+    {
+        "msgstr": "(filtered from _MAX_ total entries)",
+        "msgid": "datatables.sInfoFiltered"
+    },
+    {
+        "msgstr": "",
+        "msgid": "datatables.sInfoPostFix"
+    },
+    {
+        "msgstr": ".",
+        "msgid": "datatables.sInfoThousands"
+    },
+    {
+        "msgstr": "Show _MENU_ entries",
+        "msgid": "datatables.sLengthMenu"
+    },
+    {
+        "msgstr": "Loading...",
+        "msgid": "datatables.sLoadingRecords"
+    },
+    {
+        "msgstr": "Please wait...",
+        "msgid": "datatables.sProcessing"
+    },
+    {
+        "msgstr": "Filter Result",
+        "msgid": "datatables.sSearch"
+    },
+    {
+        "msgstr": "No matching records found.",
+        "msgid": "datatables.sZeroRecords"
+    },
+    {
+        "msgstr": "First",
+        "msgid": "datatables.sFirst"
+    },
+    {
+        "msgstr": "Back",
+        "msgid": "datatables.sPrevious"
+    },
+    {
+        "msgstr": "Next",
+        "msgid": "datatables.sNext"
+    },
+    {
+        "msgstr": "Last",
+        "msgid": "datatables.sLast"
+    },
+    {
+        "msgstr": ": activate to sort column ascending",
+        "msgid": "datatables.sSortAscending"
+    },
+    {
+        "msgstr": "Delete",
+        "msgid": "dmn.clear"
+    },
+    {
+        "msgstr": "Inputcolumn",
+        "msgid": "dmn.newInput"
+    },
+    {
+        "msgstr": "Outputcolumn",
+        "msgid": "dmn.newOutput"
+    },
+    {
+        "msgstr": "new Row",
+        "msgid": "dmn.newRow"
+    },
+    {
+        "msgstr": "Input Column",
+        "msgid": "dmn.insertInput"
+    },
+    {
+        "msgstr": "Output Column",
+        "msgid": "dmn.insertOutput"
+    },
+    {
+        "msgstr": "remove Column",
+        "msgid": "dmn.removeColumn"
+    },
+    {
+        "msgstr": "remove Row",
+        "msgid": "dmn.removeRow"
+    },
+    {
+        "msgstr": "Label",
+        "msgid": "dmn.label"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "dmn.name"
+    },
+    {
+        "msgstr": "Type",
+        "msgid": "dmn.type"
+    },
+    {
+        "msgstr": "Error",
+        "msgid": "error"
+    },
+    {
+        "msgstr": "Keine Permission",
+        "msgid": "nopermission"
+    },
+    {
+        "msgstr": "Information",
+        "msgid": "info"
+    },
+    {
+        "msgstr": "or",
+        "msgid": "import.or"
+    },
+    {
+        "msgstr": "Languages",
+        "msgid": "messages.lang.options"
+    },
+    {
+        "msgstr": "Roles",
+        "msgid": "structure.roles"
+    },
+    {
+        "msgstr": "Select with double-click",
+        "msgid": "crud2.select_with"
+    },
+    {
+        "msgstr": "Services",
+        "msgid": "shell.services_dir"
+    },
+    {
+        "msgstr": "Success",
+        "msgid": "success"
+    },
+    {
+        "msgstr": "Warning",
+        "msgid": "warning"
+    },
+    {
+       "msgstr": "No items found",
+       "msgid": "datatables.sEmptyTable"
+    },
+    {
+        "msgstr": "Upload Image",
+        "msgid": "cropper.upload"
+    },
+    {
+        "msgstr": "Edit Image",
+        "msgid": "cropper.editor"
+    },
+    {
+        "msgstr": "Please select",
+        "msgid": "registry.select"
+    },
+    {
+        "msgstr": "load",
+        "msgid": "registry.load"
+    },
+    {
+        "msgstr": "save",
+        "msgid": "registry.save"
+    },
+    {
+        "msgstr": "save under ..",
+        "msgid": "registry.save_under"
+    },
+    {
+        "msgstr": "Object saved",
+        "msgid": "registry.saved"
+    },
+    {
+        "msgstr": "Content page1",
+        "msgid": "te.page1_content"
+    },
+    {
+        "msgstr": "More content",
+        "msgid": "te.additional_content"
+    },
+    {
+        "msgstr": "This content is appended to the document without regard to the Y coordinate",
+        "msgid": "te.additional_content_help"
+    },
+    {
+        "msgstr": "Header/Footer page1",
+        "msgid": "te.page1_header"
+    },
+    {
+        "msgstr": "Header/Footer page2",
+        "msgid": "te.page2_header"
+    },
+    {
+        "msgstr": "Macro1",
+        "msgid": "te.macro1"
+    },
+    {
+        "msgstr": "Macro2",
+        "msgid": "te.macro2"
+    },
+    {
+        "msgstr": "Macro3",
+        "msgid": "te.macro3"
+    },
+    {
+        "msgstr": "used",
+        "msgid": "te.macroEnabled"
+    },
+    {
+        "msgstr": "Setup",
+        "msgid": "te.setup"
+    },
+    {
+        "msgstr": "Header",
+        "msgid": "te.header"
+    },
+    {
+        "msgstr": "Footer",
+        "msgid": "te.footer"
+    },
+    {
+        "msgstr": "Page 1",
+        "msgid": "te.page1"
+    },
+    {
+        "msgstr": "Page 2",
+        "msgid": "te.page2"
+    },
+    {
+        "msgstr": "Imageblock",
+        "msgid": "te.image_block"
+    },
+    {
+        "msgstr": "Tableblock",
+        "msgid": "te.table_block"
+    },
+    {
+        "msgstr": "Textblock",
+        "msgid": "te.text_block"
+    },
+    {
+        "msgstr": "Pos.",
+        "msgid": "te.position.header"
+    },
+    {
+        "msgstr": "Position",
+        "msgid": "te.position"
+    },
+    {
+        "msgstr": "Vat",
+        "msgid": "te.vat.header"
+    },
+    {
+        "msgstr": "Vat",
+        "msgid": "te.vat"
+    },
+    {
+        "msgstr": "Id",
+        "msgid": "te.articleId.header"
+    },
+    {
+        "msgstr": "Article Id",
+        "msgid": "te.articleId"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "te.name.header"
+    },
+    {
+        "msgstr": "Name",
+        "msgid": "te.name"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "te.description.header"
+    },
+    {
+        "msgstr": "Description",
+        "msgid": "te.description"
+    },
+    {
+        "msgstr": "Unit",
+        "msgid": "te.unit.header"
+    },
+    {
+        "msgstr": "Unit",
+        "msgid": "te.unit"
+    },
+    {
+        "msgstr": "Amount",
+        "msgid": "te.amount.header"
+    },
+    {
+        "msgstr": "Amount",
+        "msgid": "te.amount"
+    },
+    {
+        "msgstr": "Singleprice",
+        "msgid": "te.retailPrice.header"
+    },
+    {
+        "msgstr": "Singleprice",
+        "msgid": "te.retailPrice"
+    },
+    {
+        "msgstr": "Total",
+        "msgid": "te.total.header"
+    },
+    {
+        "msgstr": "Total",
+        "msgid": "te.total"
+    },
+    {
+        "msgstr": "Alignment",
+        "msgid": "te.align"
+    },
+    {
+        "msgstr": "Left",
+        "msgid": "te.left"
+    },
+    {
+        "msgstr": "Right",
+        "msgid": "te.right"
+    },
+    {
+        "msgstr": "Middle",
+        "msgid": "te.center"
+    },
+    {
+        "msgstr": "Own data",
+        "msgid": "te.owndata"
+    },
+    {
+        "msgstr": "Customer",
+        "msgid": "te.customer"
+    },
+    {
+        "msgstr": "Title",
+        "msgid": "te.title"
+    },
+    {
+        "msgstr": "Which fields should be displayed?",
+        "msgid": "te.fields_show"
+    },
+    {
+        "msgstr": "Paperformat",
+        "msgid": "te.paperFormat"
+    },
+    {
+        "msgstr": "Orientation",
+        "msgid": "te.orientation"
+    },
+    {
+        "msgstr": "Left margin(mm)",
+        "msgid": "te.leftMargin"
+    },
+    {
+        "msgstr": "Right margin(mm)",
+        "msgid": "te.rightMargin"
+    },
+    {
+        "msgstr": "Upper margin(mm)",
+        "msgid": "te.topMargin"
+    },
+    {
+        "msgstr": "Bottom margin(mm)",
+        "msgid": "te.bottomMargin"
+    },
+    {
+        "msgstr": "Headerheight(mm)",
+        "msgid": "te.headerHeight"
+    },
+    {
+        "msgstr": "Footerheight(mm)",
+        "msgid": "te.footerHeight"
+    },
+    {
+        "msgstr": "As page 1",
+        "msgid": "te.as_page_one"
+    },
+    {
+        "msgstr": "Load",
+        "msgid": "te.load"
+    },
+    {
+        "msgstr": "Save",
+        "msgid": "te.save"
+    },
+    {
+        "msgstr": "Save as ..",
+        "msgid": "te.save_under"
+    },
+    {
+        "msgstr": "Template reset",
+        "msgid": "te.clear"
+    },
+    {
+        "msgstr": "Please enter a name",
+        "msgid": "te.enter_name"
+    },
+    {
+        "msgstr": "Template saved",
+        "msgid": "te.template_saved"
+    },
+    {
+        "msgstr": "Please select a template",
+        "msgid": "te.select_template"
+    },
+    {
+        "msgstr": "Text right align",
+        "msgid": "te.right_align"
+    },
+    {
+        "msgstr": "Create a new column",
+        "msgid": "te.new_column"
+    },
+    {
+        "msgstr": "Column Id",
+        "msgid": "te.columnId"
+    },
+    {
+        "msgstr": "Headerdescription",
+        "msgid": "te.columnHeader"
+    },
+    {
+        "msgstr": "Export template",
+        "msgid": "te.export"
+    },
+    {
+        "msgstr": "Import template",
+        "msgid": "te.import"
+    },
+    {
+        "msgstr": "Columntext",
+        "msgid": "te.columnText"
+    },
+    {
+        "msgstr": "Export template",
+        "msgid": "te.export"
+    },
+    {
+        "msgstr": "Import template",
+        "msgid": "te.import"
+    },
+    {
+        "msgstr": "Pos. absolut",
+        "msgid": "te.absolute"
+    },
+    {
+        "msgstr": "Whitespace erhalten",
+        "msgid": "te.whiteSpacesPreserve"
+    },
+    {
+        "msgstr": "Macros",
+        "msgid": "te.macros"
+    },
+    {
+        "msgstr": "Macroblock",
+        "msgid": "te.macro_block"
+    },
+    {
+        "msgstr": "Macronumber",
+        "msgid": "te.macroNum"
+    },
+    {
+        "msgstr": "Macro one",
+        "msgid": "te.macroOne"
+    },
+    {
+        "msgstr": "Macro two",
+        "msgid": "te.macroTwo"
+    },
+    {
+        "msgstr": "Macro three",
+        "msgid": "te.macroThree"
+    },
+    {
+        "msgstr": "Loop",
+        "msgid": "te.loop"
+    },
+    {
+        "msgstr": "No",
+        "msgid": "te.loop_no"
+    },
+    {
+        "msgstr": "Yes",
+        "msgid": "te.loop_yes"
+    },
+    {
+        "msgstr": "Use height",
+        "msgid": "te.useHeight"
+    },
+    {
+        "msgstr": "Loop collection",
+        "msgid": "te.loop_collection"
+    },
+    {
+        "msgstr": "Data reference",
+        "msgid": "te.dataref"
+    },
+    {
+       "msgstr": ": activate to sort column descending",
+       "msgid": "datatables.sSortDescending"
+    }
+]

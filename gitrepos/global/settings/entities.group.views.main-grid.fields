@@ -1,0 +1,19 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "groupid",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "config",
+            "enabled": true
+        }
+    ]
+}

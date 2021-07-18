@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="152"
+   height="26"
+   version="1.0">
+  <defs></defs>
+   <g oryx:minimumSize="30 24" oryx:maximumSize="350 24" >
+    <rect oryx:anchor="top" oryx:resize="horizontal" x="0" y="0" width="150" height="24" stroke="black" stroke-width="1" fill="#547692" />
+		<text id="labeltext" font-size="12" x="20" y="10" oryx:align="middle left" fill="white" style="font-weight: bold;" stroke="black">Button</text>
+    
+    <g id="html" transform="scale(1,1)">
+      <foreignObject x="2" y="2" width="28" height="40">
+<div xmlns="http://www.w3.org/1999/xhtml"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAIAAABiEdh4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA
+B3RJTUUH3QYeDjA4oCjTOgAAAmNJREFUKM8Fwb+LXUUUB/DvmTkz99737vqymx9aCCKCiZZabEQs
+YmFjFiXYWMRiCwst/BcESxsRJDZiIypYqAgmRkEXhNSmC4IhmnVfNm/3PZN3752ZO3OOnw99+Plv
+oGwURq2qS1bEqFEohEAAACgAkBJUIg9JCQUkRgpBkgAgaDFQAEYhUDWkymIgZLgLa+81hbXnagxF
+2UHVaKkdk6RuCGfPPXt3fi+OIeZSXGW6oVuvV8bC2tI0pq146k3DWC8PhtX9lsujm7z71qslPNza
+mAx9xxDbp/jeu5cNYeLhDRb/4dNPPptNJzsXX5nU7ckz0yRld/eNj698af0Gh2EcY4big/c/YuuW
+XbRWX9x+7tLOBaSxndrbfx9tnDqtbHdev/jF199zHJFSEYV1UwDE+elnzr708oU7+8ero8Vydby5
+dXrLtDdv/bn3+w0R4gcxaJQ+YNVLFqjm7fPP//Pvwd7ejbv7+znn7RfON4tw/ZdfcxbPlmP3kMYu
+9BiHLhXyvj080K+++VZFUhqbyfT6T3+ElAyztZw5GSZxKDqKpWIoW1N/98PPKk61ms0ei9G+dunN
+upl590jbnhLybK0tQIhRVJj5wXBcN5OqQcpjkly19smnZuzzMAwspRC4UBXFdDF3qdjauTplHYYh
++LpZ9z0738dloVV7wo1lpcQcYM48/sRfB4eX334nF3EcrWYQBERkimA+n5/cPDG/d1hVVeOYQXL/
+aPHj1WtjkVikERiIgqCkBGsdOx/H0erMo1ktF+wlNJ5C6mvfTOpGumTUKhGUFDDEOebaVTHFYd1v
+TSf/AwL4YBhgP9u4AAAAAElFTkSuQmCC" /></div> </foreignObject>
+    </g>
+  </g>
+</svg>

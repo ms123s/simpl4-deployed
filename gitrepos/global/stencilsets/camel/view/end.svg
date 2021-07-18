@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:oryx="http://www.b3mn.org/oryx" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="62" version="1.0">
+  <g pointer-events="fill" oryx:minimumSize="80 60">
+    <defs>
+      <radialGradient id="background">
+        <stop id="fill_el" />
+      </radialGradient>
+    </defs>
+    <rect id="text_frame" oryx:anchors="bottom top right left" x="1" y="1" width="78" height="58" rx="10" ry="10" stroke="none" stroke-width="2" fill="none" />
+    <rect id="bg_frame" oryx:resize="vertical horizontal" x="0" y="0" width="80" height="60" rx="4" ry="4" stroke="black" stroke-width="1" fill="url(#background) #ffffcc" />
+    <text id="text2" oryx:anchors="top" oryx:align="center top" oryx:fittoelem="text_frame" font-family="Helvetica" font-size="10" x="40" y="40" fill="black">End</text>
+    <g transform="scale(2,2) translate(9,1)">
+			<foreignObject x="3" y="2" width="20" height="20">
+				<div xmlns="http://www.w3.org/1999/xhtml" style="margin:0px;font-size:8px;font-family:Helvetica;color:#000000;">
+<img width="16" height="16" alt="tick" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAAA3NCSVQICAjb4U/gAAAACXBIWXMA
+AEU1AABFNQF8gVf5AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAFh0RVh0
+Q29weXJpZ2h0AENDMCBQdWJsaWMgRG9tYWluIERlZGljYXRpb24gaHR0cDovL2NyZWF0aXZlY29t
+bW9ucy5vcmcvcHVibGljZG9tYWluL3plcm8vMS4wL8bjvfkAAAJGUExURQAAAP//////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////wAAAAEBAQIC
+AgMDAwQEBAcHBwoKCgwMDA0NDQ8PDxERERUVFR0dHSIiIigoKCoqKjMzMzQ0ND8/P0VFRUdHR05O
+Tk9PT1FRUVJSUlNTU1ZWVlhYWFtbW19fX2FhYWJiYmNjY2ZmZm9vb3BwcHR0dHd3d3h4eHt7e3x8
+fIODg4WFhYyMjI2NjY6OjpCQkJWVlZeXl5qamqCgoKOjo6enp6qqqq+vr7GxsbKysrW1tby8vL29
+vcPDw8vLy83NzdDQ0NHR0djY2Nzc3OLi4uXl5evr6+zs7PDw8PT09Pj4+Pr6+vz8/P7+/v///7RI
+d90AAAB0dFJOUwABAgMFBgcJCgwNEhMUFhcaGx0fISQlJyosLjAxMjM3OTw9P0BFSE1PVFVWWFte
+X2BiZmtsb3BxdX6ChYaHiIqLjo+QkZeYmZ2goqeoqaqvs7S1tr2+w8bHyMnKzNPW2drb3d7f4ebo
+7O3v8PH09vj7/P3++OVeUgAABLFJREFUeNrt3el7TFcAgPHLICFR0tgSFTRKEFvU0rRFbKGqpYgl
+9i0iI8nEtRNb1U5blLSqtVZrja2pJZz/zCMmmXPu3DtzTvjU8/4+zpwnH97nzs1dznmO4wAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWiGtb37B+LEFedkptEio4+CZK0Wz6qVFuSGa
+BMiZUSk81hdm0MVH7znCT9XULrTxSJ0QEQEqxrSlj3JYrRIJzEunUEx+pUhoXRaNmo2uEUmU96PS
+WyM2i6TCOXR6Y1BEaCjLpJTjdN8otJR2oFVoidA0kVjjdFuJiPWnrc5hb5PHl47sr609eOraU+83
+JbbHmuQJUn94ixu141yD58uBdrfqpB5YjXVbXcmem2qsBXbH+lSJ8eK461Gn1rL7Ql75V/jqtBvn
+qhLrC5tbZSjX7lfiW7nbH8gjVlh9oyOXaNjlE8s99Eoe86HFsYrlEBdcX3fkMUM5ZTV5udc/1gk5
+1pcWx9ogdbjv38rd2SgNmm1vqxT5oPkzIJb7UBq00N5YH8ixfgmKdUsatMzeWJlyrJ+DYv0lDVpt
+b6xucqyfgmLdkAatIRaxiEUsYhGLWMQiFrGIRSxiEYtYxCIWsYhFLGIR673ESu0/qrD4q2/+t757
+b7GyPyutFhZpfax2I5cIy7Q2VpsRa4QgllasXiVCEEsv1vBNglh6sULThCCWXqz23wpiacYKfS2I
+pRtriiCWbqxhgli6sTI2Eks71tz4P/Gs/p+/7fCDWaxPvKX+++PQNtd6/rFK1VSNv++mVFCsj9VW
+/35Pp+BYs5RWT/aRKThWqnJL+OwAlXxirY3GylMOrDNE8otVFo01WW71YAuR/GJVRGMtkmOdppFv
+rKporArps+c7adTiuhSm5m2rdPnAukuigHXSaU2xeiZbAGutH+UyPZpi9ZE/+o1EMUflMh/Fx7pI
+ophj8bH4GRr8DJUT/D0Sxfwaf4Ln0sHg0oGLUpOL0iJud/Rvd9Qb6bNESnQjncIjGv1HNDz804jV
+8qS0P4+V9WPxwsIk1gBehenH4iWrSayuvL7Xj8XEEJNYTDkyicVkNoNYTJM0icUEXJNYTO02isWi
+AZNYLEcxicVCJ6NYLKEzi8XiTLNYLPslFrGIRSxiEYtYxCIWsYhFLGIRi1jEIhaxiEUsYhGLWK3B
+9lcGlI3VzgfFui0NsnhjNWXLvstBsR5Jgyzeso/NIE3obDN6Uj78bN5mdLocQmcD2yEWx2JrZANd
+DTfdXu7YbLGcIvl27p9bHWu00uLFcW+rOnVaUpbVsTqF1bVddVvlVHtuqq3mO3ab5JnSVn+4ZcHz
+jnMNni8HWh6rc9g7A/DxpSP7a2sPnrr21PtNiWO7cdrzKCM51scKac80nuggs1yvVWkHWjnOoIhO
+q7JMSjXd9GxO3irch07RS9OaZK3K+1GpWX5l4lbrsmgU03tVolbz0ikkS50QeJqvGNOWPt6Da45v
+qqqpXWjjI2dG3KlrfWEGXQJ0HDxzZUuo6qVFuSGaJJTWN79g/NiCvOwUWgAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAB4d68BnhUKx7wPtqIAAAAASUVORK5CYII="/>
+				</div>
+			</foreignObject>
+    </g>
+  </g>
+</svg>

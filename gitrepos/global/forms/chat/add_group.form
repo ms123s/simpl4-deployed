@@ -1,0 +1,168 @@
+[sw]
+	type = sw.form
+--
+{
+  "resourceId": "oryx_6B016F3D-BC16-4C64-9E3E-15F5F33CC096",
+  "properties": {
+    "xf_id": "",
+    "xf_name": "${diagramname}",
+    "xf_version": "",
+    "xf_default_buttons": false,
+    "xf_postprocess": null
+  },
+  "stencil": {
+    "id": "XForm"
+  },
+  "childShapes": [
+    {
+      "resourceId": "oryx_F905397A-80E5-4019-A063-4CEDFA6A02BF",
+      "properties": {
+        "xf_id": "groupname",
+        "xf_type": "text",
+        "xf_default": "",
+        "xf_exclude": "",
+        "xf_invisible": "",
+        "xf_readonly": null,
+        "xf_required": null,
+        "xf_filtercheck": null,
+        "xf_constraint_text": "{\"Pattern\":[false,null],\"Size\":[false,null,null],\"NotBlank\":[true],\"CreditCardNumber\":[false],\"URL\":[false],\"Email\":[false]}",
+        "xf_constraint_date": null,
+        "xf_constraint_boolean": null,
+        "xf_constraint_decimal": null,
+        "xf_constraint_number": null
+      },
+      "stencil": {
+        "id": "Input"
+      },
+      "childShapes": [
+        {
+          "resourceId": "oryx_51A805E5-153D-40F8-B818-785DF14C9169",
+          "properties": {
+            "xf_id": "",
+            "xf_text": "@chat.groupname"
+          },
+          "stencil": {
+            "id": "Label"
+          },
+          "childShapes": [],
+          "outgoing": [],
+          "bounds": {
+            "lowerRight": {
+              "x": 100,
+              "y": -1
+            },
+            "upperLeft": {
+              "x": 0,
+              "y": -21
+            }
+          },
+          "dockers": []
+        }
+      ],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 54
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 30
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_58BE0548-2472-4D1F-A0A3-0A269014424A",
+      "properties": {
+        "xf_id": "action_add_id",
+        "xf_action": "execute",
+        "xf_label": "@chat.add",
+        "xf_iconname": ""
+      },
+      "stencil": {
+        "id": "ActionButton"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_023E38A9-E655-401E-B634-471B24FB2FE5",
+      "properties": {
+        "xf_id": "abord_id",
+        "xf_action": "cancel",
+        "xf_label": "@chat.cancel",
+        "xf_iconname": ""
+      },
+      "stencil": {
+        "id": "ActionButton"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 360,
+          "y": 108
+        },
+        "upperLeft": {
+          "x": 210,
+          "y": 84
+        }
+      },
+      "dockers": []
+    },
+    {
+      "resourceId": "oryx_850F96FF-8719-4BF3-8F08-1F6662BB0027",
+      "properties": {
+        "xf_id": "",
+        "xf_message": null,
+        "xf_message_de": "<h1>Text(de)</h1>",
+        "xf_message_en": "<h1>Text(en)</h1>",
+        "xf_exclude": ""
+      },
+      "stencil": {
+        "id": "Alert"
+      },
+      "childShapes": [],
+      "outgoing": [],
+      "bounds": {
+        "lowerRight": {
+          "x": 180,
+          "y": 162
+        },
+        "upperLeft": {
+          "x": 30,
+          "y": 138
+        }
+      },
+      "dockers": []
+    }
+  ],
+  "bounds": {
+    "lowerRight": {
+      "x": 2485,
+      "y": 3050
+    },
+    "upperLeft": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "stencilset": {
+    "url": "form",
+    "namespace": "http://b3mn.org/stencilset/xforms#"
+  },
+  "ssextensions": [],
+  "zoomLevel": 1
+}

@@ -1,0 +1,15 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "dupname",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "teamid",
+            "enabled": true
+        },
+        {
+            "name": "name",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "validFrom",
+            "enabled": true
+        },
+        {
+            "name": "validTo",
+            "enabled": true
+        },
+        {
+            "name": "userRead",
+            "enabled": true
+        },
+        {
+            "name": "groupRead",
+            "enabled": true
+        },
+        {
+            "name": "userManage",
+            "enabled": true
+        },
+        {
+            "name": "groupManage",
+            "enabled": true
+        },
+        {
+            "name": "userCreate",
+            "enabled": true
+        },
+        {
+            "name": "groupCreate",
+            "enabled": true
+        }
+    ]
+}

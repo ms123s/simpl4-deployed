@@ -1,0 +1,35 @@
+[sw]
+	type = sw.setting
+--
+{
+    "fields": [
+        {
+            "name": "trigger_id",
+            "enabled": true
+        },
+        {
+            "name": "active",
+            "enabled": true
+        },
+        {
+            "name": "description",
+            "enabled": true
+        },
+        {
+            "name": "targetmodule",
+            "enabled": true
+        },
+        {
+            "name": "execution_occurs",
+            "enabled": true
+        },
+        {
+            "name": "processing_order",
+            "enabled": false
+        },
+        {
+            "name": "applies_to",
+            "enabled": true
+        }
+    ]
+}
