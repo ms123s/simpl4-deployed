@@ -29459,7 +29459,7 @@ clazz.define( "clazz/construct/construct", clazz, function( clazz ) {
     if ( m ) return m[ 1 ]
   }
   var abcdef = "abcdef".split( "" );
-  if ( typeof CustomEvent !== "function" ) { var CustomEvent = function( event, options ) { options = options || { bubbles: false, cancelable: false, detail: undefined }; var e = document.createEvent( "CustomEvent" );
+  if ( false && typeof CustomEvent !== "function" ) { var CustomEvent = function( event, options ) { options = options || { bubbles: false, cancelable: false, detail: undefined }; var e = document.createEvent( "CustomEvent" );
       e.initCustomEvent( event, options.bubbles, options.cancelable, options.detail ); return e };
     CustomEvent.prototype = window.Event.prototype;
     window.CustomEvent = CustomEvent }( function( w ) {
