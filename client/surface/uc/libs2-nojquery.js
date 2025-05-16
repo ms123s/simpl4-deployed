@@ -25901,8 +25901,7 @@ clazz.define( "clazz/construct/construct", clazz, function( clazz ) {
     var m = url.toString().match( SVG.regex.reference );
     if ( m ) return m[ 1 ]
   }
-  var abcdef = "abcdef".split( "" );
-  ( function( w ) {
+  var abcdef = "abcdef".split( "" )( function( w ) {
     var lastTime = 0;
     var vendors = [ "moz", "webkit" ];
     for ( var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x ) { w.requestAnimationFrame = w[ vendors[ x ] + "RequestAnimationFrame" ];
@@ -25917,7 +25916,7 @@ clazz.define( "clazz/construct/construct", clazz, function( clazz ) {
       return id
     };
     w.cancelAnimationFrame = w.cancelAnimationFrame || w.clearTimeout
-  } )( window );
+  }( window ) );
   return SVG
 } );
 ( function( global, factory ) { if ( typeof define === "function" && define.amd ) define( [ "jquery", "./pointertouch" ], function( jQuery ) { return factory( global, jQuery ) } );
