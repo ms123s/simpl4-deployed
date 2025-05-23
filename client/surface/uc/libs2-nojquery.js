@@ -52034,8 +52034,8 @@ var Lobibox = Lobibox || {};
         var wheelLocked = false;
         var releaseWheel = ( 0, _utils.debounce )( function() { wheelLocked = false }, 30, false );
         this.__addEvent( container, _shared.GLOBAL_ENV.WHEEL_EVENT, function( evt ) {
-          evt.stopPropagation();
-          evt.preventDefault();
+          if ( window.onpopstate ) { evt.stopPropagation();
+            evt.preventDefault() }
           var options = _this.options;
           var _getDelta = ( 0, _utils.getDelta )( evt );
           var x = _getDelta.x;
