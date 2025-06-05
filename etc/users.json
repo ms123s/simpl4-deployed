@@ -1,0 +1,14 @@
+[
+	{
+		"password":"admin",
+		"roles":[],
+		"admin":true,
+		"userid":"admin"
+	},
+	{
+		"password":"guest",
+		"roles":[],
+		"isAdmin":false,
+		"userid":"guest"
+	}
+]
